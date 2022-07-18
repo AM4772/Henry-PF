@@ -1,12 +1,11 @@
+import React from 'react';
 import './App.sass';
-import Pagination from './components/Pagination/Pagination.jsx';
+import Home from './components/Home/Home.jsx';
 
 function App() {
-  // Añado mi componente pagination solo para mostrarlo
   return (
     <div className="App">
-      <h1>Henry BookStore</h1>
-      <Pagination></Pagination>
+      <Home />
     </div>
   );
 }

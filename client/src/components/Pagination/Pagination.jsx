@@ -18,8 +18,7 @@ function Pagination(props) {
   const cardsPerPage = useSelector(state => state.pagination.cardsPerPage);
   useEffect(() => {
     setAmountPages(Math.ceil(totalCards / cardsPerPage));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [totalCards]);
+  }, [totalCards, cardsPerPage]);
   return (
     <div className={s.pagination}>
       <button className={currentPage > 1 ? s.pagButton : s.pagButtonDisabled} onClick={() => currentPage > 1 && setCurrentPage('prev')}>{'< Anterior'}</button>

@@ -2,7 +2,7 @@ const { Country, Activity } = require('../db.js');
 const axios = require('axios');
 
 // This keeps the db updated in case any country is added, deleted or updated in the restcountries api.
-//CAMBIOS
+
 
 const dbLoad = async () => {
   try {

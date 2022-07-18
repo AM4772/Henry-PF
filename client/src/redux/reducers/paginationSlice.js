@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentPage: 1,
@@ -6,15 +6,16 @@ const initialState = {
 };
 
 const paginationSlice = createSlice({
-  name: "pagination",
+  name: 'pagination',
   initialState,
   reducers: {
-    getPage: (state, action) => {
+    // getPage: state => state.currentPage = state.currentPage + 1,
+    updateCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
   },
 });
 
-export const { getPage } = paginationSlice.actions;
+export const { updateCurrentPage } = paginationSlice.actions;
 
 export default paginationSlice.reducer;

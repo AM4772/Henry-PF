@@ -1,37 +1,41 @@
-const { Router } = require("express");
+const { Router } = require('express');
+const {
+  getBookByTitle,
+  getBookById,
+} = require('../controllers/BooksControllers');
+const { Books } = require('../db');
 const router = Router();
 
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res) => {
   const { title } = req.query;
-
   try {
     if (title) {
       let searchBook = await getBookByTitle(title);
       if (searchBook.length) {
         return res.json(searchBook);
       } else {
-        return res.status(404).json("Books not found");
+        return res.status(404).json('Book not found');
       }
     } else {
-      let dbBooks = await getBooksApi();
+      let dbBooks = await Books.findAll();
       res.send(dbBooks);
     }
   } catch (err) {
-    next(err);
+    res.status(404).send(err);
   }
 });
 
-router.get("/:ID", async (req, res, next) => {
-  const { id } = req.params.ID;
+router.get('/:ID', async (req, res) => {
+  const { ID } = req.params;
+
   try {
-    if (id) {
-      let detailBook = await getBookById(id);
-      if (detailBook) {
-        return res.json(detailBook);
-      } else null;
+    let book = await getBookById(ID);
+    if (!book) {
+      return res.status(404).send('Book not found with id ' + ID);
     }
+    res.json(book);
   } catch (err) {
-    next(err);
+    res.status(404).send(err);
   }
 });
 

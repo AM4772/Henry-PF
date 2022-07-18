@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { Books } = require('../db');
 const { Op } = require('sequelize');
-const maxResults = 10;
+const maxResults = 40;
 const term = 'a';
 
 let BooksModel = {
@@ -11,7 +11,7 @@ let BooksModel = {
         let api = (
           await axios.get(
             `https://www.googleapis.com/books/v1/volumes?q=${term}&maxResults=${maxResults}&startIndex=${
-              i * 10
+              i * 40
             }`
           )
         ).data;
@@ -35,14 +35,17 @@ let BooksModel = {
               publishedDate: b.volumeInfo.publishedDate
                 ? b.volumeInfo.publishedDate
                 : 'NO DATE',
-              // averageRating: b.volumeInfo.averageRating,
-              // ratingsCount: b.volumeInfo.ratingsCount,
+              pageCount: b.volumeInfo.pageCount ? b.volumeInfo.pageCount : 0,
+              rating: b.volumeInfo.averageRating
+                ? b.volumeInfo.averageRating
+                : 0,
+              language: b.volumeInfo.language
+                ? b.volumeInfo.language
+                : 'NO INFO',
             },
           });
         });
       }
-      const dbBooks = await Books.findAll();
-      return dbBooks;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -59,9 +62,9 @@ let BooksModel = {
     return bookFound;
   },
 
-  getBookById: async function (id) {
-    console.log(id);
-    const bookFound = await Books.findByPk(id);
+  getBookById: async function (ID) {
+    const bookFound = await Books.findByPk(ID);
+
     return bookFound;
   },
 };

@@ -24,15 +24,16 @@ function LogIn(props) {
     const isValidCopy = { ...isValid };
     // Name
     if (!name.length) isValidCopy.name = 'Name is required';
-    else if (name.length < 6 || name.length > 30) isValidCopy.name = 'Name needs to be between 6-30 letters';
+    else if (name.length < 3 || name.length > 50) isValidCopy.name = 'Name needs to be between 6-30 letters';
     else delete isValidCopy.name;
     // Surname
     if (!surname.length) isValidCopy.surname = 'Surname is required';
-    else if (surname.length < 6 || surname.length > 30) isValidCopy.surname = 'Surname needs to be between 6-30 letters';
+    else if (surname.length < 3 || surname.length > 50) isValidCopy.surname = 'Surname needs to be between 6-30 letters';
     else delete isValidCopy.surname;
     // Username
     if (!username.length) isValidCopy.username = 'Username is required';
-    else if (username.length < 6 || username.length > 30) isValidCopy.username = 'Username needs to be between 6-30 letters';
+    else if (username.length < 3 || username.length > 20) isValidCopy.username = 'Username needs to be between 6-30 letters';
+    else if (/[^a-zA-Z0-9\-\\/]/.test(username)) isValidCopy.username = "Username can't contain symbols";
     else delete isValidCopy.username;
     // Image validation
     if (!image.length) isValidCopy.image = 'Image is required';
@@ -98,10 +99,10 @@ function LogIn(props) {
                   className="input"
                   onChange={e => setName(e.target.value)}
                 ></input>{' '}
-                {isValid.title ? (
-                  <p className="error-message">{isValid.title}</p>
+                {isValid.name ? (
+                  <p className="error-message">{isValid.name}</p>
                 ) : (
-                  <p className="success-message">Valid title</p>
+                  <p className="success-message">Valid name</p>
                 )}
               </div>
               <div className="inline">
@@ -112,24 +113,24 @@ function LogIn(props) {
                   className="input"
                   onChange={e => setSurname(e.target.value)}
                 ></input>{' '}
-                {isValid.title ? (
-                  <p className="error-message">{isValid.title}</p>
+                {isValid.surname ? (
+                  <p className="error-message">{isValid.surname}</p>
                 ) : (
-                  <p className="success-message">Valid title</p>
+                  <p className="success-message">Valid surname</p>
                 )}
               </div>
               <div className="inline">
                 <label className="t-card" id="title-form">Username:</label>
                 <input
                   type="text"
-                  value={title}
+                  value={username}
                   className="input"
-                  onChange={e => setTitle(e.target.value)}
+                  onChange={e => setUsername(e.target.value)}
                 ></input>{' '}
-                {isValid.title ? (
-                  <p className="error-message">{isValid.title}</p>
+                {isValid.username ? (
+                  <p className="error-message">{isValid.username}</p>
                 ) : (
-                  <p className="success-message">Valid title</p>
+                  <p className="success-message">Valid username</p>
                 )}
               </div>
               <div className="inline" id="image">
@@ -150,48 +151,36 @@ function LogIn(props) {
                 <label className="t-card">Email: </label>
                 <input
                   type="text"
-                  value={image}
+                  value={email}
                   className="input"
-                  onChange={e => setImage(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                 ></input>{' '}
-                {isValid.image ? (
-                  <p className="error-message">{isValid.image}</p>
+                {isValid.email ? (
+                  <p className="error-message">{isValid.email}</p>
                 ) : (
-                  <p className="success-message">Valid Image</p>
+                  <p className="success-message">Valid email</p>
                 )}
               </div>
               <div className="inline" id="image">
                 <label className="t-card">Password: </label>
                 <input
                   type="text"
-                  value={image}
+                  value={password}
                   className="input"
-                  onChange={e => setImage(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                 ></input>{' '}
-                {isValid.image ? (
-                  <p className="error-message">{isValid.image}</p>
+                {isValid.password ? (
+                  <p className="error-message">{isValid.password}</p>
                 ) : (
-                  <p className="success-message">Valid Image</p>
+                  <p className="success-message">Valid password</p>
                 )}
               </div>
-            </div>
-          </div>
-          <div id="creation-card2">
-            <h1 id="creation-details-title2">Optional</h1>
-            <div className="notinline">
-              <label className="t-card">Steps: </label>
-              <textarea
-                type="text"
-                value={steps}
-                className="textarea"
-                onChange={e => setSteps(e.target.value)}
-              ></textarea>
             </div>
           </div>
         </div>
         <div id="bottombutton">
           <div id="button-handler">{handleButton()}</div>
-          <div id="error-success-handler">{errSuccHandler(serverResponse)}</div>
+          {/* <div id="error-success-handler">{errSuccHandler(serverResponse)}</div> */}
         </div>
       </form>
     </div>

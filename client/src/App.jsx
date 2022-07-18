@@ -1,9 +1,11 @@
+import React from 'react';
 import './App.sass';
+import Home from './components/Home/Home.jsx';
 
 function App() {
   return (
     <div className="App">
-      <h1>Henry BookStore</h1>
+      <Home />
     </div>
   );
 }

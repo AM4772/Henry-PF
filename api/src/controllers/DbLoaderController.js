@@ -1,7 +1,7 @@
 const { Country, Activity } = require('../db.js');
 const axios = require('axios');
 
-// The "countries" db loads every time the server is started ( @ .../api/index.js). 
+
 // This keeps the db updated in case any country is added, deleted or updated in the restcountries api.
 
 const dbLoad = async() => {

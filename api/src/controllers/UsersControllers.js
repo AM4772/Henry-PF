@@ -15,7 +15,9 @@ let UsersModel = {
   getUserByUsername: async function (username) {
     const foundUser = await Users.findAll({
       where: {
-        username,
+        username: {
+          [Op.iLike]: '%' + username + '%',
+        },
       },
     });
     if (foundUser.length === 0) {

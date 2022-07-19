@@ -8,7 +8,7 @@ const { Books } = require("../db");
 const router = Router();
 
 router.get("/", async (req, res) => {
-  const { title } = req.query;
+  const { title } = req.query; //
   try {
     if (title) {
       let book = await getBookByTitle(title);

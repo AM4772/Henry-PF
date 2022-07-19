@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 
   try {
     if (username) {
+      //
       let userFound = await getUserByUsername(username.toLowerCase());
       userFound
         ? res.json(userFound)

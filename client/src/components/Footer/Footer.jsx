@@ -15,7 +15,7 @@ export default function Footer() {
       </div>
       <div id={s.emailContainer}>
         <AiOutlineMail id={s.mail}/>
-        <a id={s.email} href='mailto:final.proyect.henry@gmail.com'>final.proyect.henry@gmail.com</a>
+        <a id={s.email} href='mailto:final.proyect.henry@gmail.com'>final.project.henry@gmail.com</a>
       </div>
     </footer>
   )

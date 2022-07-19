@@ -50,6 +50,15 @@ let BooksModel = {
       throw new Error(error.message);
     }
   },
+  getBooks: async function () {
+    const foundBooks = await Books.findAll();
+    console.log(foundBooks);
+    if (foundBooks.length > 0) {
+      return foundBooks;
+    } else {
+      return undefined;
+    }
+  },
 
   getBookByTitle: async function (title) {
     const bookFound = await Books.findAll({
@@ -59,12 +68,17 @@ let BooksModel = {
         },
       },
     });
+    if (bookFound.length === 0) {
+      return undefined;
+    }
+
     return bookFound;
   },
 
   getBookById: async function (ID) {
     const bookFound = await Books.findByPk(ID);
 
+    bookFound ? bookFound : undefined;
     return bookFound;
   },
 };

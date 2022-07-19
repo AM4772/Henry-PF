@@ -3,26 +3,30 @@ import s from './LogIn.module.sass';
 
 function LogIn(props) {
   const isValidInitialState = {
-    emailOrUsername: 'Email or username is required',
-    password: 'Password is required',
+    emailOrUsername: '',
+    password: '',
   };
   const [isValid, setIsvalid] = useState(isValidInitialState);
+  const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
+    setRefresh(refresh + 1)
     // Assign possible errors
     const isValidCopy = { ...isValid };
-    // Name
     // Username
-    if (!emailOrUsername.length) isValidCopy.emailOrUsername = 'Email or username is required';
-    else if (emailOrUsername.length < 3 || emailOrUsername.length > 50) isValidCopy.emailOrUsername = 'Email or username is invalid';
-    else delete isValidCopy.emailOrUsername;
-    // Password validation
-    if (!password.length) isValidCopy.password = 'Password is required';
-    else if (password.length < 8 || password.length > 30) isValidCopy.password = 'Password must contain between 8-30 characters';
-    else delete isValidCopy.password;
+    if (refresh === 0) {} // Skip
+    else {
+      if (!emailOrUsername.length) isValidCopy.emailOrUsername = 'Email or username is required';
+      else if (emailOrUsername.length < 3 || emailOrUsername.length > 50) isValidCopy.emailOrUsername = 'Email or username is invalid';
+      else delete isValidCopy.emailOrUsername;
+      // Password validation
+      if (!password.length) isValidCopy.password = 'Password is required';
+      else if (password.length < 8 || password.length > 30) isValidCopy.password = 'Password must contain between 8-30 characters';
+      else delete isValidCopy.password;
+    }
     setIsvalid(isValidCopy);
     // Check if its valid
     let counter = 0;
@@ -50,7 +54,7 @@ function LogIn(props) {
     // }
   };
   const handleButton = () => {
-    if (!isPending && isAllowed) return <button id={s.submitButton}>Submit</button>;
+    if (!isPending && isAllowed && refresh !== 1) return <button id={s.submitButton}>Submit</button>;
     else if (isPending) return <p id="submitting-button">Submitting...</p>;
     else return <p id={s.errorSubmitButton}>Can't submit</p>;
   };

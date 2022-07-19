@@ -19,6 +19,10 @@ let UsersModel = {
         username,
       },
     });
+    if (foundUser.length === 0) {
+      return undefined;
+    }
+
     return foundUser;
   },
   getUserById: async function (ID) {

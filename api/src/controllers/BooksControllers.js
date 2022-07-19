@@ -77,7 +77,6 @@ let BooksModel = {
 
   getBookById: async function (ID) {
     const bookFound = await Books.findByPk(ID);
-
     bookFound ? bookFound : undefined;
     return bookFound;
   },

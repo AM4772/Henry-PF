@@ -1,6 +1,7 @@
 import React from "react";
 import Cards from "../Cards/Cards";
 import Filters from "../Filters/Filters";
+import Pagination from "../Pagination/Pagination";
 import s from "./Searching.module.sass";
 
 function Searching(props) {
@@ -10,8 +11,9 @@ function Searching(props) {
         <Filters />
       </div>
       <div className={s.cardsCont}>
-        "Cards"
+        <Pagination />
         <Cards />
+        <Pagination />
       </div>
     </div>
   );

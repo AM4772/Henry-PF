@@ -3,14 +3,15 @@ import s from './Register.module.sass';
 
 function Register(props) {
   const isValidInitialState = {
-    name: 'Name is required',
-    surname: 'Surname is required',
-    username: 'Username score is required',
-    image: 'Image is required',
-    email: 'Email is required',
-    password: 'Password is required',
+    name: '',
+    surname: '',
+    username: '',
+    image: '',
+    email: '',
+    password: '',
   };
   const [isValid, setIsvalid] = useState(isValidInitialState);
+  const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
@@ -20,38 +21,42 @@ function Register(props) {
   const [password, setPassword] = useState('');
   const [isPending, setisPending] = useState(false);
   useEffect(() => {
+    setRefresh(refresh + 1)
     var urlCheck = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
     var symbolsCheck = new RegExp(/[^a-zA-Z0-9\-\\/]/);
     var emailCheck = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     // Assign possible errors
     const isValidCopy = { ...isValid };
-    // Name
-    if (!name.length) isValidCopy.name = 'Name is required';
-    else if (name.length < 3 || name.length > 20) isValidCopy.name = 'Name contain between 3-20 characters';
-    else if (symbolsCheck.test(name)) isValidCopy.name = "Name can't contain symbols nor spaces";
-    else delete isValidCopy.name;
-    // Surname
-    if (!surname.length) isValidCopy.surname = 'Surname is required';
-    else if (surname.length < 3 || surname.length > 20) isValidCopy.surname = 'Surname needs to be between 3-20 characters';
-    else if (symbolsCheck.test(surname)) isValidCopy.surname = "Surname can't contain symbols nor spaces";
-    else delete isValidCopy.surname;
-    // Username
-    if (!username.length) isValidCopy.username = 'Username is required';
-    else if (username.length < 3 || username.length > 20) isValidCopy.username = 'Username contain between 3-20 characters';
-    else if (symbolsCheck.test(username)) isValidCopy.username = "Username can't contain symbols nor spaces";
-    else delete isValidCopy.username;
-    // Image validation
-    if (!image.length) isValidCopy.image = 'Image is required';
-    else if (!urlCheck.test(image)) isValidCopy.image = "Image url is unvalid";
-    else delete isValidCopy.image;
-    // Email validation
-    if (!email.length) isValidCopy.email = 'Email is required';
-    else if (!emailCheck.test(email)) isValidCopy.email = "Email is unvalid";
-    else delete isValidCopy.email;
-    // Password validation
-    if (!password.length) isValidCopy.password = 'Password is required';
-    else if (password.length < 8 || password.length > 30) isValidCopy.password = 'Password must contain between 8-30 characters';
-    else delete isValidCopy.password;
+    if (refresh === 0) {} // Skip
+    else {
+      // Name
+      if (!name.length) isValidCopy.name = 'Name is required';
+      else if (name.length < 3 || name.length > 20) isValidCopy.name = 'Name contain between 3-20 characters';
+      else if (symbolsCheck.test(name)) isValidCopy.name = "Name can't contain symbols nor spaces";
+      else delete isValidCopy.name;
+      // Surname
+      if (!surname.length) isValidCopy.surname = 'Surname is required';
+      else if (surname.length < 3 || surname.length > 20) isValidCopy.surname = 'Surname needs to be between 3-20 characters';
+      else if (symbolsCheck.test(surname)) isValidCopy.surname = "Surname can't contain symbols nor spaces";
+      else delete isValidCopy.surname;
+      // Username
+      if (!username.length) isValidCopy.username = 'Username is required';
+      else if (username.length < 3 || username.length > 20) isValidCopy.username = 'Username contain between 3-20 characters';
+      else if (symbolsCheck.test(username)) isValidCopy.username = "Username can't contain symbols nor spaces";
+      else delete isValidCopy.username;
+      // Image validation
+      if (!image.length) isValidCopy.image = 'Image is required';
+      else if (!urlCheck.test(image)) isValidCopy.image = "Image url is unvalid";
+      else delete isValidCopy.image;
+      // Email validation
+      if (!email.length) isValidCopy.email = 'Email is required';
+      else if (!emailCheck.test(email)) isValidCopy.email = "Email is unvalid";
+      else delete isValidCopy.email;
+      // Password validation
+      if (!password.length) isValidCopy.password = 'Password is required';
+      else if (password.length < 8 || password.length > 30) isValidCopy.password = 'Password must contain between 8-30 characters';
+      else delete isValidCopy.password;
+    }
     setIsvalid(isValidCopy);
     // Check if its valid
     let counter = 0;
@@ -79,7 +84,7 @@ function Register(props) {
     // }
   };
   const handleButton = () => {
-    if (!isPending && isAllowed) return <button id={s.submitButton}>Submit</button>;
+    if (!isPending && isAllowed && refresh !== 1) return <button id={s.submitButton}>Submit</button>;
     else if (isPending) return <p id="submitting-button">Submitting...</p>;
     else return <p id={s.errorSubmitButton}>Can't submit</p>;
   };
@@ -105,6 +110,7 @@ function Register(props) {
                     type="text"
                     value={name}
                     className={s.input}
+                    placeholder="Name"
                     onChange={e => setName(e.target.value)}
                   ></input>{' '}
                     <p className={isValid.name ? s.errorMessage : s.noErrorMessage}>{isValid.name}</p>
@@ -115,6 +121,7 @@ function Register(props) {
                     type="text"
                     value={surname}
                     className={s.input}
+                    placeholder="Surname"
                     onChange={e => setSurname(e.target.value)}
                   ></input>{' '}
                     <p className={isValid.surname ? s.errorMessage : s.noErrorMessage}>{isValid.surname}</p>
@@ -125,6 +132,7 @@ function Register(props) {
                     type="text"
                     value={username}
                     className={s.input}
+                    placeholder="Username"
                     onChange={e => setUsername(e.target.value)}
                   ></input>{' '}
                     <p className={isValid.username ? s.errorMessage : s.noErrorMessage}>{isValid.username}</p>
@@ -135,6 +143,7 @@ function Register(props) {
                     type="text"
                     value={image}
                     className={s.input}
+                    placeholder="Image"
                     onChange={e => setImage(e.target.value)}
                   ></input>{' '}
                     <p className={isValid.image ? s.errorMessage : s.noErrorMessage}>{isValid.image}</p>
@@ -145,6 +154,7 @@ function Register(props) {
                     type="text"
                     value={email}
                     className={s.input}
+                    placeholder="Email"
                     onChange={e => setEmail(e.target.value)}
                   ></input>{' '}
                     <p className={isValid.email ? s.errorMessage : s.noErrorMessage}>{isValid.email}</p>
@@ -155,6 +165,7 @@ function Register(props) {
                     type="password"
                     value={password}
                     className={s.input}
+                    placeholder="Password"
                     onChange={e => setPassword(e.target.value)}
                   ></input>{' '}
                     <p className={isValid.password ? s.errorMessage : s.noErrorMessage}>{isValid.password}</p>

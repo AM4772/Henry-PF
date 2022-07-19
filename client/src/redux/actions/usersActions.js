@@ -1,15 +1,31 @@
 import axios from "axios";
-import { getUsers, getUserDetail } from "../reducers/usersSlice";
+import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
 
-axios.defaults.baseURL = `http://localhost:3001`;
+axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
-export function asyncGetUsers() {
+export function asyncGetUsers(username) {
+  return async function (dispatch) {
+    try {
+      if (!username) {
+        const response = (await axios("/users")).data;
+        dispatch(getUsers(response));
+      } else {
+        const response = (await axios(`/users?username=${username}`)).data;
+        dispatch(getUsers(response));
+      }
+    } catch (error) {
+      dispatch(getUsers([]));
+    }
+  };
+}
+
+export function asyncGetSearchUser() {
   return async function (dispatch) {
     try {
       const response = (await axios("/users")).data;
-      dispatch(getUsers(response));
+      dispatch(getSearchUser(response));
     } catch (error) {
-      console.error(error);
+      dispatch(getSearchUser([]));
     }
   };
 }

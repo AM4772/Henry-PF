@@ -147,6 +147,8 @@ export const TESTING_USERS = [
     surname: "One",
     username: "someOne",
     mail: "someOne@gmail.com",
+    enabled: false,
+    type: "user",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -156,6 +158,8 @@ export const TESTING_USERS = [
     surname: "Arguello",
     username: "clari.arguello",
     mail: "claraArguello11@gmail.com",
+    enabled: true,
+    type: "user",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -165,6 +169,8 @@ export const TESTING_USERS = [
     surname: "Losa",
     username: "nacho.losa",
     mail: "nacholosa22@hotmail.com",
+    enabled: true,
+    type: "admin",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -174,6 +180,8 @@ export const TESTING_USERS = [
     surname: "Manrupe",
     username: "peurman",
     mail: "peurman33@gmail.com",
+    enabled: true,
+    type: "admin",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -183,6 +191,8 @@ export const TESTING_USERS = [
     surname: "Borquez",
     username: "tomi.bor",
     mail: "tomasbor44@gmail.com",
+    enabled: true,
+    type: "admin",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -192,6 +202,8 @@ export const TESTING_USERS = [
     surname: "Pizarro",
     username: "bruno.p",
     mail: "brunop55@gmail.com",
+    enabled: false,
+    type: "admin",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -201,6 +213,8 @@ export const TESTING_USERS = [
     surname: "Ceballos",
     username: "marianC",
     mail: "ceballos65@gmail.com",
+    enabled: false,
+    type: "user",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -210,6 +224,8 @@ export const TESTING_USERS = [
     surname: "Moro",
     username: "moro.aldo",
     mail: "aldomoro77@gmail.com",
+    enabled: true,
+    type: "admin",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -219,6 +235,8 @@ export const TESTING_USERS = [
     surname: "Garay",
     username: "quique",
     mail: "quiquegaray81@gmail.com",
+    enabled: true,
+    type: "admin",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },
@@ -228,6 +246,8 @@ export const TESTING_USERS = [
     surname: "Etcheverri",
     username: "fran.etcheverri",
     mail: "etcheverri123@gmail.com",
+    enabled: false,
+    type: "user",
     image:
       "https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
   },

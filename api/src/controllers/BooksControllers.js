@@ -52,7 +52,6 @@ let BooksModel = {
   },
   getBooks: async function () {
     const foundBooks = await Books.findAll();
-    console.log(foundBooks);
     if (foundBooks.length > 0) {
       return foundBooks;
     } else {

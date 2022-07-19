@@ -5,7 +5,6 @@ const { Op } = require('sequelize');
 let UsersModel = {
   getUsers: async function () {
     const foundUsers = await Users.findAll();
-    console.log(foundUsers);
     if (foundUsers.length > 0) {
       return foundUsers;
     } else {

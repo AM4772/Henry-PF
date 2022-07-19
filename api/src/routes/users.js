@@ -2,7 +2,7 @@ const { Router } = require("express");
 const {
   getUserByUsername,
   getUserById,
-  createUsers,
+  createUser,
   getUsers,
 } = require("../controllers/UsersControllers");
 
@@ -43,7 +43,7 @@ router.get("/:ID", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newUser = await createUsers(req.body);
+    const newUser = await createUser(req.body);
     newUser
       ? res.status(201).json("User created successfully")
       : res.status(400).json(`Error creating user`);

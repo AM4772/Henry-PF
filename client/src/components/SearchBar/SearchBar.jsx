@@ -54,6 +54,7 @@ function SearchBar() {
                 <div
                   onClick={(e) => handleSubmit(e, b.title)}
                   className={s.usuals}
+                  key={b.ID}
                 >
                   {b.title}
                 </div>

@@ -30,7 +30,7 @@ let BooksModel = {
               authors: b.volumeInfo.authors ? b.volumeInfo.authors : [],
               categories: b.volumeInfo.categories
                 ? b.volumeInfo.categories
-                : '',
+                : [],
               publisher: b.volumeInfo.publisher
                 ? b.volumeInfo.publisher
                 : 'NO PUBLISHER',

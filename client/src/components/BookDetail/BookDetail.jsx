@@ -34,8 +34,8 @@ function BookDetail(props) {
       {book.title ? (
         <div className={s.container0}>
           <div className={s.container1}>
-            <div className="backButton">
-              <button className={s.button} onClick={goBack}>
+            <div className={s.backButton}>
+              <button className={s.buttonBack} onClick={goBack}>
                 Back
               </button>
             </div>
@@ -48,29 +48,28 @@ function BookDetail(props) {
                     src={`${book.image}`}
                   />
                 </div>
-                <div className={s.containerBook3}>
+                <div className={s.containerBookDetails}>
                   <div className={s.containerBookName}>
                     <h1 id={s.bookTitle}>{upperTitle}</h1>
                   </div>
                   <div className={s.containerDetails}>
+                    <div className={s.arr}>
+                      {/* <p>Authors:</p> */}
+                      <p id={s.author}>{book.authors}</p>
+                      {/* {book.authors.map((el) => (
+                        <p>{book.authors[el]}</p>
+                      ))} */}
+                    </div>
                     <div className={s.text}>
                       <p>Description:</p>
                       <p>{book.description}</p>
                     </div>
-                    <div className={s.price}>
-                      <p>$ {book.price}</p>
-                    </div>
-                    <div className={s.arr}>
-                      <p>Authors:</p>
-                      {book.authors.map((el) => (
-                        <p>{book.authors[el]}</p>
-                      ))}
-                    </div>
                     <div className={s.arr}>
                       <p>Categories:</p>
-                      {book.categories.map((el) => (
+                      <p>{book.categories}</p>
+                      {/* {book.categories.map((el) => (
                         <p>{book.categories[el]}</p>
-                      ))}
+                      ))} */}
                     </div>
                     <div className={s.text}>
                       <p>Publisher:</p>
@@ -78,7 +77,11 @@ function BookDetail(props) {
                     </div>
                     <div className={s.text}>
                       <p>Publish Date:</p>
-                      <p>{book.publishedDate}</p>
+                      <p>
+                        {new Date(book.publishedDate).toLocaleDateString(
+                          "es-ES"
+                        )}
+                      </p>
                     </div>
                     <div className={s.text}>
                       <p>Total Pages:</p>
@@ -88,12 +91,17 @@ function BookDetail(props) {
                       <p>Language:</p>
                       <p>{book.language}</p>
                     </div>
+                    <div className={s.price}>
+                      <p>
+                        ${new Intl.NumberFormat("es-ES").format(book.price)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="containerButtons">
-                    <button className={s.button} onClick={goBack}>
+                  <div className={s.containerButtons}>
+                    <button className={s.buttons} onClick={goBack}>
                       Comprar
                     </button>
-                    <button className={s.button} onClick={goBack}>
+                    <button className={s.buttons} onClick={goBack}>
                       Añadir al Carrito
                     </button>
                   </div>

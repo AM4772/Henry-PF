@@ -19,9 +19,10 @@ function BookCard(props) {
             </div>
             <div className={s.containerBookName}>
               <p id={s.bookTitle}>{upperTitle}</p>
+              <p id={s.author}>{book.authors}</p>
             </div>
             <div className={s.price}>
-              <p>$ {book.price}</p>
+              <p>${new Intl.NumberFormat("es-ES").format(book.price)}</p>
             </div>
           </div>
         </div>

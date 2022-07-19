@@ -18,7 +18,7 @@ function BookCard(props) {
               <img className={s.image} alt={book.title} src={`${book.image}`} />
             </div>
             <div className={s.containerBookName}>
-              <h1 id={s.bookTitle}>{upperTitle}</h1>
+              <p id={s.bookTitle}>{upperTitle}</p>
             </div>
             <div className={s.price}>
               <p>$ {book.price}</p>

@@ -12,8 +12,7 @@ import {
   asyncGetUsers,
 } from "../../redux/actions/usersActions";
 
-function SearchBar() {
-  const [input, setInput] = useState("");
+function SearchBar({ input, setInput }) {
   const [searchButton, setSearchButton] = useState(true);
   const { filterCard, search } = useSelector((state) => state.books);
   const dispatch = useDispatch();

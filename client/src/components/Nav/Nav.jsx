@@ -1,8 +1,12 @@
 import React from "react";
-import s from "./Nav.module.sass";
+import NavBar from "./NavBar";
+// import NavBarMobile from "./NavBarMobile";
 
-function Nav(props) {
-  return <div></div>;
+export default function Nav() {
+  return (
+    <div>
+      {/* <NavBarMobile /> */}
+      <NavBar />
+    </div>
+  );
 }
-
-export default Nav;

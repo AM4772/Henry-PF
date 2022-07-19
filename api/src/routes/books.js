@@ -26,6 +26,9 @@ router.get("/:ID", async (req, res) => {
   const { ID } = req.params;
 
   try {
+    if (isNaN(ID)) {
+      return res.status(400).json("ID must be a number");
+    }
     let book = await getBookById(ID);
     book
       ? res.json(book)

@@ -13,7 +13,6 @@ router.get("/", async (req, res) => {
 
   try {
     if (username) {
-      //
       let userFound = await getUserByUsername(username.toLowerCase());
       userFound
         ? res.json(userFound)
@@ -31,6 +30,9 @@ router.get("/:ID", async (req, res) => {
   const { ID } = req.params;
   try {
     if (ID) {
+      if (isNaN(ID)) {
+        return res.status(400).json("ID must be a number");
+      }
       let user = await getUserById(ID);
       user
         ? res.json(user)

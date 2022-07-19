@@ -28,7 +28,9 @@ let BooksModel = {
                 ? b.volumeInfo.imageLinks.smallThumbnail
                 : 'NO IMAGE',
               authors: b.volumeInfo.authors ? b.volumeInfo.authors : [],
-              categories: 'FICTION',
+              categories: b.volumeInfo.categories
+                ? b.volumeInfo.categories
+                : '',
               publisher: b.volumeInfo.publisher
                 ? b.volumeInfo.publisher
                 : 'NO PUBLISHER',

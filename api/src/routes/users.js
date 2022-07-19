@@ -1,4 +1,10 @@
 const { Router } = require("express");
+const {
+  getUserByUserName,
+  getUserById,
+  createUsers,
+} = require("../controllers/BooksControllers");
+const { Users } = require("../db");
 const router = Router();
 
 router.get("/", async (req, res, next) => {
@@ -13,7 +19,7 @@ router.get("/", async (req, res, next) => {
         return res.status(404).json("Users not found");
       }
     } else {
-      let dbUsers = await getUsers();
+      let dbUsers = await Users.findAll();
       res.send(dbUsers);
     }
   } catch (err) {
@@ -36,28 +42,8 @@ router.get("/:ID", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const { name } = req.body.name;
-  const { surname } = req.body.surname;
-  const { username } = req.body.username;
-  const { mail } = req.body.mail;
-  const { password } = req.body.password;
-  const { image } = req.body.image;
-  const { type } = req.body.type;
-  const { enabled } = req.body.enabled;
-  const { suspendedTimes } = req.body.suspendedTimes;
-
   try {
-    const newUsers = await createUsers(
-      name,
-      surname,
-      username,
-      mail,
-      password,
-      image,
-      type,
-      enabled,
-      suspendedTimes
-    );
+    const newUsers = await createUsers(req.body);
 
     if (newUsers) return res.status(200).json("User created successfully");
   } catch (err) {

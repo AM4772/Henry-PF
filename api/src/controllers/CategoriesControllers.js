@@ -5,14 +5,17 @@ let categoriesModel = {
   getCategories: async function () {
     const books = await Books.findAll();
     const categories = books.map((a) => a.dataValues.categories);
-    categories.map((c) => {
-      if (!categoriesArray.includes(c)) {
-        categoriesArray.push(c);
-      }
-    });
+    for (let i = 0; i < categories.length; i++) {
+      categories.map((category) => {
+        category.map((c) =>
+          !categoriesArray.includes(c) ? categoriesArray.push(c) : null
+        );
+      });
+    }
     if (categoriesArray.length === 0) {
       return undefined;
     }
+
     return categoriesArray.sort();
   },
 };

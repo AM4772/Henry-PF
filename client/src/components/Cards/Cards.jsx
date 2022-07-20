@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import s from "./Cards.module.sass";
-import { TESTING_BOOKS, TESTING_USERS } from "../../testingObjects";
+import { TESTING_USERS } from "../../testingObjects";
 import BookCard from "../BookCard/BookCard";
 import UserCard from "../UserCard/UserCard";
+import { asyncGetBooks } from "../../redux/actions/booksActions";
+import { asyncGetUsers } from "../../redux/actions/usersActions";
 
 function Cards(props) {
-	const books = true;
+	const { books, filterCard } = useSelector((state) => state.books);
+	const { users } = useSelector((state) => state.users);
+
+	const { currentPage, cardsPerPage } = useSelector(
+		(state) => state.pagination
+	);
+	const dispatch = useDispatch();
+
+	const indexOfLastCards = currentPage * cardsPerPage;
+	const indexOfFirstCards = indexOfLastCards - cardsPerPage;
+	const currentBooks = books.slice(indexOfFirstCards, indexOfLastCards);
+
+	useEffect(() => {
+		if (filterCard === "books") {
+			if (books.length <= 0) {
+				dispatch(asyncGetBooks());
+			}
+		} else {
+			if (users.length <= 0) {
+				dispatch(asyncGetUsers());
+			}
+		}
+	}, [books, currentPage, users]);
 
 	return (
 		<>
-			{books ? (
+			{currentBooks ? (
 				<div className={s.card_container}>
-					{TESTING_BOOKS.map((b) => {
+					{currentBooks.map((b) => {
 						return (
 							<BookCard
 								key={b.ID}
@@ -25,7 +50,7 @@ function Cards(props) {
 				</div>
 			) : (
 				<div className={s.card_container}>
-					{TESTING_USERS.map((u) => {
+					{users.map((u) => {
 						return (
 							<UserCard
 								key={u.ID}

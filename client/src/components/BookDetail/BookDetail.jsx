@@ -13,7 +13,7 @@ import { clearBookDetail } from "../../redux/reducers/booksSlice";
 
 function BookDetail(props) {
   const { ID } = useParams();
-  // console.log("ID ES", ID);
+
   let book = useSelector((state) => state.books.bookDetail);
   const dispatch = useDispatch();
   // let book = TESTING_BOOKS[ID - 1];
@@ -22,8 +22,6 @@ function BookDetail(props) {
     dispatch(asyncGetBookDetail(ID));
     return () => dispatch(clearBookDetail());
   }, [dispatch, ID]);
-
-  var upperTitle = book.title?.toUpperCase();
 
   function goBack() {
     window.history.back();
@@ -51,18 +49,20 @@ function BookDetail(props) {
                 <div className={s.containerBookDetails}>
                   <div className={s.containerBookName}>
                     <p id={s.bookTitle}>
-                      {upperTitle.length < 37
-                        ? upperTitle
-                        : upperTitle.slice(0, 37) + "..."}
+                      {book.title.length < 37
+                        ? book.title.toUpperCase()
+                        : book.title.toUpperCase().slice(0, 37) + "..."}
                     </p>
                   </div>
                   <div className={s.containerDetails}>
                     <div className={s.arr}>
                       {/* <p>Authors:</p> */}
-                      <p id={s.author}>{book.authors}</p>
-                      {/* {book.authors.map((el) => (
-                        <p>{book.authors[el]}</p>
-                      ))} */}
+                      {/* <p id={s.author}>{book.authors}</p> */}
+                      {book.authors.map((el) => (
+                        <p key={el} id={s.author}>
+                          {el}
+                        </p>
+                      ))}
                     </div>
                     <div className={s.text}>
                       <p>Description</p>
@@ -70,10 +70,10 @@ function BookDetail(props) {
                     </div>
                     <div className={s.arr}>
                       <p>Categories:</p>
-                      <p>{book.categories}</p>
-                      {/* {book.categories.map((el) => (
-                        <p>{book.categories[el]}</p>
-                      ))} */}
+                      {/* <p>{book.categories}</p> */}
+                      {book.categories.map((el) => (
+                        <p key={el}>{el}</p>
+                      ))}
                     </div>
                     <div className={s.text}>
                       <p>Publisher</p>

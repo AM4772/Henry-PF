@@ -18,6 +18,7 @@ function Pagination(props) {
   const currentPage = useSelector(state => state.pagination.currentPage);
   const cardsPerPage = useSelector(state => state.pagination.cardsPerPage);
   useEffect(() => {
+    setLocalCurrPage(currentPage)
     if (filterCard === 'books')
       setMaxPages(Math.floor(books.length / cardsPerPage) + 1);
     else if (filterCard === 'users')

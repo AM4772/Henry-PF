@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import s from "./UserMenu.module.sass";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
 
 function UserMenu(props) {
-	/*   const {isLogged} = AlgunEstado */
-	const isLogged = true;
-
-	const [open, setOpen] = useState(false);
+	const [logged, setLogged] = useState(true);
+	const [open, setOpen] = useState(true);
 
 	return (
-		<div>
-			{isLogged ? (
+		<div className={s.container}>
+			{console.log(logged)}
+			{logged ? (
 				<>
 					<div className={s.userLinks}>
 						<span className={s.links} onClick={() => setOpen(!open)}>
@@ -24,11 +24,26 @@ function UserMenu(props) {
 						</Link>
 					</div>
 					{open && (
-						<div>
+						<div className={s.profMenu}>
 							<ul>
-								<li>Perfil</li>
-								<li>Favoritos</li>
-								<li>Historial de Compras</li>
+								<Link to="/profile">
+									<li>
+										<span>Perfil</span>
+										<span></span>
+									</li>
+								</Link>
+								<Link>
+									<li>Favoritos</li>
+								</Link>
+								<Link>
+									<li>Historial de Compras</li>
+								</Link>
+								<li onClick={() => setLogged(!logged)}>
+									<span>Desconectar</span>
+									<span>
+										<BiLogOut className={s.ico} />
+									</span>
+								</li>
 							</ul>
 						</div>
 					)}
@@ -38,11 +53,14 @@ function UserMenu(props) {
 					<Link to="/login">
 						<span className={s.visitText}>Ingresar</span>
 					</Link>
-					<Link to="/">
+					<Link to="/register">
 						<span className={s.visitText}>Registrarse</span>
 					</Link>
 				</div>
 			)}
+			<button onClick={() => (setLogged(!logged), setOpen(!open))}>
+				Log toggle
+			</button>
 		</div>
 	);
 }

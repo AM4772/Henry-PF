@@ -1,12 +1,18 @@
+.cards
+  padding: 0px
+  margin-top: 0px
+
 .container0
   display: flex
   justify-content: center
   margin-top: 30px
+  width: 350px
+  height: 100px
   
 .container1
   display: flex
   flex-direction: row
-  justify-content: space-around
+  justify-content: space-between
   align-items: center
   border-radius: 10px
   background: var(--color-whiteish)
@@ -17,23 +23,33 @@
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
 
 .image
-  width: 80px
-  height: 120px
+  max-width: 90%
+  max-height: 80px
   border-radius: 5px
   -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
 
 #bookTitle
-  font-size: 1.5vw
+  font-size: 14px
   font-weight: bold
   margin-left: 10px
   color: var(--color-brownish-dd)
+  // text-overflow: ellipsis
+  // white-space: nowrap
+  overflow: hidden
+  width: 90%
+  text-align: center
 
 #author
-  font-size: 1.2vw
+  font-size: 12px
   margin-left: 10px
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+  width: 150px
+  text-align: center
 
 .price
-  font-size: 1.3vw
+  font-size: 16px
   color: var(--color-brownish-dd)
 

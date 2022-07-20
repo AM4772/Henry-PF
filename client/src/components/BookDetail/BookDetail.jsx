@@ -97,7 +97,11 @@ function BookDetail(props) {
                     </div>
                     <div className={s.price}>
                       <p>
-                        ${new Intl.NumberFormat("es-ES").format(book.price)}
+                        $
+                        {new Intl.NumberFormat("es-ES", {
+                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                        }).format(book.price)}
                       </p>
                     </div>
                   </div>

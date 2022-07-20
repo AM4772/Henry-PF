@@ -5,8 +5,8 @@ import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 
 function UserMenu(props) {
-	const [logged, setLogged] = useState(true);
-	const [open, setOpen] = useState(true);
+	const [logged, setLogged] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	return (
 		<div className={s.container}>
@@ -28,18 +28,18 @@ function UserMenu(props) {
 							<ul>
 								<Link to="/profile">
 									<li>
-										<span>Perfil</span>
+										<span>Profile</span>
 										<span></span>
 									</li>
 								</Link>
-								<Link>
-									<li>Favoritos</li>
+								<Link to="/favourites">
+									<li>Favourites</li>
 								</Link>
-								<Link>
-									<li>Historial de Compras</li>
+								<Link to="/purchases">
+									<li>Purchase's history</li>
 								</Link>
 								<li onClick={() => setLogged(!logged)}>
-									<span>Desconectar</span>
+									<span>Log out</span>
 									<span>
 										<BiLogOut className={s.ico} />
 									</span>
@@ -51,10 +51,10 @@ function UserMenu(props) {
 			) : (
 				<div className={s.visitLinks}>
 					<Link to="/login">
-						<span className={s.visitText}>Ingresar</span>
+						<span className={s.visitText}>Log in</span>
 					</Link>
 					<Link to="/register">
-						<span className={s.visitText}>Registrarse</span>
+						<span className={s.visitText}>Register</span>
 					</Link>
 				</div>
 			)}

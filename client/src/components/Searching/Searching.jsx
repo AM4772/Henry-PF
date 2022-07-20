@@ -12,7 +12,9 @@ function Searching(props) {
       </div>
       <div className={s.cardsCont}>
         <Pagination />
-        <Cards />
+        <div className={s.cardsComponent}>
+          <Cards />
+        </div>
         <Pagination />
       </div>
     </div>

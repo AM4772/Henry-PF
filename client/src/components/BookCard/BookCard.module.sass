@@ -5,7 +5,7 @@
 .container0
   display: flex
   justify-content: center
-  margin-top: 30px
+  margin: 10px 0px
   width: 350px
   height: 100px
   
@@ -22,12 +22,17 @@
   -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
 
+.containerImage
+  width: 90px
+  height: 90px
+
 .image
-  max-width: 90%
-  max-height: 80px
+  object-fit: contain
+  object-position: center center
   border-radius: 5px
-  -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
-  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
+  filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.56))
+  max-height: 87px
+  width: 90px
 
 #bookTitle
   font-size: 14px
@@ -50,6 +55,6 @@
   text-align: center
 
 .price
-  font-size: 16px
+  font-size: 14px
   color: var(--color-brownish-dd)
 

@@ -3,25 +3,25 @@ import s from "./BookDetail.module.sass";
 import Loading from "../Loading/Loading";
 
 import { useParams } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { asyncGetBookDetail } from "../../redux/actions/booksActions";
-// import { clearBookDetail } from "../../redux/reducers/booksSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetBookDetail } from "../../redux/actions/booksActions";
+import { clearBookDetail } from "../../redux/reducers/booksSlice";
 
-// TESTING ================
-import { TESTING_BOOKS } from "../../testingObjects";
-// ==============================
+// // TESTING ================
+// import { TESTING_BOOKS } from "../../testingObjects";
+// // ==============================
 
 function BookDetail(props) {
   const { ID } = useParams();
   // console.log("ID ES", ID);
-  // let book = useSelector((state) => state.books.bookDetail);
-  // const dispatch = useDispatch();
-  let book = TESTING_BOOKS[ID];
+  let book = useSelector((state) => state.books.bookDetail);
+  const dispatch = useDispatch();
+  // let book = TESTING_BOOKS[ID - 1];
 
-  // React.useEffect(() => {
-  //   dispatch(asyncGetBookDetail(ID));
-  //   return () => dispatch(clearBookDetail());
-  // }, [dispatch, ID]);
+  React.useEffect(() => {
+    dispatch(asyncGetBookDetail(ID));
+    return () => dispatch(clearBookDetail());
+  }, [dispatch, ID]);
 
   var upperTitle = book.title?.toUpperCase();
 
@@ -50,7 +50,11 @@ function BookDetail(props) {
                 </div>
                 <div className={s.containerBookDetails}>
                   <div className={s.containerBookName}>
-                    <h1 id={s.bookTitle}>{upperTitle}</h1>
+                    <p id={s.bookTitle}>
+                      {upperTitle.length < 37
+                        ? upperTitle
+                        : upperTitle.slice(0, 37) + "..."}
+                    </p>
                   </div>
                   <div className={s.containerDetails}>
                     <div className={s.arr}>
@@ -61,7 +65,7 @@ function BookDetail(props) {
                       ))} */}
                     </div>
                     <div className={s.text}>
-                      <p>Description:</p>
+                      <p>Description</p>
                       <p>{book.description}</p>
                     </div>
                     <div className={s.arr}>
@@ -72,11 +76,11 @@ function BookDetail(props) {
                       ))} */}
                     </div>
                     <div className={s.text}>
-                      <p>Publisher:</p>
+                      <p>Publisher</p>
                       <p>{book.publisher}</p>
                     </div>
                     <div className={s.text}>
-                      <p>Publish Date:</p>
+                      <p>Publish Date</p>
                       <p>
                         {new Date(book.publishedDate).toLocaleDateString(
                           "es-ES"
@@ -84,11 +88,11 @@ function BookDetail(props) {
                       </p>
                     </div>
                     <div className={s.text}>
-                      <p>Total Pages:</p>
+                      <p>Total Pages</p>
                       <p>{book.pageCount}</p>
                     </div>
                     <div className={s.text}>
-                      <p>Language:</p>
+                      <p>Language</p>
                       <p>{book.language}</p>
                     </div>
                     <div className={s.price}>

@@ -54,9 +54,9 @@ function LogIn(props) {
     // }
   };
   const handleButton = () => {
-    if (!isPending && isAllowed && refresh !== 1) return <button id={s.submitButton}>Submit</button>;
-    else if (isPending) return <p id="submitting-button">Submitting...</p>;
-    else return <p id={s.errorSubmitButton}>Can't submit</p>;
+    if (!isPending && isAllowed && refresh !== 1) return <button className='buttons'>Log In</button>;
+    else if (isPending) return <p className='buttons' id={s.waiting}>Logging In...</p>;
+    else return <p className='buttons' id={s.waiting}>Log In</p>;
   };
   // const errSuccHandler = message => {
   //   if (message === 'Created')

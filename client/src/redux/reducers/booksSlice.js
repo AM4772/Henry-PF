@@ -47,15 +47,19 @@ const booksSlice = createSlice({
     },
     applyBookFilters: (state) => {
       state.books = [...state.allBooks];
-      if (state.filterBooksByAuthor.length > 0) {
-        state.books = state.filterBooksByAuthor.map((a) =>
-          state.books.find((book) => book.authors.includes(a))
-        );
+      if (state.books[0] !== null && state.books.length > 0) {
+        if (state.filterBooksByAuthor.length > 0) {
+          state.books = state.filterBooksByAuthor.map((a) =>
+            state.books.find((book) => book.authors.includes(a))
+          );
+        }
       }
-      if (state.filterBooksByCategory.length > 0) {
-        state.books = state.filterBooksByCategory.map((c) =>
-          state.books.find((book) => book.categories.includes(c))
-        );
+      if (state.books[0] && state.books.length > 0) {
+        if (state.filterBooksByCategory.length > 0) {
+          state.books = state.filterBooksByCategory.map((c) =>
+            state.books.find((book) => book.categories.includes(c))
+          );
+        }
       }
     },
   },

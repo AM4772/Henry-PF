@@ -66,7 +66,7 @@ function Filters() {
       dispatch(applyBookFilters());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [generalFilter, booksFilters, userFilters]);
+  }, [dispatch, filterBooksByAuthor, generalFilter, booksFilters, userFilters]);
 
   function setCardType(e) {
     setGeneralFilter(e.target.value);

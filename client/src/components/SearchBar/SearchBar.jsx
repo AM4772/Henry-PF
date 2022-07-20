@@ -11,6 +11,10 @@ import {
   asyncGetSearchUser,
   asyncGetUsers,
 } from "../../redux/actions/usersActions";
+import {
+  setAuthorFilter,
+  setCategoryFilter,
+} from "../../redux/reducers/booksSlice";
 
 function SearchBar({ input, setInput }) {
   const [searchButton, setSearchButton] = useState(true);
@@ -37,6 +41,8 @@ function SearchBar({ input, setInput }) {
         dispatch(asyncGetBooks(title));
         setInput(title);
         history.push("/search");
+        dispatch(setAuthorFilter([]));
+        dispatch(setCategoryFilter([]));
       } else if (filterCard === "users") {
         dispatch(asyncGetUsers(title));
         setInput(title);
@@ -46,11 +52,13 @@ function SearchBar({ input, setInput }) {
   }
   function handleSubmit(e) {
     e.preventDefault();
+    setSearchButton(false);
     if (input !== "") {
       if (filterCard === "books") {
         dispatch(asyncGetBooks(input));
+        dispatch(setAuthorFilter([]));
+        dispatch(setCategoryFilter([]));
         history.push("/search");
-        console.log("books");
       } else if (filterCard === "users") {
         dispatch(asyncGetUsers(input));
         history.push("/search");
@@ -87,18 +95,19 @@ function SearchBar({ input, setInput }) {
               : s.noActive
           }`}
         >
-          {input.length > 0 &&
-            search.map((b) =>
-              b.title.toLowerCase().includes(input.toLowerCase()) ? (
-                <div
-                  onClick={(e) => handleClick(e, b.title)}
-                  className={s.usuals}
-                  key={b.ID}
-                >
-                  {b.title}
-                </div>
-              ) : null
-            )}
+          {input.length > 0 && input.trim() === input
+            ? search.map((b) =>
+                b.title.toLowerCase().includes(input.toLowerCase()) ? (
+                  <div
+                    onClick={(e) => handleClick(e, b.title)}
+                    className={s.usuals}
+                    key={b.ID}
+                  >
+                    {b.title}
+                  </div>
+                ) : null
+              )
+            : null}
         </div>
       </div>
     </div>

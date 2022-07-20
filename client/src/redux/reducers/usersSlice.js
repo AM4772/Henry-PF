@@ -34,17 +34,21 @@ const usersSlice = createSlice({
     },
     applyUserFilters: (state) => {
       state.users = [...state.allUsers];
-      if (state.filterUserByEnabled.length > 0) {
-        if (state.filterUserByEnabled === "enabled") {
-          state.users = state.users.filter((user) => user.enabled !== false);
-        } else {
-          state.users = state.users.filter((user) => user.enabled === false);
+      if (state.users[0] !== null && state.users.length > 0) {
+        if (state.filterUserByEnabled.length > 0) {
+          if (state.filterUserByEnabled === "enabled") {
+            state.users = state.users.filter((user) => user.enabled !== false);
+          } else {
+            state.users = state.users.filter((user) => user.enabled === false);
+          }
         }
       }
-      if (state.filterUserByType.length > 0) {
-        state.users = state.users.filter(
-          (user) => user.type === state.filterUserByType
-        );
+      if (state.users[0] && state.users.length > 0) {
+        if (state.filterUserByType.length > 0) {
+          state.users = state.users.filter(
+            (user) => user.type === state.filterUserByType
+          );
+        }
       }
     },
   },

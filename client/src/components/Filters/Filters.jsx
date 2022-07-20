@@ -16,6 +16,7 @@ import {
   asyncGetAuthors,
   asyncGetCategories,
 } from "../../redux/actions/booksActions";
+import { updateCurrentPage } from "../../redux/reducers/paginationSlice";
 
 function Filters() {
   const {
@@ -44,6 +45,7 @@ function Filters() {
   });
   useEffect(() => {
     dispatch(setFilterCard(generalFilter));
+    dispatch(updateCurrentPage(1));
     if (authors.length <= 0 || categories.length <= 0) {
       dispatch(asyncGetAuthors());
       dispatch(asyncGetCategories());

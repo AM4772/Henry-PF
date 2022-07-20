@@ -4,23 +4,19 @@ import Loading from "../Loading/Loading";
 import { NavLink } from "react-router-dom";
 
 // TESTING ================
-import { TESTING_BOOKS } from "../../testingObjects";
+// import { TESTING_BOOKS } from "../../testingObjects";
 // ==============================
 
 function BookCard(props) {
   let book = props;
   return (
-    <div>
+    <div className={s.cards}>
       {book.title ? (
         <NavLink className="navLink" to={`/book/${book.ID}`}>
           <div className={s.container0}>
             <div className={s.container1}>
               <div className={s.containerImage}>
-                <img
-                  className={s.image}
-                  alt={book.title}
-                  src={`${book.image}`}
-                />
+                <img className={s.image} alt={book.ID} src={`${book.image}`} />
               </div>
               <div className={s.containerBookName}>
                 <p id={s.bookTitle}>
@@ -31,7 +27,13 @@ function BookCard(props) {
                 <p id={s.author}>{book.authors}</p>
               </div>
               <div className={s.price}>
-                <p>${new Intl.NumberFormat("es-ES").format(book.price)}</p>
+                <p>
+                  $
+                  {new Intl.NumberFormat("es-ES", {
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2,
+                  }).format(book.price)}
+                </p>
               </div>
             </div>
           </div>

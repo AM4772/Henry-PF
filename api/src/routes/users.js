@@ -6,6 +6,8 @@ const {
   getUsers,
 } = require("../controllers/UsersControllers");
 
+const { validateUsersPost } = require("../utils/validations/userValidations");
+
 const router = Router();
 
 router.get("/", async (req, res) => {
@@ -45,12 +47,15 @@ router.get("/:ID", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newUser = await createUser(req.body);
-    newUser
-      ? res.status(201).json("User created successfully")
-      : res.status(400).json(`Error creating user`);
+    const validate = validateUsersPost(req.body);
+    if (validate) {
+      const newUser = await createUser(req.body);
+      newUser
+        ? res.status(201).json("User created successfully")
+        : res.status(400).json(`Error creating user`);
+    }
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message);
   }
 });
 

@@ -8,8 +8,7 @@ import { TESTING_BOOKS } from "../../testingObjects";
 // ==============================
 
 function BookCard(props) {
-  let book = TESTING_BOOKS[9];
-  var upperTitle = book.title?.toUpperCase();
+  let book = props;
   return (
     <div>
       {book.title ? (
@@ -25,9 +24,9 @@ function BookCard(props) {
               </div>
               <div className={s.containerBookName}>
                 <p id={s.bookTitle}>
-                  {upperTitle.length < 37
-                    ? upperTitle
-                    : upperTitle.slice(0, 37) + "..."}
+                  {book.title.length < 37
+                    ? book.title.toUpperCase()
+                    : book.title.toUpperCase().slice(0, 37) + "..."}
                 </p>
                 <p id={s.author}>{book.authors}</p>
               </div>

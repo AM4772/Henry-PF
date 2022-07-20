@@ -19,6 +19,7 @@ export function setCurrentPage(payload) {
   const currentPage = store.getState().pagination.currentPage;
   return function (dispatch) {
     if (payload === 'next') dispatch(updateCurrentPage(currentPage + 1));
-    else dispatch(updateCurrentPage(currentPage - 1));
+    else if (payload === 'prev') dispatch(updateCurrentPage(currentPage - 1));
+    else dispatch(updateCurrentPage(payload))
   };
 }

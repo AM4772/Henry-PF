@@ -10,6 +10,8 @@
   background: none
   font-size: 16px
   color: #1b2bd7
+  cursor: pointer
+  user-select: none
 
 .pagButton:hover
   background: #f0efef
@@ -27,6 +29,7 @@
 #pageContainer
   display: flex
   align-items: center
+  user-select: none
 
 #currPage
   justify-content: center
@@ -38,3 +41,7 @@
   width: 32px
   height: 32px
   border-radius: 5px
+  border: none
+  
+#currPage:focus
+  outline: none

@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 
-const { verifyLogin } = require("");
+const { verifyLogin } = require("../utils/verifyLogin/verifyUserLogin");
 
 router.post("/login", async (req, res) => {
   try {

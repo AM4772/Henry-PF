@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const { Users } = require('../../db');
 
-let comparePasswordModel = {
-  comparePasswords: async function ({ username, password }) {
+let verifyLoginModel = {
+  verifyLogin: async function ({ username, password }) {
     const user = await Users.findOne({
       where: {
         username,

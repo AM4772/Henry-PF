@@ -17,8 +17,9 @@ function UserMenu(props) {
 						<span className={s.links} onClick={() => setOpen(!open)}>
 							<FaUserCircle className={s.icon} />
 						</span>
+						<hr className={s.divisor} />
 						<Link to="/">
-							<span className={s.links}>
+							<span className={s.links} onClick={() => setOpen(!open)}>
 								<FaShoppingCart className={s.icon} />
 							</span>
 						</Link>
@@ -28,18 +29,18 @@ function UserMenu(props) {
 							<ul>
 								<Link to="/profile">
 									<li>
-										<span>Profile</span>
+										<span onClick={() => setOpen(!open)}>Profile</span>
 										<span></span>
 									</li>
 								</Link>
 								<Link to="/favourites">
-									<li>Favourites</li>
+									<li onClick={() => setOpen(!open)}>Favourites</li>
 								</Link>
 								<Link to="/purchases">
-									<li>Purchase's history</li>
+									<li onClick={() => setOpen(!open)}>Purchase's history</li>
 								</Link>
 								<li onClick={() => setLogged(!logged)}>
-									<span>Log out</span>
+									<span onClick={() => setOpen(!open)}>Log out</span>
 									<span>
 										<BiLogOut className={s.ico} />
 									</span>
@@ -53,6 +54,7 @@ function UserMenu(props) {
 					<Link to="/login">
 						<span className={s.visitText}>Log in</span>
 					</Link>
+					<hr className={s.divisor} />
 					<Link to="/register">
 						<span className={s.visitText}>Register</span>
 					</Link>

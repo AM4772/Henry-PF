@@ -66,12 +66,15 @@ function BookDetail(props) {
                         </p>
                       ))}
                     </div>
-                    <div className={s.containerReviews}>
-                      <img className={s.reviews} alt="5stars" src={Stars5} />
+                    <div className={s.containerReviews1}>
+                      <a className={s.containerReviews2} href="#reviewsMark">
+                        <img className={s.reviews} alt="5stars" src={Stars5} />
+                        <p>23 reviews</p>
+                      </a>
                     </div>
                     <div className={s.containerDetails1}>
                       <div className={s.arr}>
-                        <p>Categories:</p>
+                        <p>Categories</p>
                         {/* <p>{book.categories}</p> */}
                         {book.categories.map((el) => (
                           <p key={el}>{el}</p>
@@ -114,10 +117,10 @@ function BookDetail(props) {
                   </div>
                   <div className={s.containerButtons}>
                     <button className={s.buttons} onClick={goBack}>
-                      Comprar
+                      Buy
                     </button>
                     <button className={s.buttons} onClick={goBack}>
-                      Añadir al Carrito
+                      Add to Cart
                     </button>
                   </div>
                 </div>
@@ -127,6 +130,21 @@ function BookDetail(props) {
               <div className={s.textDescription}>
                 <p>Description</p>
                 <p>{book.description}</p>
+              </div>
+            </div>
+            <div className={s.container4}>
+              <div className={s.textDescription} id="reviewsMark">
+                <p>Reviews</p>
+                <p>
+                  "The book is really excellent, with a lot of common places..."{" "}
+                </p>
+                <p>"It is a masterpiece"</p>
+                <p>
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat."
+                </p>
               </div>
             </div>
           </div>

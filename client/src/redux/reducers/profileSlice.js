@@ -13,6 +13,9 @@ const profileSlice = createSlice({
     getProfile: (state, action) => {
       state.userProfile = action.payload;
     },
+    // registerUser: (state, action) => {
+    //   // state.allUsers = [...state.allUsers, action.payload];
+    // }
   },
 });
 

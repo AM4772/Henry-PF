@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 import { clearBookDetail } from "../../redux/reducers/booksSlice";
 
+import Stars5 from "../../assets/Stars5.png";
+
 // // TESTING ================
 // import { TESTING_BOOKS } from "../../testingObjects";
 // // ==============================
@@ -64,36 +66,41 @@ function BookDetail(props) {
                         </p>
                       ))}
                     </div>
-                    <div className={s.text}>
-                      <p>Description</p>
-                      <p>{book.description}</p>
+                    <div className={s.containerReviews}>
+                      <img className={s.reviews} alt="5stars" src={Stars5} />
                     </div>
-                    <div className={s.arr}>
-                      <p>Categories:</p>
-                      {/* <p>{book.categories}</p> */}
-                      {book.categories.map((el) => (
-                        <p key={el}>{el}</p>
-                      ))}
+                    <div className={s.containerDetails1}>
+                      <div className={s.arr}>
+                        <p>Categories:</p>
+                        {/* <p>{book.categories}</p> */}
+                        {book.categories.map((el) => (
+                          <p key={el}>{el}</p>
+                        ))}
+                      </div>
+                      <div className={s.text}>
+                        <p>Total Pages</p>
+                        <p>{book.pageCount}</p>
+                      </div>
                     </div>
-                    <div className={s.text}>
-                      <p>Publisher</p>
-                      <p>{book.publisher}</p>
+                    <div className={s.containerDetails1}>
+                      <div className={s.text}>
+                        <p>Publisher</p>
+                        <p>{book.publisher}</p>
+                      </div>
+                      <div className={s.text}>
+                        <p>Publish Date</p>
+                        <p>
+                          {new Date(book.publishedDate).toLocaleDateString(
+                            "es-ES"
+                          )}
+                        </p>
+                      </div>
                     </div>
-                    <div className={s.text}>
-                      <p>Publish Date</p>
-                      <p>
-                        {new Date(book.publishedDate).toLocaleDateString(
-                          "es-ES"
-                        )}
-                      </p>
-                    </div>
-                    <div className={s.text}>
-                      <p>Total Pages</p>
-                      <p>{book.pageCount}</p>
-                    </div>
-                    <div className={s.text}>
-                      <p>Language</p>
-                      <p>{book.language}</p>
+                    <div className={s.containerDetails1}>
+                      <div className={s.text}>
+                        <p>Language</p>
+                        <p>{book.language}</p>
+                      </div>
                     </div>
                     <div className={s.price}>
                       <p>
@@ -114,6 +121,12 @@ function BookDetail(props) {
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className={s.container4}>
+              <div className={s.textDescription}>
+                <p>Description</p>
+                <p>{book.description}</p>
               </div>
             </div>
           </div>

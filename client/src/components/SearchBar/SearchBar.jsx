@@ -55,12 +55,28 @@ function SearchBar({ input, setInput }) {
     setSearchButton(false);
     if (input !== "") {
       if (filterCard === "books") {
-        dispatch(asyncGetBooks(input));
+        dispatch(
+          asyncGetBooks(
+            input
+              .replace(/^\s+|\s+$/g, "")
+              .replace(/\./g, "")
+              .replace(/\s+/g, " ")
+          )
+        );
+        setInput(input.replace(/^\s+|\s+$/g, ""));
         dispatch(setAuthorFilter([]));
         dispatch(setCategoryFilter([]));
         history.push("/search");
       } else if (filterCard === "users") {
-        dispatch(asyncGetUsers(input));
+        dispatch(
+          asyncGetUsers(
+            input
+              .replace(/^\s+|\s+$/g, "")
+              .replace(/\./g, "")
+              .replace(/\s+/g, " ")
+          )
+        );
+        setInput(input.replace(/^\s+|\s+$/g, ""));
         history.push("/search");
       }
     }
@@ -88,16 +104,28 @@ function SearchBar({ input, setInput }) {
       <div className={s.usualSearch}>
         <div
           className={`${
-            input.length > 0
+            input
+              .replace(/^\s+|\s+$/g, "")
+              .replace(/\./g, "")
+              .replace(/\s+/g, " ").length > 0
               ? searchButton
                 ? s.usualActive
                 : s.noActive
               : s.noActive
           }`}
         >
-          {input.length > 0 && input.trim() === input
+          {input.replace(/^\s+|\s+$/g, "").length > 0
             ? search.map((b) =>
-                b.title.toLowerCase().includes(input.toLowerCase()) ? (
+                b.title
+                  .replace(/\./g, "")
+                  .toLowerCase()
+                  .includes(
+                    input
+                      .replace(/^\s+|\s+$/g, "")
+                      .replace(/\./g, "")
+                      .replace(/\s+/g, " ")
+                      .toLowerCase()
+                  ) ? (
                   <div
                     onClick={(e) => handleClick(e, b.title)}
                     className={s.usuals}

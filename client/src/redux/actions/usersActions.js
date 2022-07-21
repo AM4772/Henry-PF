@@ -14,7 +14,7 @@ export function asyncGetUsers(username) {
         dispatch(getUsers(response));
       }
     } catch (error) {
-      dispatch(getUsers([]));
+      dispatch(getUsers([null]));
     }
   };
 }

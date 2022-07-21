@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { asyncRegisterUser } from "../../redux/actions/usersActions";
 import s from './Register.module.sass';
 
 function Register(props) {
@@ -22,7 +23,6 @@ function Register(props) {
   };
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [count, setCount] = useState(countInitialState);
-  const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
@@ -31,7 +31,6 @@ function Register(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rpassword, setRpassword] = useState('');
-  // eslint-disable-next-line no-unused-vars
   const [isPending, setisPending] = useState(false);
   useEffect(() => {
     var symbolsCheck = new RegExp(/[^a-zA-Z\-\\/]/)
@@ -80,26 +79,25 @@ function Register(props) {
     if (!counter) setIsAllowed(true);
     else if (counter) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, surname, username, image, email, password, rpassword]);
+  }, [name, surname, username, image, email, password, rpassword, isPending]);
   const handleSubmit = async e => {
     e.preventDefault();
-    // const values = { name, surname, username, image, email, password };
-    // try {
-    //   setisPending(true);
-    //   const response = await axios.post(
-    //     '/recipes',
-    //     values
-    //   );
-    //   setisPending(false);
-    //   setServerResponse(response.request.statusText);
-    // } catch (error) {
-    //   setisPending(false);
-    //   setServerResponse(error.response.data);
-    // }
+    const info = { name, surname, username, image, email, password };
+    try {
+      setisPending(true)
+      asyncRegisterUser(info)
+      setisPending(false)
+    } catch (err) {
+      console.log(err)
+      setisPending(false)
+    }
   };
   const handleButton = () => {
-    if (!isPending && isAllowed && refresh !== 1) return <button className='buttons'>Register</button>;
-    else if (isPending) return <p id={s.waiting} className='buttons'>Registering...</p>;
+    if (!isPending && isAllowed) return <button className='buttons'>Register</button>;
+    else if (isPending) {
+      console.log('i entered')
+      return <p id={s.waiting} className='buttons'>Registering...</p>;
+    }
     else return <p id={s.waiting} className='buttons'>Register</p>;
   };
   // const errSuccHandler = message => {
@@ -190,7 +188,6 @@ function Register(props) {
                   ></input>{' '}
                     <p className={isValid.password && isValid.password !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.password}</p>
                 </div>
-                {console.log(count)}
                 <div className={s.inline}>
                   <label className="t-card">Repeat password: </label>
                   <input

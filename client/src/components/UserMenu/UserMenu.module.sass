@@ -9,17 +9,23 @@
     justify-content: space-around
 
     box-sizing: border-box
-    border: solid var(--color-brownish-dd) 2px
+    /* border: solid var(--color-brownish-d) 2px */
     border-radius: 5px
 .userLinks
     @extend %Links
+    display: flex
+    justify-content: space-between
+    padding: 0px 30px
+    align-items: center
+
 
 .visitLinks
     @extend %Links
     width: 200px
 
     display: flex
-    justify-content: space-around
+    justify-content: space-between
+    padding: 0px 10px
     align-items: center
         
 .visitText
@@ -58,4 +64,15 @@
 
 .esta 
     width: 200px
-    text-decoration: 2px
+    text-decoration: px
+
+.links
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+
+.divisor
+    height: 75%
+    border-right: solid 3px var(--color-brownish-dd)
+    border-radius: 5px

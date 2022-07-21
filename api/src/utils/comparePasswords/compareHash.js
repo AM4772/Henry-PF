@@ -2,12 +2,21 @@ const bcrypt = require('bcrypt');
 const { Users } = require('../../db');
 
 let comparePasswordModel = {
-  comparePasswords: async function (id, password = '123') {
-    const user = await Users.findByPk(id);
+  comparePasswords: async function ({ username, password }) {
+    const user = await Users.findOne({
+      where: {
+        username,
+      },
+    });
+
     if (user) {
-      const hashedPassword = user.dataValues.password;
+      const userJSON = user.toJSON();
+      const hashedPassword = userJSON.password;
       const result = await bcrypt.compare(password, hashedPassword);
-      return result;
+      if (result) {
+        return userJSON.name; //retornar objeto con id name lastname mail username
+      }
+      return undefined;
     }
     return undefined;
   },

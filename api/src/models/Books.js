@@ -10,11 +10,11 @@ module.exports = (sequelize) => {
       autoIncrement: true
     },
     title: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(10000),
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING(9999),
+      type: DataTypes.STRING(10000),
       allowNull: false
     },
     price: {
@@ -22,23 +22,23 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(10000),
       allowNull: true
     },
     authors: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.STRING(10000)),
       allowNull: false
     },
     categories: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING(10000)),
       allowNull: false
     },
     publisher: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(10000),
       allowNull: true
     },
     publishedDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(10000),
       allowNull: true
     },
     pageCount: {
@@ -50,7 +50,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     language: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(10000),
       allowNull: true
     },
   },

@@ -1,52 +1,184 @@
 .container0
+  display: flex
   justify-content: center
-  
+  margin-top: 65px
+  margin-bottom: 65px
+
 .container1
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
   border-radius: 10px
-  background: var(--color-yellowish-l)
-  padding: 10px
-  margin:30px
-  width: 60%
+  background: var(--color-whiteish)
+  padding: 0px
+  margin-top:10px
+  margin-bottom:0px
+  width: 70vw
+  // height: 80vh
   
 .container2
+  display: flex
   justify-content: center
   align-items: center
   margin: 0px
+  padding: 0px
+  width: 100%
 
 .container3
   display: flex
   flex-direction: row
   align-items: center
-  margin: 15px
-  padding: 15px
+  margin: 0px 10px 0px 10px
+  padding: 0px
+  width: 100%
+
+.container4
+  display: flex
+  margin: 10px
+
+.containerBookDetails
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-items: center
+  margin-right: 10px
+  width: 60%
+
+.containerDetails
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.containerDetails1
+  display: flex
+  flex-direction: row
+  align-items: center
+
+.containerDetails1 div
+  align-items: center
+  width: 14vw
 
 .containerImage
   display: flex
   justify-content: center
   align-items: center
+  width: 40%
 
 .image
-  border-radius: 15px
-  object-fit: contain
-  width: 350px
-  height: 550px
-  padding: 10px
+  border-radius: 20px
+  // object-fit: contain
+  width: 23vw
+  height: 37vw
+  padding: 0px
+  margin: 0px 15px 0px 20px
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2)
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2)ç
 
+.containerReviews
+  display: flex
+  justify-content: center
+  width: 100%
+  padding: 5px
+  margin: 0px
+
+.reviews
+  width:10vw
+  justify-content: center
+
+#bookTitle
+  font-size: 1.9vw
+  font-weight: bold
+  margin-left: 10px
+  color: var(--color-brownish-dd)
+
+#author
+  font-size: 1.3vw
+  font-weight: bold
+  text-decoration: none
 
 .arr, .text
-  font-size: 16px
-  color:var(--color-brownish-dd)
   display: flex
+  flex-direction: column
+  justify-content: center
+  font-size: 1.1vw
+  color: var(--color-brownish-dd)
+  display: flex
+  margin: 5px 0px 5px 0px
 
-.button
-  border-radius: 15px
+.textDescription 
+  display: flex
+  flex-direction: column
+  justify-content: center
+  font-size: 1.2vw
+  color: var(--color-brownish-dd)
+  display: flex
+  margin: 5px 0px 5px 0px
+
+.arr p:first-child, .text p:first-child, .textDescription p:first-child
+  text-decoration: underline
+
+.arr p, .text p
+  align-self: center
+  padding: 0px 5px 0px 5px
+
+.textDescription p
+  align-self: center
+  text-align: justify
+  padding: 0px 5px 0px 5px
+
+.price
+  font-size: 2vw
+  color: var(--color-brownish-dd)
+  padding: 10px
+  display: flex
+  justify-content: center
+
+.containerButtons
+  display: flex
+  flex-direction: column
+
+.backButton
+  display: flex
+  justify-content: right
+  width: 100%
+  padding-bottom: 0px
+  margin-bottom: 5px
+
+.buttonBack
+  border-radius: 5px
+  padding: 5px
+  margin: 10px
+  margin-bottom: 0px
+  border: none
+  font-size: 1.3vw
+  color: var(--color-brownish-dd)
+  background-color: var(--color-yellowish-d)
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1)
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1)
+  cursor: pointer
+  transition: 0.7s
+
+.buttonBack:hover
+  color: var(--color-yellowish-d)
+  background-color: var(--color-brownish-d)
+  transition: 0.7s
+  
+.buttons
+  border-radius: 10px
   padding: 10px
   margin: 10px
+  margin-top: 0px
   border: none
-  font-size: 20px
-  color:var(--color-brownish-dd)
-  background-color: var(--color-brownish-l)
+  font-size: 1.5vw
+  color: var(--color-brownish-dd)
+  background-color: var(--color-yellowish-d)
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1)
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1)
+  cursor: pointer
+  transition: 0.7s
+
+.buttons:hover
+  color: var(--color-yellowish-d)
+  background-color: var(--color-brownish-d)
+  transition: 0.7s

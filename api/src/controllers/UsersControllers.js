@@ -1,11 +1,10 @@
-const axios = require('axios');
 const { Users } = require('../db');
 const { Op } = require('sequelize');
+const { hashPassword } = require('../utils/hash/hashPasswords');
 
 let UsersModel = {
   getUsers: async function () {
     const foundUsers = await Users.findAll();
-    console.log(foundUsers);
     if (foundUsers.length > 0) {
       return foundUsers;
     } else {
@@ -16,9 +15,15 @@ let UsersModel = {
   getUserByUsername: async function (username) {
     const foundUser = await Users.findAll({
       where: {
-        username,
+        username: {
+          [Op.iLike]: '%' + username + '%',
+        },
       },
     });
+    if (foundUser.length === 0) {
+      return undefined;
+    }
+
     return foundUser;
   },
   getUserById: async function (ID) {
@@ -40,7 +45,7 @@ let UsersModel = {
         surname: user.surname.toLowerCase(),
         username: user.username.toLowerCase(),
         mail: user.mail.toLowerCase(),
-        password: user.password.toLowerCase(),
+        password: await hashPassword(user.password.toLowerCase()),
         enabled: user.enabled,
         suspendedTimes: user.suspendedTimes,
       });

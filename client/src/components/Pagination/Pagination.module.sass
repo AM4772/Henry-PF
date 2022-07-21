@@ -10,6 +10,8 @@
   background: none
   font-size: 16px
   color: #1b2bd7
+  cursor: pointer
+  user-select: none
 
 .pagButton:hover
   background: #f0efef
@@ -23,6 +25,9 @@
   background: none
   font-size: 16px
   color: #8d95f0
+
+.deMaxpages
+  user-select: none
 
 #pageContainer
   display: flex
@@ -38,3 +43,9 @@
   width: 32px
   height: 32px
   border-radius: 5px
+  border: none
+  font-size: 16px
+  font-family: var(--font-poppins)
+  
+#currPage:focus
+  outline: none

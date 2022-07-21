@@ -3,27 +3,27 @@ import s from "./BookDetail.module.sass";
 import Loading from "../Loading/Loading";
 
 import { useParams } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { asyncGetBookDetail } from "../../redux/actions/booksActions";
-// import { clearBookDetail } from "../../redux/reducers/booksSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetBookDetail } from "../../redux/actions/booksActions";
+import { clearBookDetail } from "../../redux/reducers/booksSlice";
 
-// TESTING ================
-import { TESTING_BOOKS } from "../../testingObjects";
-// ==============================
+import Stars5 from "../../assets/Stars5.png";
+
+// // TESTING ================
+// import { TESTING_BOOKS } from "../../testingObjects";
+// // ==============================
 
 function BookDetail(props) {
   const { ID } = useParams();
-  // console.log("ID ES", ID);
-  // let book = useSelector((state) => state.books.bookDetail);
-  // const dispatch = useDispatch();
-  let book = TESTING_BOOKS[ID];
 
-  // React.useEffect(() => {
-  //   dispatch(asyncGetBookDetail(ID));
-  //   return () => dispatch(clearBookDetail());
-  // }, [dispatch, ID]);
+  let book = useSelector((state) => state.books.bookDetail);
+  const dispatch = useDispatch();
+  // let book = TESTING_BOOKS[ID - 1];
 
-  var upperTitle = book.title?.toUpperCase();
+  React.useEffect(() => {
+    dispatch(asyncGetBookDetail(ID));
+    return () => dispatch(clearBookDetail());
+  }, [dispatch, ID]);
 
   function goBack() {
     window.history.back();
@@ -34,8 +34,8 @@ function BookDetail(props) {
       {book.title ? (
         <div className={s.container0}>
           <div className={s.container1}>
-            <div className="backButton">
-              <button className={s.button} onClick={goBack}>
+            <div className={s.backButton}>
+              <button className={s.buttonBack} onClick={goBack}>
                 Back
               </button>
             </div>
@@ -48,56 +48,85 @@ function BookDetail(props) {
                     src={`${book.image}`}
                   />
                 </div>
-                <div className={s.containerBook3}>
+                <div className={s.containerBookDetails}>
                   <div className={s.containerBookName}>
-                    <h1 id={s.bookTitle}>{upperTitle}</h1>
+                    <p id={s.bookTitle}>
+                      {book.title.length < 37
+                        ? book.title.toUpperCase()
+                        : book.title.toUpperCase().slice(0, 37) + "..."}
+                    </p>
                   </div>
                   <div className={s.containerDetails}>
-                    <div className={s.text}>
-                      <p>Description:</p>
-                      <p>{book.description}</p>
+                    <div className={s.arr}>
+                      {/* <p>Authors:</p> */}
+                      {/* <p id={s.author}>{book.authors}</p> */}
+                      {book.authors.map((el) => (
+                        <p key={el} id={s.author}>
+                          {el}
+                        </p>
+                      ))}
+                    </div>
+                    <div className={s.containerReviews}>
+                      <img className={s.reviews} alt="5stars" src={Stars5} />
+                    </div>
+                    <div className={s.containerDetails1}>
+                      <div className={s.arr}>
+                        <p>Categories:</p>
+                        {/* <p>{book.categories}</p> */}
+                        {book.categories.map((el) => (
+                          <p key={el}>{el}</p>
+                        ))}
+                      </div>
+                      <div className={s.text}>
+                        <p>Total Pages</p>
+                        <p>{book.pageCount}</p>
+                      </div>
+                    </div>
+                    <div className={s.containerDetails1}>
+                      <div className={s.text}>
+                        <p>Publisher</p>
+                        <p>{book.publisher}</p>
+                      </div>
+                      <div className={s.text}>
+                        <p>Publish Date</p>
+                        <p>
+                          {new Date(book.publishedDate).toLocaleDateString(
+                            "es-ES"
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    <div className={s.containerDetails1}>
+                      <div className={s.text}>
+                        <p>Language</p>
+                        <p>{book.language}</p>
+                      </div>
                     </div>
                     <div className={s.price}>
-                      <p>$ {book.price}</p>
-                    </div>
-                    <div className={s.arr}>
-                      <p>Authors:</p>
-                      {book.authors.map((el) => (
-                        <p>{book.authors[el]}</p>
-                      ))}
-                    </div>
-                    <div className={s.arr}>
-                      <p>Categories:</p>
-                      {book.categories.map((el) => (
-                        <p>{book.categories[el]}</p>
-                      ))}
-                    </div>
-                    <div className={s.text}>
-                      <p>Publisher:</p>
-                      <p>{book.publisher}</p>
-                    </div>
-                    <div className={s.text}>
-                      <p>Publish Date:</p>
-                      <p>{book.publishedDate}</p>
-                    </div>
-                    <div className={s.text}>
-                      <p>Total Pages:</p>
-                      <p>{book.pageCount}</p>
-                    </div>
-                    <div className={s.text}>
-                      <p>Language:</p>
-                      <p>{book.language}</p>
+                      <p>
+                        $
+                        {new Intl.NumberFormat("es-ES", {
+                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2,
+                        }).format(book.price)}
+                      </p>
                     </div>
                   </div>
-                  <div className="containerButtons">
-                    <button className={s.button} onClick={goBack}>
+                  <div className={s.containerButtons}>
+                    <button className={s.buttons} onClick={goBack}>
                       Comprar
                     </button>
-                    <button className={s.button} onClick={goBack}>
+                    <button className={s.buttons} onClick={goBack}>
                       Añadir al Carrito
                     </button>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className={s.container4}>
+              <div className={s.textDescription}>
+                <p>Description</p>
+                <p>{book.description}</p>
               </div>
             </div>
           </div>

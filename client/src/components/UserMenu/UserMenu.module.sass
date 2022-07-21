@@ -1,13 +1,15 @@
+.container
+    display: flex
 %Links
-    height: auto
-    width: 120px
+    height: 40px
+    width: 200px
 
     display: flex
     align-content: center
     justify-content: space-around
 
     box-sizing: border-box
-    border: solid #1E110B 2px
+    border: solid var(--color-brownish-dd) 2px
     border-radius: 5px
 .userLinks
     @extend %Links
@@ -16,9 +18,10 @@
     @extend %Links
     width: 200px
 
-    text-decoration: underline
-    color: #1E110B
-
+    display: flex
+    justify-content: space-around
+    align-items: center
+        
 .visitText
     color: #1E110B
 
@@ -26,3 +29,33 @@
     color: var(--color-brownish-dd)
     font-size: 32px
     cursor: pointer
+
+.profMenu
+    height: auto
+    width: 250px
+
+    position: absolute
+    top: 55px
+
+    border-radius: 0px 0px 15px 15px
+
+    background: var(--color-yellowish-d)
+    ul
+        display: flex
+        flex-direction: column
+        li
+            width: 250px
+            font-size: 16px
+            text-decoration: underline
+            text-decoration-thickness: 2px
+
+            display: flex
+            justify-content: space-between
+
+            cursor: pointer
+.ico
+    font-size: 22px
+
+.esta 
+    width: 200px
+    text-decoration: 2px

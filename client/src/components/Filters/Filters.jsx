@@ -136,7 +136,7 @@ function Filters() {
       </select>
       {filterCard === "books" ? (
         <div className={s.filtersBookCont}>
-          <div>
+          <div className={s.inputCont}>
             <label>Filter By Author</label>
             <input
               onChange={(e) => handleChange(e)}
@@ -165,7 +165,7 @@ function Filters() {
             </div>
           </div>
           <div className={s.filterAuthorList}>
-            Authors filter applied:
+            Authors applied:
             {booksFilters.filterAuthor.map((a, i) => (
               <div key={i}>
                 <button className={s.btn} onClick={(e) => deleteAuthor(e, a)}>
@@ -175,7 +175,7 @@ function Filters() {
               </div>
             ))}
           </div>
-          <div>
+          <div className={s.inputCont}>
             <label>Filter By Categories</label>
             <input
               onChange={(e) => handleChange(e)}

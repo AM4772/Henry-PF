@@ -1,25 +1,28 @@
 .formCont
     display: flex
-    position: fixed
     height: 100vh
-    background-color: var(--color-yellowish-l)
-    padding: 10px
+    background: linear-gradient(0deg, rgba(24,9,3,0) 0%, rgba(124,105,79,0.16010154061624648) 7%, rgba(179,158,120,0.3393732492997199) 11%, rgba(223,201,154,1) 50%)
     margin-bottom: 100px
+    margin-top: 0px
     top: 0px
     left: 0
     flex-direction: column
     width: 240px
-    justify-content: space-around
-    z-index: 50
+    justify-content: flex-start
+    padding: 20px
+    width: 90%
 .filtersBookCont
     display: flex
-    margin-top: -100px
+    margin-top: 18px
     height: 70%
     flex-direction: column
     justify-content: space-around
+.filtersBookCont .inputCont
+    display: flex
+    flex-direction: column
 .filterAuthorList
-    height: 100px
-    max-height: 100px
+    height: 200px
+    max-height: 200px
 .filterAuthorList span
     font-weight: bold
     font-size: 13px
@@ -43,6 +46,8 @@
 .btn:hover
     background-color: #be0e0e
 .filtersBookCont input
+    width: 100%
+    max-width: 350px
     height: 30px
     padding: 0 5px
     font-size: 16px
@@ -51,11 +56,12 @@
 .searchAuthorCont
     background-color: #ffffffe7
     box-shadow: 0px 2px 2px #0000009c
-    top: 32%
+    top: 30%
     width: 300px
     max-height: 100px
     display: flex
     position: absolute
+    z-index: 50
     flex-direction: column
     justify-content: center
     cursor: pointer
@@ -70,10 +76,11 @@
 .searchCategoryCont
     background-color: #ffffffe7
     box-shadow: 0px 2px 2px #0000009c
-    top: 66%
+    top: 72%
     width: 300px
     max-height: 100px
     display: flex
+    z-index: 50
     position: absolute
     flex-direction: column
     justify-content: center

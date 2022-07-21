@@ -146,22 +146,22 @@ function Filters() {
               autoComplete="off"
               name="author"
             />
-          </div>
-          <div className={s.searchAuthorCont}>
-            <div>
-              {inputs.author.length > 0 &&
-                authors.map((a, i) =>
-                  a.toLowerCase().includes(inputs.author.toLowerCase()) ? (
-                    <div
-                      key={i}
-                      className={s.searchAuthor}
-                      onClick={() => addAuthor(a)}
-                      value={a}
-                    >
-                      {a}
-                    </div>
-                  ) : null
-                )}
+            <div className={s.searchAuthorCont}>
+              <div>
+                {inputs.author.length > 0 &&
+                  authors.map((a, i) =>
+                    a.toLowerCase().includes(inputs.author.toLowerCase()) ? (
+                      <div
+                        key={i}
+                        className={s.searchAuthor}
+                        onClick={() => addAuthor(a)}
+                        value={a}
+                      >
+                        {a}
+                      </div>
+                    ) : null
+                  )}
+              </div>
             </div>
           </div>
           <div className={s.filterAuthorList}>
@@ -185,22 +185,22 @@ function Filters() {
               autoComplete="off"
               name="category"
             />
-          </div>
-          <div className={s.searchCategoryCont}>
-            <div>
-              {inputs.category.length > 0 &&
-                categories.map((c, i) =>
-                  c.toLowerCase().includes(inputs.category.toLowerCase()) ? (
-                    <div
-                      className={s.searchCategory}
-                      key={i}
-                      onClick={() => addCategory(c)}
-                      value={c}
-                    >
-                      {c}
-                    </div>
-                  ) : null
-                )}
+            <div className={s.searchCategoryCont}>
+              <div>
+                {inputs.category.length > 0 &&
+                  categories.map((c, i) =>
+                    c.toLowerCase().includes(inputs.category.toLowerCase()) ? (
+                      <div
+                        className={s.searchCategory}
+                        key={i}
+                        onClick={() => addCategory(c)}
+                        value={c}
+                      >
+                        {c}
+                      </div>
+                    ) : null
+                  )}
+              </div>
             </div>
           </div>
           <div className={s.filterCategoryList}>

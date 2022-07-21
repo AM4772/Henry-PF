@@ -1,6 +1,6 @@
-const axios = require('axios');
 const { Users } = require('../db');
 const { Op } = require('sequelize');
+const { hashPassword } = require('../utils/hash/hashPasswords');
 
 let UsersModel = {
   getUsers: async function () {
@@ -45,7 +45,7 @@ let UsersModel = {
         surname: user.surname.toLowerCase(),
         username: user.username.toLowerCase(),
         mail: user.mail.toLowerCase(),
-        password: user.password.toLowerCase(),
+        password: await hashPassword(user.password.toLowerCase()),
         enabled: user.enabled,
         suspendedTimes: user.suspendedTimes,
       });

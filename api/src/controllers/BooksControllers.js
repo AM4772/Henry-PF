@@ -45,7 +45,7 @@ let BooksModel = {
 
                 image: b.volumeInfo.imageLinks
                   ? b.volumeInfo.imageLinks.smallThumbnail
-                  : 'NO IMAGE',
+                  : 'https://www.angeldelsoto.es/wp-content/uploads/leather-book-preview.png',
                 authors: b.volumeInfo.authors ? b.volumeInfo.authors : [],
                 categories: b.volumeInfo.categories
                   ? b.volumeInfo.categories

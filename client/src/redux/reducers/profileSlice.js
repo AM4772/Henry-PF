@@ -13,12 +13,17 @@ const profileSlice = createSlice({
     getProfile: (state, action) => {
       state.userProfile = action.payload;
     },
-    // registerUser: (state, action) => {
-    //   // state.allUsers = [...state.allUsers, action.payload];
-    // }
+    loginUser: (state, action) => {
+      state.userProfile = {
+        id: action.payload.id,
+        name: action.payload.name,
+        lastname: action.payload.lastname,
+        email: action.payload.email,
+      };
+    },
   },
 });
 
-export const { getProfile } = profileSlice.actions;
+export const { getProfile, loginUser } = profileSlice.actions;
 
 export default profileSlice.reducer;

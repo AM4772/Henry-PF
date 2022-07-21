@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import s from '../Register/Register.module.sass';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { asyncLogin } from "../../redux/actions/usersActions";
+import s from "../Register/Register.module.sass";
 
 function LogIn(props) {
+  const dispatch = useDispatch();
   const isValidInitialState = {
-    emailOrUsername: '',
-    password: '',
+    emailOrUsername: "",
+    password: "",
   };
   const countInitialState = {
     emailOrUsername: 0,
@@ -14,23 +17,26 @@ function LogIn(props) {
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [password, setPassword] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
-    setRefresh(refresh + 1)
+    setRefresh(refresh + 1);
     // Assign possible errors
     const isValidCopy = { ...isValid };
     // Username
-    if (refresh === 0) {} // Skip
+    if (refresh === 0) {
+    } // Skip
     else {
-      if (!emailOrUsername.length) isValidCopy.emailOrUsername = ' ';
-      else if (emailOrUsername.length < 3 || emailOrUsername.length > 50) isValidCopy.emailOrUsername = 'Email or username is invalid';
+      if (!emailOrUsername.length) isValidCopy.emailOrUsername = " ";
+      else if (emailOrUsername.length < 3 || emailOrUsername.length > 50)
+        isValidCopy.emailOrUsername = "Email or username is invalid";
       else delete isValidCopy.emailOrUsername;
       // Password validation
-      if (!password.length) isValidCopy.password = ' ';
-      else if (password.length < 8 || password.length > 30) isValidCopy.password = 'Password must contain between 8-30 characters';
+      if (!password.length) isValidCopy.password = " ";
+      else if (password.length < 8 || password.length > 30)
+        isValidCopy.password = "Password must contain between 8-30 characters";
       else delete isValidCopy.password;
     }
     setIsvalid(isValidCopy);
@@ -43,26 +49,27 @@ function LogIn(props) {
     else if (counter) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailOrUsername, password]);
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // const values = { emailOrUsername, password };
-    // try {
-    //   setIsPending(true);
-    //   const response = await axios.post(
-    //     '/recipes',
-    //     values
-    //   );
-    //   setIsPending(false);
-    //   setServerResponse(response.request.statusText);
-    // } catch (error) {
-    //   setIsPending(false);
-    //   setServerResponse(error.response.data);
-    // }
+    const values = { username: emailOrUsername, password };
+
+    dispatch(asyncLogin(values));
   };
   const handleButton = () => {
-    if (!isPending && isAllowed && refresh !== 1) return <button className='buttons'>Log In</button>;
-    else if (isPending) return <p className='buttons' id={s.waiting}>Logging In...</p>;
-    else return <p className='buttons' id={s.waiting}>Log In</p>;
+    if (!isPending && isAllowed && refresh !== 1)
+      return <button className="buttons">Log In</button>;
+    else if (isPending)
+      return (
+        <p className="buttons" id={s.waiting}>
+          Logging In...
+        </p>
+      );
+    else
+      return (
+        <p className="buttons" id={s.waiting}>
+          Log In
+        </p>
+      );
   };
   // const errSuccHandler = message => {
   //   if (message === 'Created')
@@ -84,25 +91,59 @@ function LogIn(props) {
                   <label className="t-card">Email/Username: </label>
                   <input
                     type="text"
-                    id={`${isValid.emailOrUsername && isValid.emailOrUsername.length && count.emailOrUsername ? s.danger : null}`}
+                    id={`${
+                      isValid.emailOrUsername &&
+                      isValid.emailOrUsername.length &&
+                      count.emailOrUsername
+                        ? s.danger
+                        : null
+                    }`}
                     value={emailOrUsername}
                     className={s.input}
-                    onChange={e => setCount({...count, emailOrUsername: 1}) || setEmailOrUsername(e.target.value)}
+                    onChange={(e) =>
+                      setCount({ ...count, emailOrUsername: 1 }) ||
+                      setEmailOrUsername(e.target.value)
+                    }
                     placeholder="Email/Username"
-                  ></input>{' '}
-                    <p className={isValid.emailOrUsername && isValid.emailOrUsername !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.emailOrUsername}</p>
+                  ></input>{" "}
+                  <p
+                    className={
+                      isValid.emailOrUsername && isValid.emailOrUsername !== " "
+                        ? s.errorMessage
+                        : s.noErrorMessage
+                    }
+                  >
+                    {isValid.emailOrUsername}
+                  </p>
                 </div>
                 <div className={s.inline}>
                   <label className="t-card">Password: </label>
                   <input
                     type="password"
-                    id={`${isValid.password && isValid.password.length && count.password ? s.danger : null}`}
+                    id={`${
+                      isValid.password &&
+                      isValid.password.length &&
+                      count.password
+                        ? s.danger
+                        : null
+                    }`}
                     value={password}
                     className={s.input}
                     placeholder="Password"
-                    onChange={e => setCount({...count, password: 1}) || setPassword(e.target.value)}
-                  ></input>{' '}
-                    <p className={isValid.password && isValid.password !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.password}</p>
+                    onChange={(e) =>
+                      setCount({ ...count, password: 1 }) ||
+                      setPassword(e.target.value)
+                    }
+                  ></input>{" "}
+                  <p
+                    className={
+                      isValid.password && isValid.password !== " "
+                        ? s.errorMessage
+                        : s.noErrorMessage
+                    }
+                  >
+                    {isValid.password}
+                  </p>
                 </div>
               </div>
             </div>

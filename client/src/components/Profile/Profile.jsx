@@ -5,9 +5,9 @@ import { FaUserCircle, FaWallet } from "react-icons/fa";
 import ProfileEdit from "../ProfileEdit/ProfileEdit";
 
 function Profile(props) {
-	const [edit, setEdit] = useState(false);
+	const [edit, setEdit] = useState(true);
 	return (
-		<>
+		<div className={s.body}>
 			<div className={s.container}>
 				<div className={s.sections}>
 					<span>
@@ -31,42 +31,35 @@ function Profile(props) {
 				</div>
 				{edit ? (
 					<div className={s.data}>
+						<div className={s.sectionImg}>
+							<div className={s.testIMG}></div>
+						</div>
 						<div className={s.section}>
-							<span>Nombre de usuario:</span>
+							<span>Username:</span>
 							<hr className={s.divisors} />
 							<span>Harry popote</span>
 						</div>
 						<div className={s.section}>
-							<span>Nombre:</span>
+							<span>Name:</span>
 							<hr className={s.divisors} />
 							<span>Harry</span>
 						</div>
 						<div className={s.section}>
-							<span>Apellido:</span>
+							<span>Surname:</span>
 							<hr className={s.divisors} />
 							<span>Potter</span>
 						</div>
 						<div className={s.section}>
-							<span>Correo electronico:</span>
+							<span>E-mail:</span>
 							<hr className={s.divisors} />
 							<span>HarryStone@gmail.com</span>
-						</div>
-						<div className={s.section}>
-							<span>Contraseña:</span>
-							<hr className={s.divisors} />
-							<span>***********</span>
-						</div>
-						<div className={s.section}>
-							<span>Image:</span>
-							<hr className={s.divisors} />
-							<span>box de seleccion</span>
 						</div>
 					</div>
 				) : (
 					<ProfileEdit />
 				)}
 			</div>
-		</>
+		</div>
 	);
 }
 

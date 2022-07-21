@@ -10,7 +10,7 @@ function ProfileEdit() {
 				<form>
 					<div className={s.section}>
 						<span>
-							Nombre de usuario: <FaQuestionCircle />
+							Username: <FaQuestionCircle />
 							{/* La idea seria que con un hover en el ?*/}
 						</span>
 						<hr className={s.divisors} />
@@ -18,31 +18,38 @@ function ProfileEdit() {
 					</div>
 					<div className={s.section}>
 						<span>
-							Nombre: <FaQuestionCircle />
+							Name: <FaQuestionCircle />
 						</span>
 						<hr className={s.divisors} />
 						<input type="text" />
 					</div>
 					<div className={s.section}>
 						<span>
-							Apellido: <FaQuestionCircle />
+							Surname: <FaQuestionCircle />
 						</span>
 						<hr className={s.divisors} />
 						<input type="text" />
 					</div>
 					<div className={s.section}>
 						<span>
-							Correo electronico: <FaQuestionCircle />
+							E-mail: <FaQuestionCircle />
 						</span>
 						<hr className={s.divisors} />
 						<input type="text" />
 					</div>
 					<div className={s.section}>
 						<span>
-							Contraseña: <FaQuestionCircle />
+							Current password: <FaQuestionCircle />
 						</span>
 						<hr className={s.divisors} />
-						<input type="text" />
+						<input type="password" />
+					</div>
+					<div className={s.section}>
+						<span>
+							New password: <FaQuestionCircle />
+						</span>
+						<hr className={s.divisors} />
+						<input type="password" />
 					</div>
 					<div className={s.section}>
 						<span>

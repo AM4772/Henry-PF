@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import s from "./Cards.module.sass";
-// import { TESTING_USERS } from "../../testingObjects";
 import BookCard from "../BookCard/BookCard";
 import UserCard from "../UserCard/UserCard";
-import { asyncGetBooks } from "../../redux/actions/booksActions";
-import { asyncGetUsers } from "../../redux/actions/usersActions";
 
-function Cards(props) {
+function Cards() {
 	const { books, filterCard } = useSelector((state) => state.books);
 	const { users } = useSelector((state) => state.users);
 
@@ -21,23 +18,13 @@ function Cards(props) {
 	const currentBooks = books.slice(indexOfFirstCards, indexOfLastCards);
 	const currentUsers = users.slice(indexOfFirstCards, indexOfLastCards);
 
-	useEffect(() => {
-		if (filterCard === "books") {
-			if (books.length <= 0) {
-				dispatch(asyncGetBooks());
-			}
-		} else {
-			if (users.length <= 0) {
-				dispatch(asyncGetUsers());
-			}
-		}
-	}, [books, currentPage, users]);
+	useEffect(() => {}, [books, currentPage, users, filterCard]);
 
 	return (
 		<>
 			{filterCard === "books" ? (
 				<div className={s.card_container}>
-					{currentBooks[0] &&
+					{currentBooks[0] ? (
 						currentBooks.map((b) => {
 							return (
 								<BookCard
@@ -49,11 +36,16 @@ function Cards(props) {
 									price={b.price}
 								/>
 							);
-						})}
+						})
+					) : (
+						<div className={s.notFound}>
+							<h1>Books not found</h1>
+						</div>
+					)}
 				</div>
 			) : (
 				<div className={s.card_container}>
-					{currentUsers[0] &&
+					{currentUsers[0] ? (
 						currentUsers.map((u) => {
 							return (
 								<UserCard
@@ -64,7 +56,12 @@ function Cards(props) {
 									mail={u.mail}
 								/>
 							);
-						})}
+						})
+					) : (
+						<div className={s.notFound}>
+							<h1>Users not found</h1>
+						</div>
+					)}
 				</div>
 			)}
 		</>

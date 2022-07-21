@@ -1,5 +1,11 @@
 import axios from "axios";
-import { getUsers, getUserDetail, getSearchUser, registerUser } from "../reducers/usersSlice";
+import { loginUser } from "../reducers/profileSlice";
+import {
+  getUsers,
+  getUserDetail,
+  getSearchUser,
+  registerUser,
+} from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
@@ -44,11 +50,20 @@ export function asyncGetUserDetail(ID) {
 export function asyncRegisterUser(info) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post("/users", info));
-      console.log(response)
-      // dispatch(registerUser(info));
+      await axios.post("/users", info);
     } catch (error) {
-      console.log(error)
+      console.error(error.message);
+    }
+  };
+}
+
+export function asyncLogin(body) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post("/login", body);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      console.error(error.message);
     }
   };
 }

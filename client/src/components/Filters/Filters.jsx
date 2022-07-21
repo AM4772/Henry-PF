@@ -45,7 +45,7 @@ function Filters() {
   });
   useEffect(() => {
     dispatch(setFilterCard(generalFilter));
-    dispatch(updateCurrentPage(1));
+
     if (authors.length <= 0 || categories.length <= 0) {
       dispatch(asyncGetAuthors());
       dispatch(asyncGetCategories());
@@ -71,6 +71,7 @@ function Filters() {
   }, [dispatch, filterBooksByAuthor, generalFilter, booksFilters, userFilters]);
 
   function setCardType(e) {
+    dispatch(updateCurrentPage(1));
     setGeneralFilter(e.target.value);
   }
 
@@ -79,6 +80,7 @@ function Filters() {
   }
 
   function addAuthor(a) {
+    dispatch(updateCurrentPage(1));
     if (
       booksFilters.filterAuthor.length < 4 &&
       !booksFilters.filterAuthor.includes(a)
@@ -93,6 +95,7 @@ function Filters() {
 
   function deleteAuthor(e, a) {
     e.preventDefault();
+    dispatch(updateCurrentPage(1));
     setBooksFilters({
       ...booksFilters,
       filterAuthor: booksFilters.filterAuthor.filter((auth) => auth !== a),
@@ -100,6 +103,7 @@ function Filters() {
   }
 
   function addCategory(c) {
+    dispatch(updateCurrentPage(1));
     if (
       booksFilters.filterCategory.length < 4 &&
       !booksFilters.filterCategory.includes(c)
@@ -114,6 +118,7 @@ function Filters() {
 
   function deleteCategory(e, c) {
     e.preventDefault();
+    dispatch(updateCurrentPage(1));
     setBooksFilters({
       ...booksFilters,
       filterCategory: booksFilters.filterCategory.filter((cat) => cat !== c),

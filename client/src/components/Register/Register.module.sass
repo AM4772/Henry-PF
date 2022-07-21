@@ -1,5 +1,5 @@
 #card
-  background: var(--color-yellowish-d)
+  background: var(--color-whiteish)
   width: 420px
   display: flex
   border-radius: 10px
@@ -21,42 +21,27 @@
   font-weight: 400
   font-size: 14.5px
   height: 20px
+  transition: all ease 0.7s
 
 .noErrorMessage
-  visibility: hidden
+  height: 0px
+  display: hidden
+  color: #22222200
+  transition: all ease 0.7s
 
 #creationCardDisplay
   display: flex
   justify-content: center
-  // width: 510px
 
-#errorSubmitButton
+#waiting
   display: flex
-  background-color: var(--color-brownish-dd)
-  color: white
-  border-radius: 15px
-  border: none
-  text-align: center
-  text-decoration: none
-  font-size: 20px
-  width: 185px
-  height: 43px
   align-items: center
-  justify-content: center
-
-#submitButton
-  display: flex
-  background-color: var(--color-brownish-d)
+  height: 43.8px
+  background: gray
   color: var(--color-brownish-dd)
-  border-radius: 15px
-  border: none
-  text-align: center
-  text-decoration: none
-  font-size: 20px
-  width: 185px
-  height: 43px
-  align-items: center
-  justify-content: center
+
+#waiting:hover
+  background: gray
 
 #bottomButton
   display: flex
@@ -66,7 +51,7 @@
 
 .input
   font-family: var(--font-roboto)
-  background: var(--color-whiteish)
+  background: white
   width: 100%
   padding: 7px 10px
   font-size: 14px
@@ -77,8 +62,14 @@
   border-radius: 10px
   border: none
 
+.input:focus
+  outline: none
+
 .inline
   color: var(--color-brownish-dd)
   width: 370px
   font-size: 16px
   font-weight: 500
+
+#danger
+  border: #ff000098 solid 2px

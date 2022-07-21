@@ -19,8 +19,8 @@ let verifyLoginModel = {
           id: userJSON.ID,
           name: userJSON.name,
           lastName: userJSON.surname,
-          email: userJSON.mail,
-        }; //retornar objeto con id name lastname mail username
+          email: userJSON.email,
+        }; 
       }
       return undefined;
     }

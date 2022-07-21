@@ -136,7 +136,7 @@ function Filters() {
       </select>
       {filterCard === "books" ? (
         <div className={s.filtersBookCont}>
-          <div>
+          <div className={s.inputCont}>
             <label>Filter By Author</label>
             <input
               onChange={(e) => handleChange(e)}
@@ -146,26 +146,36 @@ function Filters() {
               autoComplete="off"
               name="author"
             />
-          </div>
-          <div className={s.searchAuthorCont}>
-            <div>
-              {inputs.author.length > 0 &&
-                authors.map((a, i) =>
-                  a.toLowerCase().includes(inputs.author.toLowerCase()) ? (
-                    <div
-                      key={i}
-                      className={s.searchAuthor}
-                      onClick={() => addAuthor(a)}
-                      value={a}
-                    >
-                      {a}
-                    </div>
-                  ) : null
-                )}
+            <div className={s.searchAuthorCont}>
+              <div>
+                {inputs.author.length > 0 &&
+                  authors.map((a, i) =>
+                    a
+                      .toLowerCase()
+                      .replace(/\./g, "")
+                      .replace(/^\s+|\s+$/g, "")
+                      .includes(
+                        inputs.author
+                          .replace(/^\s+|\s+$/g, "")
+                          .replace(/\./g, "")
+                          .replace(/\s+/g, " ")
+                          .toLowerCase()
+                      ) ? (
+                      <div
+                        key={i}
+                        className={s.searchAuthor}
+                        onClick={() => addAuthor(a)}
+                        value={a}
+                      >
+                        {a}
+                      </div>
+                    ) : null
+                  )}
+              </div>
             </div>
           </div>
           <div className={s.filterAuthorList}>
-            Authors filter applied:
+            Authors applied:
             {booksFilters.filterAuthor.map((a, i) => (
               <div key={i}>
                 <button className={s.btn} onClick={(e) => deleteAuthor(e, a)}>
@@ -175,7 +185,7 @@ function Filters() {
               </div>
             ))}
           </div>
-          <div>
+          <div className={s.inputCont}>
             <label>Filter By Categories</label>
             <input
               onChange={(e) => handleChange(e)}
@@ -185,22 +195,32 @@ function Filters() {
               autoComplete="off"
               name="category"
             />
-          </div>
-          <div className={s.searchCategoryCont}>
-            <div>
-              {inputs.category.length > 0 &&
-                categories.map((c, i) =>
-                  c.toLowerCase().includes(inputs.category.toLowerCase()) ? (
-                    <div
-                      className={s.searchCategory}
-                      key={i}
-                      onClick={() => addCategory(c)}
-                      value={c}
-                    >
-                      {c}
-                    </div>
-                  ) : null
-                )}
+            <div className={s.searchCategoryCont}>
+              <div>
+                {inputs.category.length > 0 &&
+                  categories.map((c, i) =>
+                    c
+                      .replace(/\./g, "")
+                      .replace(/^\s+|\s+$/g, "")
+                      .toLowerCase()
+                      .includes(
+                        inputs.category
+                          .replace(/\s\s+/g, " ")
+                          .replace(/\./g, "")
+                          .replace(/\s+/g, " ")
+                          .toLowerCase()
+                      ) ? (
+                      <div
+                        className={s.searchCategory}
+                        key={i}
+                        onClick={() => addCategory(c)}
+                        value={c}
+                      >
+                        {c}
+                      </div>
+                    ) : null
+                  )}
+              </div>
             </div>
           </div>
           <div className={s.filterCategoryList}>

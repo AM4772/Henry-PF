@@ -47,7 +47,7 @@ function Pagination(props) {
         >
         </input>
       </div>
-      <p>de {maxPages}</p>
+      <p className={s.deMaxpages}>de {maxPages}</p>
       <button
         className={currentPage !== maxPages ? s.pagButton : s.pagButtonDisabled}
         onClick={() => currentPage !== maxPages && setCurrentPage('next')}

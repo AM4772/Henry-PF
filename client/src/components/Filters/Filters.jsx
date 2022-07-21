@@ -150,7 +150,17 @@ function Filters() {
               <div>
                 {inputs.author.length > 0 &&
                   authors.map((a, i) =>
-                    a.toLowerCase().includes(inputs.author.toLowerCase()) ? (
+                    a
+                      .toLowerCase()
+                      .replace(/\./g, "")
+                      .replace(/^\s+|\s+$/g, "")
+                      .includes(
+                        inputs.author
+                          .replace(/^\s+|\s+$/g, "")
+                          .replace(/\./g, "")
+                          .replace(/\s+/g, " ")
+                          .toLowerCase()
+                      ) ? (
                       <div
                         key={i}
                         className={s.searchAuthor}
@@ -189,7 +199,17 @@ function Filters() {
               <div>
                 {inputs.category.length > 0 &&
                   categories.map((c, i) =>
-                    c.toLowerCase().includes(inputs.category.toLowerCase()) ? (
+                    c
+                      .replace(/\./g, "")
+                      .replace(/^\s+|\s+$/g, "")
+                      .toLowerCase()
+                      .includes(
+                        inputs.category
+                          .replace(/\s\s+/g, " ")
+                          .replace(/\./g, "")
+                          .replace(/\s+/g, " ")
+                          .toLowerCase()
+                      ) ? (
                       <div
                         className={s.searchCategory}
                         key={i}

@@ -14,7 +14,13 @@ let verifyLoginModel = {
       const hashedPassword = userJSON.password;
       const result = await bcrypt.compare(password, hashedPassword);
       if (result) {
-        return userJSON.name; //retornar objeto con id name lastname mail username
+        return {
+          message: 'Logged in successfully',
+          id: userJSON.ID,
+          name: userJSON.name,
+          lastName: userJSON.surname,
+          email: userJSON.mail,
+        }; //retornar objeto con id name lastname mail username
       }
       return undefined;
     }

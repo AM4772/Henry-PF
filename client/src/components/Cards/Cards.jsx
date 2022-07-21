@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import s from "./Cards.module.sass";
 import BookCard from "../BookCard/BookCard";
 import UserCard from "../UserCard/UserCard";
+import Loading from "../Loading/Loading";
 
 function Cards() {
 	const { books, filterCard } = useSelector((state) => state.books);
@@ -13,12 +14,28 @@ function Cards() {
 	);
 	const dispatch = useDispatch();
 
+	const [loading, setLoading] = useState(true);
+
 	const indexOfLastCards = currentPage * cardsPerPage;
 	const indexOfFirstCards = indexOfLastCards - cardsPerPage;
 	const currentBooks = books.slice(indexOfFirstCards, indexOfLastCards);
 	const currentUsers = users.slice(indexOfFirstCards, indexOfLastCards);
 
-	useEffect(() => {}, [books, currentPage, users, filterCard]);
+	if (filterCard === "books") {
+		setTimeout(() => {
+			if (!currentBooks[0]) {
+				setLoading(false);
+			}
+		}, 5000);
+	}
+	if (filterCard === "users") {
+		setTimeout(() => {
+			if (!currentUsers[0]) {
+				setLoading(false);
+			}
+		}, 5000);
+	}
+	useEffect(() => {}, [books, currentPage, users, filterCard, loading]);
 
 	return (
 		<>
@@ -37,6 +54,8 @@ function Cards() {
 								/>
 							);
 						})
+					) : loading ? (
+						<Loading />
 					) : (
 						<div className={s.notFound}>
 							<h1>Books not found</h1>
@@ -57,6 +76,8 @@ function Cards() {
 								/>
 							);
 						})
+					) : loading ? (
+						<Loading />
 					) : (
 						<div className={s.notFound}>
 							<h1>Users not found</h1>

@@ -22,4 +22,4 @@ let verifyLoginModel = {
   },
 };
 
-module.exports = comparePasswordModel;
+module.exports = verifyLoginModel;

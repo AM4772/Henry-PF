@@ -123,9 +123,16 @@ function Register(props) {
     e.preventDefault();
     const info = { name, surname, username, email, password };
     try {
-      setisPending(true);
       dispatch(asyncRegisterUser(info));
-      setisPending(false);
+      setName("");
+      setSurname("");
+      setEmail("");
+      setUsername("");
+      setPassword("");
+      setRpassword("");
+      setCount(countInitialState);
+      setIsvalid(isValidInitialState);
+      setIsAllowed(false);
     } catch (err) {
       setisPending(false);
     }

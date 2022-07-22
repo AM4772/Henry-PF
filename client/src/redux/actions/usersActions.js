@@ -56,9 +56,9 @@ export function asyncRegisterUser(info) {
 export function asyncLogin(body) {
   return async function (dispatch) {
     try {
-      const response = await axios.post("/login", body);
+      const response = (await axios.post("/login", body)).data;
       alert(response.message);
-      dispatch(loginUser(response.data));
+      dispatch(loginUser(response));
     } catch (error) {
       alert(error.message);
     }

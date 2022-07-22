@@ -4,7 +4,6 @@ import {
   getUsers,
   getUserDetail,
   getSearchUser,
-  registerUser,
 } from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;

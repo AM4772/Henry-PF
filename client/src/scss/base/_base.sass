@@ -3,6 +3,17 @@ body
   -webkit-font-smoothing: antialiased
   background-image: url("../../assets/BKG_BookStore.png")
   background-size: contain
+  &::-webkit-scrollbar
+    z-index: 1
+    background: #826d5f
+  &::-webkit-scrollbar-thumb
+    background: #6A371C
+    border-radius: 4px
+  &::-webkit-scrollbar-thumb:hover
+    background: #844523
+    box-shadow: 0 0 2px 1px rgba(144, 36, 36, 0.2)
+  &::-webkit-scrollbar-thumb:active
+    background-color: #6A371C
 
 .buttons
   border-radius: 10px

@@ -27,6 +27,7 @@ function SearchBar({ input, setInput }) {
     } else if (filterCard === "users") {
       dispatch(asyncGetSearchUser());
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterCard]);
   function handleChange(e) {
     e.preventDefault();

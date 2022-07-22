@@ -40,7 +40,6 @@ const booksSlice = createSlice({
       state.filterCard = action.payload;
     },
     setAuthorFilter: (state, action) => {
-      console.log(action.payload);
       state.filterBooksByAuthor = action.payload;
     },
     setCategoryFilter: (state, action) => {

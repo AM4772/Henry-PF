@@ -159,24 +159,17 @@ function Register(props) {
                   <input
                     type="text"
                     value={name}
-                    id={`${
-                      isValid.name && isValid.name.length && count.name
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
+                    className={`${s.input} ${isValid.name && isValid.name.length && count.name ? s.danger : null}`}
                     placeholder="Name"
                     onChange={(e) =>
                       setCount({ ...count, name: 1 }) || setName(e.target.value)
                     }
                   ></input>{" "}
-                  <p
-                    className={
+                  <p className={
                       isValid.name && isValid.name !== " "
                         ? s.errorMessage
                         : s.noErrorMessage
-                    }
-                  >
+                    }>
                     {isValid.name}
                   </p>
                 </div>
@@ -187,12 +180,7 @@ function Register(props) {
                   <input
                     type="text"
                     value={surname}
-                    id={`${
-                      isValid.surname && isValid.surname.length && count.surname
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
+                    className={`${s.input} ${isValid.surname && isValid.surname.length && count.surname ? s.danger : null}`}
                     placeholder="Surname"
                     onChange={(e) =>
                       setCount({ ...count, surname: 1 }) ||
@@ -216,14 +204,7 @@ function Register(props) {
                   <input
                     type="text"
                     value={username}
-                    id={`${
-                      isValid.username &&
-                      isValid.username.length &&
-                      count.username
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
+                    className={`${s.input} ${isValid.username && isValid.username.length && count.username ? s.danger : null}`}
                     placeholder="Username"
                     onChange={(e) =>
                       setCount({ ...count, username: 1 }) ||
@@ -272,12 +253,7 @@ function Register(props) {
                   <input
                     type="text"
                     value={email}
-                    id={`${
-                      isValid.email && isValid.email.length && count.email
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
+                    className={`${s.input} ${isValid.email && isValid.email.length && count.email ? s.danger : null}`}
                     placeholder="Email"
                     onChange={(e) =>
                       setCount({ ...count, email: 1 }) ||
@@ -299,14 +275,7 @@ function Register(props) {
                   <input
                     type="password"
                     value={password}
-                    id={`${
-                      isValid.password &&
-                      isValid.password.length &&
-                      count.password
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
+                    className={`${s.input} ${isValid.password && isValid.password.length && count.password ? s.danger : null}`}
                     placeholder="Password"
                     onChange={(e) =>
                       setCount({ ...count, password: 1 }) ||
@@ -328,14 +297,7 @@ function Register(props) {
                   <input
                     type="password"
                     value={rpassword}
-                    id={`${
-                      isValid.rpassword &&
-                      isValid.rpassword.length &&
-                      count.rpassword
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
+                    className={`${s.input} ${isValid.rpassword && isValid.rpassword.length && count.rpassword ? s.danger : null}`}
                     placeholder="Repeat password"
                     onChange={(e) =>
                       setCount({ ...count, rpassword: 1 }) ||

@@ -21,15 +21,12 @@ function Filters() {
     authors,
     categories,
   } = useSelector((state) => state.books);
-  const { filterUserByEnabled, filterUserByType } = useSelector(
-    (state) => state.users
-  );
   const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     author: "",
     category: "",
   });
-  const [generalFilter, setGeneralFilter] = useState(filterCard);
+  const [generalFilter,] = useState(filterCard);
   const [booksFilters, setBooksFilters] = useState({
     filterAuthor: filterBooksByAuthor.length > 0 ? filterBooksByAuthor : [],
     filterCategory: filterBooksByCategory,

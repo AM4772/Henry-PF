@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {useHistory} from "react-router-dom"
 import {useSelector} from "react-redux"
 import s from "./Profile.module.sass";
 import { MdOutlinePrivacyTip, MdSettings } from "react-icons/md";
@@ -8,7 +9,11 @@ import ProfileEdit from "../ProfileEdit/ProfileEdit";
 function Profile(props) {
   const [edit, setEdit] = useState(true);
   const {userProfile} = useSelector(state => state.profile)
-  console.log(userProfile)
+  const history = useHistory()
+  useEffect(() => {
+    if (!userProfile.name) history.push('/login')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userProfile])
   return (
     <div className={s.body}>
       <div className={s.container}>
@@ -35,24 +40,18 @@ function Profile(props) {
               <div className={s.testIMG}></div>
             </div>
             <div className={s.section}>
-              {/* <span>username</span> */}
+              <span>Username</span>
               <hr className={s.divisors} />
               <span>Harry popote</span>
             </div>
             <div className={s.section}>
-              {/* <span>name</span> */}
+              <span>Name</span>
               <hr className={s.divisors} />
-              <span>{userProfile.name}</span>
-            </div>
-            <div className={s.section}>
-              {/* <span>surname</span> */}
-              <hr className={s.divisors} />
-              <span>Potter</span>
+              <span>{userProfile.name} {userProfile.lastName}</span>
             </div>
             <div className={s.section}>
               <span>e-mail</span>
               <hr className={s.divisors} />
-              {/* <span>HarryStone@gmail.com</span> */}
               <span>{userProfile.email}</span>
             </div>
           </div>

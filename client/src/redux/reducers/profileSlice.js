@@ -15,9 +15,10 @@ const profileSlice = createSlice({
     },
     loginUser: (state, action) => {
       state.userProfile = {
-        ID: action.payload.id,
+        ID: action.payload.ID,
         name: action.payload.name,
         lastName: action.payload.lastName,
+        username: action.payload.username,
         email: action.payload.email,
       };
     },

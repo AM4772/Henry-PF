@@ -17,6 +17,7 @@ let verifyLoginModel = {
         return {
           message: 'Logged in successfully',
           id: userJSON.ID,
+          username: userJSON.username,
           name: userJSON.name,
           lastName: userJSON.surname,
           email: userJSON.email,

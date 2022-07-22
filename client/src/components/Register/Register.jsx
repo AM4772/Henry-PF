@@ -13,7 +13,6 @@ function Register(props) {
     name: "",
     surname: "",
     username: "",
-    image: "",
     email: "",
     password: "",
     rpassword: "",
@@ -22,7 +21,6 @@ function Register(props) {
     name: 0,
     surname: 0,
     username: 0,
-    image: 0,
     email: 0,
     password: 0,
     rpassword: 0,
@@ -33,7 +31,6 @@ function Register(props) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
-  const [image, setImage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rpassword, setRpassword] = useState("");
@@ -57,7 +54,7 @@ function Register(props) {
       var emailCheck = new RegExp(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
-      var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
+      // var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
       // Assign possible errors
       const isValidCopy = { ...isValid };
       // Name
@@ -84,10 +81,10 @@ function Register(props) {
           "Username can't contain symbols, spaces nor numbers";
       else delete isValidCopy.username;
       // Image validation
-      if (!image.length) isValidCopy.image = " ";
-      else if (!imageCheck.test(image))
-        isValidCopy.image = "Image url is unvalid";
-      else delete isValidCopy.image;
+      // if (!image.length) isValidCopy.image = " ";
+      // else if (!imageCheck.test(image))
+      //   isValidCopy.image = "Image url is unvalid";
+      // else delete isValidCopy.image;
       // Email validation
       if (!email.length) isValidCopy.email = " ";
       else if (!emailCheck.test(email)) isValidCopy.email = "Email is unvalid";
@@ -116,7 +113,6 @@ function Register(props) {
     name,
     surname,
     username,
-    image,
     email,
     password,
     rpassword,
@@ -125,7 +121,7 @@ function Register(props) {
   ]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const info = { name, surname, username, image, email, password };
+    const info = { name, surname, username, email, password };
     try {
       setisPending(true);
       dispatch(asyncRegisterUser(info));
@@ -136,21 +132,9 @@ function Register(props) {
     }
   };
   const handleButton = () => {
-    if (!isPending && isAllowed)
-      return <button className="buttons">Register</button>;
-    else if (isPending) {
-      console.log("i entered");
-      return (
-        <p id={s.waiting} className="buttons">
-          Registering...
-        </p>
-      );
-    } else
-      return (
-        <p id={s.waiting} className="buttons">
-          Register
-        </p>
-      );
+    if (!isPending && isAllowed) return <button className="buttons">Register</button>;
+    else if (isPending) return <p id={s.waiting} className="buttons">Registering...</p>;
+    else return <p id={s.waiting} className="buttons">Register</p>;
   };
   // const errSuccHandler = message => {
   //   if (message === 'Created')
@@ -256,7 +240,7 @@ function Register(props) {
                     {isValid.username}
                   </p>
                 </div>
-                <div className={s.inline}>
+                {/* <div className={s.inline}>
                   <label className="t-card">Image: </label>
                   <input
                     type="text"
@@ -282,7 +266,7 @@ function Register(props) {
                   >
                     {isValid.image}
                   </p>
-                </div>
+                </div> */}
                 <div className={s.inline}>
                   <label className="t-card">Email: </label>
                   <input

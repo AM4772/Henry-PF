@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import s from "./UserMenu.module.sass";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { useSelector } from "react-redux";
 
 function UserMenu(props) {
+  const location = useLocation();
   const { userProfile } = useSelector((state) => state.profile);
   const [logged, setLogged] = useState(false);
   const [open, setOpen] = useState(false);
@@ -56,7 +57,7 @@ function UserMenu(props) {
         </>
       ) : (
         <div className={s.visitLinks}>
-          <Link to="/login">
+          <Link to={{ pathname: `/login`, state: location.pathname }}>
             <span className={s.visitText}>Log in</span>
           </Link>
           <hr className={s.divisor} />

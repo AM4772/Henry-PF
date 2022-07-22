@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { asyncLogin } from "../../redux/actions/usersActions";
 import s from "../Register/Register.module.sass";
 
-function LogIn(props) {
+function LogIn({ prev }) {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { stack } = useSelector((state) => state.history);
   const isValidInitialState = {
     emailOrUsername: "",
     password: "",
@@ -54,6 +57,18 @@ function LogIn(props) {
     const values = { username: emailOrUsername, password };
 
     dispatch(asyncLogin(values));
+    var lastPath = [];
+    for (let i = 0; i < stack.length; i++) {
+      if (stack[i] !== "/register" && stack[i] !== "/login") {
+        lastPath.push(stack[i]);
+      }
+    }
+    console.log(lastPath);
+    if (lastPath.length > 0) {
+      history.push(lastPath[0]);
+    } else {
+      history.push("/");
+    }
   };
   const handleButton = () => {
     if (!isPending && isAllowed && refresh !== 1)

@@ -3,10 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import s from "./UserMenu.module.sass";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../redux/reducers/profileSlice";
 
-function UserMenu(props) {
+function UserMenu() {
   const location = useLocation();
+  const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
   const [logged, setLogged] = useState(false);
   const [open, setOpen] = useState(false);
@@ -15,6 +17,11 @@ function UserMenu(props) {
       setLogged(true);
     }
   }, [userProfile]);
+  function handleLogOut() {
+    dispatch(logOut());
+    setLogged(false);
+    setOpen(!open);
+  }
   return (
     <div className={s.container}>
       {logged ? (
@@ -45,8 +52,8 @@ function UserMenu(props) {
                 <Link to="/purchases">
                   <li onClick={() => setOpen(!open)}>Purchase's history</li>
                 </Link>
-                <li onClick={() => setLogged(!logged)}>
-                  <span onClick={() => setOpen(!open)}>Log out</span>
+                <li onClick={() => handleLogOut()}>
+                  <span>Log out</span>
                   <span>
                     <BiLogOut className={s.ico} />
                   </span>

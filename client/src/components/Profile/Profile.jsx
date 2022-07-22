@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useSelector} from "react-redux"
 import s from "./Profile.module.sass";
 import { MdOutlinePrivacyTip, MdSettings } from "react-icons/md";
 import { FaUserCircle, FaWallet } from "react-icons/fa";
@@ -6,6 +7,8 @@ import ProfileEdit from "../ProfileEdit/ProfileEdit";
 
 function Profile(props) {
   const [edit, setEdit] = useState(true);
+  const {userProfile} = useSelector(state => state.profile)
+  console.log(userProfile)
   return (
     <div className={s.body}>
       <div className={s.container}>
@@ -32,24 +35,25 @@ function Profile(props) {
               <div className={s.testIMG}></div>
             </div>
             <div className={s.section}>
-              <span>username</span>
+              {/* <span>username</span> */}
               <hr className={s.divisors} />
               <span>Harry popote</span>
             </div>
             <div className={s.section}>
-              <span>name</span>
+              {/* <span>name</span> */}
               <hr className={s.divisors} />
-              <span>Harry</span>
+              <span>{userProfile.name}</span>
             </div>
             <div className={s.section}>
-              <span>surname</span>
+              {/* <span>surname</span> */}
               <hr className={s.divisors} />
               <span>Potter</span>
             </div>
             <div className={s.section}>
               <span>e-mail</span>
               <hr className={s.divisors} />
-              <span>HarryStone@gmail.com</span>
+              {/* <span>HarryStone@gmail.com</span> */}
+              <span>{userProfile.email}</span>
             </div>
           </div>
         ) : (

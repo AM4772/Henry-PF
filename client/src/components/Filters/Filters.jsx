@@ -8,11 +8,6 @@ import {
   setFilterCard,
 } from "../../redux/reducers/booksSlice";
 import {
-  applyUserFilters,
-  setEnabledFilter,
-  setTypeFilter,
-} from "../../redux/reducers/usersSlice";
-import {
   asyncGetAuthors,
   asyncGetCategories,
 } from "../../redux/actions/booksActions";
@@ -36,12 +31,8 @@ function Filters() {
   });
   const [generalFilter, setGeneralFilter] = useState(filterCard);
   const [booksFilters, setBooksFilters] = useState({
-    filterAuthor: filterBooksByAuthor,
+    filterAuthor: filterBooksByAuthor.length > 0 ? filterBooksByAuthor : [],
     filterCategory: filterBooksByCategory,
-  });
-  const [userFilters, setUserFilters] = useState({
-    filterEnabled: filterUserByEnabled,
-    filterType: filterUserByType,
   });
   useEffect(() => {
     dispatch(setFilterCard("books"));
@@ -56,12 +47,7 @@ function Filters() {
       dispatch(applyBookFilters());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, filterBooksByAuthor, generalFilter, booksFilters, userFilters]);
-
-  function setCardType(e) {
-    dispatch(updateCurrentPage(1));
-    setGeneralFilter(e.target.value);
-  }
+  }, [dispatch, filterBooksByAuthor, generalFilter, booksFilters]);
 
   function handleChange(e) {
     setInputs({ ...inputs, [e.target.name]: e.target.value });

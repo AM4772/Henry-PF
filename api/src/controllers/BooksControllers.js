@@ -19,6 +19,21 @@ const term = [
   'el prin',
 ];
 
+async function getImage(industryID) {
+  let isbn = '';
+  if (industryID && industryID.length > 1) {
+    if (industryID[0].type.includes('10')) {
+      isbn = industryID[0].identifier;
+    } else if (industryID[1].type.includes('10')) {
+      isbn = industryID[1].identifier;
+    }
+  }
+  if (isbn) {
+    return `http://images.amazon.com/images/P/${isbn}.01._SCLZZZZZZZ_.jpg`;
+  } else
+    return 'https://www.angeldelsoto.es/wp-content/uploads/leather-book-preview.png';
+}
+
 let BooksModel = {
   getBooksApi: async function () {
     try {
@@ -33,6 +48,13 @@ let BooksModel = {
 
         api.items &&
           api.items.map(async (b) => {
+            const industryID = b.volumeInfo.industryIdentifiers
+              ? b.volumeInfo.industryIdentifiers
+              : [];
+            const img = await getImage(
+              industryID.length > 0 ? industryID : null
+            );
+
             await Books.findOrCreate({
               where: {
                 title: b.volumeInfo.title,
@@ -43,9 +65,7 @@ let BooksModel = {
                   ? b.saleInfo.listPrice.amount
                   : (Math.random() * 100).toFixed(2),
 
-                image: b.volumeInfo.imageLinks
-                  ? b.volumeInfo.imageLinks.smallThumbnail
-                  : 'https://www.angeldelsoto.es/wp-content/uploads/leather-book-preview.png',
+                image: img,
                 authors: b.volumeInfo.authors ? b.volumeInfo.authors : [],
                 categories: b.volumeInfo.categories
                   ? b.volumeInfo.categories

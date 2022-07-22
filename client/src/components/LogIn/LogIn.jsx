@@ -8,6 +8,7 @@ function LogIn({ prev }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
   const isValidInitialState = {
     emailOrUsername: "",
     password: "",
@@ -25,50 +26,53 @@ function LogIn({ prev }) {
   // eslint-disable-next-line no-unused-vars
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
-    setRefresh(refresh + 1);
-    // Assign possible errors
-    const isValidCopy = { ...isValid };
-    // Username
-    if (refresh === 0) {
-    } // Skip
-    else {
-      if (!emailOrUsername.length) isValidCopy.emailOrUsername = " ";
-      else if (emailOrUsername.length < 3 || emailOrUsername.length > 50)
-        isValidCopy.emailOrUsername = "Email or username is invalid";
-      else delete isValidCopy.emailOrUsername;
-      // Password validation
-      if (!password.length) isValidCopy.password = " ";
-      else if (password.length < 8 || password.length > 30)
-        isValidCopy.password = "Password must contain between 8-30 characters";
-      else delete isValidCopy.password;
+    if (userProfile.email) {
+      var lastPath = [];
+      for (let i = 0; i < stack.length; i++) {
+        if (stack[i] !== "/register" && stack[i] !== "/login") {
+          lastPath.push(stack[i]);
+        }
+      }
+      if (lastPath.length > 0) {
+        history.push(lastPath[0]);
+      } else {
+        history.push("/");
+      }
+    } else {
+      setRefresh(refresh + 1);
+      // Assign possible errors
+      const isValidCopy = { ...isValid };
+      // Username
+      if (refresh === 0) {
+      } // Skip
+      else {
+        if (!emailOrUsername.length) isValidCopy.emailOrUsername = " ";
+        else if (emailOrUsername.length < 3 || emailOrUsername.length > 50)
+          isValidCopy.emailOrUsername = "Email or username is invalid";
+        else delete isValidCopy.emailOrUsername;
+        // Password validation
+        if (!password.length) isValidCopy.password = " ";
+        else if (password.length < 8 || password.length > 30)
+          isValidCopy.password =
+            "Password must contain between 8-30 characters";
+        else delete isValidCopy.password;
+      }
+      setIsvalid(isValidCopy);
+      // Check if its valid
+      let counter = 0;
+      for (let err in isValidCopy) {
+        if (isValidCopy[err]) counter++;
+      }
+      if (!counter) setIsAllowed(true);
+      else if (counter) setIsAllowed(false);
     }
-    setIsvalid(isValidCopy);
-    // Check if its valid
-    let counter = 0;
-    for (let err in isValidCopy) {
-      if (isValidCopy[err]) counter++;
-    }
-    if (!counter) setIsAllowed(true);
-    else if (counter) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [emailOrUsername, password]);
+  }, [emailOrUsername, password, userProfile]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const values = { username: emailOrUsername, password };
 
     dispatch(asyncLogin(values));
-    var lastPath = [];
-    for (let i = 0; i < stack.length; i++) {
-      if (stack[i] !== "/register" && stack[i] !== "/login") {
-        lastPath.push(stack[i]);
-      }
-    }
-    console.log(lastPath);
-    if (lastPath.length > 0) {
-      history.push(lastPath[0]);
-    } else {
-      history.push("/");
-    }
   };
   const handleButton = () => {
     if (!isPending && isAllowed && refresh !== 1)

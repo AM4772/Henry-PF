@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { asyncRegisterUser } from "../../redux/actions/usersActions";
 import s from "./Register.module.sass";
 
 function Register(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
   const isValidInitialState = {
     name: "",
     surname: "",
@@ -35,65 +39,90 @@ function Register(props) {
   const [rpassword, setRpassword] = useState("");
   const [isPending, setisPending] = useState(false);
   useEffect(() => {
-    var symbolsCheck = new RegExp(/[^a-zA-Z\-\\/]/);
-    var usernameCheck = new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/);
-    var emailCheck = new RegExp(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-    var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
-    // Assign possible errors
-    const isValidCopy = { ...isValid };
-    // Name
-    if (!name.length) isValidCopy.name = " ";
-    else if (name.length < 3 || name.length > 20)
-      isValidCopy.name = "Name contain between 3-20 characters";
-    else if (symbolsCheck.test(name))
-      isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
-    else delete isValidCopy.name;
-    // Surname
-    if (!surname.length) isValidCopy.surname = " ";
-    else if (surname.length < 3 || surname.length > 20)
-      isValidCopy.surname = "Surname needs to be between 3-20 characters";
-    else if (symbolsCheck.test(surname))
-      isValidCopy.surname = "Surname can't contain symbols, spaces nor numbers";
-    else delete isValidCopy.surname;
-    // Username
-    if (!username.length) isValidCopy.username = " ";
-    else if (username.length < 3 || username.length > 20)
-      isValidCopy.username = "Username contain between 3-20 characters";
-    else if (usernameCheck.test(username))
-      isValidCopy.username =
-        "Username can't contain symbols, spaces nor numbers";
-    else delete isValidCopy.username;
-    // Image validation
-    if (!image.length) isValidCopy.image = " ";
-    else if (!imageCheck.test(image))
-      isValidCopy.image = "Image url is unvalid";
-    else delete isValidCopy.image;
-    // Email validation
-    if (!email.length) isValidCopy.email = " ";
-    else if (!emailCheck.test(email)) isValidCopy.email = "Email is unvalid";
-    else delete isValidCopy.email;
-    // Password validation
-    if (!password.length) isValidCopy.password = " ";
-    else if (password.length < 8 || password.length > 30)
-      isValidCopy.password = "Password must contain between 8-30 characters";
-    else delete isValidCopy.password;
-    // Password validation
-    if (!rpassword.length) isValidCopy.password = " ";
-    else if (password !== rpassword)
-      isValidCopy.rpassword = "Both passwords must be identical";
-    else delete isValidCopy.rpassword;
-    setIsvalid(isValidCopy);
-    // Check if its valid
-    let counter = 0;
-    for (let err in isValidCopy) {
-      if (isValidCopy[err]) counter++;
+    if (userProfile.email) {
+      var lastPath = [];
+      for (let i = 0; i < stack.length; i++) {
+        if (stack[i] !== "/register" && stack[i] !== "/login") {
+          lastPath.push(stack[i]);
+        }
+      }
+      if (lastPath.length > 0) {
+        history.push(lastPath[0]);
+      } else {
+        history.push("/");
+      }
+    } else {
+      var symbolsCheck = new RegExp(/[^a-zA-Z\-\\/]/);
+      var usernameCheck = new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/);
+      var emailCheck = new RegExp(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+      var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
+      // Assign possible errors
+      const isValidCopy = { ...isValid };
+      // Name
+      if (!name.length) isValidCopy.name = " ";
+      else if (name.length < 3 || name.length > 20)
+        isValidCopy.name = "Name contain between 3-20 characters";
+      else if (symbolsCheck.test(name))
+        isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
+      else delete isValidCopy.name;
+      // Surname
+      if (!surname.length) isValidCopy.surname = " ";
+      else if (surname.length < 3 || surname.length > 20)
+        isValidCopy.surname = "Surname needs to be between 3-20 characters";
+      else if (symbolsCheck.test(surname))
+        isValidCopy.surname =
+          "Surname can't contain symbols, spaces nor numbers";
+      else delete isValidCopy.surname;
+      // Username
+      if (!username.length) isValidCopy.username = " ";
+      else if (username.length < 3 || username.length > 20)
+        isValidCopy.username = "Username contain between 3-20 characters";
+      else if (usernameCheck.test(username))
+        isValidCopy.username =
+          "Username can't contain symbols, spaces nor numbers";
+      else delete isValidCopy.username;
+      // Image validation
+      if (!image.length) isValidCopy.image = " ";
+      else if (!imageCheck.test(image))
+        isValidCopy.image = "Image url is unvalid";
+      else delete isValidCopy.image;
+      // Email validation
+      if (!email.length) isValidCopy.email = " ";
+      else if (!emailCheck.test(email)) isValidCopy.email = "Email is unvalid";
+      else delete isValidCopy.email;
+      // Password validation
+      if (!password.length) isValidCopy.password = " ";
+      else if (password.length < 8 || password.length > 30)
+        isValidCopy.password = "Password must contain between 8-30 characters";
+      else delete isValidCopy.password;
+      // Password validation
+      if (!rpassword.length) isValidCopy.password = " ";
+      else if (password !== rpassword)
+        isValidCopy.rpassword = "Both passwords must be identical";
+      else delete isValidCopy.rpassword;
+      setIsvalid(isValidCopy);
+      // Check if its valid
+      let counter = 0;
+      for (let err in isValidCopy) {
+        if (isValidCopy[err]) counter++;
+      }
+      if (!counter) setIsAllowed(true);
+      else if (counter) setIsAllowed(false);
     }
-    if (!counter) setIsAllowed(true);
-    else if (counter) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, surname, username, image, email, password, rpassword, isPending]);
+  }, [
+    name,
+    surname,
+    username,
+    image,
+    email,
+    password,
+    rpassword,
+    isPending,
+    userProfile,
+  ]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const info = { name, surname, username, image, email, password };

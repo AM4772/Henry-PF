@@ -64,7 +64,7 @@ export default function Contact() {
                 type="text"
                 placeholder="Message"
                 value={info.message}
-                className={`${s.input} ${isValid.message && isValid.message.length && info.message ? s.danger : null}`}
+                className={`${s.textarea} ${isValid.message && isValid.message.length && info.message ? s.danger : null}`}
                 onChange={e => setInfo({...info, message: e.target.value})}></textarea>
                 <p className={isValid.message && isValid.message !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.message}</p>
             </div>

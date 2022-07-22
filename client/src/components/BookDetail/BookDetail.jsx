@@ -45,6 +45,7 @@ function BookDetail(props) {
                   <img
                     className={s.image}
                     alt={book.title}
+                    title={book.title}
                     src={`${book.image}`}
                   />
                 </div>
@@ -53,7 +54,7 @@ function BookDetail(props) {
                     <p id={s.bookTitle}>
                       {book.title.length < 37
                         ? book.title.toUpperCase()
-                        : book.title.toUpperCase().slice(0, 37) + "..."}
+                        : book.title.toUpperCase()}
                     </p>
                   </div>
                   <div className={s.containerDetails}>

@@ -16,15 +16,30 @@ function BookCard(props) {
           <div className={s.container0}>
             <div className={s.container1}>
               <div className={s.containerImage}>
-                <img className={s.image} alt={book.ID} src={`${book.image}`} />
+                <img
+                  className={s.image}
+                  title={book.title}
+                  alt={book.ID}
+                  src={`${book.image}`}
+                />
               </div>
               <div className={s.containerBookName}>
                 <p id={s.bookTitle}>
-                  {book.title.length < 37
+                  {book.title.length < 70
                     ? book.title.toUpperCase()
-                    : book.title.toUpperCase().slice(0, 37) + "..."}
+                    : book.title.toUpperCase().slice(0, 70) + "..."}
                 </p>
-                <p id={s.author}>{book.authors}</p>
+                {/* {book.authors.map((el) => (
+                  <p key={el} id={s.author}>
+                    {el.length > 27 ? el.slice(0, 27) + "..." : el}
+                  </p>
+                ))} */}
+                <p id={s.author}>
+                  {book.authors[0] && book.authors[0].length > 27
+                    ? book.authors[0].slice(0, 27) + "..."
+                    : book.authors[0]}
+                </p>
+                {/* <p id={s.author}>{book.authors}</p> */}
               </div>
               <div className={s.price}>
                 <p>

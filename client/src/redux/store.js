@@ -3,6 +3,7 @@ import booksReducer from "./reducers/booksSlice";
 import usersReducer from "./reducers/usersSlice";
 import profileReducer from "./reducers/profileSlice";
 import paginationReducer from "./reducers/paginationSlice";
+import historySlice from "./reducers/historySlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     users: usersReducer,
     profile: profileReducer,
     pagination: paginationReducer,
+    history: historySlice,
   },
 });

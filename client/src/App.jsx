@@ -1,5 +1,5 @@
-import React from "react";
-import { Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, useLocation } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav/Nav";
 import BookDetail from "./components/BookDetail/BookDetail";
@@ -9,11 +9,21 @@ import Register from "./components/Register/Register";
 import LogIn from "./components/LogIn/LogIn";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Profile from "./components/Profile/Profile";
-import Footer from "./components/Footer/Footer.jsx"
+import Footer from "./components/Footer/Footer.jsx";
 import Contact from "./components/Contact/Contact";
 import "./App.sass";
+import { useDispatch, useSelector } from "react-redux";
+import { addStack } from "./redux/reducers/historySlice";
 
 function App() {
+  const dispatch = useDispatch();
+  const { stack } = useSelector((state) => state.history);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname !== stack[0] || stack.length <= 0) {
+      dispatch(addStack(location.pathname));
+    }
+  }, [location]);
   return (
     <div className="App">
       <Nav />

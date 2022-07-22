@@ -20,7 +20,7 @@ export function asyncGetBooks(query) {
         dispatch(getBooks(response));
       }
     } catch (error) {
-      console.error(error);
+      dispatch(getBooks([null]));
     }
   };
 }

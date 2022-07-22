@@ -44,7 +44,7 @@ function Filters() {
     filterType: filterUserByType,
   });
   useEffect(() => {
-    dispatch(setFilterCard(generalFilter));
+    dispatch(setFilterCard("books"));
 
     if (authors.length <= 0 || categories.length <= 0) {
       dispatch(asyncGetAuthors());
@@ -53,18 +53,6 @@ function Filters() {
     if (generalFilter === "books") {
       dispatch(setAuthorFilter(booksFilters.filterAuthor));
       dispatch(setCategoryFilter(booksFilters.filterCategory));
-      dispatch(applyBookFilters());
-
-      dispatch(setEnabledFilter(""));
-      dispatch(setTypeFilter(""));
-      dispatch(applyUserFilters());
-    } else if (generalFilter === "users") {
-      dispatch(setEnabledFilter(userFilters.filterEnabled));
-      dispatch(setTypeFilter(userFilters.filterType));
-      dispatch(applyUserFilters());
-
-      dispatch(setAuthorFilter([]));
-      dispatch(setCategoryFilter([]));
       dispatch(applyBookFilters());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,20 +114,7 @@ function Filters() {
   }
   return (
     <form className={s.formCont}>
-      <select
-        onChange={(e) => setCardType(e)}
-        className={s.selects}
-        id="cardType"
-        value={filterCard}
-      >
-        <option className={s.option} value="books">
-          Books
-        </option>
-        <option className={s.option} value="users">
-          Users
-        </option>
-      </select>
-      {filterCard === "books" ? (
+      {filterCard === "books" && (
         <div className={s.filtersBookCont}>
           <div className={s.inputCont}>
             <label>Filter By Author</label>
@@ -180,7 +155,6 @@ function Filters() {
             </div>
           </div>
           <div className={s.filterAuthorList}>
-            Authors applied:
             {booksFilters.filterAuthor.map((a, i) => (
               <div key={i}>
                 <button className={s.btn} onClick={(e) => deleteAuthor(e, a)}>
@@ -229,7 +203,6 @@ function Filters() {
             </div>
           </div>
           <div className={s.filterCategoryList}>
-            Categories applied:
             {booksFilters.filterCategory.map((c, i) => (
               <div key={i}>
                 <button className={s.btn} onClick={(e) => deleteCategory(e, c)}>
@@ -239,47 +212,6 @@ function Filters() {
               </div>
             ))}
           </div>
-        </div>
-      ) : (
-        <div className={s.filtersUserCont}>
-          <label>Filter user status:</label>
-          <select
-            onChange={(e) =>
-              setUserFilters({ ...userFilters, filterEnabled: e.target.value })
-            }
-            className={s.selects}
-            id="filterEnabled"
-            value={userFilters.filterEnabled}
-          >
-            <option className={s.option} value="">
-              All
-            </option>
-            <option className={s.option} value="enabled">
-              Enabled
-            </option>
-            <option className={s.option} value="suspended">
-              Suspended
-            </option>
-          </select>
-          <label>Filter user type:</label>
-          <select
-            onChange={(e) =>
-              setUserFilters({ ...userFilters, filterType: e.target.value })
-            }
-            className={s.selects}
-            id="filterType"
-            value={userFilters.filterType}
-          >
-            <option className={s.option} value="">
-              All
-            </option>
-            <option className={s.option} value="user">
-              User
-            </option>
-            <option className={s.option} value="admin">
-              Admin
-            </option>
-          </select>
         </div>
       )}
     </form>

@@ -45,7 +45,7 @@ let UsersModel = {
         surname: user.surname.toLowerCase(),
         username: user.username.toLowerCase(),
         email: user.email.toLowerCase(),
-        password: await hashPassword(user.password.toLowerCase()),
+        password: await hashPassword(user.password),
         enabled: user.enabled,
         suspendedTimes: user.suspendedTimes,
       });

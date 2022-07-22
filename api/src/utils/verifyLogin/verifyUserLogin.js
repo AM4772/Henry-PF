@@ -5,7 +5,7 @@ let verifyLoginModel = {
   verifyLogin: async function ({ username, password }) {
     const user = await Users.findOne({
       where: {
-        username,
+        username: username.toLowerCase(),
       },
     });
 
@@ -20,7 +20,7 @@ let verifyLoginModel = {
           name: userJSON.name,
           lastName: userJSON.surname,
           email: userJSON.email,
-        }; 
+        };
       }
       return undefined;
     }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import s from "./Cards.module.sass";
 import BookCard from "../BookCard/BookCard";
 import UserCard from "../UserCard/UserCard";
@@ -12,7 +12,6 @@ function Cards() {
 	const { currentPage, cardsPerPage } = useSelector(
 		(state) => state.pagination
 	);
-	const dispatch = useDispatch();
 
 	const [loading, setLoading] = useState(true);
 

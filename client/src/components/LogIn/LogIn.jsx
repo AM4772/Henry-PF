@@ -110,15 +110,8 @@ function LogIn({ prev }) {
                   <label className="t-card">Email/Username: </label>
                   <input
                     type="text"
-                    id={`${
-                      isValid.emailOrUsername &&
-                      isValid.emailOrUsername.length &&
-                      count.emailOrUsername
-                        ? s.danger
-                        : null
-                    }`}
+                    className={`${s.input} ${isValid.emailOrUsername && isValid.emailOrUsername.length && count.emailOrUsername ? s.danger: null}`}
                     value={emailOrUsername}
-                    className={s.input}
                     onChange={(e) =>
                       setCount({ ...count, emailOrUsername: 1 }) ||
                       setEmailOrUsername(e.target.value)
@@ -139,15 +132,8 @@ function LogIn({ prev }) {
                   <label className="t-card">Password: </label>
                   <input
                     type="password"
-                    id={`${
-                      isValid.password &&
-                      isValid.password.length &&
-                      count.password
-                        ? s.danger
-                        : null
-                    }`}
+                    className={`${s.input} ${isValid.password && isValid.password.length && count.password ? s.danger : null}`}
                     value={password}
-                    className={s.input}
                     placeholder="Password"
                     onChange={(e) =>
                       setCount({ ...count, password: 1 }) ||

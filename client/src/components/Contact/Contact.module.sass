@@ -14,7 +14,8 @@
 #toCenter
   display: flex
   justify-content: center
-  margin: 75px
+  margin-top: 75px
+  min-height: calc( 100vh - 125px )
 
 .errorMessage
   color: #f13e3e
@@ -49,6 +50,20 @@
   margin-top: 10px
   margin-bottom: 15px
 
+.textarea
+  font-family: var(--font-roboto)
+  padding: .5rem
+  resize: none
+  width: 504px
+  height: 90px
+  font-weight: 400
+  font-size: 16px
+  padding: 10px 10px 10px 10px
+  border-radius: 15px
+  border: none
+  &:focus
+    outline: none
+
 .input
   font-family: var(--font-roboto)
   background: white
@@ -61,9 +76,8 @@
   margin: 0px auto 7px auto
   border-radius: 10px
   border: none
-
-.input:focus
-  outline: none
+  &:focus
+    outline: none
 
 .inline
   color: var(--color-brownish-dd)

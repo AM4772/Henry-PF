@@ -10,12 +10,13 @@ let validationModel = {
       errors.push('Invalid name');
     if (!nameAndLastRegex.test(user.surname.toLowerCase()))
       errors.push('Invalid last name');
-    if (!mailRegex.test(user.email.toLowerCase())) errors.push('Invalid e-mail');
+    if (!mailRegex.test(user.email.toLowerCase()))
+      errors.push('Invalid e-mail');
 
     if (errors.length) {
-      throw new Error(errors);
+      return errors;
     }
-    return true;
+    return false;
   },
 };
 module.exports = validationModel;

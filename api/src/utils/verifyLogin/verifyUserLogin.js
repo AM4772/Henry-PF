@@ -14,9 +14,13 @@ let verifyLoginModel = {
       const hashedPassword = userJSON.password;
       const result = await bcrypt.compare(password, hashedPassword);
       if (result) {
+        const nameSplitted = userJSON.name.split(' ');
+        const names = nameSplitted.map(
+          (n) => n.charAt(0).toUpperCase() + n.slice(1)
+        );
         return {
-          message: 'Logged in successfully',
-          id: userJSON.ID,
+          message: `Welcome ${names.join(' ')}`,
+          ID: userJSON.ID,
           username: userJSON.username,
           name: userJSON.name,
           lastName: userJSON.surname,

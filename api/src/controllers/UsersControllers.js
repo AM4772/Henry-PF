@@ -6,7 +6,17 @@ let UsersModel = {
   getUsers: async function () {
     const foundUsers = await Users.findAll();
     if (foundUsers.length > 0) {
-      return foundUsers;
+      const userJSON = foundUsers.map((u) => u.toJSON());
+
+      return userJSON.map((u) => {
+        return {
+          ID: u.ID,
+          username: u.username,
+          name: u.name,
+          surname: u.surname,
+          email: u.email,
+        };
+      });
     } else {
       return undefined;
     }

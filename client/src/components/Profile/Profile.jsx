@@ -22,14 +22,17 @@ function Profile(props) {
 						{" "}
 						<FaUserCircle /> Usuario
 					</span>
+					<hr className={s.vDivisor} />
 					<span>
 						{" "}
 						<FaWallet /> Compras
 					</span>
+					<hr className={s.vDivisor} />
 					<span>
 						{" "}
 						<MdOutlinePrivacyTip /> Privacidad
 					</span>
+					<hr className={s.vDivisor} />
 					<span>
 						<FaUserEdit onClick={() => setEdit(!edit)} />
 					</span>
@@ -37,7 +40,19 @@ function Profile(props) {
 				{edit ? (
 					<div className={s.data}>
 						<div className={s.sectionImg}>
-							<div className={s.testIMG}></div>
+							<div
+								className={s.testIMG}
+								/* style={{
+									background: "#" + Math.floor(Math.random() * 999),
+								}} */
+							>
+								<h1 className={s.noImg}>
+									{userProfile.name && userProfile.lastName
+										? userProfile.name.charAt(0).toUpperCase() +
+										  userProfile.lastName.charAt(0).toUpperCase()
+										: null}
+								</h1>
+							</div>
 						</div>
 						<div className={s.section}>
 							<span>Username</span>

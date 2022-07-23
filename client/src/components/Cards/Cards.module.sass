@@ -1,25 +1,47 @@
 .card_container
-    height: auto
-    width: auto
-    
-    display: flex
-    flex-wrap: wrap
+  height: auto
+  width: auto
 
-    justify-content: space-around
-    align-content: center
+  display: flex
+  flex-wrap: wrap
+
+  justify-content: space-around
+  align-content: center
     // background-color: var(--color-whiteish)
 
-    display: grid
-    grid-template-columns: repeat(2, 1fr)
+  display: grid
+  grid-template-columns: repeat(2, 1fr)
 
 .notFound
-    width: 100%
-    height: 100%
-
-    display: flex
-    justify-content: center
-    align-items: center
-
+  // grid-column: 1/2
+  border-radius: 7px
+  // background-color: var(--color-whiteish)
+  background: rgba(234, 221, 204, .7)
+  padding: 10px
+  width: 70vw
+  margin-left: 9px
+  color: var(--color-brownish-dd)
+  text-align: center
+  animation: fadein .2s
+  @keyframes fadein
+    0%
+      opacity: 0
+    100%
+      opacity: 1
+  p, h4
+    margin: 5px 0px
+    color: var(--color-brownish-d)
+    font-style: oblique
+  h4
+    font-size: 18px
     color: var(--color-brownish-dd)
-
-    grid-column: 1/3
+    font-style: normal
+  p:last-child
+    font-weight: bold
+  a
+    animation: fadein .2s
+    @keyframes fadein
+      0%
+        opacity: 0
+      100%
+        opacity: 1

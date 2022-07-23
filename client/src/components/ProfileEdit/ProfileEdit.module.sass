@@ -1,12 +1,12 @@
 .data
-    height: 90%
+    min-height: 90%
     background: var(--color-yellowish-l)
     margin: 10px 10px
     padding: 10px 0
     border-radius: 15px
 
 .section
-    height: auto
+    height: 10%
     margin: 10px 20px
     padding: 5px 10px
     display: flex
@@ -21,21 +21,42 @@
         display: flex
         justify-content: space-between
         align-items: center
-    input
-        height: 24px
-        font-size: 16px
-        font-style: italic
-        font-weight: bold
-        width: 75%
-        background: none
-        border: none
-        margin: 5px 0px
-        border-bottom: 1px solid #000
-
         
-        &:focus
-          outline: none
-
+.input
+    height: 28px
+    font-size: 16px
+    font-style: italic
+    font-weight: bold
+    padding: 0 10px
+    width: 75%
+    background: none
+    border: none
+    margin: 5px 0px
+    border-radius: 10px
+    background-color: white
+    transition: all ease .3s
+    &:focus
+        outline: none
 .divisors
     width: 100%
     border-bottom: solid 2px var(--color-brownish-dd)
+.inputDiv
+    widows: 100%
+    display: flex
+    justify-content: space-between
+    align-items: center
+.inputError
+    transition: all ease .3s
+    border: #f83030 1.5px solid
+
+.errorsDisable
+    display: none
+.errors
+    color: #ec2525
+    transition: all ease .3s
+    width: 100%
+    font-size: 14px
+    display: flex
+    justify-content: center
+    padding: 0 20px
+    font-weight: bold

@@ -1,0 +1,34 @@
+.home {
+  margin-top: 70px;
+}
+
+.banner {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.bannerImg {
+  width: 80vw;
+  margin: auto;
+}
+
+.arrow {
+  margin: auto;
+}
+
+.icon {
+  font-size: 40px;
+  color: var(--color-brownish-dd);
+  transition: all 0.2s ease-in;
+}
+.icon:hover {
+  transform: translateY(-7px);
+}
+
+.carrusel h2 {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 10px 0;
+  color: var(--color-brownish-dd);
+}

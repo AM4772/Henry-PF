@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+}
+
+.visitLinks, .userLinks {
+  height: 40px;
+  width: 200px;
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  /* border: solid var(--color-brownish-d) 2px */
+  border-radius: 5px;
+}
+
+.userLinks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 30px;
+  align-items: center;
+}
+
+.visitLinks {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 10px;
+  align-items: center;
+}
+
+.visitText {
+  color: #1E110B;
+}
+
+.icon {
+  color: var(--color-brownish-dd);
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.profMenu {
+  height: auto;
+  width: 250px;
+  position: absolute;
+  top: 55px;
+  border-radius: 0px 0px 15px 15px;
+  background: var(--color-yellowish-d);
+}
+.profMenu ul {
+  display: flex;
+  flex-direction: column;
+}
+.profMenu ul li {
+  width: 250px;
+  font-size: 16px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.ico {
+  font-size: 22px;
+}
+
+.esta {
+  width: 200px;
+  text-decoration: px;
+}
+
+.links {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.divisor {
+  height: 75%;
+  border-right: solid 3px var(--color-brownish-dd);
+  border-radius: 5px;
+}

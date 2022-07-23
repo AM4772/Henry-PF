@@ -1,7 +1,7 @@
 body
   font-family: var(--font-poppins)
   -webkit-font-smoothing: antialiased
-  background-image: url("../../assets/BKG_BookStore.png")
+  background-image: url("../../assets/BKG_BookStore2.png")
   background-size: contain
   &::-webkit-scrollbar
     z-index: 1
@@ -14,6 +14,16 @@ body
     box-shadow: 0 0 2px 1px rgba(144, 36, 36, 0.2)
   &::-webkit-scrollbar-thumb:active
     background-color: #6A371C
+
+*
+  animation: fadein .25s
+  @keyframes fadein
+    0%
+      opacity: 0
+    50%
+      opacity: 0.5
+    100%
+      opacity: 1
 
 .buttons
   border-radius: 10px

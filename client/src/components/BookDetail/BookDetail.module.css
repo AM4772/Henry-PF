@@ -1,0 +1,225 @@
+.container0 {
+  display: flex;
+  justify-content: center;
+  margin-top: 65px;
+  margin-bottom: 20px;
+  min-height: calc(100vh - 115px);
+}
+
+.container1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background: var(--color-whiteish);
+  padding: 0px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  width: 70vw;
+}
+
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+.container3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0px 10px 0px 10px;
+  padding: 0px;
+  width: 100%;
+}
+
+.container4 {
+  display: flex;
+  margin: 10px;
+}
+
+.containerBookDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  margin-right: 10px;
+  width: 55%;
+}
+
+.containerDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerDetails1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.containerDetails1 div {
+  align-items: center;
+  width: 14vw;
+}
+
+.containerImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+}
+
+.image {
+  border-radius: 15px;
+  object-fit: contain;
+  object-position: center center;
+  width: 25vw;
+  padding: 0px;
+  margin: 0px 15px 0px 20px;
+  filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.2));
+}
+
+.containerReviews2 {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 3px 10px;
+  margin: 0px;
+}
+
+.containerReviews2 p {
+  text-align: center;
+  font-size: 1.2vw;
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.reviews {
+  width: 10vw;
+  justify-content: center;
+}
+
+#bookTitle {
+  font-size: 2vw;
+  font-weight: bold;
+  margin-left: 10px;
+  text-align: center;
+  color: var(--color-brownish-dd);
+}
+
+#author {
+  font-size: 1.4vw;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--color-brownish-d);
+}
+
+.arr, .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.2vw;
+  color: var(--color-brownish-dd);
+  display: flex;
+  margin: 5px 0px 5px 0px;
+}
+
+.textDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.2vw;
+  color: var(--color-brownish-dd);
+  display: flex;
+  margin: 5px 0px 5px 0px;
+}
+
+.arr p:first-child, .text p:first-child, .textDescription p:first-child {
+  font-weight: bold;
+}
+
+.arr p, .text p {
+  align-self: center;
+  padding: 0px 5px 0px 5px;
+}
+
+.textDescription p {
+  align-self: center;
+  text-align: justify;
+  padding: 0px 5px 0px 5px;
+}
+
+.price {
+  font-size: 2.1vw;
+  color: var(--color-brownish-dd);
+  padding: 10px;
+  padding-top: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.containerButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+.backButton {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  margin-bottom: 0px;
+}
+
+.buttonBack {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 10px;
+  margin-bottom: 0px;
+  border: none;
+  font-size: 1.3vw;
+  color: var(--color-brownish-dd);
+  background-color: var(--color-yellowish-d);
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+.buttonBack:hover {
+  color: var(--color-yellowish-d);
+  background-color: var(--color-brownish-d);
+  transition: 0.7s;
+}
+
+.buttons {
+  border-radius: 10px;
+  padding: 10px;
+  margin: 13px;
+  margin-top: 0px;
+  border: none;
+  font-size: 1.6vw;
+  width: 20vw;
+  color: var(--color-brownish-dd);
+  background-color: var(--color-yellowish-d);
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+.buttons:hover {
+  color: var(--color-yellowish-d);
+  background-color: var(--color-brownish-d);
+  transition: 0.7s;
+}

@@ -1,0 +1,104 @@
+#card {
+  background: var(--color-whiteish);
+  width: 420px;
+  display: flex;
+  border-radius: 10px;
+}
+
+#register {
+  color: var(--color-brownish-dd);
+  display: flex;
+  justify-content: center;
+  width: 420px;
+  margin-bottom: 5px;
+}
+
+#toCenter {
+  display: flex;
+  justify-content: center;
+  margin-top: 75px;
+  min-height: calc(100vh - 125px);
+}
+
+.errorMessage {
+  color: #f13e3e;
+  font-weight: 400;
+  font-size: 14.5px;
+  height: 20px;
+  transition: all ease 0.7s;
+}
+
+.noErrorMessage {
+  height: 0px;
+  display: hidden;
+  color: rgba(34, 34, 34, 0);
+  transition: all ease 0.7s;
+}
+
+#creationCardDisplay {
+  display: flex;
+  justify-content: center;
+}
+
+#waiting {
+  display: flex;
+  align-items: center;
+  height: 43.8px;
+  background: gray;
+  color: var(--color-brownish-dd);
+}
+
+#waiting:hover {
+  background: gray;
+}
+
+#bottomButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.textarea {
+  font-family: var(--font-roboto);
+  padding: 0.5rem;
+  resize: none;
+  width: 504px;
+  height: 90px;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 10px 10px 10px 10px;
+  border-radius: 15px;
+  border: none;
+}
+.textarea:focus {
+  outline: none;
+}
+
+.input {
+  font-family: var(--font-roboto);
+  background: white;
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 14px;
+  font-weight: 400;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin: 0px auto 7px auto;
+  border-radius: 10px;
+  border: none;
+}
+.input:focus {
+  outline: none;
+}
+
+.inline {
+  color: var(--color-brownish-dd);
+  width: 370px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.danger {
+  border: rgba(255, 0, 0, 0.5960784314) solid 2px;
+}

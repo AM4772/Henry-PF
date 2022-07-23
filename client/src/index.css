@@ -1,0 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+:root {
+  /* Fonts */
+  --font-poppins: "Poppins";
+  --font-roboto: "Roboto";
+  /* Color palette */
+  --color-whiteish: #EADDCC;
+  --color-yellowish-l: #DFC99A;
+  --color-yellowish-d: #DDB577;
+  --color-brownish-l: #A97452;
+  --color-brownish-d: #6A371C;
+  --color-brownish-dd: #1E110B;
+}
+
+body {
+  font-family: var(--font-poppins);
+  -webkit-font-smoothing: antialiased;
+  background-image: url("../../assets/BKG_BookStore2.png");
+  background-size: contain;
+}
+body::-webkit-scrollbar {
+  z-index: 1;
+  background: #826d5f;
+}
+body::-webkit-scrollbar-thumb {
+  background: #6A371C;
+  border-radius: 4px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #844523;
+  box-shadow: 0 0 2px 1px rgba(144, 36, 36, 0.2);
+}
+body::-webkit-scrollbar-thumb:active {
+  background-color: #6A371C;
+}
+
+* {
+  animation: fadein 0.25s;
+}
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.buttons {
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  font-size: 20px;
+  color: var(--color-brownish-dd);
+  background-color: var(--color-yellowish-d);
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: 0.7s;
+}
+
+.buttons:hover {
+  color: var(--color-yellowish-d);
+  background-color: var(--color-brownish-d);
+  transition: 0.7s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* abstracts */
+/* base */

@@ -1,6 +1,6 @@
 .data
     height: 90%
-    background: var(--color-whiteish)
+    background: var(--color-yellowish-l)
     margin: 10px 10px
     padding: 10px 0
     border-radius: 15px
@@ -8,13 +8,13 @@
 .section
     height: auto
     margin: 10px 20px
-    padding: 5px 5px
+    padding: 5px 10px
     display: flex
     flex-direction: column
     justify-content: center
     align-content: center
 
-    border: solid 2px var(--color-brownish-dd)
+    background: var(--color-whiteish)
     border-radius: 15px
     span
         width: 75%
@@ -24,10 +24,12 @@
     input
         height: 18px
         width: 75%
-        background: var(--color-yellowish-l)
-        border-radius: 5px
+        background: #b9b9b9
         border: none
         margin: 5px 0px
+        
+        &:focus
+          outline: none
 
 .divisors
     width: 75%

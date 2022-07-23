@@ -25,14 +25,7 @@ function Cards() {
 			if (!currentBooks[0]) {
 				setLoading(false);
 			}
-		}, 5000);
-	}
-	if (filterCard === "users") {
-		setTimeout(() => {
-			if (!currentUsers[0]) {
-				setLoading(false);
-			}
-		}, 5000);
+		}, 2500);
 	}
 	useEffect(() => {}, [books, currentPage, users, filterCard, loading]);
 

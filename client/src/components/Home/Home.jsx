@@ -21,7 +21,7 @@ export function Home(props) {
         <Slider />
       </div>
       <div className={s.carrusel}>
-        <h2>Most Populars</h2>
+        <h2>Most Popular</h2>
         <Slider />
       </div>
       <div className={s.carrusel}>

@@ -38,52 +38,28 @@ function Cards() {
 
 	return (
 		<>
-			{filterCard === "books" ? (
-				<div className={s.card_container}>
-					{currentBooks[0] ? (
-						currentBooks.map((b) => {
-							return (
-								<BookCard
-									key={b.ID}
-									ID={b.ID}
-									image={b.image}
-									title={b.title}
-									authors={b.authors}
-									price={b.price}
-								/>
-							);
-						})
-					) : loading ? (
-						<Loading />
-					) : (
-						<div className={s.notFound}>
-							<h1>Books not found</h1>
-						</div>
-					)}
-				</div>
-			) : (
-				<div className={s.card_container}>
-					{currentUsers[0] ? (
-						currentUsers.map((u) => {
-							return (
-								<UserCard
-									key={u.ID}
-									image={u.image}
-									name={u.name}
-									username={u.username}
-									mail={u.mail}
-								/>
-							);
-						})
-					) : loading ? (
-						<Loading />
-					) : (
-						<div className={s.notFound}>
-							<h1>Users not found</h1>
-						</div>
-					)}
-				</div>
-			)}
+			<div className={s.card_container}>
+				{currentBooks[0] ? (
+					currentBooks.map((b) => {
+						return (
+							<BookCard
+								key={b.ID}
+								ID={b.ID}
+								image={b.image}
+								title={b.title}
+								authors={b.authors}
+								price={b.price}
+							/>
+						);
+					})
+				) : loading ? (
+					<Loading />
+				) : (
+					<div className={s.notFound}>
+						<h1>Books not found</h1>
+					</div>
+				)}
+			</div>
 		</>
 	);
 }

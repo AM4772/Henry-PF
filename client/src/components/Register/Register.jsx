@@ -87,7 +87,7 @@ function Register(props) {
       // else delete isValidCopy.image;
       // Email validation
       if (!email.length) isValidCopy.email = " ";
-      else if (!emailCheck.test(email)) isValidCopy.email = "Email is unvalid";
+      else if (!emailCheck.test(email)) isValidCopy.email = "Email is invalid";
       else delete isValidCopy.email;
       // Password validation
       if (!password.length) isValidCopy.password = " ";

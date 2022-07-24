@@ -60,6 +60,7 @@ function ProfileEdit() {
         input.name.toLowerCase().replace(/^\s+|\s+$/g, "")
       )
     ) {
+      console.log("enter");
       setErrors({
         ...errors,
         name:

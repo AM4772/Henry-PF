@@ -18,7 +18,6 @@ function Cards() {
   const indexOfLastCards = currentPage * cardsPerPage;
   const indexOfFirstCards = indexOfLastCards - cardsPerPage;
   const currentBooks = books.slice(indexOfFirstCards, indexOfLastCards);
-  const currentUsers = users.slice(indexOfFirstCards, indexOfLastCards);
 
   if (filterCard === "books") {
     setTimeout(() => {

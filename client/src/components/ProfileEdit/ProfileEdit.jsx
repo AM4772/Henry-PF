@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import s from "./ProfileEdit.module.sass";
 
 function ProfileEdit() {
+  //waiting backend
+  // const dispatch = useDispatch()
   const { userProfile } = useSelector((state) => state.profile);
   const [errors, setErrors] = useState({
     username: "",
@@ -33,6 +35,8 @@ function ProfileEdit() {
       newPassword: "",
     });
     if (
+      input.username.length < 3 ||
+      input.username.length > 20 ||
       input.username === "" ||
       !regex.username.test(input.username.replace(/^\s+|\s+$/g, ""))
     ) {
@@ -41,10 +45,16 @@ function ProfileEdit() {
         username:
           input.username === ""
             ? " "
+            : input.username.length < 3
+            ? "Username is too short"
+            : input.username.length > 20
+            ? "Username is too long"
             : "Username cannot contain symbols or whitespaces",
       });
     }
     if (
+      input.name.length < 3 ||
+      input.name.length > 20 ||
       input.name === "" ||
       !regex.nameAndLast.test(
         input.name.toLowerCase().replace(/^\s+|\s+$/g, "")
@@ -52,10 +62,19 @@ function ProfileEdit() {
     ) {
       setErrors({
         ...errors,
-        name: input.name === "" ? " " : "Name cannot contain symbols",
+        name:
+          input.name === ""
+            ? " "
+            : input.name.length < 3
+            ? "Name is too short"
+            : input.name.length > 20
+            ? "Name is too long"
+            : "Name cannot contain symbols",
       });
     }
     if (
+      input.lastName.length < 3 ||
+      input.lastName.length > 20 ||
       input.lastName === "" ||
       !regex.nameAndLast.test(
         input.lastName.toLowerCase().replace(/^\s+|\s+$/g, "")
@@ -64,7 +83,13 @@ function ProfileEdit() {
       setErrors({
         ...errors,
         lastName:
-          input.lastName === "" ? " " : "Lastname cannot contain symbols",
+          input.lastName === ""
+            ? " "
+            : input.lastName.length < 3
+            ? "Lastname is too short"
+            : input.lastName.length > 20
+            ? "Lastname is too long"
+            : "Lastname cannot contain symbols",
       });
     }
     if (
@@ -77,10 +102,33 @@ function ProfileEdit() {
       });
     }
     if (input.password !== "") {
-      if (input.newPassword === "") {
+      // if (!input.editPassword) {
+      //   setInput({ input, editPassword: true });
+      // }
+      console.log(input.editPassword);
+      if (
+        input.newPassword.length < 8 ||
+        input.newPassword.length > 30 ||
+        input.newPassword === "" ||
+        input.password.length < 8 ||
+        input.password.length > 30
+      ) {
         setErrors({
           ...errors,
-          newPassword: " ",
+          password:
+            input.password.length < 8
+              ? "Password is too short"
+              : input.password.length > 30
+              ? "Password is too long"
+              : "",
+          newPassword:
+            input.newPassword === ""
+              ? " "
+              : input.newPassword.length < 8
+              ? "Password is too short"
+              : input.password.length > 30
+              ? "Password is too long"
+              : "",
         });
       }
     }
@@ -100,6 +148,9 @@ function ProfileEdit() {
       errors.password === "" &&
       errors.newPassword === ""
     ) {
+      if (input.password !== "" && input.editPassword === false) {
+        setInput({ ...input, editPassword: true });
+      }
       return true;
     } else return false;
   }
@@ -143,13 +194,13 @@ function ProfileEdit() {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
+      editPassword: false,
     });
   }
   function handleSubmit(e) {
     e.preventDefault();
     if (validate()) {
       validatePassword();
-      console.log(input);
       /* dispatch(asyncUserEdit(input)) */
     }
   }

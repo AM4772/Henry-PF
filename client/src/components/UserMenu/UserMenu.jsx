@@ -28,7 +28,22 @@ function UserMenu() {
         <>
           <div className={s.userLinks}>
             <span className={s.links} onClick={() => setOpen(!open)}>
-              <FaUserCircle className={s.icon} />
+              <div className={s.imageCont}>
+                {userProfile.image ? (
+                  <img
+                    src={userProfile.image}
+                    alt={userProfile.username}
+                    title={userProfile.username}
+                  />
+                ) : (
+                  <div className={s.noIMG}>
+                    {userProfile.name
+                      ? userProfile.name.charAt(0).toUpperCase() +
+                        userProfile.lastName.charAt(0).toUpperCase()
+                      : null}
+                  </div>
+                )}
+              </div>
             </span>
             <hr className={s.divisor} />
             <Link to="/">

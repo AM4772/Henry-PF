@@ -36,7 +36,7 @@ function Pagination(props) {
         className={currentPage > 1 ? s.pagButton : s.pagButtonDisabled}
         onClick={() => currentPage > 1 && setCurrentPage('prev')}
       >
-        {'< Anterior'}
+        {'< Previous'}
       </button>
       <div id={s.pageContainer}>
         <input
@@ -47,12 +47,12 @@ function Pagination(props) {
         >
         </input>
       </div>
-      <p className={s.deMaxpages}>de {maxPages}</p>
+      <p className={s.deMaxpages}>of {maxPages}</p>
       <button
         className={currentPage !== maxPages ? s.pagButton : s.pagButtonDisabled}
         onClick={() => currentPage !== maxPages && setCurrentPage('next')}
       >
-        {'Siguiente >'}
+        {'Next >'}
       </button>
     </div>
   );

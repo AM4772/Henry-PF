@@ -29,7 +29,7 @@ async function getImage(industryID) {
     }
   }
   if (isbn) {
-    return `http://images.amazon.com/images/P/${isbn}.01._SCLZZZZZZZ_.jpg`;
+    return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
   } else
     return 'https://www.angeldelsoto.es/wp-content/uploads/leather-book-preview.png';
 }

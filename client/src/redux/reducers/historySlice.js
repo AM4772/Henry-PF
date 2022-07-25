@@ -10,7 +10,7 @@ const historySlice = createSlice({
   reducers: {
     addStack: (state, action) => {
       state.stack = [action.payload, ...state.stack];
-      state.stack = state.stack.slice(0, 11);
+      state.stack = state.stack.slice(0, 1001);
     },
   },
 });

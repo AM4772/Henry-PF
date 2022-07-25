@@ -26,7 +26,7 @@ function Filters() {
     author: "",
     category: "",
   });
-  const [generalFilter,] = useState(filterCard);
+  const [generalFilter] = useState(filterCard);
   const [booksFilters, setBooksFilters] = useState({
     filterAuthor: filterBooksByAuthor.length > 0 ? filterBooksByAuthor : [],
     filterCategory: filterBooksByCategory,

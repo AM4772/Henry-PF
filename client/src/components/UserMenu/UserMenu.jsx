@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import s from "./UserMenu.module.sass";
-import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/reducers/profileSlice";

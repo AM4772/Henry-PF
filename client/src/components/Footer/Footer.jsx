@@ -1,7 +1,8 @@
 import React from 'react'
-import s from './Footer.module.sass'
+import { NavLink } from "react-router-dom";
 import logo from '../../assets/Book_Logo.png'
-import {AiOutlineMail} from 'react-icons/ai'
+import { AiOutlineMail } from 'react-icons/ai'
+import s from './Footer.module.sass'
 
 export default function Footer() {
   return (
@@ -15,7 +16,7 @@ export default function Footer() {
       </div>
       <div id={s.emailContainer}>
         <AiOutlineMail id={s.mail}/>
-        <a id={s.email} href='mailto:final.proyect.henry@gmail.com'>Contact us</a>
+        <NavLink id={s.email} to='/contact'>Contact us</NavLink>
       </div>
     </footer>
   )

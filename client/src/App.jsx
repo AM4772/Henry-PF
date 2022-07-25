@@ -14,19 +14,23 @@ import Contact from "./components/Contact/Contact";
 import "./App.sass";
 import { useDispatch, useSelector } from "react-redux";
 import { addStack } from "./redux/reducers/historySlice";
+import { asyncAutoLogin } from "./redux/actions/usersActions";
 
 function App() {
   const dispatch = useDispatch();
   const { stack } = useSelector((state) => state.history);
+  const { firstAuto } = useSelector((state) => state.profile);
   const location = useLocation();
   useEffect(() => {
     if (location.pathname !== stack[0] || stack.length <= 0) {
       dispatch(addStack(location.pathname));
     }
-    // var token = localStorage.getItem("ALTKN");
-    // if (token) {
-    //   dispatch(asyncAutoLogin(token));
-    // }
+    var token = localStorage.getItem("ALTKN");
+    if (token) {
+      if (firstAuto) {
+        dispatch(asyncAutoLogin(token));
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   return (

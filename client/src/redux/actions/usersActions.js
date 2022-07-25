@@ -70,8 +70,8 @@ export function asyncLogin(body) {
       const response = (await axios.post("/login", body)).data;
       Swal.fire({
         icon: 'success',
-        title: 'You have logged in successfully',
-        text: `${response.message}`,
+        text: 'You have logged in successfully',
+        title: `${response.message}`,
       })
       dispatch(loginUser(response));
       localStorage.setItem("ALTKN", response.token);

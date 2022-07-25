@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { asyncRegisterUser } from '../../redux/actions/usersActions';
@@ -7,6 +8,7 @@ import s from './Register.module.sass';
 function Register(props) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [passwordShown, setPasswordShown] = useState(false);
   const { stack } = useSelector(state => state.history);
   const { userProfile } = useSelector(state => state.profile);
   const isValidInitialState = {
@@ -315,7 +317,7 @@ function Register(props) {
                 <div className={s.inline}>
                   <label className="t-card">Password: </label>
                   <input
-                    type="password"
+                    type={passwordShown ? "text" : "password"}
                     value={password}
                     className={`${s.input} ${
                       isValid.password &&
@@ -330,6 +332,7 @@ function Register(props) {
                       setPassword(e.target.value)
                     }
                   ></input>{' '}
+                  <FaEye className={s.fatEye} onClick={() => setPasswordShown(!passwordShown)} />
                   <p
                     className={
                       isValid.password && isValid.password !== ' '
@@ -343,7 +346,7 @@ function Register(props) {
                 <div className={s.inline}>
                   <label className="t-card">Repeat password: </label>
                   <input
-                    type="password"
+                    type={passwordShown ? "text" : "password"}
                     value={rpassword}
                     className={`${s.input} ${
                       isValid.rpassword &&
@@ -358,6 +361,7 @@ function Register(props) {
                       setRpassword(e.target.value)
                     }
                   ></input>{' '}
+                  <FaEye className={s.fatEye} onClick={() => setPasswordShown(!passwordShown)} />
                   <p
                     className={
                       isValid.rpassword && isValid.rpassword !== ' '

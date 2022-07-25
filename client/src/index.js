@@ -12,12 +12,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 // axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     <Provider store={store}>
       <Router>
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>,
+  </>,
   document.getElementById("root")
 );

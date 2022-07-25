@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import s from "./Cards.module.sass";
 import BookCard from "../BookCard/BookCard";
-import UserCard from "../UserCard/UserCard";
+// import UserCard from "../UserCard/UserCard";
 import Loading from "../Loading/Loading";
 
 function Cards() {

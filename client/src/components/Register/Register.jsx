@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { asyncRegisterUser } from "../../redux/actions/usersActions";
-import s from "./Register.module.sass";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { asyncRegisterUser } from '../../redux/actions/usersActions';
+import s from './Register.module.sass';
 
 function Register(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { stack } = useSelector((state) => state.history);
-  const { userProfile } = useSelector((state) => state.profile);
+  const { stack } = useSelector(state => state.history);
+  const { userProfile } = useSelector(state => state.profile);
   const isValidInitialState = {
-    name: "",
-    surname: "",
-    username: "",
-    email: "",
-    password: "",
-    rpassword: "",
+    name: '',
+    surname: '',
+    username: '',
+    email: '',
+    password: '',
+    rpassword: '',
   };
   const countInitialState = {
     name: 0,
@@ -28,25 +28,25 @@ function Register(props) {
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [count, setCount] = useState(countInitialState);
   const [isAllowed, setIsAllowed] = useState(false);
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rpassword, setRpassword] = useState("");
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rpassword, setRpassword] = useState('');
   const [isPending, setisPending] = useState(false);
   useEffect(() => {
     if (userProfile.email) {
       var lastPath = [];
       for (let i = 0; i < stack.length; i++) {
-        if (stack[i] !== "/register" && stack[i] !== "/login") {
+        if (stack[i] !== '/register' && stack[i] !== '/login') {
           lastPath.push(stack[i]);
         }
       }
       if (lastPath.length > 0) {
         history.push(lastPath[0]);
       } else {
-        history.push("/");
+        history.push('/');
       }
     } else {
       var symbolsCheck = new RegExp(/[^a-zA-Z\-\\/]/);
@@ -58,24 +58,26 @@ function Register(props) {
       // Assign possible errors
       const isValidCopy = { ...isValid };
       // Name
-      if (!name.length) isValidCopy.name = " ";
+      if (!name.length) isValidCopy.name = ' ';
+      else if (name.includes('-'))
+        isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else if (name.length < 3 || name.length > 20)
-        isValidCopy.name = "Name contain between 3-20 characters";
+        isValidCopy.name = 'Name contain between 3-20 characters';
       else if (symbolsCheck.test(name))
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else delete isValidCopy.name;
       // Surname
-      if (!surname.length) isValidCopy.surname = " ";
+      if (!surname.length) isValidCopy.surname = ' ';
       else if (surname.length < 3 || surname.length > 20)
-        isValidCopy.surname = "Surname needs to be between 3-20 characters";
+        isValidCopy.surname = 'Surname needs to be between 3-20 characters';
       else if (symbolsCheck.test(surname))
         isValidCopy.surname =
           "Surname can't contain symbols, spaces nor numbers";
       else delete isValidCopy.surname;
       // Username
-      if (!username.length) isValidCopy.username = " ";
+      if (!username.length) isValidCopy.username = ' ';
       else if (username.length < 3 || username.length > 20)
-        isValidCopy.username = "Username contain between 3-20 characters";
+        isValidCopy.username = 'Username contain between 3-20 characters';
       else if (usernameCheck.test(username))
         isValidCopy.username =
           "Username can't contain symbols, spaces nor numbers";
@@ -86,18 +88,18 @@ function Register(props) {
       //   isValidCopy.image = "Image url is unvalid";
       // else delete isValidCopy.image;
       // Email validation
-      if (!email.length) isValidCopy.email = " ";
-      else if (!emailCheck.test(email)) isValidCopy.email = "Email is invalid";
+      if (!email.length) isValidCopy.email = ' ';
+      else if (!emailCheck.test(email)) isValidCopy.email = 'Email is invalid';
       else delete isValidCopy.email;
       // Password validation
-      if (!password.length) isValidCopy.password = " ";
+      if (!password.length) isValidCopy.password = ' ';
       else if (password.length < 8 || password.length > 30)
-        isValidCopy.password = "Password must contain between 8-30 characters";
+        isValidCopy.password = 'Password must contain between 8-30 characters';
       else delete isValidCopy.password;
       // Password validation
-      if (!rpassword.length) isValidCopy.password = " ";
+      if (!rpassword.length) isValidCopy.password = ' ';
       else if (password !== rpassword)
-        isValidCopy.rpassword = "Both passwords must be identical";
+        isValidCopy.rpassword = 'Both passwords must be identical';
       else delete isValidCopy.rpassword;
       setIsvalid(isValidCopy);
       // Check if its valid
@@ -119,23 +121,26 @@ function Register(props) {
     isPending,
     userProfile,
   ]);
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const info = { name, surname, username, email, password };
-    try {
-      dispatch(asyncRegisterUser(info));
-      setName("");
-      setSurname("");
-      setEmail("");
-      setUsername("");
-      setPassword("");
-      setRpassword("");
-      setCount(countInitialState);
-      setIsvalid(isValidInitialState);
-      setIsAllowed(false);
-    } catch (err) {
-      setisPending(false);
-    }
+    dispatch(asyncRegisterUser(info)).then(caca => {
+      if (caca) {
+        setName('');
+        setSurname('');
+        setEmail('');
+        setUsername('');
+        setPassword('');
+        setRpassword('');
+        setCount(countInitialState);
+        setIsvalid(isValidInitialState);
+        setIsAllowed(false);
+        setisPending(false);
+        history.push('/login')
+      } else {
+        setisPending(false);
+      }
+    });
   };
   const handleButton = () => {
     if (!isPending && isAllowed)
@@ -171,7 +176,7 @@ function Register(props) {
               <div id="stuff">
                 <div className={s.inline}>
                   <label className="t-card" id="title-form">
-                    Name:{" "}
+                    Name:{' '}
                   </label>
                   <input
                     type="text"
@@ -182,13 +187,13 @@ function Register(props) {
                         : null
                     }`}
                     placeholder="Name"
-                    onChange={(e) =>
+                    onChange={e =>
                       setCount({ ...count, name: 1 }) || setName(e.target.value)
                     }
-                  ></input>{" "}
+                  ></input>{' '}
                   <p
                     className={
-                      isValid.name && isValid.name !== " "
+                      isValid.name && isValid.name !== ' '
                         ? s.errorMessage
                         : s.noErrorMessage
                     }
@@ -198,7 +203,7 @@ function Register(props) {
                 </div>
                 <div className={s.inline}>
                   <label className="t-card" id="title-form">
-                    Surname:{" "}
+                    Surname:{' '}
                   </label>
                   <input
                     type="text"
@@ -209,14 +214,14 @@ function Register(props) {
                         : null
                     }`}
                     placeholder="Surname"
-                    onChange={(e) =>
+                    onChange={e =>
                       setCount({ ...count, surname: 1 }) ||
                       setSurname(e.target.value)
                     }
-                  ></input>{" "}
+                  ></input>{' '}
                   <p
                     className={
-                      isValid.surname && isValid.surname !== " "
+                      isValid.surname && isValid.surname !== ' '
                         ? s.errorMessage
                         : s.noErrorMessage
                     }
@@ -226,7 +231,7 @@ function Register(props) {
                 </div>
                 <div className={s.inline}>
                   <label className="t-card" id="title-form">
-                    Username:{" "}
+                    Username:{' '}
                   </label>
                   <input
                     type="text"
@@ -239,14 +244,14 @@ function Register(props) {
                         : null
                     }`}
                     placeholder="Username"
-                    onChange={(e) =>
+                    onChange={e =>
                       setCount({ ...count, username: 1 }) ||
                       setUsername(e.target.value)
                     }
-                  ></input>{" "}
+                  ></input>{' '}
                   <p
                     className={
-                      isValid.username && isValid.username !== " "
+                      isValid.username && isValid.username !== ' '
                         ? s.errorMessage
                         : s.noErrorMessage
                     }
@@ -292,14 +297,14 @@ function Register(props) {
                         : null
                     }`}
                     placeholder="Email"
-                    onChange={(e) =>
+                    onChange={e =>
                       setCount({ ...count, email: 1 }) ||
                       setEmail(e.target.value)
                     }
-                  ></input>{" "}
+                  ></input>{' '}
                   <p
                     className={
-                      isValid.email && isValid.email !== " "
+                      isValid.email && isValid.email !== ' '
                         ? s.errorMessage
                         : s.noErrorMessage
                     }
@@ -320,14 +325,14 @@ function Register(props) {
                         : null
                     }`}
                     placeholder="Password"
-                    onChange={(e) =>
+                    onChange={e =>
                       setCount({ ...count, password: 1 }) ||
                       setPassword(e.target.value)
                     }
-                  ></input>{" "}
+                  ></input>{' '}
                   <p
                     className={
-                      isValid.password && isValid.password !== " "
+                      isValid.password && isValid.password !== ' '
                         ? s.errorMessage
                         : s.noErrorMessage
                     }
@@ -348,14 +353,14 @@ function Register(props) {
                         : null
                     }`}
                     placeholder="Repeat password"
-                    onChange={(e) =>
+                    onChange={e =>
                       setCount({ ...count, rpassword: 1 }) ||
                       setRpassword(e.target.value)
                     }
-                  ></input>{" "}
+                  ></input>{' '}
                   <p
                     className={
-                      isValid.rpassword && isValid.rpassword !== " "
+                      isValid.rpassword && isValid.rpassword !== ' '
                         ? s.errorMessage
                         : s.noErrorMessage
                     }

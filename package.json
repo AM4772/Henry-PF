@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "swal": "^0.1.0",
+    "sweetalert2": "^11.4.24"
+  }
+}

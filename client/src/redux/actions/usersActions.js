@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from 'sweetalert2';
 import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
 import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
 
@@ -46,9 +47,19 @@ export function asyncRegisterUser(info) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/users", info)).data;
-      alert(response.message);
+      Swal.fire({
+        icon: 'success',
+        title: 'Your account has been created',
+        text: `${response.message}`,
+      })
+      return true
     } catch (error) {
-      alert(error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
+      return false
     }
   };
 }
@@ -57,11 +68,19 @@ export function asyncLogin(body) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/login", body)).data;
-      alert(response.message);
+      Swal.fire({
+        icon: 'success',
+        title: 'You have logged in successfully',
+        text: `${response.message}`,
+      })
       dispatch(loginUser(response));
       localStorage.setItem("ALTKN", response.token);
     } catch (error) {
-      alert(error.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data.message}`,
+      })
     }
   };
 }

@@ -1,17 +1,23 @@
-import React from "react";
-import Pagination from "../Pagination/Pagination.jsx";
-import LogIn from "../LogIn/LogIn.jsx";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+// import Pagination from "../Pagination/Pagination.jsx";
+// import LogIn from "../LogIn/LogIn.jsx";
 import s from "./Home.module.sass";
 import banner from "../../assets/banner.jpg";
 import { FaChevronDown } from "react-icons/fa";
 import Slider from "../Slider/Slider.jsx";
+import { setCurrentPage } from "../../redux/actions/paginationActions";
 
 export function Home(props) {
-  // Añado mi componente pagination solo para probarlo
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCurrentPage(1));
+  });
+
   return (
     <div className={s.home}>
       <div className={s.banner}>
-        <img src={banner} alt="banner image" className={s.bannerImg} />
+        <img src={banner} alt="banner" className={s.bannerImg} />
         <div className={s.arrow}>
           <FaChevronDown className={s.icon} />
         </div>

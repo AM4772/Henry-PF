@@ -1,8 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
 import { store } from "../store.js";
 import { updateCurrentPage } from "../reducers/paginationSlice.js";
 
-axios.defaults.baseURL = `http://localhost:3001`;
+// axios.defaults.baseURL = `http://localhost:3001`;
 
 // export function getPage() {
 //   return async function (dispatch) {

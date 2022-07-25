@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { asyncLogin } from "../../redux/actions/usersActions";
@@ -21,6 +22,7 @@ function LogIn({ prev }) {
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
+  const [passwordShown, setPasswordShown] = useState(false);
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   // eslint-disable-next-line no-unused-vars
@@ -131,7 +133,7 @@ function LogIn({ prev }) {
                 <div className={s.inline}>
                   <label className="t-card">Password: </label>
                   <input
-                    type="password"
+                    type={passwordShown ? "text" : "password"}
                     className={`${s.input} ${isValid.password && isValid.password.length && count.password ? s.danger : null}`}
                     value={password}
                     placeholder="Password"
@@ -140,6 +142,7 @@ function LogIn({ prev }) {
                       setPassword(e.target.value)
                     }
                   ></input>{" "}
+                  <FaEye className={s.fatEye} onClick={() => setPasswordShown(!passwordShown)} />
                   <p
                     className={
                       isValid.password && isValid.password !== " "

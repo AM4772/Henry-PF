@@ -59,8 +59,20 @@ export function asyncLogin(body) {
       const response = (await axios.post("/login", body)).data;
       alert(response.message);
       dispatch(loginUser(response));
+      // localStorage.setItem("ALTKN", response.token);
     } catch (error) {
       alert(error.message);
     }
   };
 }
+
+// export function asyncAutoLogin(token) {
+//   return async function (dispatch) {
+//     try {
+//       const response = (await axios.post("/login/auto", token)).data;
+//       dispatch(loginUser(response));
+//     } catch (error) {
+//       dispatch()
+//     }
+//   };
+// }

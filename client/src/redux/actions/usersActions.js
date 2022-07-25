@@ -1,5 +1,5 @@
 import axios from "axios";
-import { loginUser } from "../reducers/profileSlice";
+import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
 import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
@@ -58,21 +58,23 @@ export function asyncLogin(body) {
     try {
       const response = (await axios.post("/login", body)).data;
       alert(response.message);
+      console.log(response);
       dispatch(loginUser(response));
-      // localStorage.setItem("ALTKN", response.token);
+      localStorage.setItem("ALTKN", response.token);
     } catch (error) {
       alert(error.message);
     }
   };
 }
 
-// export function asyncAutoLogin(token) {
-//   return async function (dispatch) {
-//     try {
-//       const response = (await axios.post("/login/auto", token)).data;
-//       dispatch(loginUser(response));
-//     } catch (error) {
-//       dispatch()
-//     }
-//   };
-// }
+export function asyncAutoLogin(token) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/login/autoLogin", { token })).data;
+      dispatch(loginUser(response));
+      console.log(response);
+    } catch (error) {
+      dispatch(firstAutoLogin());
+    }
+  };
+}

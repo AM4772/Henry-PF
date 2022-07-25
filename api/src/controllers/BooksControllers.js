@@ -3,20 +3,27 @@ const { Books } = require('../db');
 const { Op } = require('sequelize');
 const maxResults = 40;
 const term = [
+  'finance',
+  'ethereum',
+  'deep web',
+  'bitcoin',
+  'javascript',
+  'sherlock',
+  'holmes',
+  'hamlet',
+  'big liar',
+  'shakespeare',
   'lord of the rings',
   'tales',
   'circus',
   'england',
   'pirates',
   'harry potter and',
-  'To Kill',
   'a Mockingbird',
   'Jaws',
-  'Don Quixote',
   'Moby-Dick',
   'Northern Lights',
-  'a',
-  'el prin',
+  'el principito',
 ];
 
 async function getImage(industryID) {
@@ -133,6 +140,7 @@ let BooksModel = {
       newReleases = booksJSON
         .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate))
         .slice(0, 15);
+
       return {
         mostPopular,
         bestSellers,

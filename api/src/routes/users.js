@@ -18,10 +18,12 @@ router.get('/', async (req, res) => {
       let userFound = await getUserByUsername(username.toLowerCase());
       userFound
         ? res.json(userFound)
-        : res.status(404).json(`Username ${username} not found`);
+        : res.status(404).json({ message: `Username ${username} not found` });
     } else {
       let dbUsers = await getUsers();
-      dbUsers ? res.json(dbUsers) : res.status(404).json('No users found');
+      dbUsers
+        ? res.json(dbUsers)
+        : res.status(404).json({ message: 'No users found' });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -33,12 +35,12 @@ router.get('/:ID', async (req, res) => {
   try {
     if (ID) {
       if (isNaN(ID)) {
-        return res.status(400).json('ID must be a number');
+        return res.status(400).json({ message: 'ID must be a number' });
       }
       let user = await getUserById(ID);
       user
         ? res.json(user)
-        : res.status(404).json(`User with ID ${ID} not found`);
+        : res.status(404).json({ message: `User with ID ${ID} not found` });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -52,7 +54,7 @@ router.post('/', async (req, res) => {
       const newUser = await createUser(req.body);
       newUser
         ? res.status(201).json({ message: 'Successfully registered' })
-        : res.status(400).json(`Error creating user`);
+        : res.status(400).json({ message: `Error creating user` });
     } else {
       res.status(400).json(validate);
     }

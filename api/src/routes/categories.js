@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     let categories = await getCategories();
     categories
       ? res.json(categories)
-      : res.status(404).json("Cannot get categories");
+      : res.status(404).json({message:"Cannot get categories"});
   } catch (err) {
     res.status(404).json(err);
   }

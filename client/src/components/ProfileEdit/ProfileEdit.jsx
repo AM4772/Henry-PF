@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaQuestionCircle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaQuestionCircle, FaEye } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import s from "./ProfileEdit.module.sass";
 

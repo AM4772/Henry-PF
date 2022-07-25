@@ -14,6 +14,7 @@ function Searching(props) {
     if (stack.length <= 0) {
       history.push("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [books]);
   return (
     <div className={s.container}>

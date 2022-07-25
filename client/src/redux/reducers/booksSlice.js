@@ -47,18 +47,77 @@ const booksSlice = createSlice({
     },
     applyBookFilters: (state) => {
       state.books = [...state.allBooks];
+
       if (state.books[0] !== null && state.books.length > 0) {
         if (state.filterBooksByAuthor.length > 0) {
-          state.books = state.filterBooksByAuthor.map((a) =>
-            state.books.find((book) => book.authors.includes(a))
+          var filterAuthorArray = [];
+          state.filterBooksByAuthor.map((a) =>
+            state.books.filter((book) =>
+              book.authors.filter((auth) => {
+                if (
+                  auth
+                    .toLowerCase()
+                    .replace(/^\s+|\s+$/g, "")
+                    .replace(/\./g, "")
+                    .replace(/\s+/g, "")
+                    .includes(
+                      a
+                        .replace(/^\s+|\s+$/g, "")
+                        .replace(/\./g, "")
+                        .replace(/\s+/g, "")
+                        .toLowerCase()
+                    )
+                ) {
+                  const finded = filterAuthorArray.find(
+                    (b) => b.ID === book.ID
+                  );
+                  if (!finded) {
+                    return filterAuthorArray.push(book);
+                  } else {
+                    return null;
+                  }
+                }
+                return null;
+              })
+            )
           );
+          state.books = filterAuthorArray;
         }
       }
       if (state.books[0] && state.books.length > 0) {
         if (state.filterBooksByCategory.length > 0) {
-          state.books = state.filterBooksByCategory.map((c) =>
-            state.books.find((book) => book.categories.includes(c))
+          var filterCategoryArray = [];
+          state.filterBooksByCategory.map((c) =>
+            state.books.filter((book) =>
+              book.categories.filter((cat) => {
+                if (
+                  cat
+                    .toLowerCase()
+                    .replace(/^\s+|\s+$/g, "")
+                    .replace(/\./g, "")
+                    .replace(/\s+/g, "")
+                    .includes(
+                      c
+                        .replace(/^\s+|\s+$/g, "")
+                        .replace(/\./g, "")
+                        .replace(/\s+/g, "")
+                        .toLowerCase()
+                    )
+                ) {
+                  const finded = filterCategoryArray.find(
+                    (b) => b.ID === book.ID
+                  );
+                  if (!finded) {
+                    return filterCategoryArray.push(book);
+                  } else {
+                    return null;
+                  }
+                }
+                return null;
+              })
+            )
           );
+          state.books = filterCategoryArray;
         }
       }
     },

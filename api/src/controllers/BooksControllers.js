@@ -21,6 +21,7 @@ const term = [
 
 async function getImage(industryID) {
   let isbn = '';
+
   if (industryID && industryID.length > 1) {
     if (industryID[0].type.includes('10')) {
       isbn = industryID[0].identifier;
@@ -29,7 +30,7 @@ async function getImage(industryID) {
     }
   }
   if (isbn) {
-    return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+    return `https://images-na.ssl-images-amazon.com/images/P/${isbn}.01._SX180_SCLZZZZZZZ_.jpg`;
   } else
     return 'https://www.angeldelsoto.es/wp-content/uploads/leather-book-preview.png';
 }

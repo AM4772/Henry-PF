@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const { Users } = require('../../db');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 let verifyLoginModel = {
   verifyLogin: async function ({ username, password }) {
@@ -18,6 +20,16 @@ let verifyLoginModel = {
         const names = nameSplitted.map(
           (n) => n.charAt(0).toUpperCase() + n.slice(1)
         );
+        const tokenPass = jwt.sign(
+          {
+            ID: userJSON.ID,
+            name: userJSON.name,
+            lastName: userJSON.surname,
+            username: userJSON.username,
+            email: userJSON.email,
+          },
+          process.env.PASS_TOKEN
+        );
         return {
           message: `Welcome ${names.join(' ')}`,
           ID: userJSON.ID,
@@ -25,6 +37,7 @@ let verifyLoginModel = {
           name: userJSON.name,
           lastName: userJSON.surname,
           email: userJSON.email,
+          token: tokenPass,
         };
       }
       return undefined;

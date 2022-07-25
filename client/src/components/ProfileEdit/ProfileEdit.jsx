@@ -26,14 +26,6 @@ function ProfileEdit() {
   };
 
   function validate() {
-    setErrors({
-      username: "",
-      name: "",
-      lastName: "",
-      email: "",
-      password: "",
-      newPassword: "",
-    });
     if (
       input.username.length < 3 ||
       input.username.length > 20 ||
@@ -60,7 +52,6 @@ function ProfileEdit() {
         input.name.toLowerCase().replace(/^\s+|\s+$/g, "")
       )
     ) {
-      console.log("enter");
       setErrors({
         ...errors,
         name:
@@ -103,7 +94,6 @@ function ProfileEdit() {
       });
     }
     if (input.password !== "") {
-      console.log(input.editPassword);
       if (
         input.newPassword.length < 8 ||
         input.newPassword.length > 30 ||
@@ -189,6 +179,7 @@ function ProfileEdit() {
 
   function handleChange(e) {
     e.preventDefault();
+    setErrors({ ...errors, [e.target.name]: "", newPassword: "" });
     setInput({
       ...input,
       [e.target.name]: e.target.value,

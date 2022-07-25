@@ -36,7 +36,7 @@ function Pagination(props) {
         className={currentPage > 1 ? s.pagButton : s.pagButtonDisabled}
         onClick={() => currentPage > 1 && setCurrentPage('prev')}
       >
-        {'< Previous'}
+        {'< Prev'}
       </button>
       <div id={s.pageContainer}>
         <input

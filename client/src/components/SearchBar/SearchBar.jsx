@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./SearchBar.module.sass";
+import { FiSearch } from "react-icons/fi";
 import { useState } from "react";
 import {
   asyncGetBooks,
@@ -15,6 +16,7 @@ import {
   setAuthorFilter,
   setCategoryFilter,
 } from "../../redux/reducers/booksSlice";
+import { updateCurrentPage } from "../../redux/reducers/paginationSlice";
 
 function SearchBar({ input, setInput }) {
   const [searchButton, setSearchButton] = useState(true);
@@ -27,7 +29,7 @@ function SearchBar({ input, setInput }) {
     } else if (filterCard === "users") {
       dispatch(asyncGetSearchUser());
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterCard]);
   function handleChange(e) {
     e.preventDefault();
@@ -56,6 +58,7 @@ function SearchBar({ input, setInput }) {
     setSearchButton(false);
     if (input !== "") {
       if (filterCard === "books") {
+        dispatch(updateCurrentPage(1));
         dispatch(
           asyncGetBooks(
             input
@@ -93,12 +96,10 @@ function SearchBar({ input, setInput }) {
             placeholder="Search"
             autoComplete="off"
           />
-          <hr />
-          <img
+          <FiSearch
             onClick={(e) => handleSubmit(e)}
             className={s.searchButton}
-            src="https://www.freeiconspng.com/thumbs/search-icon-png/search-icon-png-21.png"
-            alt="searchButton"
+            title="Search"
           />
         </div>
       </form>

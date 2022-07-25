@@ -1,6 +1,6 @@
 import axios from "axios";
 import Swal from 'sweetalert2';
-import { loginUser } from "../reducers/profileSlice";
+import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
 import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
@@ -74,7 +74,7 @@ export function asyncLogin(body) {
         text: `${response.message}`,
       })
       dispatch(loginUser(response));
-      // localStorage.setItem("ALTKN", response.token);
+      localStorage.setItem("ALTKN", response.token);
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -85,13 +85,13 @@ export function asyncLogin(body) {
   };
 }
 
-// export function asyncAutoLogin(token) {
-//   return async function (dispatch) {
-//     try {
-//       const response = (await axios.post("/login/auto", token)).data;
-//       dispatch(loginUser(response));
-//     } catch (error) {
-//       dispatch()
-//     }
-//   };
-// }
+export function asyncAutoLogin(token) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/login/autoLogin", { token })).data;
+      dispatch(loginUser(response));
+    } catch (error) {
+      dispatch(firstAutoLogin());
+    }
+  };
+}

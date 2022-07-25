@@ -8,7 +8,13 @@ let categoriesModel = {
     for (let i = 0; i < categories.length; i++) {
       categories.map((category) => {
         category.map((c) =>
-          !categoriesArray.includes(c) ? categoriesArray.push(c) : null
+          !categoriesArray.includes(
+            c.charAt(0).toUpperCase() + c.toLowerCase().slice(1)
+          )
+            ? categoriesArray.push(
+                c.charAt(0).toUpperCase() + c.toLowerCase().slice(1)
+              )
+            : null
         );
       });
     }

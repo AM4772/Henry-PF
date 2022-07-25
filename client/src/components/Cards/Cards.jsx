@@ -14,11 +14,12 @@ function Cards() {
   );
 
   const [loading, setLoading] = useState(true);
+  const [, setRare] = useState(true);
 
   const indexOfLastCards = currentPage * cardsPerPage;
   const indexOfFirstCards = indexOfLastCards - cardsPerPage;
   const currentBooks = books.slice(indexOfFirstCards, indexOfLastCards);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   if (filterCard === "books") {
     setTimeout(() => {
       if (!currentBooks[0]) {
@@ -26,23 +27,32 @@ function Cards() {
       }
     }, 2500);
   }
-  useEffect(() => {}, [books, currentPage, users, filterCard, loading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    return () => {
+      setRare(true);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [books, currentPage, users, filterCard, loading]);
 
   return (
     <>
       <div className={s.card_container}>
         {currentBooks[0] ? (
           currentBooks.map((b) => {
-            return (
-              <BookCard
-                key={b.ID}
-                ID={b.ID}
-                image={b.image}
-                title={b.title}
-                authors={b.authors}
-                price={b.price}
-              />
-            );
+            if (b) {
+              return (
+                <BookCard
+                  key={b.ID}
+                  ID={b.ID}
+                  image={b.image}
+                  title={b.title}
+                  authors={b.authors}
+                  price={b.price}
+                />
+              );
+            }
+            return null;
           })
         ) : loading ? (
           <Loading />

@@ -4,6 +4,7 @@ const initialState = {
   userProfile: {},
   favourites: [],
   cart: [],
+  firstAuto: true,
 };
 
 const profileSlice = createSlice({
@@ -24,10 +25,15 @@ const profileSlice = createSlice({
     },
     logOut: (state) => {
       state.userProfile = {};
+      localStorage.removeItem("ALTKN");
+    },
+    firstAutoLogin: (state) => {
+      state.firstAuto = false;
     },
   },
 });
 
-export const { getProfile, loginUser, logOut } = profileSlice.actions;
+export const { getProfile, loginUser, logOut, firstAutoLogin } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;

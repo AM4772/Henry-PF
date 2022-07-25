@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./BookDetail.module.sass";
 import Loading from "../Loading/Loading";
-
+import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetBookDetail } from "../../redux/actions/booksActions";
@@ -15,6 +15,8 @@ import Stars5 from "../../assets/Stars5.png";
 
 function BookDetail(props) {
   const { ID } = useParams();
+  const history = useHistory();
+  const { stack } = useSelector((state) => state.history);
 
   let book = useSelector((state) => state.books.bookDetail);
   const dispatch = useDispatch();
@@ -26,7 +28,23 @@ function BookDetail(props) {
   }, [dispatch, ID]);
 
   function goBack() {
-    window.history.back();
+    // window.history.back();
+    var lastPath = [];
+    for (let i = 1; i < stack.length; i++) {
+      if (
+        stack[i] !== "/register" &&
+        stack[i] !== "/login" &&
+        stack[i] !== "/profile" &&
+        stack[i] !== stack[0]
+      ) {
+        lastPath.push(stack[i]);
+      }
+    }
+    if (lastPath.length > 0) {
+      history.push(lastPath[0]);
+    } else {
+      history.push("/");
+    }
   }
 
   return (

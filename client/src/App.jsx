@@ -23,7 +23,11 @@ function App() {
     if (location.pathname !== stack[0] || stack.length <= 0) {
       dispatch(addStack(location.pathname));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // var token = localStorage.getItem("ALTKN");
+    // if (token) {
+    //   dispatch(asyncAutoLogin(token));
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   return (
     <div className="App">

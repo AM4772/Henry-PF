@@ -47,7 +47,7 @@ function UserMenu() {
             </span>
             <hr className={s.divisor} />
             <Link to="/">
-              <span className={s.links} onClick={() => setOpen(!open)}>
+              <span className={s.links}>
                 <FaShoppingCart className={s.icon} />
               </span>
             </Link>

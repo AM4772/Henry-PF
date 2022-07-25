@@ -103,9 +103,6 @@ function ProfileEdit() {
       });
     }
     if (input.password !== "") {
-      // if (!input.editPassword) {
-      //   setInput({ input, editPassword: true });
-      // }
       console.log(input.editPassword);
       if (
         input.newPassword.length < 8 ||
@@ -222,6 +219,7 @@ function ProfileEdit() {
             <input
               type="text"
               name="username"
+              placeholder="Username"
               className={`${s.input} ${
                 errors.username !== "" ? s.inputError : null
               }`}
@@ -245,6 +243,7 @@ function ProfileEdit() {
             <input
               type="text"
               name="name"
+              placeholder="Name"
               value={input.name}
               className={`${s.input} ${
                 errors.name !== "" ? s.inputError : null
@@ -261,11 +260,12 @@ function ProfileEdit() {
           </div>
           <div className={s.section}>
             <span>
-              lastName: <FaQuestionCircle />
+              Surname: <FaQuestionCircle />
             </span>
             <input
               type="text"
               name="lastName"
+              placeholder="Surname"
               value={input.lastName}
               className={`${s.input} ${
                 errors.lastName !== "" ? s.inputError : null
@@ -287,6 +287,7 @@ function ProfileEdit() {
             <input
               type="text"
               name="email"
+              placeholder="Email"
               value={input.email}
               className={`${s.input} ${
                 errors.email !== "" ? s.inputError : null
@@ -309,6 +310,7 @@ function ProfileEdit() {
               <input
                 type={passwordShown ? "text" : "password"}
                 name="password"
+                placeholder="Password"
                 value={input.password}
                 className={`${s.input} ${
                   errors.password !== "" ? s.inputError : null
@@ -333,6 +335,7 @@ function ProfileEdit() {
               <input
                 type={newPasswordShown ? "text" : "password"}
                 name="newPassword"
+                placeholder="New password"
                 value={input.newPassword}
                 className={`${s.input} ${
                   errors.newPassword !== "" ? s.inputError : null

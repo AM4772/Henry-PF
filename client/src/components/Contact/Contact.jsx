@@ -47,29 +47,29 @@ export default function Contact() {
       <div id={s.card}>
         <form onSubmit={handleSubmit}>
           <h1 id={s.register}>Contact us</h1>
-          <div id={s.creationCardDisplay}>
-            <div className={s.inline}>
-              <label className={s.fillTitle}>Email: </label>
-              <input
-                type="text"
-                placeholder="Email"
-                value={info.email}
-                className={`${s.input} ${isValid.email && isValid.email.length && info.email ? s.danger : null}`}
-                onChange={e => setInfo({...info, email: e.target.value})}></input>
-                <p className={isValid.email && isValid.email !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.email}</p>
+            <div id={s.creationCardDisplay}>
+                <div className={s.inline}>
+                  <label className={s.fillTitle}>Email: </label>
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    value={info.email}
+                    className={`${s.input} ${isValid.email && isValid.email.length && info.email ? s.danger : null}`}
+                    onChange={e => setInfo({...info, email: e.target.value})}></input>
+                    <p className={isValid.email && isValid.email !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.email}</p>
+                </div>
+                <div className={s.inline}>
+                  <label className={s.fillTitle}>Message: </label>
+                  <textarea
+                    type="text"
+                    placeholder="Message"
+                    value={info.message}
+                    className={`${s.textarea} ${isValid.message && isValid.message.length && info.message ? s.danger : null}`}
+                    onChange={e => setInfo({...info, message: e.target.value})}></textarea>
+                    <p className={isValid.message && isValid.message !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.message}</p>
+                </div>
             </div>
-            <div className={s.inline}>
-              <label className={s.fillTitle}>Message: </label>
-              <textarea
-                type="text"
-                placeholder="Message"
-                value={info.message}
-                className={`${s.textarea} ${isValid.message && isValid.message.length && info.message ? s.danger : null}`}
-                onChange={e => setInfo({...info, message: e.target.value})}></textarea>
-                <p className={isValid.message && isValid.message !== ' ' ? s.errorMessage : s.noErrorMessage}>{isValid.message}</p>
-            </div>
-          </div>
-          <div id={s.bottomButton}> {handleButton()} </div>
+          <div id={s.bottomButton}>{handleButton()}</div>
         </form>
       </div>
     </div>

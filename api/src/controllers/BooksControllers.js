@@ -3,27 +3,29 @@ const { Books } = require('../db');
 const { Op } = require('sequelize');
 const maxResults = 40;
 const term = [
-  'finance',
+  'sherlock',
   'ethereum',
+  'little',
+  'prince',
   'deep web',
+  'lord of the rings',
   'bitcoin',
   'javascript',
-  'sherlock',
   'holmes',
-  'hamlet',
-  'big liar',
   'shakespeare',
-  'lord of the rings',
+  'Northern',
+  'Lights',
+  'hamlet',
+  'big',
+  'harry potter and',
+  'finance',
   'tales',
   'circus',
   'england',
   'pirates',
-  'harry potter and',
   'a Mockingbird',
   'Jaws',
   'Moby-Dick',
-  'Northern Lights',
-  'el principito',
 ];
 
 async function getImage(industryID) {
@@ -48,9 +50,9 @@ let BooksModel = {
       for (let i = 0; i < term.length; i++) {
         let api = (
           await axios.get(
-            `https://www.googleapis.com/books/v1/volumes?q=${
-              term[i]
-            }&printType=books&maxResults=${maxResults}&startIndex=${i * 40}`
+            `https://www.googleapis.com/books/v1/volumes?q=${term[i]}&printType=books&maxResults=${maxResults}
+            `
+            //&startIndex=${i * 40}
           )
         ).data;
 
@@ -135,7 +137,7 @@ let BooksModel = {
     const books = await Books.findAll();
     if (books) {
       const booksJSON = books.map((b) => b.toJSON());
-      mostPopular = booksJSON.sort((a, b) => b.rating - a.rating).slice(0, 15);
+      mostPopular = booksJSON.sort((a, b) => b.rating - a.rating).slice(0, 30);
       bestSellers = booksJSON.slice(random, random + 15);
       newReleases = booksJSON
         .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate))

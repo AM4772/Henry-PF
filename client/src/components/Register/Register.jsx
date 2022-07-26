@@ -51,13 +51,11 @@ function Register(props) {
         history.push('/');
       }
     } else {
-      var symbolsCheck = new RegExp(/[^a-zA-Z\-\\/]/);
-      var usernameCheck = new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/);
-      var emailCheck = new RegExp(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-      // var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
-      // Assign possible errors
+      let regex = {
+        symbols: new RegExp(/[^a-zA-Z\-\\/]/),
+        username: new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/),
+        email: new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+      };
       const isValidCopy = { ...isValid };
       // Name
       if (!name.length) isValidCopy.name = ' ';
@@ -65,14 +63,14 @@ function Register(props) {
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else if (name.length < 3 || name.length > 20)
         isValidCopy.name = 'Name contain between 3-20 characters';
-      else if (symbolsCheck.test(name))
+      else if (regex.symbols.test(name))
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else delete isValidCopy.name;
       // Surname
       if (!surname.length) isValidCopy.surname = ' ';
       else if (surname.length < 3 || surname.length > 20)
         isValidCopy.surname = 'Surname needs to be between 3-20 characters';
-      else if (symbolsCheck.test(surname))
+      else if (regex.symbols.test(surname))
         isValidCopy.surname =
           "Surname can't contain symbols, spaces nor numbers";
       else delete isValidCopy.surname;
@@ -80,18 +78,13 @@ function Register(props) {
       if (!username.length) isValidCopy.username = ' ';
       else if (username.length < 3 || username.length > 20)
         isValidCopy.username = 'Username contain between 3-20 characters';
-      else if (usernameCheck.test(username))
+      else if (regex.username.test(username))
         isValidCopy.username =
           "Username can't contain symbols, spaces nor numbers";
       else delete isValidCopy.username;
-      // Image validation
-      // if (!image.length) isValidCopy.image = " ";
-      // else if (!imageCheck.test(image))
-      //   isValidCopy.image = "Image url is unvalid";
-      // else delete isValidCopy.image;
       // Email validation
       if (!email.length) isValidCopy.email = ' ';
-      else if (!emailCheck.test(email)) isValidCopy.email = 'Email is invalid';
+      else if (!regex.email.test(email)) isValidCopy.email = 'Email is invalid';
       else delete isValidCopy.email;
       // Password validation
       if (!password.length) isValidCopy.password = ' ';
@@ -160,14 +153,6 @@ function Register(props) {
         </p>
       );
   };
-  // const errSuccHandler = message => {
-  //   if (message === 'Created')
-  //     return <p className="success">Recipe has been created!</p>;
-  //   else {
-  //     const messageCopy = message.charAt(0).toUpperCase() + message.slice(1);
-  //     return <p className="error">{messageCopy}</p>;
-  //   }
-  // };
   return (
     <div id={s.toCenter}>
       <div id={s.card}>

@@ -56,7 +56,7 @@ function SearchBar({ input, setInput }) {
   function handleSubmit(e) {
     e.preventDefault();
     setSearchButton(false);
-    if (input !== "") {
+    if (input.replace(/^\s+|\s+$/g, "").replace(/\./g, "") !== "") {
       if (filterCard === "books") {
         dispatch(updateCurrentPage(1));
         dispatch(

@@ -5,6 +5,7 @@ import {
   getAuthors,
   getCategories,
   getSearch,
+  getHomeBooks,
 } from "../reducers/booksSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
@@ -63,6 +64,17 @@ export function asyncGetCategories() {
     try {
       const response = (await axios.get("/categories")).data;
       dispatch(getCategories(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncGetHomeBooks() {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.get("/books/homeBooks")).data;
+      dispatch(getHomeBooks(response));
     } catch (error) {
       console.error(error);
     }

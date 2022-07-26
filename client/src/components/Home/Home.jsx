@@ -1,18 +1,55 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-// import Pagination from "../Pagination/Pagination.jsx";
-// import LogIn from "../LogIn/LogIn.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import s from "./Home.module.sass";
+import sa from "../Slider/Slider.module.sass";
 import banner from "../../assets/banner.jpg";
 import { FaChevronDown } from "react-icons/fa";
 import Slider from "../Slider/Slider.jsx";
 import { setCurrentPage } from "../../redux/actions/paginationActions";
+import { asyncGetHomeBooks } from "../../redux/actions/booksActions";
 
 export function Home(props) {
   const dispatch = useDispatch();
+  const { mostPopular, bestSellers, newReleases } = useSelector(
+    (state) => state.books.homeBooks
+  );
+  var slidesMP = [];
+  var slidesBS = [];
+  var slidesNR = [];
+
   useEffect(() => {
     dispatch(setCurrentPage(1));
-  });
+    if (!mostPopular || !bestSellers || !newReleases) {
+      dispatch(asyncGetHomeBooks());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mostPopular, bestSellers, newReleases]);
+  slidesMP = mostPopular?.map((slide) => (
+    <Link to={`/book/${slide.ID}`}>
+      <div className={sa.slideContainer}>
+        <img className={sa.slideImg} src={slide.image} alt={slide.title} />
+        <div className={sa.slideDesc}>{slide.title}</div>
+      </div>
+    </Link>
+  ));
+
+  slidesBS = bestSellers?.map((slide) => (
+    <Link to={`/book/${slide.ID}`}>
+      <div className={sa.slideContainer}>
+        <img className={sa.slideImg} src={slide.image} alt={slide.title} />
+        <div className={sa.slideDesc}>{slide.title}</div>
+      </div>
+    </Link>
+  ));
+  slidesNR = newReleases?.map((slide) => (
+    <Link to={`/book/${slide.ID}`}>
+      <div className={sa.slideContainer}>
+        <img className={sa.slideImg} src={slide.image} alt={slide.title} />
+        <div className={sa.slideDesc}>{slide.title}</div>
+      </div>
+    </Link>
+  ));
 
   return (
     <div className={s.home}>
@@ -24,15 +61,15 @@ export function Home(props) {
       </div>
       <div className={s.carrusel}>
         <h2>Best Sellers</h2>
-        <Slider />
+        <Slider slides={slidesBS} />
       </div>
       <div className={s.carrusel}>
         <h2>Most Popular</h2>
-        <Slider />
+        <Slider slides={slidesMP} />
       </div>
       <div className={s.carrusel}>
         <h2>New Releases</h2>
-        <Slider />
+        <Slider slides={slidesNR} />
       </div>
     </div>
   );

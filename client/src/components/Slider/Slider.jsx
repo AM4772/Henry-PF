@@ -1,10 +1,9 @@
 import React from "react";
 import Carousel from "@brainhubeu/react-carousel";
 import s from "./Slider.module.sass";
-import Slides from "./Slides";
 import "@brainhubeu/react-carousel/lib/style.css";
 
-export function Slider() {
+export function Slider({ slides }) {
   return (
     <div className={s.carouselContainer}>
       <Carousel
@@ -14,7 +13,7 @@ export function Slider() {
         animationSpeed={200}
         offset={50}
         itemWidth={200}
-        slides={Slides}
+        slides={slides}
         className={s.slider}
       />
     </div>

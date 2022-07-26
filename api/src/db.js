@@ -63,12 +63,12 @@ const { Books, Users, Apibooks, Payment_Session, Reviews } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Users.belongsToMany(Books, { through: usr_bk });
-Books.belongsToMany(Users, { through: usr_bk });
-Books.hasMany(Reviews);
-Reviews.belongsTo(Books);
-Users.hasOne(Payment_Session);
-Payment_Session.belongsTo(Users);
+Users.belongsToMany(Books, { through: 'usr_bk' });
+Books.belongsToMany(Users, { through: 'usr_bk' });
+// Books.hasMany(Reviews);
+// Reviews.belongsTo(Books);
+// Users.hasOne(Payment_Session);
+// Payment_Session.belongsTo(Users);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

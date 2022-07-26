@@ -63,8 +63,8 @@ const { Books, Users, Apibooks, Payment_Session, Reviews } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Users.belongsToMany(Books, { through: users_books });
-Books.belongsToMany(Users, { through: users_books });
+Users.belongsToMany(Books, { through: usr_bk });
+Books.belongsToMany(Users, { through: usr_bk });
 Books.hasMany(Reviews);
 Reviews.belongsTo(Books);
 Users.hasOne(Payment_Session);

@@ -4,6 +4,7 @@ const initialState = {
   search: [],
   allBooks: [],
   books: [],
+  homeBooks: {},
   bookDetail: {},
   authors: [],
   categories: [],
@@ -121,6 +122,9 @@ const booksSlice = createSlice({
         }
       }
     },
+    getHomeBooks: (state, action) => {
+      state.homeBooks = action.payload;
+    },
   },
 });
 
@@ -135,6 +139,7 @@ export const {
   setCategoryFilter,
   applyBookFilters,
   getSearch,
+  getHomeBooks,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

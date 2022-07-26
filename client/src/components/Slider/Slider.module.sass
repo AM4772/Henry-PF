@@ -33,13 +33,20 @@
   border-radius: 7px
 
 .slideImg
-  height: 250px
+  max-height: 250px
+  min-height: 250px
+  max-width: 220px
+  object-fit: contain
   width: auto
   cursor: pointer
 
 .slideDesc
+  text-overflow: ellipsis
+  overflow: hidden
+  width: 220px
   display: flex
-  justify-content: center
+  justify-content: flex-start
+  align-items: flex-start
   margin-top: 15px
   text-decoration: none
   color: #000

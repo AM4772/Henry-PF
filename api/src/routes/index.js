@@ -3,6 +3,8 @@ const router = Router();
 
 router.use("/books", require("./books"));
 router.use("/users", require("./users"));
+router.use("/username", require("./username"));
+router.use("/email", require("./email"));
 router.use("/authors", require("./authors"));
 router.use("/categories", require("./categories"));
 router.use("/login", require("./login"));

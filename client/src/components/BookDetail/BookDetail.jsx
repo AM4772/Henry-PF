@@ -91,39 +91,38 @@ function BookDetail(props) {
                         <p>23 reviews</p>
                       </a>
                     </div>
-                    <div className={s.containerDetails1}>
-                      <div className={s.arr}>
-                        <p>Categories</p>
-                        {/* <p>{book.categories}</p> */}
-                        {book.categories.map((el) => (
-                          <p key={el}>{el}</p>
-                        ))}
-                      </div>
-                      <div className={s.text}>
-                        <p>Total Pages</p>
-                        <p>{book.pageCount}</p>
-                      </div>
+
+                    <div className={s.arr}>
+                      <p>Categories:</p>
+                      {book.categories[0] ? (
+                        <p>{book.categories[0]}</p>
+                      ) : (
+                        // book.categories.map((el) => <p key={el}>{el}</p>)
+                        <p>No Categories</p>
+                      )}
                     </div>
-                    <div className={s.containerDetails1}>
-                      <div className={s.text}>
-                        <p>Publisher</p>
-                        <p>{book.publisher}</p>
-                      </div>
-                      <div className={s.text}>
-                        <p>Publish Date</p>
-                        <p>
-                          {new Date(book.publishedDate).toLocaleDateString(
-                            "es-ES"
-                          )}
-                        </p>
-                      </div>
+                    <div className={s.text}>
+                      <p>Release Date:</p>
+                      <p>
+                        {new Date(book.publishedDate).toLocaleDateString(
+                          "es-ES"
+                        )}
+                      </p>
                     </div>
-                    <div className={s.containerDetails1}>
+                    <div className={s.text}>
+                      <p>Total Pages:</p>
+                      <p>{book.pageCount}</p>
+                    </div>
+                    <div className={s.text}>
+                      <p>Publisher:</p>
+                      <p>{book.publisher}</p>
+                    </div>
+                    {/* <div className={s.containerDetails1}>
                       <div className={s.text}>
                         <p>Language</p>
                         <p>{book.language}</p>
                       </div>
-                    </div>
+                    </div> */}
                     <div className={s.price}>
                       <p>
                         $
@@ -136,10 +135,10 @@ function BookDetail(props) {
                   </div>
                   <div className={s.containerButtons}>
                     <button className={s.buttons} onClick={goBack}>
-                      Buy
+                      BUY
                     </button>
                     <button className={s.buttons} onClick={goBack}>
-                      Add to Cart
+                      ADD TO CART
                     </button>
                   </div>
                 </div>
@@ -147,23 +146,26 @@ function BookDetail(props) {
             </div>
             <div className={s.container4}>
               <div className={s.textDescription}>
-                <p>Description</p>
+                <p>DESCRIPTION</p>
                 <p>{book.description}</p>
               </div>
             </div>
             <div className={s.container4}>
-              <div className={s.textDescription} id="reviewsMark">
-                <p>Reviews</p>
-                <p>
+              <div className={s.textReviews} id="reviewsMark">
+                <p>REVIEWS</p>
+                <div>
                   "The book is really excellent, with a lot of common places..."{" "}
-                </p>
-                <p>"It is a masterpiece"</p>
-                <p>
+                </div>
+                <span>-Someone-</span>
+                <div>"It is a masterpiece"</div>
+                <span>-Someone else-</span>
+                <div>
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat."
-                </p>
+                </div>
+                <span>-Some crazy person-</span>
               </div>
             </div>
           </div>

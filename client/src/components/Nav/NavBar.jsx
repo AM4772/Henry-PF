@@ -10,15 +10,17 @@ export default function NavBar() {
   const [, setHome] = useState(/.+(?=\/home$).+/.test(window.location.href));
   return (
     <nav className={s.nav}>
-      <NavLinks setInput={setInput} open={setOpen} home={setHome} />
-      {/* <div
+      <div className={s.divcont}>
+        <NavLinks setInput={setInput} open={setOpen} home={setHome} />
+        {/* <div
         className={`${s.contSearch} ${
           /.+(?=\/home$).+/.test(window.location.href) ? null : s.searchHome
         }`}
       >
     </div> */}
-      <SearchBar input={input} setInput={setInput} />
-      <UserMenu />
+        <SearchBar input={input} setInput={setInput} />
+        <UserMenu />
+      </div>
     </nav>
   );
 }

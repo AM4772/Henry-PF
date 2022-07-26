@@ -21,6 +21,22 @@ let UsersModel = {
       return undefined;
     }
   },
+  getUsernames: async function () {
+    const users = await Users.findAll();
+    const usernames = users.map((u) => u.username);
+    if (usernames) {
+      return usernames;
+    }
+    return undefined;
+  },
+  getEmails: async function () {
+    const users = await Users.findAll();
+    const emails = users.map((u) => u.email);
+    if (emails) {
+      return emails;
+    }
+    return undefined;
+  },
 
   getUserByUsername: async function (username) {
     const foundUser = await Users.findAll({

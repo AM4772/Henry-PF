@@ -1,12 +1,11 @@
 const url = require('url');
 const https = require('https');
 const sizeOf = require('image-size');
-const { Books } = require('../db');
+const { Books, Apibooks } = require('../db');
 let imgVer = {
   imgVerify: async function (img) {
     // const imgUrl =
     //   'https://images-na.ssl-images-amazon.com/images/P/0345247868.01._SX180_SCLZZZZZZZ_.jpg';
-
     const options = url.parse(img);
     return new Promise((resolve, reject) => {
       https.get(options, function (response) {
@@ -20,15 +19,17 @@ let imgVer = {
           .on('end', function () {
             const buffer = Buffer.concat(chunks);
             imgSize = sizeOf(buffer);
-            resolve(imgSize);
+            setTimeout(() => {
+              resolve(imgSize);
+            }, 1000);
           });
       });
     });
   },
 
   booksWithImg: async function () {
-    let books = await Books.findAll();
-    const books2 = [];
+    let books = await Apibooks.findAll();
+    const booksArray = [];
     books = await books.map((b) =>
       imgVer.imgVerify(b.image).then(async (r) => {
         let img;
@@ -39,11 +40,29 @@ let imgVer = {
     books = await Promise.all(books.map(async (v) => await v));
     for (let i = 0; i < books.length; i++) {
       if (books[i] !== undefined) {
-        books2.push(books[i]);
+        booksArray.push(books[i]);
       }
     }
-    console.log(books2);
-    return books2;
+
+    booksArray &&
+      booksArray.map(async (b) => {
+        await Books.findOrCreate({
+          where: {
+            title: b.title,
+            description: b.description ? b.description : 'No description',
+            price: b.price,
+            image: b.image,
+            authors: b.authors ? b.authors : [],
+            categories: b.categories ? b.categories : [],
+            publisher: b.publisher ? b.publisher : 'NO PUBLISHER',
+            publishedDate: b.publishedDate ? b.publishedDate : 'NO DATE',
+            pageCount: b.pageCount ? b.pageCount : 0,
+            rating: 0,
+            language: b.language ? b.language : 'NO INFO',
+          },
+        });
+      });
+    return booksArray;
   },
 };
 module.exports = imgVer;

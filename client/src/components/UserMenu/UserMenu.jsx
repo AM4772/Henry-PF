@@ -65,7 +65,7 @@ function UserMenu() {
                   <li onClick={() => setOpen(!open)}>Favourites</li>
                 </Link>
                 <Link to="/purchases">
-                  <li onClick={() => setOpen(!open)}>Purchase's history</li>
+                  <li onClick={() => setOpen(!open)}>Purchase history</li>
                 </Link>
                 <li onClick={() => handleLogOut()}>
                   <span>Log out</span>

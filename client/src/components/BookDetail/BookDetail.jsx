@@ -150,9 +150,11 @@ function BookDetail(props) {
                 <p>{book.description}</p>
               </div>
             </div>
+          </div>
+          <div className={s.container5}>
+            <p>REVIEWS</p>
             <div className={s.container4}>
               <div className={s.textReviews} id="reviewsMark">
-                <p>REVIEWS</p>
                 <div>
                   "The book is really excellent, with a lot of common places..."{" "}
                 </div>

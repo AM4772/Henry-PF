@@ -40,6 +40,7 @@
   object-fit: contain
   width: auto
   cursor: pointer
+  z-index: 1
 
 .slideDesc
   text-overflow: ellipsis
@@ -52,3 +53,25 @@
   text-decoration: none
   color: #000
   font-size: 20px
+
+.figure
+  position: relative
+
+.figure:hover figcaption
+  background-color: rgba(0,0,0,.8)
+  color: #fff
+
+.figcaption
+  position: absolute
+  z-index: 99
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  background-color: transparent
+  text-align: center
+  padding: 15px
+  display: flex
+  color: transparent
+  transition: 0.3s
+  height: 250px

@@ -25,9 +25,9 @@ function BookCard(props) {
               </div>
               <div className={s.containerBookName}>
                 <p id={s.bookTitle}>
-                  {book.title.length < 70
+                  {book.title.length < 60
                     ? book.title.toUpperCase()
-                    : book.title.toUpperCase().slice(0, 70) + "..."}
+                    : book.title.toUpperCase().slice(0, 60) + "..."}
                 </p>
                 {/* {book.authors.map((el) => (
                   <p key={el} id={s.author}>

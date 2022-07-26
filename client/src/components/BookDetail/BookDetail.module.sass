@@ -11,8 +11,8 @@
   justify-content: center
   align-items: center
   border-radius: 10px
-  // background: var(--color-whiteish)
-  background: rgba(234, 221, 204, .6)
+  background: var(--color-whiteish)
+  // background: rgba(234, 221, 204, .6)
   padding: 0px
   margin-top: 10px
   margin-bottom: 0px
@@ -42,7 +42,7 @@
 .containerBookDetails
   display: flex
   flex-direction: column
-  align-items: center
+  align-items: flex-start
   justify-items: center
   margin-right: 10px
   width: 55%
@@ -50,15 +50,16 @@
 .containerDetails
   display: flex
   flex-direction: column
-  align-items: center
+  align-items: flex-start
+  width: 100%
 
 .containerDetails1
   display: flex
   flex-direction: row
-  align-items: center
+  align-items: left
 
 .containerDetails1 div
-  align-items: center
+  align-items: left
   width: 14vw
 
 .containerImage
@@ -86,17 +87,15 @@
 .containerReviews2
   display: flex
   align-content: center
-  justify-content: center
-  align-items: center
+  justify-content: left
+  align-items: flex-start
   width: 100%
   padding: 3px 10px
   margin: 0px
-
-.containerReviews2 p
-  text-align: center
-  font-size: 1.2vw
-  font-style: italic
-  margin-left: 10px
+  p
+    font-size: 1.2vw
+    font-style: italic
+    margin-left: 10px
 
 .reviews
   width: 10vw
@@ -105,58 +104,109 @@
 #bookTitle
   font-size: 2vw
   font-weight: bold
-  margin-left: 10px
-  text-align: center
+  margin-left: 13px
+  text-align: left
   color: var(--color-brownish-dd)
 
 #author
-  font-size: 1.4vw
+  font-size: 1.5vw
   font-weight: bold
   text-decoration: none
+  margin-bottom: 5px
   color: var(--color-brownish-d)
 
 .arr, .text
   display: flex
-  flex-direction: column
+  flex-direction: row
   justify-content: center
-  text-align: center
+  text-align: left
   font-size: 1.2vw
   color: var(--color-brownish-dd)
   display: flex
-  margin: 5px 0px 5px 0px
+  margin: 5px 0px 0px 10px
+  width: 100%
+
+.arr p:first-child, .text p:first-child, .textDescription p:first-child
+  font-weight: bold
+  width: 33%
+  text-align: left
+  margin-left: 0px
+
+.arr p, .text p
+  align-self: left
+  padding: 0px 5px 0px 5px
+  text-align: left
+
+.arr p:last-child, .text p:last-child
+  width: 100%
 
 .textDescription
   display: flex
   flex-direction: column
   justify-content: center
-  font-size: 1.2vw
+  width: 100%
+  text-align: left
+  font-size: 1.4vw
   color: var(--color-brownish-dd)
   display: flex
   margin: 5px 0px 5px 0px
+  p:first-child
+    text-align: left
+    width: 100%
+    margin-bottom: 5px
+  p
+    align-self: center
+    text-align: justify
+    padding: 0px 5px 0px 5px
 
-.arr p:first-child, .text p:first-child, .textDescription p:first-child
-  font-weight: bold
-
-.arr p, .text p
-  align-self: center
-  padding: 0px 5px 0px 5px
-
-.textDescription p
-  align-self: center
-  text-align: justify
-  padding: 0px 5px 0px 5px
+.textReviews
+  display: flex
+  flex-direction: column
+  justify-content: center
+  width: 100%
+  text-align: center
+  font-size: 1.4vw
+  color: var(--color-brownish-dd)
+  display: flex
+  margin: 5px 0px 5px 0px
+  p:first-child
+    text-align: center
+    width: 100%
+    margin-bottom: 15px
+  p
+    font-weight: bold
+    align-self: left
+    width: 100%
+    padding: 0px 5px 0px 5px
+  div
+    // font-size: 1.3vw
+    text-
+    font-style: oblique
+    font-weight: 600
+  span
+    font-size: 1.2vw
 
 .price
-  font-size: 2.1vw
   color: var(--color-brownish-dd)
   padding: 10px
   padding-top: 5px
   display: flex
   justify-content: center
+  width: 100%
+  p
+    font-size: 3vw
+    font-weight: 600
+    padding-right: 15px
+    font-stretch: ultra-expanded
+    display: flex
+    justify-content: right
+    width: 100%
 
 .containerButtons
   display: flex
   flex-direction: column
+  align-items: flex-start
+  width: 95%
 
 .backButton
   display: flex
@@ -175,8 +225,8 @@
   font-size: 1.3vw
   color: var(--color-brownish-dd)
   background-color: var(--color-yellowish-d)
-  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1)
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1)
+  -webkit-box-shadow: 0px 0.3px 3px .5px rgba(0, 0, 0, 0.5)
+  box-shadow: 0px 0.3px 3px .5px rgba(0, 0, 0, 0.5)
   cursor: pointer
   transition: 0.7s
 
@@ -191,12 +241,13 @@
   margin: 13px
   margin-top: 0px
   border: none
-  font-size: 1.6vw
-  width: 20vw
+  font-size: 1.9vw
+  font-weight: 600
+  width: 100%
   color: var(--color-brownish-dd)
   background-color: var(--color-yellowish-d)
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1)
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1)
+  -webkit-box-shadow: 0px 0.3px 3px .5px rgba(0, 0, 0, 0.5)
+  box-shadow: 0px 0.3px 3px .5px rgba(0, 0, 0, 0.5)
   cursor: pointer
   transition: 0.7s
 

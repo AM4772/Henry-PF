@@ -27,27 +27,27 @@ export function Home(props) {
   }, [mostPopular, bestSellers, newReleases]);
   slidesMP = mostPopular?.map((slide) => (
     <Link to={`/book/${slide.ID}`}>
-      <div className={sa.slideContainer}>
+      <figure className={sa.figure}>
         <img className={sa.slideImg} src={slide.image} alt={slide.title} />
-        <div className={sa.slideDesc}>{slide.title}</div>
-      </div>
+        <figcaption className={sa.figcaption}>{slide.title}</figcaption>
+      </figure>
     </Link>
   ));
 
   slidesBS = bestSellers?.map((slide) => (
     <Link to={`/book/${slide.ID}`}>
-      <div className={sa.slideContainer}>
+      <figure className={sa.figure}>
         <img className={sa.slideImg} src={slide.image} alt={slide.title} />
-        <div className={sa.slideDesc}>{slide.title}</div>
-      </div>
+        <figcaption className={sa.figcaption}>{slide.title}</figcaption>
+      </figure>
     </Link>
   ));
   slidesNR = newReleases?.map((slide) => (
     <Link to={`/book/${slide.ID}`}>
-      <div className={sa.slideContainer}>
+      <figure className={sa.figure}>
         <img className={sa.slideImg} src={slide.image} alt={slide.title} />
-        <div className={sa.slideDesc}>{slide.title}</div>
-      </div>
+        <figcaption className={sa.figcaption}>{slide.title}</figcaption>
+      </figure>
     </Link>
   ));
 
@@ -55,9 +55,9 @@ export function Home(props) {
     <div className={s.home}>
       <div className={s.banner}>
         <img src={banner} alt="banner" className={s.bannerImg} />
-        <div className={s.arrow}>
-          <FaChevronDown className={s.icon} />
-        </div>
+        <a className={s.arrow} href="#slider1">
+          <FaChevronDown className={s.icon} id="slider1" />
+        </a>
       </div>
       <div className={s.carrusel}>
         <h2>Best Sellers</h2>

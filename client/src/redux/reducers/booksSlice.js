@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   search: [],
   allBooks: [],
+  loading: true,
   books: [],
+  booksNoSorted: [],
   homeBooks: {},
   bookDetail: {},
   authors: [],
@@ -11,7 +13,7 @@ const initialState = {
   filterBooksByAuthor: [],
   filterBooksByCategory: [],
   filterCard: "books",
-  orderBooksBy: "",
+  orderBooksBy: "A-Z",
 };
 
 const booksSlice = createSlice({
@@ -20,7 +22,15 @@ const booksSlice = createSlice({
   reducers: {
     getBooks: (state, action) => {
       state.books = action.payload;
+      state.booksNoSorted = [...action.payload];
       state.allBooks = [...action.payload];
+      state.loading = false;
+    },
+    clearAllBooks: (state) => {
+      state.allBooks = [];
+      state.books = [];
+      state.booksNoSorted = [];
+      state.loading = true;
     },
     getSearch: (state, action) => {
       state.search = action.payload;
@@ -83,6 +93,7 @@ const booksSlice = createSlice({
             )
           );
           state.books = filterAuthorArray;
+          state.booksNoSorted = [...filterAuthorArray];
         }
       }
       if (state.books[0] && state.books.length > 0) {
@@ -119,11 +130,36 @@ const booksSlice = createSlice({
             )
           );
           state.books = filterCategoryArray;
+          state.booksNoSorted = [...filterCategoryArray];
         }
       }
     },
     getHomeBooks: (state, action) => {
       state.homeBooks = action.payload;
+    },
+    setSortBook: (state, action) => {
+      state.orderBooksBy = action.payload;
+    },
+    applyBookSort: (state) => {
+      if (state.orderBooksBy === "A-Z") {
+        state.books = [...state.booksNoSorted];
+      } else if (state.orderBooksBy === "H-L-price") {
+        state.books.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      } else if (state.orderBooksBy === "L-H-price") {
+        state.books.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      } else if (state.orderBooksBy === "N-O") {
+        state.books.sort(
+          (a, b) => new Date(b.publishedDate) - new Date(a.publishedDate)
+        );
+      } else if (state.orderBooksBy === "O-N") {
+        state.books.sort(
+          (a, b) => new Date(a.publishedDate) - new Date(b.publishedDate)
+        );
+      } else if (state.orderBooksBy === "H-L-rating") {
+        state.books.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+      } else if (state.orderBooksBy === "L-H-rating") {
+        state.books.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating));
+      }
     },
   },
 });
@@ -140,6 +176,9 @@ export const {
   applyBookFilters,
   getSearch,
   getHomeBooks,
+  clearAllBooks,
+  setSortBook,
+  applyBookSort,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

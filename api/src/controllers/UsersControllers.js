@@ -54,14 +54,14 @@ let UsersModel = {
   },
   getUserById: async function (ID) {
     const foundUser = await Users.findByPk(ID);
-    return foundUser;
-    // return {
-    //   ID: foundUser.ID,
-    //   username: foundUser.username,
-    //   name: foundUser.name,
-    //   surname: foundUser.surname,
-    //   email: foundUser.email,
-    // };
+
+    return {
+      ID: foundUser.ID,
+      username: foundUser.username,
+      name: foundUser.name,
+      surname: foundUser.surname,
+      email: foundUser.email,
+    };
   },
 
   createUser: async function (user) {

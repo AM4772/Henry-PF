@@ -159,5 +159,30 @@ let BooksModel = {
     }
     return undefined;
   },
+  createBook: async function (book) {
+    const verifyBook = await Users.findAll({
+      where: {
+        title: book.title.toLowerCase(),
+      },
+    });
+
+    if (verifyBook.length > 0) return undefined;
+    try {
+      const createdBook = await Books.create({
+        title: book.name.toLowerCase(),
+        description: book.description.toLowerCase(),
+        price: book.price,
+        authors: book.authors,
+        categories: book.categories,
+        publishedDate: book.publishedDate,
+        publisher: book.publisher,
+        pageCount: book.pageCount,
+        language: book.language,
+      });
+      return createdBook;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
 module.exports = BooksModel;

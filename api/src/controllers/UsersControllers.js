@@ -55,6 +55,13 @@ let UsersModel = {
   getUserById: async function (ID) {
     const foundUser = await Users.findByPk(ID);
     return foundUser;
+    // return {
+    //   ID: foundUser.ID,
+    //   username: foundUser.username,
+    //   name: foundUser.name,
+    //   surname: foundUser.surname,
+    //   email: foundUser.email,
+    // };
   },
 
   createUser: async function (user) {
@@ -80,7 +87,27 @@ let UsersModel = {
       throw new Error(error.message);
     }
   },
-  modifyUser,
+  modifyUsers: async function (changes, ID) {
+    if (Object.keys(changes).length === 0) {
+      return null;
+    }
+    try {
+      const user = await Users.findByPk(ID);
+      if (user === null) {
+        return null;
+      }
+
+      await user.update(changes);
+      if (changes.password) {
+        await user.update({
+          password: await hashPassword(user.password),
+        });
+      }
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
 };
 
 module.exports = UsersModel;

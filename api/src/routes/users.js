@@ -5,6 +5,7 @@ const {
   createUser,
   getUsers,
   modifyUsers,
+  deleteUser,
   getFavourites,
 } = require('../controllers/UsersControllers');
 
@@ -97,6 +98,18 @@ router.put('/:ID', async (req, res) => {
         res.status(400).json(validate);
       }
     }
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
+
+router.delete('/:ID', async (req, res) => {
+  const { ID } = req.params;
+  try {
+    const deletedUser = await deleteUser(ID);
+    deletedUser
+      ? res.status(201).json({ message: 'User deleted successfully' })
+      : res.status(400).json({ message: `Error deleting user with id ${ID}` });
   } catch (err) {
     res.status(400).json(err.message);
   }

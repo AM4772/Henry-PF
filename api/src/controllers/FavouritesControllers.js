@@ -1,22 +1,28 @@
 const { Users, Books } = require('../db');
 let FavouritesModel = {
   getFavourites: async function (ID) {
-    const user = await Users.finAll({
-      where: {
-        ID: ID,
-        include: Books,
-      },
+    const user = await Users.findOne({
+      where: { ID },
+      include: Books,
     });
-    console.log(user);
+    return user;
   },
 
   addFavourites: async function (bookID, userID) {
-    await userID.addBooks(bookID);
-    const result = await Users.findOne({
-      where: { ID: userID },
-      include: Books,
+    const user = await Users.findOne({
+      where: {
+        ID: userID,
+      },
     });
-    console.log(result);
+    if (user) {
+      await user.addBooks(ID);
+      const result = await Users.findOne({
+        where: { ID: userID },
+        include: Books,
+      });
+      return result;
+    }
+    return undefined;
   },
   deleteFavourites: async function (bookID, userID) {
     // try {

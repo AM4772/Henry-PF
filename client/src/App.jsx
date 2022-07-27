@@ -60,9 +60,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appLoading, appLoadingUsers, appLoadingProfile, location]);
   useEffect(() => {}, [loading]);
-  // setTimeout(() => {
-  //   setLoading(false);
-  // }, 2000);
 
   return (
     <div>

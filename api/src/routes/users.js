@@ -90,11 +90,12 @@ router.post('/:ID/favourites', async (req, res) => {
   const { ID } = req.params;
   const userID = ID;
   const bookID = req.body.ID;
+  console.log(req.body);
   try {
     if (isNaN(userID) && isNaN(bookID)) {
       return res.status(400).json({ message: 'ID must be a number' });
     }
-    const favourites = await addFavourites(bookID, userID);
+    const favourites = await addFavourites(parseInt(bookID), parseInt(userID));
     favourites
       ? res
           .status(200)

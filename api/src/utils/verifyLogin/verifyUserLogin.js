@@ -1,15 +1,15 @@
 const bcrypt = require('bcrypt');
-const { Users } = require('../../db');
+const { Users, Books } = require('../../db');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 let verifyLoginModel = {
   verifyLogin: async function ({ username, password }) {
-    
     const user = await Users.findOne({
       where: {
         username: username.toLowerCase(),
       },
+      include: Books,
     });
 
     if (user) {

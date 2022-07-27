@@ -64,17 +64,31 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
+router.put("/:ID", async (req, res) => {
+  const { ID } = req.params;
   try {
-    const validate = await validateBook(req.body);
-    if (!validate) {
-      const deletedBook = await deleteBook(req.body);
-      deletedBook
-        ? res.status(201).json({ message: "Book deleted successfully" })
-        : res.status(400).json({ message: `Error deleting book` });
-    } else {
-      res.status(400).json(validate);
-    }
+    if (ID) {
+      const validate = await validateBook(req.body);
+      if (!validate) {
+      const modified = await modifyBooks(req.body, ID);
+      modified
+        ? res.status(200).json({ message: "Book modified successfully" })
+        : res.status(400).json({ message: `Error modifying book` });
+      } else {
+        res.status(400).json(validate);
+      }}
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
+
+router.delete("/:ID", async (req, res) => {
+  const { ID } = req.params;
+  try {
+    const deletedBook = await deleteBook(req.body);
+    deletedBook
+      ? res.status(201).json({ message: "Book deleted successfully" })
+      : res.status(400).json({ message: `Error deleting book with id ${ID}` });
   } catch (err) {
     res.status(400).json(err.message);
   }

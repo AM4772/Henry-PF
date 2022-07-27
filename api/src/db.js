@@ -63,8 +63,8 @@ const { Books, Users, Apibooks, Paymentsession, Reviews, Userpurchasedetail } = 
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Users.belongsToMany(Books, { through: 'user_book' });
-Books.belongsToMany(Users, { through: 'user_book' });
+Users.belongsToMany(Books, { through: 'user_bookfav' });
+Books.belongsToMany(Users, { through: 'user_bookfav' });
 Books.hasMany(Reviews);
 Reviews.belongsTo(Books);
 Users.hasOne(Paymentsession);

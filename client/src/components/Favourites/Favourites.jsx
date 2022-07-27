@@ -8,7 +8,11 @@ const Favourites = () => {
   const { favourites } = useSelector((state) => state.profile);
 
   return favourites.length > 0 ? (
-    <div className={s.containerFav1}></div>
+    favourites.map((fav) => (
+      <div className={s.containerFav1}>
+        <p>{fav.title}</p>
+      </div>
+    ))
   ) : (
     <div className={s.containerNotFav}>
       <div className={s.NotFav}>

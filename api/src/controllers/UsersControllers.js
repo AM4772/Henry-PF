@@ -80,6 +80,7 @@ let UsersModel = {
       throw new Error(error.message);
     }
   },
+  modifyUser,
 };
 
 module.exports = UsersModel;

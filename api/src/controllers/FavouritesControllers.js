@@ -4,7 +4,7 @@ let FavouritesModel = {
     const user = await Users.finAll({
       where: {
         ID: ID,
-        include: Book,
+        include: Books,
       },
     });
     console.log(user);
@@ -12,7 +12,7 @@ let FavouritesModel = {
 
   addFavourites: async function (bookID, userID) {
     await userID.addBooks(bookID);
-    const result = await Pokemon.findOne({
+    const result = await Users.findOne({
       where: { ID: userID },
       include: Books,
     });

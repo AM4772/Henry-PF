@@ -36,6 +36,9 @@ const profileSlice = createSlice({
     deleteFavourite: (state, action) => {
       state.favourites = action.payload;
     },
+    deleteAllFavourites: (state, action) => {
+      state.favourites = action.payload;
+    },
   },
 });
 
@@ -46,6 +49,7 @@ export const {
   firstAutoLogin,
   addFavourite,
   deleteFavourite,
+  deleteAllFavourites,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

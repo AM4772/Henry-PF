@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 
-  sequelize.define('payment_session', {
+  sequelize.define('paymentsession', {
     ID: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -13,11 +13,11 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     items: {
-      type: DataTypes.ARRAY,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
     total: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     gift: {

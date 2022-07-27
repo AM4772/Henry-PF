@@ -12,6 +12,7 @@ import {
   asyncGetCategories,
 } from "../../redux/actions/booksActions";
 import { updateCurrentPage } from "../../redux/reducers/paginationSlice";
+import { useRef } from "react";
 
 function Filters() {
   const {
@@ -31,6 +32,31 @@ function Filters() {
     filterAuthor: filterBooksByAuthor.length > 0 ? filterBooksByAuthor : [],
     filterCategory: filterBooksByCategory,
   });
+  const [openAuthor, setOpenAuthor] = useState(false);
+  const [openCategory, setOpenCategory] = useState(false);
+  const authorRef = useRef(null);
+  const categoryRef = useRef(null);
+  function closeListAuthor(e) {
+    if (
+      authorRef.current &&
+      openAuthor &&
+      !authorRef.current.contains(e.target)
+    ) {
+      setOpenAuthor(false);
+    }
+  }
+  document.addEventListener("mousedown", closeListAuthor);
+  function closeListCategory(e) {
+    if (
+      categoryRef.current &&
+      openCategory &&
+      !categoryRef.current.contains(e.target)
+    ) {
+      setOpenCategory(false);
+    }
+  }
+  document.addEventListener("mousedown", closeListCategory);
+
   useEffect(() => {
     dispatch(setFilterCard("books"));
 
@@ -48,6 +74,11 @@ function Filters() {
 
   function handleChange(e) {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
+    if (e.target.name === "author") {
+      setOpenAuthor(true);
+    } else if (e.target.name === "category") {
+      setOpenCategory(true);
+    }
   }
 
   function addAuthor(a) {
@@ -109,31 +140,32 @@ function Filters() {
               autoComplete="off"
               name="author"
             />
-            <div className={s.searchAuthorCont}>
+            <div ref={authorRef} className={s.searchAuthorCont}>
               <div>
-                {inputs.author.length > 0 &&
-                  authors.map((a, i) =>
-                    a
-                      .toLowerCase()
-                      .replace(/\./g, "")
-                      .replace(/^\s+|\s+$/g, "")
-                      .includes(
-                        inputs.author
-                          .replace(/^\s+|\s+$/g, "")
-                          .replace(/\./g, "")
-                          .replace(/\s+/g, " ")
-                          .toLowerCase()
-                      ) ? (
-                      <div
-                        key={i}
-                        className={s.searchAuthor}
-                        onClick={() => addAuthor(a)}
-                        value={a}
-                      >
-                        {a}
-                      </div>
-                    ) : null
-                  )}
+                {inputs.author.length > 0 && openAuthor
+                  ? authors.map((a, i) =>
+                      a
+                        .toLowerCase()
+                        .replace(/\./g, "")
+                        .replace(/^\s+|\s+$/g, "")
+                        .includes(
+                          inputs.author
+                            .replace(/^\s+|\s+$/g, "")
+                            .replace(/\./g, "")
+                            .replace(/\s+/g, " ")
+                            .toLowerCase()
+                        ) ? (
+                        <div
+                          key={i}
+                          className={s.searchAuthor}
+                          onClick={() => addAuthor(a)}
+                          value={a}
+                        >
+                          {a}
+                        </div>
+                      ) : null
+                    )
+                  : null}
               </div>
             </div>
           </div>
@@ -157,31 +189,32 @@ function Filters() {
               autoComplete="off"
               name="category"
             />
-            <div className={s.searchCategoryCont}>
+            <div ref={categoryRef} className={s.searchCategoryCont}>
               <div>
-                {inputs.category.length > 0 &&
-                  categories.map((c, i) =>
-                    c
-                      .replace(/\./g, "")
-                      .replace(/^\s+|\s+$/g, "")
-                      .toLowerCase()
-                      .includes(
-                        inputs.category
-                          .replace(/\s\s+/g, " ")
-                          .replace(/\./g, "")
-                          .replace(/\s+/g, " ")
-                          .toLowerCase()
-                      ) ? (
-                      <div
-                        className={s.searchCategory}
-                        key={i}
-                        onClick={() => addCategory(c)}
-                        value={c}
-                      >
-                        {c}
-                      </div>
-                    ) : null
-                  )}
+                {inputs.category.length > 0 && openCategory
+                  ? categories.map((c, i) =>
+                      c
+                        .replace(/\./g, "")
+                        .replace(/^\s+|\s+$/g, "")
+                        .toLowerCase()
+                        .includes(
+                          inputs.category
+                            .replace(/\s\s+/g, " ")
+                            .replace(/\./g, "")
+                            .replace(/\s+/g, " ")
+                            .toLowerCase()
+                        ) ? (
+                        <div
+                          className={s.searchCategory}
+                          key={i}
+                          onClick={() => addCategory(c)}
+                          value={c}
+                        >
+                          {c}
+                        </div>
+                      ) : null
+                    )
+                  : null}
               </div>
             </div>
           </div>

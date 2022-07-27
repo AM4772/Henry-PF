@@ -1,12 +1,7 @@
 import axios from "axios";
-import Swal from "sweetalert2";
-import {
-  firstAutoLogin,
-  loginUser,
-  addFavourite,
-  deleteFavourite,
-} from "../reducers/profileSlice";
-import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
+import Swal from 'sweetalert2';
+import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
+import { getUsers, getUserDetail, getSearchUser, setEmails, setUsernames } from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
@@ -56,15 +51,19 @@ export function asyncRegisterUser(info) {
         icon: "success",
         title: "Your account has been created",
         text: `${response.message}`,
-      });
-      return true;
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        return true
+      })
     } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error.response.data.message}`,
-      });
-      return false;
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Sorry, there was a problem, wait until we fix it',
+      }).then(() => {
+        return false
+      })
     }
   };
 }
@@ -77,9 +76,12 @@ export function asyncLogin(body) {
         icon: "success",
         text: "You have logged in successfully",
         title: `${response.message}`,
-      });
-      dispatch(loginUser(response));
-      localStorage.setItem("ALTKN", response.token);
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        dispatch(loginUser(response));
+        localStorage.setItem("ALTKN", response.token);
+      })
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -101,26 +103,34 @@ export function asyncAutoLogin(token) {
   };
 }
 
-export function asyncAddFavourite(ID, bookID) {
+export function asyncSetEmails() {
   return async function (dispatch) {
     try {
-      const response = (await axios.post("/users/" + ID + "/favourites"),
-      bookID).data;
-      dispatch(addFavourite(response));
+      const response = (await axios("/emails")).data;
+      dispatch(setEmails(response));
     } catch (error) {
-      console.error(error);
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
+      })
     }
   };
 }
 
-export function asyncDeleteFavourite(ID, bookID) {
+export function asyncSetUsernames() {
   return async function (dispatch) {
     try {
-      const response = (await axios.delete("/users/" + ID + "/favourites"),
-      bookID).data;
-      dispatch(deleteFavourite(response));
+      const response = (await axios("/usernames")).data;
+      dispatch(setUsernames(response));
     } catch (error) {
-      console.error(error);
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
+      })
     }
   };
 }

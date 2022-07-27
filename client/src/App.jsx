@@ -12,6 +12,7 @@ import Profile from "./components/Profile/Profile";
 import Favourites from "./components/Favourites/Favourites";
 import Footer from "./components/Footer/Footer.jsx";
 import Contact from "./components/Contact/Contact";
+import CreateBook from "./components/CreateBook/CreateBook";
 import "./App.sass";
 import { useDispatch, useSelector } from "react-redux";
 import { addStack } from "./redux/reducers/historySlice";
@@ -42,11 +43,10 @@ function App() {
       <Route exact path={"/search"} component={Searching} />
       <Route exact path={"/register"} component={Register} />
       <Route exact path={"/login"} component={LogIn} />
-      {/* //to delete */}
       <Route exact path={"/userMenu"} component={UserMenu} />
       <Route exact path={"/profile"} component={Profile} />
       <Route exact path={"/contact"} component={Contact} />
-      <Route exact path={"/favourites"} component={Favourites} />
+      <Route exact path={"/dashboard/createbook"} component={CreateBook} />
       <Route exact path={"/"} component={Home} />
       <Footer />
     </div>

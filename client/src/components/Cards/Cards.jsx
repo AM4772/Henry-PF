@@ -1,37 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import s from "./Cards.module.sass";
 import BookCard from "../BookCard/BookCard";
-// import UserCard from "../UserCard/UserCard";
 import Loading from "../Loading/Loading";
 
 function Cards() {
-  const { books, filterCard } = useSelector((state) => state.books);
+  const { books, filterCard, loading } = useSelector((state) => state.books);
   const { users } = useSelector((state) => state.users);
 
   const { currentPage, cardsPerPage } = useSelector(
     (state) => state.pagination
   );
 
-  const [loading, setLoading] = useState(true);
-  const [, setRare] = useState(true);
-
   const indexOfLastCards = currentPage * cardsPerPage;
   const indexOfFirstCards = indexOfLastCards - cardsPerPage;
   const currentBooks = books.slice(indexOfFirstCards, indexOfLastCards);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  if (filterCard === "books") {
-    setTimeout(() => {
-      if (!currentBooks[0]) {
-        setLoading(false);
-      }
-    }, 2500);
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   useEffect(() => {
-    return () => {
-      setRare(true);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [books, currentPage, users, filterCard, loading]);
 

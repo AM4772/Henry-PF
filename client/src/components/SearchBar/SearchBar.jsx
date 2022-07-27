@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./SearchBar.module.sass";
@@ -9,10 +9,7 @@ import {
   asyncGetSearch,
 } from "../../redux/actions/booksActions";
 import {
-  asyncGetSearchUser,
-  asyncGetUsers,
-} from "../../redux/actions/usersActions";
-import {
+  clearAllBooks,
   setAuthorFilter,
   setCategoryFilter,
 } from "../../redux/reducers/booksSlice";
@@ -22,19 +19,26 @@ function SearchBar({ input, setInput }) {
   const [searchButton, setSearchButton] = useState(true);
   const { filterCard, search } = useSelector((state) => state.books);
   const dispatch = useDispatch();
+  const searchList = useRef(null);
+  const [open, setOpen] = useState(false);
   const history = useHistory();
+  function closeList(e) {
+    if (searchList.current && open && !searchList.current.contains(e.target)) {
+      setOpen(false);
+    }
+  }
+  document.addEventListener("mousedown", closeList);
   useEffect(() => {
     if (filterCard === "books") {
       dispatch(asyncGetSearch());
-    } else if (filterCard === "users") {
-      dispatch(asyncGetSearchUser());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterCard]);
+  }, [filterCard, open]);
   function handleChange(e) {
     e.preventDefault();
     setInput(e.target.value);
     setSearchButton(true);
+    setOpen(true);
   }
   function handleClick(e, title) {
     e.preventDefault();
@@ -46,10 +50,6 @@ function SearchBar({ input, setInput }) {
         history.push("/search");
         dispatch(setAuthorFilter([]));
         dispatch(setCategoryFilter([]));
-      } else if (filterCard === "users") {
-        dispatch(asyncGetUsers(title));
-        setInput(title);
-        history.push("/search");
       }
     }
   }
@@ -59,6 +59,7 @@ function SearchBar({ input, setInput }) {
     if (input.replace(/^\s+|\s+$/g, "").replace(/\./g, "") !== "") {
       if (filterCard === "books") {
         dispatch(updateCurrentPage(1));
+        dispatch(clearAllBooks());
         dispatch(
           asyncGetBooks(
             input
@@ -70,17 +71,6 @@ function SearchBar({ input, setInput }) {
         setInput(input.replace(/^\s+|\s+$/g, ""));
         dispatch(setAuthorFilter([]));
         dispatch(setCategoryFilter([]));
-        history.push("/search");
-      } else if (filterCard === "users") {
-        dispatch(
-          asyncGetUsers(
-            input
-              .replace(/^\s+|\s+$/g, "")
-              .replace(/\./g, "")
-              .replace(/\s+/g, " ")
-          )
-        );
-        setInput(input.replace(/^\s+|\s+$/g, ""));
         history.push("/search");
       }
     }
@@ -103,7 +93,7 @@ function SearchBar({ input, setInput }) {
           />
         </div>
       </form>
-      <div className={s.usualSearch}>
+      <div className={s.usualSearch} ref={searchList}>
         <div
           className={`${
             input
@@ -117,26 +107,28 @@ function SearchBar({ input, setInput }) {
           }`}
         >
           {input.replace(/^\s+|\s+$/g, "").length > 0
-            ? search.map((b) =>
-                b.title
-                  .replace(/\./g, "")
-                  .toLowerCase()
-                  .includes(
-                    input
-                      .replace(/^\s+|\s+$/g, "")
-                      .replace(/\./g, "")
-                      .replace(/\s+/g, " ")
-                      .toLowerCase()
-                  ) ? (
-                  <div
-                    onClick={(e) => handleClick(e, b.title)}
-                    className={s.usuals}
-                    key={b.ID}
-                  >
-                    {b.title}
-                  </div>
-                ) : null
-              )
+            ? open
+              ? search.map((b) =>
+                  b.title
+                    .replace(/\./g, "")
+                    .toLowerCase()
+                    .includes(
+                      input
+                        .replace(/^\s+|\s+$/g, "")
+                        .replace(/\./g, "")
+                        .replace(/\s+/g, " ")
+                        .toLowerCase()
+                    ) ? (
+                    <div
+                      onClick={(e) => handleClick(e, b.title)}
+                      className={s.usuals}
+                      key={b.ID}
+                    >
+                      {b.title}
+                    </div>
+                  ) : null
+                )
+              : null
             : null}
         </div>
       </div>

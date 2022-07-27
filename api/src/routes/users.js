@@ -5,6 +5,7 @@ const {
   createUser,
   getUsers,
   modifyUsers,
+  getFavourites,
 } = require("../controllers/UsersControllers");
 
 const { validateUsersPost } = require("../utils/validations/userValidations");
@@ -48,6 +49,23 @@ router.get("/:ID", async (req, res) => {
   }
 });
 
+router.get("/:ID/favourites", async (req, res) => {
+  const { ID } = req.params;
+  try {
+    if (ID) {
+      if (isNaN(ID)) {
+        return res.status(400).json({ message: "ID must be a number" });
+      }
+      let user = await getFavourites(ID);
+      user
+        ? res.json(user)
+        : res.status(404).json({ message: `User with ID ${ID} not found` });
+    }
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const validate = await validateUsersPost(req.body);
@@ -68,10 +86,15 @@ router.put("/:ID", async (req, res) => {
   const { ID } = req.params;
   try {
     if (ID) {
-      const modified = await modifyUsers(req.body, ID);
-      modified
-        ? res.status(200).json({ message: "User modified successfully" })
-        : res.status(400).json({ message: `Error modify user` });
+      const validate = await validateUsersPost(req.body);
+      if (!validate) {
+        const modified = await modifyUsers(req.body, ID);
+        modified
+          ? res.status(200).json({ message: "User modified successfully" })
+          : res.status(400).json({ message: `Error modify user` });
+      } else {
+        res.status(400).json(validate);
+      }
     }
   } catch (err) {
     res.status(400).json(err.message);

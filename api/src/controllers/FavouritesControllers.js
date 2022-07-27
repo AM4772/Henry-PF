@@ -15,7 +15,7 @@ let FavouritesModel = {
       },
     });
     if (user) {
-      await user.addBooks(ID);
+      await user.addBooks(bookID);
       const result = await Users.findOne({
         where: { ID: userID },
         include: Books,

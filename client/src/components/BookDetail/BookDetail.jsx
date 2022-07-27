@@ -28,8 +28,9 @@ function BookDetail(props) {
 
   const [added, setAdded] = useState(false);
 
+  window.scrollTo(0, 0);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (favourites.length > 0) {
       let result = favourites.find((el) => el.bookID === ID);
       if (result) setAdded(true);

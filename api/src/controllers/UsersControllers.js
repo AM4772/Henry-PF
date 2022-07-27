@@ -1,6 +1,7 @@
 const { Users } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
+const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
 
 let UsersModel = {
   getUsers: async function () {
@@ -54,14 +55,14 @@ let UsersModel = {
   },
   getUserById: async function (ID) {
     const foundUser = await Users.findByPk(ID);
-    return foundUser;
-    // return {
-    //   ID: foundUser.ID,
-    //   username: foundUser.username,
-    //   name: foundUser.name,
-    //   surname: foundUser.surname,
-    //   email: foundUser.email,
-    // };
+
+    return {
+      ID: foundUser.ID,
+      username: foundUser.username,
+      name: foundUser.name,
+      surname: foundUser.surname,
+      email: foundUser.email,
+    };
   },
 
   createUser: async function (user) {
@@ -87,6 +88,7 @@ let UsersModel = {
       throw new Error(error.message);
     }
   },
+
   modifyUsers: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;
@@ -96,13 +98,39 @@ let UsersModel = {
       if (user === null) {
         return null;
       }
-
-      await user.update(changes);
-      if (changes.password) {
-        await user.update({
-          password: await hashPassword(user.password),
+      if (changes.editPassword) {
+        const verifyPasswords = await verifyLogin({
+          username: user.username,
+          password: changes.password,
         });
+
+        if (verifyPasswords) {
+          await user.update({
+            password: await hashPassword(changes.newPassword),
+          });
+        } else {
+          return null;
+        }
       }
+      await user.update({
+        username: changes.username,
+        name: changes.name,
+        surname: changes.lastName,
+        email: changes.email,
+      });
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  deleteUser: async function (ID) {
+    try {
+      const user = await Users.findByPk(ID);
+      if (user === null) {
+        return null;
+      }
+      await user.destroy();
       return user;
     } catch (error) {
       return null;

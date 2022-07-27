@@ -159,5 +159,57 @@ let BooksModel = {
     }
     return undefined;
   },
+  createBook: async function (book) {
+    const verifyBook = await Books.findAll({
+      where: {
+        title: book.title.toLowerCase(),
+      },
+    });
+
+    if (verifyBook.length > 0) return undefined;
+    try {
+      const createdBook = await Books.create({
+        title: book.title.toLowerCase(),
+        description: book.description.toLowerCase(),
+        price: book.price,
+        authors: book.authors,
+        categories: book.categories,
+        publishedDate: book.publishedDate,
+        publisher: book.publisher,
+        pageCount: book.pageCount,
+        language: book.language,
+      });
+      return createdBook;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  modifyBooks: async function (changes, ID) {
+    if (Object.keys(changes).length === 0) {
+      return null;
+    }
+    try {
+      const book = await Books.findByPk(ID);
+      if (book === null) {
+        return null;
+      }
+      await book.update(changes);
+      return book;
+    } catch (error) {
+      return null;
+    }
+  },
+  deleteBook: async function (ID) {
+    try {
+      const book = await Books.findByPk(ID);
+      if (book === null) {
+        return null;
+      }
+      await book.destroy();
+      return book;
+    } catch (error) {
+      return null;
+    }
+  },
 };
 module.exports = BooksModel;

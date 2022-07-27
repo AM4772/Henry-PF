@@ -69,17 +69,23 @@ function UserMenu() {
           {open && (
             <div ref={profileList} className={s.profMenu}>
               <ul>
-                <Link to="/profile">
+                {userProfile.admin ? (
+                  <Link onClick={() => setOpen(!open)} to="/dashboard">
+                    <li>
+                      <span>Dashboard</span>
+                    </li>
+                  </Link>
+                ) : null}
+                <Link onClick={() => setOpen(!open)} to="/profile">
                   <li>
-                    <span onClick={() => setOpen(!open)}>Profile</span>
-                    <span></span>
+                    <span>Profile</span>
                   </li>
                 </Link>
-                <Link to="/favourites">
-                  <li onClick={() => setOpen(!open)}>Favourites</li>
+                <Link onClick={() => setOpen(!open)} to="/favourites">
+                  <li>Favourites</li>
                 </Link>
-                <Link to="/purchases">
-                  <li onClick={() => setOpen(!open)}>Purchase history</li>
+                <Link onClick={() => setOpen(!open)} to="/purchases">
+                  <li>Purchase history</li>
                 </Link>
                 <li onClick={() => handleLogOut()}>
                   <span>Log out</span>
@@ -93,12 +99,15 @@ function UserMenu() {
         </>
       ) : (
         <div className={s.visitLinks}>
-          <Link to={{ pathname: `/login`, state: location.pathname }}>
-            <span className={s.visitText}>Log in</span>
+          <Link
+            className={s.visitText}
+            to={{ pathname: `/login`, state: location.pathname }}
+          >
+            Log in
           </Link>
           <hr className={s.divisor} />
-          <Link to="/register">
-            <span className={s.visitText}>Register</span>
+          <Link className={s.visitText} to="/register">
+            Register
           </Link>
         </div>
       )}

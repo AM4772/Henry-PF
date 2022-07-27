@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { Users } = require('../../db.js');
+const { Users, Books } = require('../../db.js');
 
 let autoLogin = {
   verifyTokenLogin: async function (token) {
@@ -10,6 +10,7 @@ let autoLogin = {
       where: {
         username: user.username.toLowerCase(),
       },
+      include: Books,
     });
     const userJSON = userExists.toJSON();
     return {
@@ -18,6 +19,7 @@ let autoLogin = {
       name: userJSON.name,
       lastName: userJSON.surname,
       email: userJSON.email,
+      books: userJSON.books,
     };
   },
 };

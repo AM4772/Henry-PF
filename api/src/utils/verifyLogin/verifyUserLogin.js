@@ -39,6 +39,7 @@ let verifyLoginModel = {
           lastName: userJSON.surname,
           email: userJSON.email,
           token: tokenPass,
+          books: userJSON.books,
         };
       }
       return undefined;

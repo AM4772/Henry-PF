@@ -9,6 +9,7 @@ import Register from "./components/Register/Register";
 import LogIn from "./components/LogIn/LogIn";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Profile from "./components/Profile/Profile";
+import Favourites from "./components/Favourites/Favourites";
 import Footer from "./components/Footer/Footer.jsx";
 import Contact from "./components/Contact/Contact";
 import CreateBook from "./components/CreateBook/CreateBook";
@@ -45,6 +46,7 @@ function App() {
       <Route exact path={"/userMenu"} component={UserMenu} />
       <Route exact path={"/profile"} component={Profile} />
       <Route exact path={"/contact"} component={Contact} />
+      <Route exact path={"/favourites"} component={Favourites} />
       <Route exact path={"/dashboard/createbook"} component={CreateBook} />
       <Route exact path={"/"} component={Home} />
       <Footer />

@@ -1,6 +1,11 @@
 import axios from "axios";
-import Swal from 'sweetalert2';
-import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
+import Swal from "sweetalert2";
+import {
+  firstAutoLogin,
+  loginUser,
+  addFavourite,
+  deleteFavourite,
+} from "../reducers/profileSlice";
 import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
@@ -48,18 +53,18 @@ export function asyncRegisterUser(info) {
     try {
       const response = (await axios.post("/users", info)).data;
       Swal.fire({
-        icon: 'success',
-        title: 'Your account has been created',
+        icon: "success",
+        title: "Your account has been created",
         text: `${response.message}`,
-      })
-      return true
+      });
+      return true;
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data.message}`,
-      })
-      return false
+      });
+      return false;
     }
   };
 }
@@ -69,18 +74,18 @@ export function asyncLogin(body) {
     try {
       const response = (await axios.post("/login", body)).data;
       Swal.fire({
-        icon: 'success',
-        text: 'You have logged in successfully',
+        icon: "success",
+        text: "You have logged in successfully",
         title: `${response.message}`,
-      })
+      });
       dispatch(loginUser(response));
       localStorage.setItem("ALTKN", response.token);
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data.message}`,
-      })
+      });
     }
   };
 }
@@ -92,6 +97,30 @@ export function asyncAutoLogin(token) {
       dispatch(loginUser(response));
     } catch (error) {
       dispatch(firstAutoLogin());
+    }
+  };
+}
+
+export function asyncAddFavourite(ID, bookID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/users/" + ID + "/favourites"),
+      bookID).data;
+      dispatch(addFavourite(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncDeleteFavourite(ID, bookID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.delete("/users/" + ID + "/favourites"),
+      bookID).data;
+      dispatch(deleteFavourite(response));
+    } catch (error) {
+      console.error(error);
     }
   };
 }

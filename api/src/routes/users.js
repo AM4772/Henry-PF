@@ -5,6 +5,7 @@ const {
   createUser,
   getUsers,
   modifyUsers,
+  deleteUser,
 } = require('../controllers/UsersControllers');
 
 const { validateUsersPost } = require('../utils/validations/userValidations');

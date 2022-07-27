@@ -6,11 +6,7 @@ const {
   getHomeBooks,
   createBook,
   modifyBooks,
-<<<<<<< HEAD
   deleteBook
-=======
-  deleteBook,
->>>>>>> 759780a989c0760a5c9888778daddcc9f5c001a5
 } = require('../controllers/BooksControllers');
 
 const router = Router();
@@ -97,12 +93,9 @@ router.put('/:ID', async (req, res) => {
 router.delete('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
-<<<<<<< HEAD
-=======
     if (isNaN(ID)) {
       return res.status(400).json({ message: 'ID must be a number' });
     }
->>>>>>> 759780a989c0760a5c9888778daddcc9f5c001a5
     const deletedBook = await deleteBook(ID);
     deletedBook
       ? res.status(201).json({ message: 'Book deleted successfully' })

@@ -108,6 +108,19 @@ let UsersModel = {
       return null;
     }
   },
+
+  deleteUser: async function (ID) {
+    try {
+      const user = await Users.findByPk(ID);
+      if (user === null) {
+        return null;
+      }
+      await user.destroy();
+      return user;
+    } catch (error) {
+      return null;
+    }
+  },
 };
 
 module.exports = UsersModel;

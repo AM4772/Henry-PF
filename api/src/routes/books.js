@@ -4,11 +4,14 @@ const {
   getBookById,
   getBooks,
   getHomeBooks,
+  createBook,
+  modifyBooks,
+  deleteBook,
 } = require('../controllers/BooksControllers');
 
 const router = Router();
 
-const { validateBook } = require("../utils/validations/bookValidations");
+const { validateBook } = require('../utils/validations/bookValidations');
 
 router.get('/', async (req, res) => {
   const { title } = req.query;
@@ -52,13 +55,13 @@ router.get('/:ID', async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const validate = await validateBook(req.body);
     if (!validate) {
       const newBook = await createBook(req.body);
       newBook
-        ? res.status(201).json({ message: "Book created successfully" })
+        ? res.status(201).json({ message: 'Book created successfully' })
         : res.status(400).json({ message: `Error creating book` });
     } else {
       res.status(400).json(validate);
@@ -68,30 +71,34 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:ID", async (req, res) => {
+router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
     if (ID) {
       const validate = await validateBook(req.body);
       if (!validate) {
-      const modified = await modifyBooks(req.body, ID);
-      modified
-        ? res.status(200).json({ message: "Book modified successfully" })
-        : res.status(400).json({ message: `Error modifying book` });
+        const modified = await modifyBooks(req.body, ID);
+        modified
+          ? res.status(200).json({ message: 'Book modified successfully' })
+          : res.status(400).json({ message: `Error modifying book` });
       } else {
         res.status(400).json(validate);
-      }}
+      }
+    }
   } catch (err) {
     res.status(400).json(err.message);
   }
 });
 
-router.delete("/:ID", async (req, res) => {
+router.delete('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
-    const deletedBook = await deleteBook(req.body);
+    if (isNaN(ID)) {
+      return res.status(400).json({ message: 'ID must be a number' });
+    }
+    const deletedBook = await deleteBook(ID);
     deletedBook
-      ? res.status(201).json({ message: "Book deleted successfully" })
+      ? res.status(201).json({ message: 'Book deleted successfully' })
       : res.status(400).json({ message: `Error deleting book with id ${ID}` });
   } catch (err) {
     res.status(400).json(err.message);

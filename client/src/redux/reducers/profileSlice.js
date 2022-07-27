@@ -30,10 +30,26 @@ const profileSlice = createSlice({
     firstAutoLogin: (state) => {
       state.firstAuto = false;
     },
+    addFavourite: (state, action) => {
+      state.favourites = action.payload;
+    },
+    deleteFavourite: (state, action) => {
+      state.favourites = action.payload;
+    },
+    deleteAllFavourites: (state, action) => {
+      state.favourites = action.payload;
+    },
   },
 });
 
-export const { getProfile, loginUser, logOut, firstAutoLogin } =
-  profileSlice.actions;
+export const {
+  getProfile,
+  loginUser,
+  logOut,
+  firstAutoLogin,
+  addFavourite,
+  deleteFavourite,
+  deleteAllFavourites,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;

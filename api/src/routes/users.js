@@ -71,7 +71,7 @@ router.put("/:ID", async (req, res) => {
       const modified = await modifyUsers(req.body, ID);
       modified
         ? res.status(200).json({ message: "User modified successfully" })
-        : res.status(400).json({ message: `Error modify user` });
+        : res.status(400).json({ message: `Error modifying user` });
     }
   } catch (err) {
     res.status(400).json(err.message);

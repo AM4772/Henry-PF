@@ -8,6 +8,8 @@ const {
 
 const router = Router();
 
+const { validateBook } = require("../utils/validations/bookValidations");
+
 router.get('/', async (req, res) => {
   const { title } = req.query;
   try {
@@ -47,6 +49,38 @@ router.get('/:ID', async (req, res) => {
       : res.status(404).json({ message: 'Book not found with id ' + ID });
   } catch (err) {
     res.status(404).json(err);
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const validate = await validateBook(req.body);
+    if (!validate) {
+      const newBook = await createBook(req.body);
+      newBook
+        ? res.status(201).json({ message: "Book created successfully" })
+        : res.status(400).json({ message: `Error creating book` });
+    } else {
+      res.status(400).json(validate);
+    }
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
+
+router.delete("/", async (req, res) => {
+  try {
+    const validate = await validateBook(req.body);
+    if (!validate) {
+      const deletedBook = await deleteBook(req.body);
+      deletedBook
+        ? res.status(201).json({ message: "Book deleted successfully" })
+        : res.status(400).json({ message: `Error deleting book` });
+    } else {
+      res.status(400).json(validate);
+    }
+  } catch (err) {
+    res.status(400).json(err.message);
   }
 });
 

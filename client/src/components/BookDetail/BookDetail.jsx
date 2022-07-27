@@ -1,34 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import s from "./BookDetail.module.sass";
 import Loading from "../Loading/Loading";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 import { clearBookDetail } from "../../redux/reducers/booksSlice";
+// import {
+//   asyncAddFavourite,
+//   asyncDeleteFavourite,
+// } from "../../redux/actions/usersActions";
 
 import Stars5 from "../../assets/Stars5.png";
-
-// // TESTING ================
-// import { TESTING_BOOKS } from "../../testingObjects";
-// // ==============================
+import heartOff from "../../assets/Heart_off.png";
+import heartOn from "../../assets/Heart_on.png";
 
 function BookDetail(props) {
   const { ID } = useParams();
   const history = useHistory();
-  const { stack } = useSelector((state) => state.history);
-
-  let book = useSelector((state) => state.books.bookDetail);
   const dispatch = useDispatch();
-  // let book = TESTING_BOOKS[ID - 1];
 
-  React.useEffect(() => {
+  const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
+  const { favourites } = useSelector((state) => state.profile);
+  let book = useSelector((state) => state.books.bookDetail);
+
+  const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (favourites.length > 0) {
+      let result = favourites.find((el) => el.bookID === ID);
+      if (result) setAdded(true);
+    }
+  }, [favourites, ID]);
+
+  useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
     return () => dispatch(clearBookDetail());
   }, [dispatch, ID]);
 
   function goBack() {
-    // window.history.back();
     var lastPath = [];
     for (let i = 1; i < stack.length; i++) {
       if (
@@ -46,16 +59,36 @@ function BookDetail(props) {
       history.push("/");
     }
   }
+  function addingFav() {
+    if (!added) {
+      if (!userProfile.ID) history.push("/login");
+      // dispatch(asyncAddFavourite());
+      setAdded(true);
+    } else {
+      // dispatch(asyncDeleteFavourite());
+      setAdded(false);
+    }
+  }
 
   return (
     <div>
       {book.title ? (
         <div className={s.container0}>
           <div className={s.container1}>
-            <div className={s.backButton}>
-              <button className={s.buttonBack} onClick={goBack}>
-                Back
-              </button>
+            <div className={s.container7}>
+              <div className={s.backButton}>
+                <button className={s.buttonBack} onClick={goBack}>
+                  Back
+                </button>
+              </div>
+              <div className={s.containerheart}>
+                <img
+                  className={s.imgHeart}
+                  alt="heart"
+                  src={!added ? heartOff : heartOn}
+                  onClick={addingFav}
+                />
+              </div>
             </div>
             <div className={s.container2}>
               <div className={s.container3}>
@@ -88,7 +121,9 @@ function BookDetail(props) {
                     <div className={s.containerReviews1}>
                       <a className={s.containerReviews2} href="#reviewsMark">
                         <img className={s.reviews} alt="5stars" src={Stars5} />
-                        <p>23 reviews</p>
+                        <p>
+                          {""}(23 reviews){""}
+                        </p>
                       </a>
                     </div>
 

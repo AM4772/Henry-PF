@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaEye } from "react-icons/fa";
+import { FaEye } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { asyncRegisterUser } from '../../redux/actions/usersActions';
+import { asyncRegisterUser, asyncSetEmails, asyncSetUsernames } from '../../redux/actions/usersActions';
 import s from './Register.module.sass';
 
 function Register(props) {
@@ -37,6 +37,7 @@ function Register(props) {
   const [password, setPassword] = useState('');
   const [rpassword, setRpassword] = useState('');
   const [isPending, setisPending] = useState(false);
+  const { emails, usernames } = useSelector(state => state.users)
   useEffect(() => {
     if (userProfile.email) {
       var lastPath = [];
@@ -51,13 +52,13 @@ function Register(props) {
         history.push('/');
       }
     } else {
-      var symbolsCheck = new RegExp(/[^a-zA-Z\-\\/]/);
-      var usernameCheck = new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/);
-      var emailCheck = new RegExp(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-      // var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
-      // Assign possible errors
+      if (!emails.length) dispatch(asyncSetEmails())
+      if (!usernames.length) dispatch(asyncSetUsernames())
+      let regex = {
+        symbols: new RegExp(/[^a-zA-Z\-\\/]/),
+        username: new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/),
+        email: new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+      };
       const isValidCopy = { ...isValid };
       // Name
       if (!name.length) isValidCopy.name = ' ';
@@ -65,14 +66,14 @@ function Register(props) {
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else if (name.length < 3 || name.length > 20)
         isValidCopy.name = 'Name contain between 3-20 characters';
-      else if (symbolsCheck.test(name))
+      else if (regex.symbols.test(name))
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else delete isValidCopy.name;
       // Surname
       if (!surname.length) isValidCopy.surname = ' ';
       else if (surname.length < 3 || surname.length > 20)
         isValidCopy.surname = 'Surname needs to be between 3-20 characters';
-      else if (symbolsCheck.test(surname))
+      else if (regex.symbols.test(surname))
         isValidCopy.surname =
           "Surname can't contain symbols, spaces nor numbers";
       else delete isValidCopy.surname;
@@ -80,18 +81,15 @@ function Register(props) {
       if (!username.length) isValidCopy.username = ' ';
       else if (username.length < 3 || username.length > 20)
         isValidCopy.username = 'Username contain between 3-20 characters';
-      else if (usernameCheck.test(username))
+      else if (regex.username.test(username))
         isValidCopy.username =
           "Username can't contain symbols, spaces nor numbers";
+      else if (usernames.includes(username)) isValidCopy.username = "Username is already taken";
       else delete isValidCopy.username;
-      // Image validation
-      // if (!image.length) isValidCopy.image = " ";
-      // else if (!imageCheck.test(image))
-      //   isValidCopy.image = "Image url is unvalid";
-      // else delete isValidCopy.image;
       // Email validation
       if (!email.length) isValidCopy.email = ' ';
-      else if (!emailCheck.test(email)) isValidCopy.email = 'Email is invalid';
+      else if (!regex.email.test(email)) isValidCopy.email = 'Email is invalid';
+      else if (emails.includes(email)) isValidCopy.email = "Email is already in use";
       else delete isValidCopy.email;
       // Password validation
       if (!password.length) isValidCopy.password = ' ';
@@ -126,6 +124,7 @@ function Register(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     const info = { name, surname, username, email, password };
+    setisPending(true);
     dispatch(asyncRegisterUser(info)).then(caca => {
       if (caca) {
         setName('');
@@ -138,247 +137,194 @@ function Register(props) {
         setIsvalid(isValidInitialState);
         setIsAllowed(false);
         setisPending(false);
-        history.push('/login')
-      } else {
-        setisPending(false);
+        history.push('/login');
       }
+      else setisPending(false);
     });
   };
   const handleButton = () => {
-    if (!isPending && isAllowed)
-      return <button className="buttons">Register</button>;
-    else if (isPending)
-      return (
-        <p id={s.waiting} className="buttons">
-          Registering...
-        </p>
-      );
-    else
-      return (
-        <p id={s.waiting} className="buttons">
-          Register
-        </p>
-      );
+    if (isPending) return <p id={s.waiting} className="buttons">Registering...</p>;
+    else if (isAllowed) return <button className="buttons">Register</button>;
+    else return <p id={s.waiting} className="buttons">Register</p>;
   };
-  // const errSuccHandler = message => {
-  //   if (message === 'Created')
-  //     return <p className="success">Recipe has been created!</p>;
-  //   else {
-  //     const messageCopy = message.charAt(0).toUpperCase() + message.slice(1);
-  //     return <p className="error">{messageCopy}</p>;
-  //   }
-  // };
   return (
     <div id={s.toCenter}>
       <div id={s.card}>
         <form onSubmit={handleSubmit}>
           <h1 id={s.register}>Register</h1>
           <div id={s.creationCardDisplay}>
-            <div id="creation-card1">
-              <div id="stuff">
-                <div className={s.inline}>
-                  <label className="t-card" id="title-form">
-                    Name:{' '}
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    className={`${s.input} ${
-                      isValid.name && isValid.name.length && count.name
-                        ? s.danger
-                        : null
-                    }`}
-                    placeholder="Name"
-                    onChange={e =>
-                      setCount({ ...count, name: 1 }) || setName(e.target.value)
-                    }
-                  ></input>{' '}
-                  <p
-                    className={
-                      isValid.name && isValid.name !== ' '
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.name}
-                  </p>
-                </div>
-                <div className={s.inline}>
-                  <label className="t-card" id="title-form">
-                    Surname:{' '}
-                  </label>
-                  <input
-                    type="text"
-                    value={surname}
-                    className={`${s.input} ${
-                      isValid.surname && isValid.surname.length && count.surname
-                        ? s.danger
-                        : null
-                    }`}
-                    placeholder="Surname"
-                    onChange={e =>
-                      setCount({ ...count, surname: 1 }) ||
-                      setSurname(e.target.value)
-                    }
-                  ></input>{' '}
-                  <p
-                    className={
-                      isValid.surname && isValid.surname !== ' '
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.surname}
-                  </p>
-                </div>
-                <div className={s.inline}>
-                  <label className="t-card" id="title-form">
-                    Username:{' '}
-                  </label>
-                  <input
-                    type="text"
-                    value={username}
-                    className={`${s.input} ${
-                      isValid.username &&
-                      isValid.username.length &&
-                      count.username
-                        ? s.danger
-                        : null
-                    }`}
-                    placeholder="Username"
-                    onChange={e =>
-                      setCount({ ...count, username: 1 }) ||
-                      setUsername(e.target.value)
-                    }
-                  ></input>{' '}
-                  <p
-                    className={
-                      isValid.username && isValid.username !== ' '
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.username}
-                  </p>
-                </div>
-                {/* <div className={s.inline}>
-                  <label className="t-card">Image: </label>
-                  <input
-                    type="text"
-                    value={image}
-                    id={`${
-                      isValid.image && isValid.image.length && count.image
-                        ? s.danger
-                        : null
-                    }`}
-                    className={s.input}
-                    placeholder="Image"
-                    onChange={(e) =>
-                      setCount({ ...count, image: 1 }) ||
-                      setImage(e.target.value)
-                    }
-                  ></input>{" "}
-                  <p
-                    className={
-                      isValid.image && isValid.image !== " "
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.image}
-                  </p>
-                </div> */}
-                <div className={s.inline}>
-                  <label className="t-card">Email: </label>
-                  <input
-                    type="text"
-                    value={email}
-                    className={`${s.input} ${
-                      isValid.email && isValid.email.length && count.email
-                        ? s.danger
-                        : null
-                    }`}
-                    placeholder="Email"
-                    onChange={e =>
-                      setCount({ ...count, email: 1 }) ||
-                      setEmail(e.target.value)
-                    }
-                  ></input>{' '}
-                  <p
-                    className={
-                      isValid.email && isValid.email !== ' '
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.email}
-                  </p>
-                </div>
-                <div className={s.inline}>
-                  <label className="t-card">Password: </label>
-                  <input
-                    type={passwordShown ? "text" : "password"}
-                    value={password}
-                    className={`${s.input} ${
-                      isValid.password &&
-                      isValid.password.length &&
-                      count.password
-                        ? s.danger
-                        : null
-                    }`}
-                    placeholder="Password"
-                    onChange={e =>
-                      setCount({ ...count, password: 1 }) ||
-                      setPassword(e.target.value)
-                    }
-                  ></input>{' '}
-                  <FaEye className={s.fatEye} onClick={() => setPasswordShown(!passwordShown)} />
-                  <p
-                    className={
-                      isValid.password && isValid.password !== ' '
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.password}
-                  </p>
-                </div>
-                <div className={s.inline}>
-                  <label className="t-card">Repeat password: </label>
-                  <input
-                    type={passwordShown ? "text" : "password"}
-                    value={rpassword}
-                    className={`${s.input} ${
-                      isValid.rpassword &&
-                      isValid.rpassword.length &&
-                      count.rpassword
-                        ? s.danger
-                        : null
-                    }`}
-                    placeholder="Repeat password"
-                    onChange={e =>
-                      setCount({ ...count, rpassword: 1 }) ||
-                      setRpassword(e.target.value)
-                    }
-                  ></input>{' '}
-                  <FaEye className={s.fatEye} onClick={() => setPasswordShown(!passwordShown)} />
-                  <p
-                    className={
-                      isValid.rpassword && isValid.rpassword !== ' '
-                        ? s.errorMessage
-                        : s.noErrorMessage
-                    }
-                  >
-                    {isValid.rpassword}
-                  </p>
-                </div>
-              </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>
+                Name:{' '}
+              </label>
+              <input
+                type="text"
+                value={name}
+                className={`${s.input} ${
+                  isValid.name && isValid.name.length && count.name
+                    ? s.danger
+                    : null
+                }`}
+                placeholder="Name"
+                onChange={e =>
+                  setCount({ ...count, name: 1 }) || setName(e.target.value)
+                }
+              ></input>{' '}
+              <p
+                className={
+                  isValid.name && isValid.name !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.name}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>
+                Surname:{' '}
+              </label>
+              <input
+                type="text"
+                value={surname}
+                className={`${s.input} ${
+                  isValid.surname && isValid.surname.length && count.surname
+                    ? s.danger
+                    : null
+                }`}
+                placeholder="Surname"
+                onChange={e =>
+                  setCount({ ...count, surname: 1 }) ||
+                  setSurname(e.target.value)
+                }
+              ></input>{' '}
+              <p
+                className={
+                  isValid.surname && isValid.surname !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.surname}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>
+                Username:{' '}
+              </label>
+              <input
+                type="text"
+                value={username}
+                className={`${s.input} ${
+                  isValid.username && isValid.username.length && count.username
+                    ? s.danger
+                    : null
+                }`}
+                placeholder="Username"
+                onChange={e =>
+                  setCount({ ...count, username: 1 }) ||
+                  setUsername(e.target.value)
+                }
+              ></input>{' '}
+              <p
+                className={
+                  isValid.username && isValid.username !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.username}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>Email: </label>
+              <input
+                type="text"
+                value={email}
+                className={`${s.input} ${
+                  isValid.email && isValid.email.length && count.email
+                    ? s.danger
+                    : null
+                }`}
+                placeholder="Email"
+                onChange={e =>
+                  setCount({ ...count, email: 1 }) || setEmail(e.target.value)
+                }
+              ></input>{' '}
+              <p
+                className={
+                  isValid.email && isValid.email !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.email}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>Password: </label>
+              <input
+                type={passwordShown ? 'text' : 'password'}
+                value={password}
+                className={`${s.input} ${
+                  isValid.password && isValid.password.length && count.password
+                    ? s.danger
+                    : null
+                }`}
+                placeholder="Password"
+                onChange={e =>
+                  setCount({ ...count, password: 1 }) ||
+                  setPassword(e.target.value)
+                }
+              ></input>{' '}
+              <FaEye
+                className={s.fatEye}
+                onClick={() => setPasswordShown(!passwordShown)}
+              />
+              <p
+                className={
+                  isValid.password && isValid.password !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.password}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>Repeat password: </label>
+              <input
+                type={passwordShown ? 'text' : 'password'}
+                value={rpassword}
+                className={`${s.input} ${
+                  isValid.rpassword &&
+                  isValid.rpassword.length &&
+                  count.rpassword
+                    ? s.danger
+                    : null
+                }`}
+                placeholder="Repeat password"
+                onChange={e =>
+                  setCount({ ...count, rpassword: 1 }) ||
+                  setRpassword(e.target.value)
+                }
+              ></input>{' '}
+              <FaEye
+                className={s.fatEye}
+                onClick={() => setPasswordShown(!passwordShown)}
+              />
+              <p
+                className={
+                  isValid.rpassword && isValid.rpassword !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.rpassword}
+              </p>
             </div>
           </div>
-          <div id={s.bottomButton}>
-            <div id="button-handler">{handleButton()}</div>
-            {/* <div id="error-success-handler">{errSuccHandler(serverResponse)}</div> */}
-          </div>
+          <div id={s.bottomButton}>{handleButton()}</div>
         </form>
       </div>
     </div>

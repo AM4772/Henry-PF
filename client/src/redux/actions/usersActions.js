@@ -1,7 +1,19 @@
 import axios from "axios";
-import Swal from 'sweetalert2';
-import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
-import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
+import Swal from "sweetalert2";
+import {
+  firstAutoLogin,
+  loginUser,
+  addFavourite,
+  deleteFavourite,
+  deleteAllFavourites,
+} from "../reducers/profileSlice";
+import {
+  getUsers,
+  getUserDetail,
+  getSearchUser,
+  setEmails,
+  setUsernames,
+} from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
@@ -48,18 +60,22 @@ export function asyncRegisterUser(info) {
     try {
       const response = (await axios.post("/users", info)).data;
       Swal.fire({
-        icon: 'success',
-        title: 'Your account has been created',
+        icon: "success",
+        title: "Your account has been created",
         text: `${response.message}`,
-      })
-      return true
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {
+        return true;
+      });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${error.response.data.message}`,
-      })
-      return false
+        icon: "error",
+        title: "Oops...",
+        text: "Sorry, we were unable to register you at this time, please try again later",
+      }).then(() => {
+        return false;
+      });
     }
   };
 }
@@ -69,18 +85,21 @@ export function asyncLogin(body) {
     try {
       const response = (await axios.post("/login", body)).data;
       Swal.fire({
-        icon: 'success',
-        text: 'You have logged in successfully',
+        icon: "success",
+        text: "You have logged in successfully",
         title: `${response.message}`,
-      })
-      dispatch(loginUser(response));
-      localStorage.setItem("ALTKN", response.token);
+        showConfirmButton: false,
+        timer: 2000,
+      }).then(() => {
+        dispatch(loginUser(response));
+        localStorage.setItem("ALTKN", response.token);
+      });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data.message}`,
-      })
+      });
     }
   };
 }
@@ -92,6 +111,71 @@ export function asyncAutoLogin(token) {
       dispatch(loginUser(response));
     } catch (error) {
       dispatch(firstAutoLogin());
+    }
+  };
+}
+
+export function asyncSetEmails() {
+  return async function (dispatch) {
+    try {
+      const response = (await axios("/emails")).data;
+      dispatch(setEmails(response));
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data}`,
+      });
+    }
+  };
+}
+
+export function asyncSetUsernames() {
+  return async function (dispatch) {
+    try {
+      const response = (await axios("/usernames")).data;
+      dispatch(setUsernames(response));
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data}`,
+      });
+    }
+  };
+}
+
+export function asyncAddFavourite(userID, bookID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/favourites", userID, bookID)).data;
+      dispatch(addFavourite(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncDeleteFavourite(userID, bookID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.delete("/favourites", userID, bookID)).data;
+      dispatch(deleteFavourite(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncDeleteAllFavourites(userID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.delete("/favourites", userID)).data;
+      dispatch(deleteAllFavourites(response));
+    } catch (error) {
+      console.error(error);
     }
   };
 }

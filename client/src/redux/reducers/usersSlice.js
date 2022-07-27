@@ -4,6 +4,8 @@ const initialState = {
   allUsers: [],
   users: [],
   userDetail: {},
+  usernames: [],
+  emails: [],
   orderUsersBy: "",
   filterUserByEnabled: "",
   filterUserByType: "",
@@ -51,6 +53,12 @@ const usersSlice = createSlice({
         }
       }
     },
+    setEmails: (state, action) => {
+      state.emails = [...action.payload]
+    },
+    setUsernames: (state, action) => {
+      state.usernames = [...action.payload]
+    }
   },
 });
 
@@ -62,6 +70,8 @@ export const {
   setTypeFilter,
   applyUserFilters,
   getSearchUser,
+  setEmails,
+  setUsernames
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

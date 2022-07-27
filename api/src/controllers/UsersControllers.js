@@ -108,6 +108,8 @@ let UsersModel = {
           await user.update({
             password: await hashPassword(changes.newPassword),
           });
+        } else {
+          return null;
         }
       }
       await user.update({

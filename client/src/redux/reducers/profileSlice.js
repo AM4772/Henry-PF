@@ -23,26 +23,23 @@ const profileSlice = createSlice({
         username: action.payload.username,
         email: action.payload.email,
       };
+      // console.log(action.payload);
+      state.favourites = action.payload.books;
       state.appLoadingProfile = false;
     },
     logOut: (state) => {
       state.userProfile = {};
+      state.favourites = [];
       localStorage.removeItem("ALTKN");
     },
     firstAutoLogin: (state) => {
       state.firstAuto = false;
       state.appLoadingProfile = false;
     },
-    getFavourites: (state, action) => {
-      state.favourites = action.payload;
-    },
     addFavourite: (state, action) => {
       state.favourites = action.payload;
     },
     deleteFavourite: (state, action) => {
-      state.favourites = action.payload;
-    },
-    deleteAllFavourites: (state, action) => {
       state.favourites = action.payload;
     },
   },
@@ -53,10 +50,8 @@ export const {
   loginUser,
   logOut,
   firstAutoLogin,
-  getFavourites,
   addFavourite,
   deleteFavourite,
-  deleteAllFavourites,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

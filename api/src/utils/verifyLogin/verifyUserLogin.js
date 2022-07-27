@@ -5,6 +5,7 @@ require('dotenv').config();
 
 let verifyLoginModel = {
   verifyLogin: async function ({ username, password }) {
+    
     const user = await Users.findOne({
       where: {
         username: username.toLowerCase(),

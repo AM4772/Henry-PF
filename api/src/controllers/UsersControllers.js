@@ -1,6 +1,7 @@
 const { Users } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
+const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
 
 let UsersModel = {
   getUsers: async function () {
@@ -87,6 +88,7 @@ let UsersModel = {
       throw new Error(error.message);
     }
   },
+
   modifyUsers: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;
@@ -96,13 +98,24 @@ let UsersModel = {
       if (user === null) {
         return null;
       }
-
-      await user.update(changes);
-      if (changes.password) {
-        await user.update({
-          password: await hashPassword(user.password),
+      if (changes.editPassword) {
+        const verifyPasswords = await verifyLogin({
+          username: user.username,
+          password: changes.password,
         });
+
+        if (verifyPasswords) {
+          await user.update({
+            password: await hashPassword(changes.newPassword),
+          });
+        }
       }
+      await user.update({
+        username: changes.username,
+        name: changes.name,
+        surname: changes.lastName,
+        email: changes.email,
+      });
       return user;
     } catch (error) {
       return null;

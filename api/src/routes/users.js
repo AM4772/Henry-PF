@@ -5,10 +5,15 @@ const {
   createUser,
   getUsers,
   modifyUsers,
-  getFavourites,
 } = require("../controllers/UsersControllers");
 
 const { validateUsersPost } = require("../utils/validations/userValidations");
+
+const {
+  getFavourites,
+  deleteFavourites,
+  addFavourites,
+} = require("../controllers/FavouritesControllers");
 
 const router = Router();
 
@@ -32,6 +37,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:ID/favourites", async (req, res) => {
+  const { ID } = req.params;
+  try {
+    if (ID) {
+      if (isNaN(ID)) {
+        return res.status(400).json({ message: "ID must be a number" });
+      }
+      let favourites = await getFavourites(ID);
+      res.json(favourites);
+    }
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 router.get("/:ID", async (req, res) => {
   const { ID } = req.params;
   try {
@@ -40,23 +60,6 @@ router.get("/:ID", async (req, res) => {
         return res.status(400).json({ message: "ID must be a number" });
       }
       let user = await getUserById(ID);
-      user
-        ? res.json(user)
-        : res.status(404).json({ message: `User with ID ${ID} not found` });
-    }
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.get("/:ID/favourites", async (req, res) => {
-  const { ID } = req.params;
-  try {
-    if (ID) {
-      if (isNaN(ID)) {
-        return res.status(400).json({ message: "ID must be a number" });
-      }
-      let user = await getFavourites(ID);
       user
         ? res.json(user)
         : res.status(404).json({ message: `User with ID ${ID} not found` });
@@ -82,6 +85,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/:ID/favourites", async (req, res) => {
+  const { ID } = req.params;
+  const userID = ID;
+  const bookID = req.body;
+  try {
+    const favourites = await addFavourites(bookID, userID);
+    favourites
+      ? res.status(200).json({ message: "Favorite added successfully" })
+      : res.status(400).json({ message: `Failed to add favorite` });
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
+
 router.put("/:ID", async (req, res) => {
   const { ID } = req.params;
   try {
@@ -96,6 +113,20 @@ router.put("/:ID", async (req, res) => {
         res.status(400).json(validate);
       }
     }
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+});
+
+router.delete("/:ID/favourites", async (req, res) => {
+  const { ID } = req.params;
+  const userID = ID;
+  const bookID = req.body;
+  try {
+    const delFavourites = await deleteFavourites(bookID, userID);
+    delFavourites
+      ? res.status(200).json({ message: "Favorite deleted successfully" })
+      : res.status(400).json({ message: `Failed to delete favorite` });
   } catch (err) {
     res.status(400).json(err.message);
   }

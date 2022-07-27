@@ -95,6 +95,7 @@ export function asyncLogin(body) {
         dispatch(loginUser(response));
         localStorage.setItem("ALTKN", response.token);
       });
+      // dispatch(asyncGetFavourites(response.ID)); // probar pedido de favoritos
     } catch (error) {
       Swal.fire({
         icon: "error",

@@ -1,7 +1,7 @@
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { firstAutoLogin, loginUser } from "../reducers/profileSlice";
-import { getUsers, getUserDetail, getSearchUser } from "../reducers/usersSlice";
+import { getUsers, getUserDetail, getSearchUser, setEmails, setUsernames } from "../reducers/usersSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
@@ -51,15 +51,19 @@ export function asyncRegisterUser(info) {
         icon: 'success',
         title: 'Your account has been created',
         text: `${response.message}`,
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => {
+        return true
       })
-      return true
     } catch (error) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: `${error.response.data.message}`,
+        text: 'Sorry, there was a problem, wait until we fix it',
+      }).then(() => {
+        return false
       })
-      return false
     }
   };
 }
@@ -72,9 +76,12 @@ export function asyncLogin(body) {
         icon: 'success',
         text: 'You have logged in successfully',
         title: `${response.message}`,
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        dispatch(loginUser(response));
+        localStorage.setItem("ALTKN", response.token);
       })
-      dispatch(loginUser(response));
-      localStorage.setItem("ALTKN", response.token);
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -92,6 +99,38 @@ export function asyncAutoLogin(token) {
       dispatch(loginUser(response));
     } catch (error) {
       dispatch(firstAutoLogin());
+    }
+  };
+}
+
+export function asyncSetEmails() {
+  return async function (dispatch) {
+    try {
+      const response = (await axios("/emails")).data;
+      dispatch(setEmails(response));
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
+      })
+    }
+  };
+}
+
+export function asyncSetUsernames() {
+  return async function (dispatch) {
+    try {
+      const response = (await axios("/usernames")).data;
+      dispatch(setUsernames(response));
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
+      })
     }
   };
 }

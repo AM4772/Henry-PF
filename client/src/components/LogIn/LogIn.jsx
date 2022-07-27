@@ -107,7 +107,7 @@ function LogIn({ prev }) {
           <h1 id={s.register}>Login</h1>
           <div id={s.creationCardDisplay}>
             <div className={s.inline}>
-              <label className="t-card">Email/Username: </label>
+              <label className={s.fillTitle}>Email/Username: </label>
               <input
                 type="text"
                 className={`${s.input} ${
@@ -135,7 +135,7 @@ function LogIn({ prev }) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className="t-card">Password: </label>
+              <label className={s.fillTitle}>Password: </label>
               <input
                 type={passwordShown ? 'text' : 'password'}
                 className={`${s.input} ${

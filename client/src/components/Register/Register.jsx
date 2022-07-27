@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaEye } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { asyncRegisterUser } from '../../redux/actions/usersActions';
+import { asyncRegisterUser, asyncSetEmails, asyncSetUsernames } from '../../redux/actions/usersActions';
 import s from './Register.module.sass';
 
 function Register(props) {
@@ -37,6 +37,7 @@ function Register(props) {
   const [password, setPassword] = useState('');
   const [rpassword, setRpassword] = useState('');
   const [isPending, setisPending] = useState(false);
+  const { emails, usernames } = useSelector(state => state.users)
   useEffect(() => {
     if (userProfile.email) {
       var lastPath = [];
@@ -51,6 +52,8 @@ function Register(props) {
         history.push('/');
       }
     } else {
+      if (!emails.length) dispatch(asyncSetEmails())
+      if (!usernames.length) dispatch(asyncSetUsernames())
       let regex = {
         symbols: new RegExp(/[^a-zA-Z\-\\/]/),
         username: new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/),
@@ -81,10 +84,12 @@ function Register(props) {
       else if (regex.username.test(username))
         isValidCopy.username =
           "Username can't contain symbols, spaces nor numbers";
+      else if (usernames.includes(username)) isValidCopy.username = "Username is already taken";
       else delete isValidCopy.username;
       // Email validation
       if (!email.length) isValidCopy.email = ' ';
       else if (!regex.email.test(email)) isValidCopy.email = 'Email is invalid';
+      else if (emails.includes(email)) isValidCopy.email = "Email is already in use";
       else delete isValidCopy.email;
       // Password validation
       if (!password.length) isValidCopy.password = ' ';
@@ -119,6 +124,7 @@ function Register(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     const info = { name, surname, username, email, password };
+    setisPending(true);
     dispatch(asyncRegisterUser(info)).then(caca => {
       if (caca) {
         setName('');
@@ -132,26 +138,14 @@ function Register(props) {
         setIsAllowed(false);
         setisPending(false);
         history.push('/login');
-      } else {
-        setisPending(false);
       }
+      else setisPending(false);
     });
   };
   const handleButton = () => {
-    if (!isPending && isAllowed)
-      return <button className="buttons">Register</button>;
-    else if (isPending)
-      return (
-        <p id={s.waiting} className="buttons">
-          Registering...
-        </p>
-      );
-    else
-      return (
-        <p id={s.waiting} className="buttons">
-          Register
-        </p>
-      );
+    if (isPending) return <p id={s.waiting} className="buttons">Registering...</p>;
+    else if (isAllowed) return <button className="buttons">Register</button>;
+    else return <p id={s.waiting} className="buttons">Register</p>;
   };
   return (
     <div id={s.toCenter}>
@@ -160,7 +154,7 @@ function Register(props) {
           <h1 id={s.register}>Register</h1>
           <div id={s.creationCardDisplay}>
             <div className={s.inline}>
-              <label className="t-card" id="title-form">
+              <label className={s.fillTitle}>
                 Name:{' '}
               </label>
               <input
@@ -187,7 +181,7 @@ function Register(props) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className="t-card" id="title-form">
+              <label className={s.fillTitle}>
                 Surname:{' '}
               </label>
               <input
@@ -215,7 +209,7 @@ function Register(props) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className="t-card" id="title-form">
+              <label className={s.fillTitle}>
                 Username:{' '}
               </label>
               <input
@@ -243,7 +237,7 @@ function Register(props) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className="t-card">Email: </label>
+              <label className={s.fillTitle}>Email: </label>
               <input
                 type="text"
                 value={email}
@@ -268,7 +262,7 @@ function Register(props) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className="t-card">Password: </label>
+              <label className={s.fillTitle}>Password: </label>
               <input
                 type={passwordShown ? 'text' : 'password'}
                 value={password}
@@ -298,7 +292,7 @@ function Register(props) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className="t-card">Repeat password: </label>
+              <label className={s.fillTitle}>Repeat password: </label>
               <input
                 type={passwordShown ? 'text' : 'password'}
                 value={rpassword}

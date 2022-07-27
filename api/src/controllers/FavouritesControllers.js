@@ -25,16 +25,17 @@ let FavouritesModel = {
     return undefined;
   },
   deleteFavourites: async function (bookID, userID) {
-    // try {
-    //   const user = await Users.findByPk(userID);
-    //   if (user === null) {
-    //     return null;
-    //   }
-    //   await user.setBooks(bookID);
-    //   return user;
-    // } catch (error) {
-    //   return null;
-    // }
+    try {
+      let user = await Users.findByPk(userID, { include: Books });
+      if (user === null) {
+        return null;
+      }
+      await user.removeBook(bookID);
+      user = await Users.findByPk(userID, { include: Books });
+      return user.books;
+    } catch (error) {
+      return null;
+    }
   },
 };
 

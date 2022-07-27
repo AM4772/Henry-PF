@@ -129,13 +129,18 @@ router.put('/:ID', async (req, res) => {
 router.delete('/:ID/favourites', async (req, res) => {
   const { ID } = req.params;
   const userID = ID;
-  const bookID = req.body;
+  const bookID = req.body.ID;
 
-  const delFavourites = await deleteFavourites(bookID, userID);
+  const delFavourites = await deleteFavourites(
+    parseInt(bookID),
+    parseInt(userID)
+  );
   delFavourites
-    ? res.status(200).json({ message: 'Favorite deleted successfully' })
+    ? res
+        .status(200)
+        .json({ message: 'Favorite deleted successfully', data: delFavourites })
     : res.status(400).json({ message: `Failed to delete favorite` });
-
+}),
   router.delete('/:ID', async (req, res) => {
     const { ID } = req.params;
     try {
@@ -149,5 +154,5 @@ router.delete('/:ID/favourites', async (req, res) => {
       res.status(400).json(err.message);
     }
   });
-});
+
 module.exports = router;

@@ -4,6 +4,7 @@ const initialState = {
   search: [],
   allBooks: [],
   loading: true,
+  appLoading: true,
   books: [],
   booksNoSorted: [],
   homeBooks: {},
@@ -136,6 +137,7 @@ const booksSlice = createSlice({
     },
     getHomeBooks: (state, action) => {
       state.homeBooks = action.payload;
+      state.appLoading = false;
     },
     setSortBook: (state, action) => {
       state.orderBooksBy = action.payload;

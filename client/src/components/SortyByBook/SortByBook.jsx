@@ -27,22 +27,22 @@ function SortByBook() {
           Select order
         </option>
         <option className={s.optionSort} value="H-L-price">
-          Highest to lowest (price)
+          Higher price
         </option>
         <option className={s.optionSort} value="L-H-price">
-          Lowest to highest (price)
+          Lower price
         </option>
         <option className={s.optionSort} value="N-O">
-          Newest to oldest
+          Newer
         </option>
         <option className={s.optionSort} value="O-N">
-          Oldest to newest
+          Older
         </option>
         <option className={s.optionSort} value="H-L-rating">
-          Highest to lowest (rating)
+          Higher rating
         </option>
         <option className={s.optionSort} value="L-H-rating">
-          Lowest to highest (rating)
+          Lower rating
         </option>
       </select>
     </div>

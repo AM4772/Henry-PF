@@ -3,6 +3,7 @@ const initialState = {
   searchUser: [],
   allUsers: [],
   users: [],
+  appLoadingUsers: true,
   userDetail: {},
   usernames: [],
   emails: [],
@@ -54,11 +55,13 @@ const usersSlice = createSlice({
       }
     },
     setEmails: (state, action) => {
-      state.emails = [...action.payload]
+      state.emails = [...action.payload];
+      state.appLoadingUsers = false;
     },
     setUsernames: (state, action) => {
-      state.usernames = [...action.payload]
-    }
+      state.usernames = [...action.payload];
+      state.appLoadingUsers = false;
+    },
   },
 });
 
@@ -71,7 +74,7 @@ export const {
   applyUserFilters,
   getSearchUser,
   setEmails,
-  setUsernames
+  setUsernames,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

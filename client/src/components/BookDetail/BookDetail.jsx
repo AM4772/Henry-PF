@@ -16,26 +16,29 @@ import Stars5 from "../../assets/Stars5.png";
 import heartOff from "../../assets/Heart_off.png";
 import heartOn from "../../assets/Heart_on.png";
 
-// // TESTING ================
-// import { TESTING_BOOKS } from "../../testingObjects";
-// // ==============================
-
 function BookDetail(props) {
   const { ID } = useParams();
   const history = useHistory();
-  const { stack } = useSelector((state) => state.history);
-  const [added, setAdded] = useState(false);
-
-  let book = useSelector((state) => state.books.bookDetail);
   const dispatch = useDispatch();
 
+  const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
+  const { favourites } = useSelector((state) => state.profile);
+  let book = useSelector((state) => state.books.bookDetail);
+
+  const [added, setAdded] = useState(false);
+
+  window.scrollTo(0, 0);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  });
+    if (favourites.length > 0) {
+      let result = favourites.find((el) => el.bookID === ID);
+      if (result) setAdded(true);
+    }
+  }, [favourites, ID]);
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
-    window.scrollTo(0, 0);
     return () => dispatch(clearBookDetail());
   }, [dispatch, ID]);
 
@@ -59,6 +62,7 @@ function BookDetail(props) {
   }
   function addingFav() {
     if (!added) {
+      if (!userProfile.ID) history.push("/login");
       // dispatch(asyncAddFavourite());
       setAdded(true);
     } else {

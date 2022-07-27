@@ -4,6 +4,7 @@ const initialState = {
   userProfile: {},
   favourites: [],
   cart: [],
+  appLoadingProfile: true,
   firstAuto: true,
 };
 
@@ -22,6 +23,7 @@ const profileSlice = createSlice({
         username: action.payload.username,
         email: action.payload.email,
       };
+      state.appLoadingProfile = false;
     },
     logOut: (state) => {
       state.userProfile = {};
@@ -29,6 +31,7 @@ const profileSlice = createSlice({
     },
     firstAutoLogin: (state) => {
       state.firstAuto = false;
+      state.appLoadingProfile = false;
     },
     getFavourites: (state, action) => {
       state.favourites = action.payload;

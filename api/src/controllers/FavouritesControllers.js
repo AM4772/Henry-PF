@@ -5,7 +5,7 @@ let FavouritesModel = {
       where: { ID },
       include: Books,
     });
-    return user;
+    return user.books;
   },
 
   addFavourites: async function (bookID, userID) {
@@ -15,12 +15,12 @@ let FavouritesModel = {
       },
     });
     if (user) {
-      await user.addBooks(bookID);
+      await user.addBook(bookID);
       const result = await Users.findOne({
         where: { ID: userID },
         include: Books,
       });
-      return result;
+      return result.books;
     }
     return undefined;
   },
@@ -30,10 +30,7 @@ let FavouritesModel = {
     //   if (user === null) {
     //     return null;
     //   }
-    //     await user.destroy({
-    //         where: {
-    //       }
-    //   });
+    //   await user.setBooks(bookID);
     //   return user;
     // } catch (error) {
     //   return null;

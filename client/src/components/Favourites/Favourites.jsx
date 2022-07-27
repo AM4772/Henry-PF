@@ -1,6 +1,7 @@
 // import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { useState } from "react";
+import FavouriteCard from "../FavouriteCard/FavouriteCard";
 import s from "./Favourites.module.sass";
 
 const Favourites = () => {
@@ -8,9 +9,16 @@ const Favourites = () => {
   const { favourites } = useSelector((state) => state.profile);
 
   return favourites.length > 0 ? (
-    favourites.map((fav) => (
+    favourites.map((b) => (
       <div className={s.containerFav1}>
-        <p>{fav.title}</p>
+        <FavouriteCard
+          key={b.ID}
+          ID={b.ID}
+          image={b.image}
+          title={b.title}
+          authors={b.authors}
+          price={b.price}
+        />
       </div>
     ))
   ) : (

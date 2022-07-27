@@ -9,6 +9,7 @@ import Register from "./components/Register/Register";
 import LogIn from "./components/LogIn/LogIn";
 import UserMenu from "./components/UserMenu/UserMenu";
 import Profile from "./components/Profile/Profile";
+import Favourites from "./components/Favourites/Favourites";
 import Footer from "./components/Footer/Footer.jsx";
 import Contact from "./components/Contact/Contact";
 import CreateBook from "./components/CreateBook/CreateBook";

@@ -5,7 +5,7 @@
   align-items: center
   margin-top: 65px
   margin-bottom: 20px
-  min-height: calc( 100vh - 115px )
+  min-height: calc(100vh - 115px)
 
 .container1
   display: flex
@@ -18,8 +18,7 @@
   padding: 0px
   margin-top: 10px
   margin-bottom: 0px
-  width: 70vw
-  // height: 80vh
+  width: 50%
 
 .container2
   display: flex
@@ -32,23 +31,14 @@
 .container3
   display: flex
   flex-direction: row
-  align-items: center
+  align-items: stretch
   margin: 0px 10px 0px 10px
   padding: 0px
   width: 100%
+  justify-content: space-between
 
 .container4
   display: flex
-  // flex-direction: column
-  // justify-content: center
-  // align-items: center
-  // border-radius: 10px
-  // background: var(--color-whiteish)
-  // // background: rgba(234, 221, 204, .6)
-  // margin-top: 5px
-  // margin-bottom: 0px
-  // width: 70vw
-  // margin: 10px
 
 .container6
   display: flex
@@ -59,16 +49,18 @@
   background: var(--color-whiteish)
   margin-top: 5px
   margin-bottom: 0px
-  width: 70vw
+  width: 100%
+
+.container5
+  width: 50%
 
 .container5 p
   text-align: center
-  width: 100%
   margin-top: 10px
   font-weight: bold
   align-self: left
   width: 100%
-  font-size: 1.4vw
+  font-size: 16px
   // padding: 0px 5px 0px 5px
 
 .containerBookDetails
@@ -77,7 +69,7 @@
   align-items: flex-start
   justify-items: center
   margin-right: 10px
-  width: 55%
+  width: 125%
 
 .containerDetails
   display: flex
@@ -92,21 +84,20 @@
 
 .containerDetails1 div
   align-items: left
-  width: 14vw
+  // width: 40px
 
 .containerImage
   display: flex
   justify-content: center
   align-items: center
-  width: 45%
+  width: 100%
+  max-height: 100%
 
 .image
   border-radius: 15px
   object-fit: contain
   object-position: center center
-  width: 25vw
-  // height: 80%
-  // height: 32vw
+  width: 250px
   padding: 0px
   margin: 0px 15px 0px 20px
   filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.2))
@@ -124,45 +115,70 @@
   width: 100%
   padding: 3px 10px
   margin: 0px
+  margin-left: 5px
+  margin-bottom: 5px
   p
-    font-size: 1.2vw
+    width: 100%
+    font-size: 15px
     font-style: italic
     margin-left: 10px
+  img
+    height: 20px
+.containerReviews2, .containerReviews2:link, .containerReviews2:visited, .containerReviews2:focus, .containerReviews2:active
+  text-decoration: none
+  color: inherit
+  outline: 0
+
+.container7
+  display: flex
+  flex-direction: row
+  align-items: center
+  width: 100%
+
+.containerheart
+  // width: 100%
+  img
+    height: 35px
+    width: 35px
+    padding: 0px 0px
+    margin: 10px 10px 0px 0px
+    cursor: pointer
 
 .reviews
-  width: 10vw
+  width: 80%
   justify-content: center
 
 #bookTitle
-  font-size: 2vw
+  font-size: 20px
   font-weight: bold
   margin-left: 13px
   text-align: left
   color: var(--color-brownish-dd)
 
 #author
-  font-size: 1.5vw
+  font-size: 14px
   font-weight: bold
   text-decoration: none
   margin-bottom: 5px
-  color: var(--color-brownish-d)
+  width: 100%
+  color: #1c5dd6
 
 .arr, .text
   display: flex
   flex-direction: row
   justify-content: center
   text-align: left
-  font-size: 1.2vw
+  font-size: 13px
   color: var(--color-brownish-dd)
   display: flex
-  margin: 5px 0px 0px 10px
+  margin: 2px 0px 0px 10px
   width: 100%
 
 .arr p:first-child, .text p:first-child, .textDescription p:first-child
   font-weight: bold
-  width: 33%
+  width: 170px
   text-align: left
-  margin-left: 0px
+  margin: 0px
 
 .arr p, .text p
   align-self: left
@@ -178,11 +194,12 @@
   justify-content: center
   width: 100%
   text-align: left
-  font-size: 1.4vw
+  font-size: 14px
   color: var(--color-brownish-dd)
   display: flex
   margin: 5px 0px 5px 0px
   p:first-child
+    font-size: 16px
     text-align: left
     width: 100%
     margin-bottom: 5px
@@ -199,17 +216,17 @@
   justify-content: center
   width: 100%
   text-align: center
-  font-size: 1.4vw
+  text-decoration: none
   color: var(--color-brownish-dd)
   display: flex
   padding: 10px 15px 5px 15px
   margin: 5px 0px 15px 0px
   div
-    // font-size: 1.3vw
+    font-size: 14px
     font-style: oblique
     font-weight: 600
   span
-    font-size: 1.2vw
+    font-size: 12px
 
 .price
   color: var(--color-brownish-dd)
@@ -217,9 +234,9 @@
   padding-top: 5px
   display: flex
   justify-content: center
-  width: 100%
+  width: 90%
   p
-    font-size: 3vw
+    font-size: 24px
     font-weight: 600
     padding-right: 15px
     font-stretch: ultra-expanded
@@ -237,17 +254,16 @@
   display: flex
   justify-content: left
   width: 100%
-  padding-bottom: 10px
-  padding-left: 5px
+  padding-bottom: 0px
+  // padding-left: 5px
   margin-bottom: 0px
 
 .buttonBack
   border-radius: 3px
   padding: 5px
-  margin: 10px
-  margin-bottom: 0px
+  margin: 5px 0px 0px 10px
   border: none
-  font-size: 1.3vw
+  font-size: 12px
   color: var(--color-brownish-dd)
   background-color: var(--color-yellowish-d)
   -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
@@ -266,9 +282,9 @@
   margin: 10px
   margin-top: 0px
   border: none
-  font-size: 1.7vw
+  font-size: 16px
   font-weight: 600
-  width: 100%
+  width: 90%
   color: var(--color-brownish-dd)
   background-color: var(--color-yellowish-d)
   -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)

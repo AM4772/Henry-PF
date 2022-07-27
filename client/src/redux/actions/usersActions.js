@@ -48,8 +48,8 @@ export function asyncRegisterUser(info) {
     try {
       const response = (await axios.post("/users", info)).data;
       Swal.fire({
-        icon: 'success',
-        title: 'Your account has been created',
+        icon: "success",
+        title: "Your account has been created",
         text: `${response.message}`,
         showConfirmButton: false,
         timer: 1500
@@ -73,8 +73,8 @@ export function asyncLogin(body) {
     try {
       const response = (await axios.post("/login", body)).data;
       Swal.fire({
-        icon: 'success',
-        text: 'You have logged in successfully',
+        icon: "success",
+        text: "You have logged in successfully",
         title: `${response.message}`,
         showConfirmButton: false,
         timer: 2000
@@ -84,10 +84,10 @@ export function asyncLogin(body) {
       })
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data.message}`,
-      })
+      });
     }
   };
 }

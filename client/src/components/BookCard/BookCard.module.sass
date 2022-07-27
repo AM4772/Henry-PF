@@ -6,8 +6,8 @@
   display: flex
   justify-content: center
   margin: 10px 0px
-  width: 35vw
-  height: 105px
+  width: 100%
+  height: 90%
 
 .container1
   display: flex
@@ -24,7 +24,7 @@
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
 
 .containerImage
-  width: 90px
+  // width: 90px
   height: 90px
 
 .image
@@ -32,14 +32,16 @@
   object-position: center center
   border-radius: 5px
   filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.56))
-  max-height: 87px
+  max-height: 100%
   width: 90px
 
-.image:title
-  font-size: 1.1vw
+.navLink, .navLink:link, .navLink:visited, .navLink:focus, .navLink:active
+  text-decoration: none
+  color: inherit
+  outline: 0
 
 #bookTitle
-  font-size: 1.1vw
+  font-size: 14px
   font-weight: bold
   margin: 0px 10px
   color: var(--color-brownish-dd)
@@ -50,15 +52,15 @@
   text-align: center
 
 #author
-  font-size: .99vw
+  font-size: 13px
   margin: 0px 10px
-  // text-overflow: ellipsis
-  // white-space: nowrap
+  text-overflow: ellipsis
+  white-space: nowrap
   overflow: hidden
   // width: 100%
   text-align: center
-  text-decoration: none
 
 .price
-  font-size: 1.1vw
+  font-size: 16px
   color: var(--color-brownish-dd)
+  margin-right: 10px

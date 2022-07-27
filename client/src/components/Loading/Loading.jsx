@@ -1,13 +1,13 @@
-import React from 'react';
-
-import spinner from '../../assets/e4cd0639b5a5c1e164aeff4370ed2365.gif';
-import s from './Loading.module.sass';
+import React from "react";
+import s from "./Loading.module.sass";
+import logo from "../../assets/Book_Logo.png";
 
 function Loading(props) {
   return (
-    <div id={s.background}>
-      <div id={s.spinnerContainer}>
-        <img src={spinner} alt=""></img>
+    <div className={s.loadingCont}>
+      <div className={s.circleLoad}>
+        <div className={s.cosito}></div>
+        <img className={s.logoAnim} src={logo} alt="Book Store" />
       </div>
     </div>
   );

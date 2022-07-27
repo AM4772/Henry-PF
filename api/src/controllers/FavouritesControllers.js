@@ -18,7 +18,7 @@ let FavouritesModel = {
     });
     console.log(result);
   },
-  deleteFavourite: async function (bookID, userID) {
+  deleteFavourites: async function (bookID, userID) {
     // try {
     //   const user = await Users.findByPk(userID);
     //   if (user === null) {

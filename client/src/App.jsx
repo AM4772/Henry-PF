@@ -46,6 +46,7 @@ function App() {
       <Route exact path={"/userMenu"} component={UserMenu} />
       <Route exact path={"/profile"} component={Profile} />
       <Route exact path={"/contact"} component={Contact} />
+      <Route exact path={"/favourites"} component={Favourites} />
       <Route exact path={"/dashboard/createbook"} component={CreateBook} />
       <Route exact path={"/"} component={Home} />
       <Footer />

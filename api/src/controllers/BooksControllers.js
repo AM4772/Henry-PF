@@ -1,6 +1,8 @@
 const axios = require('axios');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const { Books, Apibooks } = require('../db');
-const { Op } = require('sequelize');
+
 const maxResults = 40;
 const term = [
   'sherlock',
@@ -37,7 +39,6 @@ let BooksModel = {
     try {
       for (let i = 0; i < term.length; i++) {
         for (let j = 0; j < 5; j++) {
-        
           let api = (
             await axios.get(
               `https://www.googleapis.com/books/v1/volumes?q=${
@@ -102,8 +103,13 @@ let BooksModel = {
   },
   getBooks: async function () {
     const foundBooks = await Books.findAll();
+    const foundBooksJSON = foundBooks.map((b) => b.toJSON());
+    const alphBooks = foundBooksJSON.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+
     if (foundBooks.length > 0) {
-      return foundBooks;
+      return alphBooks;
     } else {
       return undefined;
     }
@@ -117,6 +123,7 @@ let BooksModel = {
         },
       },
     });
+
     if (bookFound.length === 0) {
       return undefined;
     }

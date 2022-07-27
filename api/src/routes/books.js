@@ -4,6 +4,9 @@ const {
   getBookById,
   getBooks,
   getHomeBooks,
+  createBook,
+  modifyBooks,
+  deleteBook
 } = require('../controllers/BooksControllers');
 
 const router = Router();
@@ -89,7 +92,7 @@ router.put("/:ID", async (req, res) => {
 router.delete("/:ID", async (req, res) => {
   const { ID } = req.params;
   try {
-    const deletedBook = await deleteBook(req.body);
+    const deletedBook = await deleteBook(ID);
     deletedBook
       ? res.status(201).json({ message: "Book deleted successfully" })
       : res.status(400).json({ message: `Error deleting book with id ${ID}` });

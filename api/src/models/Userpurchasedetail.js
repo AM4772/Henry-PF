@@ -2,21 +2,12 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 
-  sequelize.define('payment_session', {
-    ID: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    mpID: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+  sequelize.define('userpurchasedetail', {
     items: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false
     },
-    total: {
+    price: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
@@ -25,13 +16,9 @@ module.exports = (sequelize) => {
       defaultValue: false,
       allowNull: true
     },
-    giftrecipient: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
   },
     {
-      timestamps: true
+      timestamps: false
     }
   );
 };

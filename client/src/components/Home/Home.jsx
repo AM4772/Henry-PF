@@ -55,7 +55,16 @@ export function Home(props) {
     <div className={s.home}>
       <div className={s.banner}>
         <img src={banner} alt="banner" className={s.bannerImg} />
-        <a className={s.arrow} href="#slider1">
+        <a
+          className={s.arrow}
+          onClick={(e) =>
+            window.scroll({
+              top: 600,
+              left: 0,
+              behavior: "smooth",
+            })
+          }
+        >
           <FaChevronDown className={s.icon} id="slider1" />
         </a>
       </div>

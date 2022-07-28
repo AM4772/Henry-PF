@@ -70,6 +70,7 @@ function Filters() {
     return () => {
       setChange(true);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [books]);
   useEffect(() => {
     dispatch(setFilterCard("books"));

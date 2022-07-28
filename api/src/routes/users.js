@@ -37,7 +37,7 @@ router.get("/", async (req, res) => {
           if (isNaN(ID)) {
             return res.status(400).json({ message: "ID must be a number" });
           }
-          let favourites = await getFavourites(ID);
+          const favourites = await getFavourites(ID);
           res.json(favourites);
         }
       } catch (err) {
@@ -94,7 +94,7 @@ router.get("/", async (req, res) => {
           if (isNaN(ID)) {
             return res.status(400).json({ message: "ID must be a number" });
           }
-          let cartItem = await getCartItem(ID);
+          const cartItem = await getCartItem(ID);
           res.json(cartItem);
         }
       } catch (err) {
@@ -115,7 +115,7 @@ router.get("/", async (req, res) => {
         cartItem
           ? res
               .status(200)
-              .json({ data: favourites, message: "Item added successfully" })
+              .json({ data: cartItem, message: "Item added successfully" })
           : res.status(400).json({ message: `Failed to add item` });
       } catch (err) {
         res.status(400).json(err.message);
@@ -141,12 +141,12 @@ router.get("/", async (req, res) => {
     //------------------------------USERS-----------------------------------------------------//
 
     if (username) {
-      let userFound = await getUserByUsername(username.toLowerCase());
+      const userFound = await getUserByUsername(username.toLowerCase());
       userFound
         ? res.json(userFound)
         : res.status(404).json({ message: `Username ${username} not found` });
     } else {
-      let dbUsers = await getUsers();
+      const dbUsers = await getUsers();
       dbUsers
         ? res.json(dbUsers)
         : res.status(404).json({ message: "No users found" });
@@ -163,7 +163,7 @@ router.get("/:ID", async (req, res) => {
       if (isNaN(ID)) {
         return res.status(400).json({ message: "ID must be a number" });
       }
-      let user = await getUserById(ID);
+      const user = await getUserById(ID);
       user
         ? res.json(user)
         : res.status(404).json({ message: `User with ID ${ID} not found` });

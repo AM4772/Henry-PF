@@ -8,7 +8,6 @@ let UsersModel = {
     const foundUsers = await Users.findAll();
     if (foundUsers.length > 0) {
       const userJSON = foundUsers.map((u) => u.toJSON());
-
       return userJSON.map((u) => {
         return {
           ID: u.ID,

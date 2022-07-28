@@ -14,14 +14,16 @@ conn.sync({ force: false }).then(() => {
     if (apiBooksDb.length > 0) {
       console.log('Table ApiBooks already with books, nothing to add');
     } else {
-      await getBooksApi();
       console.log('Filling ApiBooks table...');
+      await getBooksApi();
+      console.log('Done');
     }
     if (booksDb.length > 0) {
       console.log('Table Books already with books, nothing to add');
     } else {
-      await booksWithImg();
       console.log('Filling Books table...');
+      await booksWithImg();
+      console.log('Done');
     }
 
     console.log('%s listening at 3001'); // eslint-disable-line no-console

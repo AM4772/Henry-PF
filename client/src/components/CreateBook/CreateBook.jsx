@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import chroma from 'chroma-js';
+import { languageOptions } from './data.jsx';
+import Select from 'react-select';
 import s from '../Contact/Contact.module.sass';
 
 export default function CreateBook() {
@@ -38,6 +41,70 @@ export default function CreateBook() {
     pageCount: 0,
     language: 0,
   };
+  const dot = (color = 'transparent') => ({
+    alignItems: 'center',
+    display: 'flex',
+
+    ':before': {
+      backgroundColor: color,
+      borderRadius: 10,
+      content: '" "',
+      display: 'block',
+      marginRight: 8,
+      height: 10,
+      width: 10,
+    },
+  });
+  const customStyles = {
+    control: () => ({
+      display: '-webkit-flex',
+      backgroundColor: 'white',
+      borderRadius: 10,
+      color: 'gray',
+      fontFamily: 'Roboto',
+      fontWeight: '400',
+      borderColor: 'none',
+      border: isValid.language && isValid.language.length && count.language
+      ? 'rgba(255, 0, 0, 0.5960784314) solid 2px'
+      : 'none',
+    }),
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      const color = chroma(data.color);
+      return {
+        ...styles,
+        backgroundColor: isSelected
+          ? data.color
+          : isFocused
+          ? color.alpha(0.2).css()
+          : undefined,
+        color: isSelected
+          ? chroma.contrast(color, 'white') > 2
+            ? 'white'
+            : 'black'
+          : data.color,
+        cursor: 'default',
+
+        ':active': {
+          ...styles[':active'],
+          backgroundColor: !isDisabled
+            ? isSelected
+              ? data.color
+              : color.alpha(0.3).css()
+            : undefined,
+        },
+      };
+    },
+    input: styles => ({
+      ...styles,
+      ...dot(),
+      
+      ':focus': {
+        border: 'none',
+      },
+    }),
+    placeholder: styles => ({ ...styles, ...dot('#ccc') }),
+    singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+  };
   const [count, setCount] = useState(countInitialState);
   const [info, setInfo] = useState(infoInitialState);
   const [isValid, setIsValid] = useState(isValidInitialState);
@@ -73,7 +140,8 @@ export default function CreateBook() {
     else delete isValidCopy.image;
     // Authors
     if (!info.authors.length) isValidCopy.authors = ' ';
-    else if (symbolCheck.test(info.authors)) isValidCopy.authors = "Authors can't contain symbols";
+    else if (symbolCheck.test(info.authors))
+      isValidCopy.authors = "Authors can't contain symbols";
     else delete isValidCopy.authors;
     // Categories
     if (!info.categories.length) isValidCopy.categories = ' ';
@@ -97,6 +165,10 @@ export default function CreateBook() {
     else if (size) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [info]);
+  const handleLanguage = e => {
+    if (e) setInfo({ ...info, language: e.value })
+    else setInfo({ ...info, language: '' })
+  }
   const handleSubmit = async e => {
     e.preventDefault();
   };
@@ -132,7 +204,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, title: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, title: e.target.value }) ||
+                  setCount({ ...count, title: 1 })
+                }
               ></input>
               <p
                 className={
@@ -158,7 +233,8 @@ export default function CreateBook() {
                     : null
                 }`}
                 onChange={e =>
-                  setInfo({ ...info, description: e.target.value })
+                  setInfo({ ...info, description: e.target.value }) ||
+                  setCount({ ...count, description: 1 })
                 }
               ></input>
               <p
@@ -182,7 +258,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, price: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, price: e.target.value }) ||
+                  setCount({ ...count, price: 1 })
+                }
               ></input>
               <p
                 className={
@@ -205,7 +284,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, image: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, image: e.target.value }) ||
+                  setCount({ ...count, image: 1 })
+                }
               ></input>
               <p
                 className={
@@ -228,7 +310,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, authors: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, authors: e.target.value }) ||
+                  setCount({ ...count, authors: 1 })
+                }
               ></input>
               <p
                 className={
@@ -253,7 +338,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, categories: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, categories: e.target.value }) ||
+                  setCount({ ...count, categories: 1 })
+                }
               ></input>
               <p
                 className={
@@ -278,7 +366,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, publisher: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, publisher: e.target.value }) ||
+                  setCount({ ...count, publisher: 1 })
+                }
               ></input>
               <p
                 className={
@@ -304,7 +395,8 @@ export default function CreateBook() {
                     : null
                 }`}
                 onChange={e =>
-                  setInfo({ ...info, publishedDate: e.target.value })
+                  setInfo({ ...info, publishedDate: e.target.value }) ||
+                  setCount({ ...count, publishedDate: 1 })
                 }
               ></input>
               <p
@@ -330,7 +422,10 @@ export default function CreateBook() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, pageCount: e.target.value })}
+                onChange={e =>
+                  setInfo({ ...info, pageCount: e.target.value }) ||
+                  setCount({ ...count, pageCount: 1 })
+                }
               ></input>
               <p
                 className={
@@ -344,26 +439,20 @@ export default function CreateBook() {
             </div>
             <div className={s.inline}>
               <label className={s.fillTitle}>Language: </label>
-              <input
-                type="text"
-                placeholder="Language"
-                value={info.language}
-                className={`${s.input} ${
-                  isValid.language && isValid.language.length && count.language
-                    ? s.danger
-                    : null
-                }`}
-                onChange={e => setInfo({ ...info, language: e.target.value })}
-              ></input>
-              <p
-                className={
-                  isValid.language && isValid.language !== ' '
+              <Select
+                isClearable={true}
+                name="language"
+                menuColor="red"
+                options={languageOptions}
+                styles={customStyles}
+                onChange={e =>
+                  handleLanguage(e) ||
+                  setCount({ ...count, language: 1 })}
+                  />
+              <p className={isValid.language && isValid.language !== ' '
                     ? s.errorMessage
                     : s.noErrorMessage
-                }
-              >
-                {isValid.language}
-              </p>
+                }> {isValid.language} </p>
             </div>
           </div>
           <div id={s.bottomButton}> {handleButton()} </div>

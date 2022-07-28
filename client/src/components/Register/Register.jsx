@@ -9,6 +9,7 @@ function Register(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const [passwordShown, setPasswordShown] = useState(false);
+  const [passwordShown2, setPasswordShown2] = useState(false);
   const { stack } = useSelector(state => state.history);
   const { userProfile } = useSelector(state => state.profile);
   const isValidInitialState = {
@@ -294,7 +295,7 @@ function Register(props) {
             <div className={s.inline}>
               <label className={s.fillTitle}>Repeat password: </label>
               <input
-                type={passwordShown ? 'text' : 'password'}
+                type={passwordShown2 ? 'text' : 'password'}
                 value={rpassword}
                 className={`${s.input} ${
                   isValid.rpassword &&
@@ -311,7 +312,7 @@ function Register(props) {
               ></input>{' '}
               <FaEye
                 className={s.fatEye}
-                onClick={() => setPasswordShown(!passwordShown)}
+                onClick={() => setPasswordShown2(!passwordShown2)}
               />
               <p
                 className={

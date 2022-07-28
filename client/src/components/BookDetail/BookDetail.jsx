@@ -11,6 +11,8 @@ import { clearBookDetail } from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
   asyncDeleteFavourite,
+  asyncAddItemCart,
+  asyncRemoveItemCart,
 } from "../../redux/actions/usersActions";
 
 import Stars5 from "../../assets/Stars5.png";
@@ -24,19 +26,24 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
-  const { favourites } = useSelector((state) => state.profile);
+  const { favourites, cart } = useSelector((state) => state.profile);
   let book = useSelector((state) => state.books.bookDetail);
 
-  const [added, setAdded] = useState(false);
+  const [addedBook, setAddedBook] = useState(false);
+  const [addedCart, setAddedCart] = useState(false);
 
   window.scrollTo(0, 0);
 
   useEffect(() => {
-    if (favourites.length > 0) {
+    if (favourites.length) {
       let result = favourites.find((el) => el.ID === parseInt(ID));
-      if (result) setAdded(true);
+      if (result) setAddedBook(true);
     }
-  }, [favourites, ID]);
+    if (cart.length) {
+      let result = cart.find((el) => el.ID === parseInt(ID));
+      if (result) setAddedCart(true);
+    }
+  }, [favourites, cart, ID]);
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
@@ -62,29 +69,73 @@ function BookDetail(props) {
       history.push("/");
     }
   }
+
   function addingFav() {
-    if (!added) {
-      if (!userProfile.ID) {
-        Swal.fire({
-          title: "To add a favourite book, you have to be logged in",
-          // text: "Do you want to log in?",
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Go to Login",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            history.push("/login");
-            dispatch(asyncAddFavourite(userProfile.ID, ID));
-            setAdded(true);
-          }
-        });
-      }
-    } else {
-      dispatch(asyncDeleteFavourite(userProfile.ID, ID));
-      setAdded(false);
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To add or remove a favourite book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
     }
+    if (userProfile.ID && !addedBook) {
+      dispatch(asyncAddFavourite(userProfile.ID, ID));
+      setAddedBook(true);
+    }
+    if (userProfile.ID && addedBook) {
+      dispatch(asyncDeleteFavourite(userProfile.ID, ID));
+      setAddedBook(false);
+    }
+  }
+
+  const addingToCart = () => {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To add or remove a book in your Cart, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    if (userProfile.ID && !addedCart) {
+      dispatch(asyncAddItemCart(userProfile.ID, ID));
+      setAddedCart(true);
+    }
+    if (userProfile.ID && addedCart) {
+      dispatch(asyncRemoveItemCart(userProfile.ID, ID));
+      setAddedCart(false);
+    }
+  };
+
+  function buyingBook() {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To buy a book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    // dispatch(asyncBuyBook(userProfile.ID, ID));
   }
 
   function scrollSmoothTo(elementId) {
@@ -109,8 +160,8 @@ function BookDetail(props) {
                 <img
                   className={s.imgHeart}
                   alt="heart"
-                  title={!added ? "Add Favourite" : "Delete Favourite"}
-                  src={!added ? heartOff : heartOn}
+                  title={!addedBook ? "Add Favourite" : "Delete Favourite"}
+                  src={!addedBook ? heartOff : heartOn}
                   onClick={addingFav}
                 />
               </div>
@@ -198,11 +249,11 @@ function BookDetail(props) {
                     </div>
                   </div>
                   <div className={s.containerButtons}>
-                    <button className={s.buttons} onClick={goBack}>
+                    <button className={s.buttons} onClick={buyingBook}>
                       BUY
                     </button>
-                    <button className={s.buttons} onClick={goBack}>
-                      ADD TO CART
+                    <button className={s.buttons} onClick={addingToCart}>
+                      {!addedCart ? "ADD TO CART" : "REMOVE FROM CART"}
                     </button>
                   </div>
                 </div>
@@ -231,7 +282,7 @@ function BookDetail(props) {
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat."
                 </div>
-                <span>-Some crazy person-</span>
+                <span>-Some crazy person 👴-</span>
               </div>
             </div>
           </div>

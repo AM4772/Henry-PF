@@ -1,16 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
 import Loading from "../Loading/Loading";
 import s from "./FavouriteCard.module.sass";
 import heartOn from "../../assets/Heart_on.png";
 import { FaCartPlus } from "react-icons/fa";
+import {
+  asyncAddItemCart,
+  asyncRemoveItemCart,
+} from "../../redux/actions/usersActions";
 
 function FavouriteCard(props) {
   let book = props;
+  const history = useHistory();
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
+  const { cart } = useSelector((state) => state.profile);
+  const [addedCart, setAddedCart] = useState(false);
+
+  useEffect(() => {
+    if (cart.length) {
+      let result = cart.find((el) => el.ID === parseInt(book.ID));
+      if (result) setAddedCart(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart]);
+
+  // eslint-disable-next-line no-unused-vars
+  const addingToCart = () => {
+    if (!addedCart) {
+      if (!userProfile.ID) history.push("/login");
+      dispatch(asyncAddItemCart(userProfile.ID, book.ID));
+      setAddedCart(true);
+    } else {
+      dispatch(asyncRemoveItemCart(userProfile.ID, book.ID));
+      setAddedCart(false);
+    }
+  };
 
   function deletingFav() {
     dispatch(asyncDeleteFavourite(userProfile.ID, book.ID));
@@ -44,11 +71,11 @@ function FavouriteCard(props) {
             </NavLink>
             <div className={s.containerBlock2}>
               <div className={s.containerCartHeart}>
-                <div className={s.containerCart}></div>
+                <div className={s.containerEmpty}></div>
                 <div className={s.containerCartHeart2}>
-                  <NavLink to="/cart">
+                  <button to="/cart">
                     <FaCartPlus title="Add to Cart" className={s.icon} />
-                  </NavLink>
+                  </button>
                   <img
                     className={s.imgHeart}
                     alt="heart"

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import chroma from 'chroma-js';
 import { languageOptions, CustomInput } from './data.jsx';
 import Select from 'react-select';
@@ -154,7 +154,7 @@ export default function CreateBook() {
   const [authorsOptions, setAuthorsOptions] = useState(null);
   const [caterogiesOptions, setCaterogiesOptions] = useState(null);
   const { authors, categories } = useSelector(state => state.books);
-  const { stack } = useSelector((state) => state.history);
+  const { stack } = useSelector(state => state.history);
 
   const [info, setInfo] = useState(infoInitialState);
   const [isValid, setIsValid] = useState(isValidInitialState);
@@ -241,10 +241,10 @@ export default function CreateBook() {
     var lastPath = [];
     for (let i = 1; i < stack.length; i++) {
       if (
-        stack[i] !== "/register" &&
-        stack[i] !== "/login" &&
-        stack[i] !== "/profile" &&
-        stack[i] !== "/favourites" &&
+        stack[i] !== '/register' &&
+        stack[i] !== '/login' &&
+        stack[i] !== '/profile' &&
+        stack[i] !== '/favourites' &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -253,9 +253,9 @@ export default function CreateBook() {
     if (lastPath.length > 0) {
       history.push(lastPath[0]);
     } else {
-      history.push("/");
+      history.push('/');
     }
-  }
+  };
   const handleLanguage = e => {
     if (e) setInfo({ ...info, language: e.value });
     else setInfo({ ...info, language: '' });
@@ -276,12 +276,14 @@ export default function CreateBook() {
     dispatch(
       asyncCreateBook({
         ...info,
-        publishedDate: `${info.publishedDate
+        publishedDate: `${info.publishedDate.getFullYear()}-${(
+          info.publishedDate.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, '0')}-${info.publishedDate
           .getDate()
           .toString()
-          .padStart(2, '0')}-${(info.publishedDate.getMonth() + 1)
-          .toString()
-          .padStart(2, '0')}-${info.publishedDate.getFullYear()}`,
+          .padStart(2, '0')}`,
       })
     ).then(() => setIsPending(false));
   };

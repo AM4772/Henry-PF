@@ -3,13 +3,14 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import chroma from 'chroma-js';
-import { languageOptions, CustomInput, years, months, CustomHeader } from './data.jsx';
+import { languageOptions, CustomInput } from './data.jsx';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import s from './CreateBook.module.sass';
 import {
   asyncGetAuthors,
   asyncGetCategories,
+  asyncCreateBook,
 } from '../../redux/actions/booksActions';
 
 export default function CreateBook() {
@@ -181,6 +182,7 @@ export default function CreateBook() {
   useEffect(() => {
     var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
     const isValidCopy = { ...isValid };
+    // console.log(`${(info.publishedDate.getMonth() + 1).toString().padStart(2, '0')}/${info.publishedDate.getDate().toString().padStart(2, '0')}/${info.publishedDate.getFullYear()}`)
     // Title
     if (!info.title.length) isValidCopy.title = ' ';
     else if (info.title.length < 3 || info.title.length > 50)
@@ -213,8 +215,8 @@ export default function CreateBook() {
     if (!info.publisher.length) isValidCopy.publisher = ' ';
     else delete isValidCopy.publisher;
     // PublishedDate
-    // if (!info.publishedDate.length) isValidCopy.publishedDate = ' ';
-    // else delete isValidCopy.publishedDate;
+    if (!info.publishedDate) isValidCopy.publishedDate = ' ';
+    else delete isValidCopy.publishedDate;
     // PageCount
     if (!info.pageCount.length) isValidCopy.pageCount = ' ';
     else if (isNaN(info.pageCount))
@@ -248,6 +250,17 @@ export default function CreateBook() {
   };
   const handleSubmit = async e => {
     e.preventDefault();
+    dispatch(
+      asyncCreateBook({
+        ...info,
+        publishedDate: `${info.publishedDate
+          .getDate()
+          .toString()
+          .padStart(2, '0')}/${(info.publishedDate.getMonth() + 1)
+          .toString()
+          .padStart(2, '0')}/${info.publishedDate.getFullYear()}`,
+      })
+    );
   };
   const handleButton = () => {
     if (isPending)
@@ -490,10 +503,9 @@ export default function CreateBook() {
             <label className={s.fillTitle}>Published date: </label>
             <DatePicker
               selected={info.publishedDate}
-              // value={info.publishedDate}
-              dateFormat="dd/MM/yyyy"
+              value={info.publishedDate}
+              // dateFormat="dd/MM/yyyy"
               customInput={<CustomInput />}
-              customHeader={<CustomHeader />}
               onChange={date =>
                 setInfo({ ...info, publishedDate: date }) ||
                 setCount({ ...count, publishedDate: 1 })

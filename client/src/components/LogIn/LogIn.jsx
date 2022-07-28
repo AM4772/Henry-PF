@@ -73,8 +73,10 @@ function LogIn({ prev }) {
   const handleSubmit = async e => {
     e.preventDefault();
     const values = { username: emailOrUsername, password };
-
-    dispatch(asyncLogin(values));
+    setIsPending(true)
+    dispatch(asyncLogin(values)).then(() => {
+      setIsPending(false)
+    });
   };
   const handleButton = () => {
     if (!isPending && isAllowed && refresh !== 1)
@@ -92,14 +94,6 @@ function LogIn({ prev }) {
         </p>
       );
   };
-  // const errSuccHandler = message => {
-  //   if (message === 'Created')
-  //     return <p className="success">Recipe has been created!</p>;
-  //   else {
-  //     const messageCopy = message.charAt(0).toUpperCase() + message.slice(1);
-  //     return <p className="error">{messageCopy}</p>;
-  //   }
-  // };
   return (
     <div id={s.toCenter}>
       <div id={s.card}>

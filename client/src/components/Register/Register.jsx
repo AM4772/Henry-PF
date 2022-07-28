@@ -39,8 +39,9 @@ function Register(props) {
   const [rpassword, setRpassword] = useState('');
   const [isPending, setisPending] = useState(false);
   const { emails, usernames } = useSelector(state => state.users)
+  const [registered, setRegistered] = useState(false);
   useEffect(() => {
-    if (userProfile.email) {
+    if (userProfile.email || registered) {
       var lastPath = [];
       for (let i = 0; i < stack.length; i++) {
         if (stack[i] !== '/register' && stack[i] !== '/login') {
@@ -121,6 +122,8 @@ function Register(props) {
     rpassword,
     isPending,
     userProfile,
+    history,
+    registered,
   ]);
   const handleSubmit = async e => {
     e.preventDefault();
@@ -138,7 +141,7 @@ function Register(props) {
         setIsvalid(isValidInitialState);
         setIsAllowed(false);
         setisPending(false);
-        history.push('/login');
+        setRegistered(true)
       }
       else setisPending(false);
     });

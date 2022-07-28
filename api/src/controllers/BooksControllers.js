@@ -2,7 +2,7 @@ const axios = require('axios');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { Books, Apibooks } = require('../db');
-const { imageRegex } = require('./regex');
+const { imageRegex } = require('../utils/validations/regex');
 
 const maxResults = 40;
 const term = [

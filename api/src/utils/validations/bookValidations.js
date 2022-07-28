@@ -27,10 +27,10 @@ let validationModel = {
     }
     if (book.categories) {
       if (!book.categories.length) {
-        errors.push('Invalid author');
-      } else {
         errors.push('Invalid category');
       }
+    } else {
+      errors.push('Invalid category');
     }
 
     if (book.publisher) {

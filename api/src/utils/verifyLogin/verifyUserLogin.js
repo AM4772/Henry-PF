@@ -38,7 +38,7 @@ let verifyLoginModel = {
           lastName: userJSON.surname,
           email: userJSON.email,
           token: tokenPass,
-          books: await userExists.getFavourite(),
+          books: await user.getFavourite(),
         };
       }
       return undefined;

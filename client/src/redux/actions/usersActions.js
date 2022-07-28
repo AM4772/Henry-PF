@@ -60,7 +60,7 @@ export function asyncRegisterUser(info) {
       const response = (await axios.post("/users", info)).data;
       Swal.fire({
         icon: "success",
-        title: "Your account has been created",
+        title: "Your account has been created, check your email",
         text: `${response.message}`,
         showConfirmButton: false,
         timer: 1500,
@@ -71,7 +71,7 @@ export function asyncRegisterUser(info) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Sorry, we were unable to register you at this time, please try again later",
+        text: "Sorry, we were unable to register you, please try again later",
       }).then(() => {
         return false;
       });

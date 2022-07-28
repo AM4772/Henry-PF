@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 import { clearBookDetail } from "../../redux/reducers/booksSlice";
 import {
@@ -63,15 +64,36 @@ function BookDetail(props) {
   }
   function addingFav() {
     if (!added) {
-      if (!userProfile.ID) history.push("/login");
-      dispatch(asyncAddFavourite(userProfile.ID, ID));
-      setAdded(true);
+      if (!userProfile.ID) {
+        Swal.fire({
+          title: "To add a favourite book, you have to be logged in",
+          // text: "Do you want to log in?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Go to Login",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            history.push("/login");
+            dispatch(asyncAddFavourite(userProfile.ID, ID));
+            setAdded(true);
+          }
+        });
+      }
     } else {
       dispatch(asyncDeleteFavourite(userProfile.ID, ID));
       setAdded(false);
     }
   }
 
+  function scrollSmoothTo(elementId) {
+    var element = document.getElementById(elementId);
+    element.scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
+  }
   return (
     <div>
       {book.title ? (
@@ -122,12 +144,16 @@ function BookDetail(props) {
                       ))}
                     </div>
                     <div className={s.containerReviews1}>
-                      <a className={s.containerReviews2} href="#reviewsMark">
+                      <div
+                        className={s.containerReviews2}
+                        onClick={() => scrollSmoothTo("reviewsMark")}
+                        // href="#reviewsMark"
+                      >
                         <img className={s.reviews} alt="5stars" src={Stars5} />
                         <p>
                           {""}(23 reviews){""}
                         </p>
-                      </a>
+                      </div>
                     </div>
 
                     <div className={s.arr}>

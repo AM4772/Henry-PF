@@ -91,7 +91,7 @@ export function asyncCreateBook(book) {
       Swal.fire({
         icon: "success",
         text: response.data,
-        title: `${response.message}`,
+        title: response.message,
         showConfirmButton: false,
         timer: 2000,
       })

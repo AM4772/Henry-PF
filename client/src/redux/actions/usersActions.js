@@ -58,12 +58,12 @@ export function asyncRegisterUser(info) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/users", info)).data;
-      Swal.fire({
+      return await Swal.fire({
         icon: "success",
         title: "Your account has been created, check your email",
         text: `${response.message}`,
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
       }).then(() => {
         return true;
       });

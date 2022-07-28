@@ -49,6 +49,7 @@ function BookDetail(props) {
         stack[i] !== "/register" &&
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
+        stack[i] !== "/favourites" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -87,6 +88,7 @@ function BookDetail(props) {
                 <img
                   className={s.imgHeart}
                   alt="heart"
+                  title={!added ? "Add Favourite" : "Delete Favourite"}
                   src={!added ? heartOff : heartOn}
                   onClick={addingFav}
                 />

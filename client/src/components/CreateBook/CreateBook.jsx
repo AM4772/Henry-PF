@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import chroma from 'chroma-js';
-import { languageOptions } from './data.jsx';
+import { languageOptions, CustomInput, years, months, CustomHeader } from './data.jsx';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import s from './CreateBook.module.sass';
@@ -30,9 +32,9 @@ export default function CreateBook() {
     price: '',
     image: '',
     authors: [],
-    categories: '',
+    categories: [],
     publisher: '',
-    publishedDate: '',
+    publishedDate: new Date(),
     pageCount: '',
     language: '',
   };
@@ -74,7 +76,8 @@ export default function CreateBook() {
       border:
         isValid.language && isValid.language.length && count.language
           ? 'rgba(255, 0, 0, 0.5960784314) solid 2px'
-          : 'none',
+          : '#ffffff98 solid 2px',
+      transition: '0.3s',
     }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       const color = chroma(data.color);
@@ -121,14 +124,29 @@ export default function CreateBook() {
       color: 'gray',
       fontFamily: 'Roboto',
       fontWeight: '400',
-      // borderColor: 'none',
       border:
-      !isValid.authors && !isValid.authors.length && !info.authors.length && count.authors
+        !info.authors.length && count.authors
           ? 'rgba(255, 0, 0, 0.5960784314) solid 2px'
-          : 'none',
+          : '#ffffff98 solid 2px',
+      transition: '0.3s',
     }),
   };
-  const defaultOptions = [{ value: '', label: 'Loading...', isDisabled: true }]
+  const customStylesCategories = {
+    control: () => ({
+      display: '-webkit-flex',
+      backgroundColor: 'white',
+      borderRadius: 10,
+      color: 'gray',
+      fontFamily: 'Roboto',
+      fontWeight: '400',
+      border:
+        !info.categories.length && count.categories
+          ? 'rgba(255, 0, 0, 0.5960784314) solid 2px'
+          : '#ffffff98 solid 2px',
+      transition: '0.3s',
+    }),
+  };
+  const defaultOptions = [{ value: '', label: 'Loading...', isDisabled: true }];
   const [count, setCount] = useState(countInitialState);
   const [authorsOptions, setAuthorsOptions] = useState(null);
   const [caterogiesOptions, setCaterogiesOptions] = useState(null);
@@ -140,9 +158,10 @@ export default function CreateBook() {
   const [isPending, setIsPending] = useState(false);
   useMemo(() => {
     if (!authorsOptions || !caterogiesOptions) {
-      let authorsCopy = [], categoriesCopy = [];
+      let authorsCopy = [],
+        categoriesCopy = [];
       if (authors.length && categories.length) {
-        console.log('termine')
+        console.log('termine');
         for (let i = 0; i < authors.length; i++) {
           authorsCopy.push({ value: authors[i], label: authors[i] });
         }
@@ -152,27 +171,25 @@ export default function CreateBook() {
         setAuthorsOptions(authorsCopy);
         setCaterogiesOptions(categoriesCopy);
       } else if (!authors.length && !categories.length) {
-        dispatch(asyncGetAuthors())
-        dispatch(asyncGetCategories())
-        console.log('entre')
+        dispatch(asyncGetAuthors());
+        dispatch(asyncGetCategories());
+        console.log('entre');
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authors, categories])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authors, categories]);
   useEffect(() => {
     var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
-    var symbolCheck = new RegExp(/[-!$%^&*()_+|~=`{}[\]:";'<>?,./]/);
     const isValidCopy = { ...isValid };
     // Title
     if (!info.title.length) isValidCopy.title = ' ';
-    else if (info.title.length < 6 || info.title.length > 50)
-      isValidCopy.title = 'Title is invalid';
+    else if (info.title.length < 3 || info.title.length > 50)
+      isValidCopy.title = 'Title must contain 3-50 characters';
     else delete isValidCopy.title;
     // Description
     if (!info.description.length) isValidCopy.description = ' ';
     else if (info.description.length < 16 || info.description.length > 120)
-      isValidCopy.description =
-        'Description must contain between 16-120 characters';
+      isValidCopy.description = 'Description must contain 16-120 characters';
     else delete isValidCopy.description;
     // Price
     if (!info.price.length) isValidCopy.price = ' ';
@@ -187,10 +204,8 @@ export default function CreateBook() {
       isValidCopy.image = 'Image url is unvalid';
     else delete isValidCopy.image;
     // Authors
-    // if (!info.authors.length) isValidCopy.authors = ' ';
-    // else if (symbolCheck.test(info.authors))
-    //   isValidCopy.authors = "Authors can't contain symbols";
-    // else delete isValidCopy.authors;
+    if (!info.authors.length) isValidCopy.authors = ' ';
+    else delete isValidCopy.authors;
     // Categories
     if (!info.categories.length) isValidCopy.categories = ' ';
     else delete isValidCopy.categories;
@@ -198,10 +213,14 @@ export default function CreateBook() {
     if (!info.publisher.length) isValidCopy.publisher = ' ';
     else delete isValidCopy.publisher;
     // PublishedDate
-    if (!info.publishedDate.length) isValidCopy.publishedDate = ' ';
-    else delete isValidCopy.publishedDate;
+    // if (!info.publishedDate.length) isValidCopy.publishedDate = ' ';
+    // else delete isValidCopy.publishedDate;
     // PageCount
     if (!info.pageCount.length) isValidCopy.pageCount = ' ';
+    else if (isNaN(info.pageCount))
+      isValidCopy.pageCount = 'Page count must be a number .-.';
+    else if (info.pageCount > 2000 || info.pageCount < 10)
+      isValidCopy.pageCount = 'Page count must be between 10 - 2000';
     else delete isValidCopy.pageCount;
     // Language
     if (!info.language.length) isValidCopy.language = ' ';
@@ -218,9 +237,14 @@ export default function CreateBook() {
     else setInfo({ ...info, language: '' });
   };
   const handleAuthors = e => {
-    const authorsMapped = e.map(author => author.value)
-    if (e) setInfo({ ...info, authors: authorsMapped });
+    const mapped = e.map(author => author.value);
+    if (e) setInfo({ ...info, authors: mapped });
     else setInfo({ ...info, authors: [] });
+  };
+  const handleCategories = e => {
+    const mapped = e.map(categorie => categorie.value);
+    if (e) setInfo({ ...info, categories: mapped });
+    else setInfo({ ...info, categories: [] });
   };
   const handleSubmit = async e => {
     e.preventDefault();
@@ -255,7 +279,7 @@ export default function CreateBook() {
                 className={`${s.input} ${
                   isValid.title && isValid.title.length && count.title
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 onChange={e =>
                   setInfo({ ...info, title: e.target.value }) ||
@@ -283,7 +307,7 @@ export default function CreateBook() {
                   isValid.description.length &&
                   count.description
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 onChange={e =>
                   setInfo({ ...info, description: e.target.value }) ||
@@ -309,7 +333,7 @@ export default function CreateBook() {
                 className={`${s.input} ${
                   isValid.price && isValid.price.length && count.price
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 onChange={e =>
                   setInfo({ ...info, price: e.target.value }) ||
@@ -335,7 +359,7 @@ export default function CreateBook() {
                 className={`${s.input} ${
                   isValid.image && isValid.image.length && count.image
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 onChange={e =>
                   setInfo({ ...info, image: e.target.value }) ||
@@ -363,7 +387,7 @@ export default function CreateBook() {
                   isValid.publisher.length &&
                   count.publisher
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 onChange={e =>
                   setInfo({ ...info, publisher: e.target.value }) ||
@@ -391,7 +415,7 @@ export default function CreateBook() {
                   isValid.pageCount.length &&
                   count.pageCount
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 onChange={e =>
                   setInfo({ ...info, pageCount: e.target.value }) ||
@@ -413,7 +437,7 @@ export default function CreateBook() {
         </form>
       </div>
       <div id={s.card2}>
-        <h1 className={s.register}>Create book</h1>
+        <h1 className={s.register}>Aditional info</h1>
         <div className={s.creationCardDisplay}>
           <div className={s.inline}>
             <label className={s.fillTitle}>Authors: </label>
@@ -439,22 +463,19 @@ export default function CreateBook() {
           </div>
           <div className={s.inline}>
             <label className={s.fillTitle}>Categories: </label>
-            <input
-              type="text"
-              placeholder="Categories"
-              value={info.categories}
-              className={`${s.input} ${
-                isValid.categories &&
-                isValid.categories.length &&
-                count.categories
-                  ? s.danger
-                  : null
-              }`}
+            <CreatableSelect
+              isClearable
+              isMulti
+              name="categories"
+              options={caterogiesOptions ? caterogiesOptions : defaultOptions}
+              styles={customStylesCategories}
               onChange={e =>
-                setInfo({ ...info, categories: e.target.value }) ||
-                setCount({ ...count, categories: 1 })
+                handleCategories(e) || setCount({ ...count, categories: 1 })
               }
-            ></input>
+            />
+            {/* // onChange={e =>
+              //   setInfo({ ...info, categories: e.target.value }) ||
+              //   setCount({ ...count, categories: 1 }) */}
             <p
               className={
                 isValid.categories && isValid.categories !== ' '
@@ -467,22 +488,17 @@ export default function CreateBook() {
           </div>
           <div className={s.inline}>
             <label className={s.fillTitle}>Published date: </label>
-            <input
-              type="text"
-              placeholder="Published date"
-              value={info.publishedDate}
-              className={`${s.input} ${
-                isValid.publishedDate &&
-                isValid.publishedDate.length &&
-                count.publishedDate
-                  ? s.danger
-                  : null
-              }`}
-              onChange={e =>
-                setInfo({ ...info, publishedDate: e.target.value }) ||
+            <DatePicker
+              selected={info.publishedDate}
+              // value={info.publishedDate}
+              dateFormat="dd/MM/yyyy"
+              customInput={<CustomInput />}
+              customHeader={<CustomHeader />}
+              onChange={date =>
+                setInfo({ ...info, publishedDate: date }) ||
                 setCount({ ...count, publishedDate: 1 })
               }
-            ></input>
+            />
             <p
               className={
                 isValid.publishedDate && isValid.publishedDate !== ' '

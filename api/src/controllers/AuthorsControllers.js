@@ -1,8 +1,8 @@
-const { Books } = require('../db');
+const { Books, Authors } = require('../db');
 
 const authorsArray = [];
 let authorModel = {
-  getAuthors: async function () {
+  fillAuthors: async function () {
     const books = await Books.findAll();
     const authors = books.map((a) => a.dataValues.authors);
     for (let i = 0; i < authors.length; i++) {
@@ -16,7 +16,15 @@ let authorModel = {
       return undefined;
     }
 
-    return authorsArray.sort();
+    authorsArray.map((a) => Authors.create({ name: a }));
+  },
+  getAuthors: async function () {
+    const authors = await Authors.findAll();
+
+    if (authors) {
+      return authors.map((a) => a.toJSON().name).sort();
+    }
+    return undefined;
   },
 };
 

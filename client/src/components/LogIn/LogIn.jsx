@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -109,7 +110,7 @@ function LogIn({ prev }) {
                   isValid.emailOrUsername.length &&
                   count.emailOrUsername
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 value={emailOrUsername}
                 onChange={e =>
@@ -135,7 +136,7 @@ function LogIn({ prev }) {
                 className={`${s.input} ${
                   isValid.password && isValid.password.length && count.password
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 value={password}
                 placeholder="Password"
@@ -161,7 +162,7 @@ function LogIn({ prev }) {
           </div>
           <div id={s.bottomButton}>
             <div id="button-handler">{handleButton()}</div>
-            {/* <div id="error-success-handler">{errSuccHandler(serverResponse)}</div> */}
+            <NavLink to='/register' id={s.registerNow}>Not registered yet?</NavLink>
           </div>
         </form>
       </div>

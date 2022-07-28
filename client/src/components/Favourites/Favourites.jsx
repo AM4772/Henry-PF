@@ -12,7 +12,7 @@ const Favourites = () => {
   return favourites.length > 0 ? (
     <div className={s.containerFav0}>
       {favourites.map((b) => (
-        <div className={s.containerFav1}>
+        <div key={b.ID} className={s.containerFav1}>
           <FavouriteCard
             key={b.ID}
             ID={b.ID}

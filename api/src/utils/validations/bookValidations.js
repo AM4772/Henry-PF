@@ -1,4 +1,4 @@
-const { nameAndLastRegex, dateRegex } = require('./regex');
+const { dateRegex } = require('./regex');
 let errors = [];
 
 let validationModel = {
@@ -28,9 +28,11 @@ let validationModel = {
     if (book.categories) {
       if (!book.categories.length) {
         errors.push('Invalid author');
+      } else {
+        errors.push('Invalid category');
       }
-      errors.push('Invalid category');
     }
+
     if (book.publisher) {
       if (book.publisher == '' || book.publisher.length > 10000)
         errors.push('Invalid publisher');

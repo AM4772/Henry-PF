@@ -2,6 +2,7 @@ const axios = require('axios');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { Books, Apibooks } = require('../db');
+const { imageRegex } = require('./regex');
 
 const maxResults = 40;
 const term = [
@@ -167,9 +168,11 @@ let BooksModel = {
     });
 
     if (verifyBook.length > 0) return undefined;
-    if (!book.image) {
+
+    if (!imageRegex.test(book.image)) {
       book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
     }
+
     try {
       const createdBook = await Books.create({
         title: book.title.toLowerCase(),

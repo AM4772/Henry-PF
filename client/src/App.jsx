@@ -3,6 +3,7 @@ import { Route, useLocation } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav/Nav";
 import BookDetail from "./components/BookDetail/BookDetail";
+// import Cart from "./components/Cart/Cart";
 import UserDetail from "./components/UserDetail/UserDetail";
 import Searching from "./components/Searching/Searching";
 import Register from "./components/Register/Register";
@@ -22,77 +23,84 @@ import { asyncAutoLogin } from "./redux/actions/usersActions";
 import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
-	const dispatch = useDispatch();
-	const [loading, setLoading] = useState(true);
-	const { appLoading } = useSelector((state) => state.books);
-	const { appLoadingUsers } = useSelector((state) => state.users);
-	const { stack } = useSelector((state) => state.history);
-	const { firstAuto, appLoadingProfile } = useSelector(
-		(state) => state.profile
-	);
-	const location = useLocation();
-	useEffect(() => {
-		if (location.pathname !== stack[0] || stack.length <= 0) {
-			dispatch(addStack(location.pathname));
-		}
-		var token = localStorage.getItem("ALTKN");
-		if (token) {
-			if (firstAuto) {
-				dispatch(asyncAutoLogin(token));
-			}
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [location]);
-	function currentPath() {
-		if (location.pathname === "/register") {
-			setLoading(appLoadingUsers);
-		} else if (
-			location.pathname === "/login" ||
-			location.pathname.includes("dashboard")
-		) {
-			setTimeout(() => {
-				setLoading(false);
-			}, 1000);
-		} else if (location.pathname === "/profile") {
-			setLoading(appLoadingProfile);
-		} else {
-			setLoading(appLoading);
-		}
-	}
-	useEffect(() => {
-		currentPath();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [appLoading, appLoadingUsers, appLoadingProfile, location]);
-	useEffect(() => {}, [loading]);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const { appLoading } = useSelector((state) => state.books);
+  const { appLoadingUsers } = useSelector((state) => state.users);
+  const { stack } = useSelector((state) => state.history);
+  const { firstAuto, appLoadingProfile } = useSelector(
+    (state) => state.profile
+  );
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname !== stack[0] || stack.length <= 0) {
+      dispatch(addStack(location.pathname));
+    }
+    var token = localStorage.getItem("ALTKN");
+    if (token) {
+      if (firstAuto) {
+        dispatch(asyncAutoLogin(token));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+  function currentPath() {
+    if (location.pathname === "/register") {
+      setLoading(appLoadingUsers);
+    } else if (
+      location.pathname === "/login" ||
+      location.pathname.includes("dashboard") ||
+      location.pathname.includes("book") ||
+      location.pathname.includes("user") ||
+      location.pathname === "/contact"
+    ) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    } else if (
+      location.pathname === "/profile" ||
+      location.pathname === "/favourites" ||
+      location.pathname === "/cart"
+    ) {
+      setLoading(appLoadingProfile);
+    } else {
+      setLoading(appLoading);
+    }
+  }
+  useEffect(() => {
+    currentPath();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appLoading, appLoadingUsers, appLoadingProfile, location]);
+  useEffect(() => {}, [loading]);
 
-	return (
-		<div>
-			{loading ? (
-				<div className={s.loadingCont}>
-					<div className={s.circleLoad}>
-						<div className={s.cosito}></div>
-						<img className={s.logoAnim} src={logo} alt="Book Store" />
-					</div>
-				</div>
-			) : null}
-			<div className="App">
-				<Nav />
-				<Route exact path={"/book/:ID"} component={BookDetail} />
-				<Route exact path={"/user/:ID"} component={UserDetail} />
-				<Route exact path={"/search"} component={Searching} />
-				<Route exact path={"/register"} component={Register} />
-				<Route exact path={"/login"} component={LogIn} />
-				<Route exact path={"/userMenu"} component={UserMenu} />
-				<Route exact path={"/profile"} component={Profile} />
-				<Route exact path={"/contact"} component={Contact} />
-				<Route exact path={"/favourites"} component={Favourites} />
-				<Route exact path={"/dashboard/createbook"} component={CreateBook} />
-				<Route exact path={"/dashboard"} component={Dashboard} />
-				<Route exact path={"/"} component={Home} />
-				<Footer />
-			</div>
-		</div>
-	);
+  return (
+    <div>
+      {loading ? (
+        <div className={s.loadingCont}>
+          <div className={s.circleLoad}>
+            <div className={s.cosito}></div>
+            <img className={s.logoAnim} src={logo} alt="Book Store" />
+          </div>
+        </div>
+      ) : null}
+      <div className="App">
+        <Nav />
+        <Route exact path={"/book/:ID"} component={BookDetail} />
+        <Route exact path={"/user/:ID"} component={UserDetail} />
+        <Route exact path={"/search"} component={Searching} />
+        <Route exact path={"/register"} component={Register} />
+        <Route exact path={"/login"} component={LogIn} />
+        <Route exact path={"/profile"} component={Profile} />
+        <Route exact path={"/contact"} component={Contact} />
+        <Route exact path={"/favourites"} component={Favourites} />
+        {/* <Route exact path={"/cart"} component={Cart} /> */}
+        <Route exact path={"/dashboard/createbook"} component={CreateBook} />
+        <Route exact path={"/dashboard"} component={Dashboard} />
+        <Route exact path={"/"} component={Home} />
+        <Footer />
+      </div>
+    </div>
+  );
 }
 
 export default App;

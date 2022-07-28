@@ -63,7 +63,7 @@ export function asyncRegisterUser(info) {
         title: "Your account has been created, check your email",
         text: `${response.message}`,
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
       }).then(() => {
         return true;
       });

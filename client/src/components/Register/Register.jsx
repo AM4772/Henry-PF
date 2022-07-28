@@ -109,8 +109,8 @@ function Register(props) {
       else if (password.length < 8 || password.length > 30)
         isValidCopy.password = "Password must contain between 8-30 characters";
       else delete isValidCopy.password;
-      // Password validation
-      if (!rpassword.length) isValidCopy.password = " ";
+      // Repeat Password validation
+      if (!rpassword.length) isValidCopy.rpassword = " ";
       else if (password !== rpassword)
         isValidCopy.rpassword = "Both passwords must be identical";
       else delete isValidCopy.rpassword;
@@ -189,7 +189,7 @@ function Register(props) {
                 className={`${s.input} ${
                   isValid.name && isValid.name.length && count.name
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 placeholder="Name"
                 onChange={(e) =>
@@ -214,7 +214,7 @@ function Register(props) {
                 className={`${s.input} ${
                   isValid.surname && isValid.surname.length && count.surname
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 placeholder="Surname"
                 onChange={(e) =>
@@ -240,7 +240,7 @@ function Register(props) {
                 className={`${s.input} ${
                   isValid.username && isValid.username.length && count.username
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 placeholder="Username"
                 onChange={(e) =>
@@ -266,7 +266,7 @@ function Register(props) {
                 className={`${s.input} ${
                   isValid.email && isValid.email.length && count.email
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 placeholder="Email"
                 onChange={(e) =>
@@ -291,7 +291,7 @@ function Register(props) {
                 className={`${s.input} ${
                   isValid.password && isValid.password.length && count.password
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 placeholder="Password"
                 onChange={(e) =>
@@ -323,7 +323,7 @@ function Register(props) {
                   isValid.rpassword.length &&
                   count.rpassword
                     ? s.danger
-                    : null
+                    : s.nejDanger
                 }`}
                 placeholder="Repeat password"
                 onChange={(e) =>
@@ -347,6 +347,7 @@ function Register(props) {
             </div>
           </div>
           <div id={s.bottomButton}>{handleButton()}</div>
+          {/* <p>Already registered?</p> */}
         </form>
       </div>
     </div>

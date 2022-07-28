@@ -51,6 +51,7 @@ function App() {
       location.pathname.includes("dashboard") ||
       location.pathname.includes("book") ||
       location.pathname.includes("user") ||
+      location.pathname.includes("cart") ||
       location.pathname === "/contact"
     ) {
       setTimeout(() => {

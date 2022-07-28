@@ -3,10 +3,8 @@ import Swal from "sweetalert2";
 import {
   firstAutoLogin,
   loginUser,
-  getFavourites,
   addFavourite,
   deleteFavourite,
-  deleteAllFavourites,
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -148,21 +146,12 @@ export function asyncSetUsernames() {
   };
 }
 
-export function asyncGetFavourites(userID) {
-  return async function (dispatch) {
-    try {
-      const response = (await axios(`/users/${userID}/favourites`)).data;
-      dispatch(getFavourites(response));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-}
 export function asyncAddFavourite(userID, bookID) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post(`/users/${userID}/favourites`, bookID))
-        .data;
+      const response = (
+        await axios.post(`/users/${userID}/favourites`, { ID: bookID })
+      ).data.data;
       dispatch(addFavourite(response));
     } catch (error) {
       console.error(error);
@@ -172,20 +161,16 @@ export function asyncAddFavourite(userID, bookID) {
 export function asyncDeleteFavourite(userID, bookID) {
   return async function (dispatch) {
     try {
+      console.log(userID, bookID);
+      // console.log(bookID);
       const response = (
-        await axios.delete(`/users/${userID}/favourites`, bookID)
-      ).data;
+        await axios.delete(`/users/${userID}/favourites`, {
+          data: {
+            ID: parseInt(bookID),
+          },
+        })
+      ).data.data;
       dispatch(deleteFavourite(response));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-}
-export function asyncDeleteAllFavourites(userID) {
-  return async function (dispatch) {
-    try {
-      const response = (await axios.delete(`/users/${userID}/favourites`)).data;
-      dispatch(deleteAllFavourites(response));
     } catch (error) {
       console.error(error);
     }

@@ -1,16 +1,17 @@
-// import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 // import { useState } from "react";
 import FavouriteCard from "../FavouriteCard/FavouriteCard";
 import s from "./Favourites.module.sass";
 
 const Favourites = () => {
-  // const dispatch = useDispatch();
   const { favourites } = useSelector((state) => state.profile);
 
+  useEffect(() => {}, [favourites]);
+
   return favourites.length > 0 ? (
-    favourites.map((b) => (
-      <div className={s.containerFav0}>
+    <div className={s.containerFav0}>
+      {favourites.map((b) => (
         <div className={s.containerFav1}>
           <FavouriteCard
             key={b.ID}
@@ -21,11 +22,8 @@ const Favourites = () => {
             price={b.price}
           />
         </div>
-        <div>
-          <button className="buttons">Empty List</button>
-        </div>
-      </div>
-    ))
+      ))}
+    </div>
   ) : (
     <div className={s.containerNotFav}>
       <div className={s.NotFav}>

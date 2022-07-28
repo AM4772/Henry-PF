@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 import { clearBookDetail } from "../../redux/reducers/booksSlice";
-// import {
-//   asyncAddFavourite,
-//   asyncDeleteFavourite,
-// } from "../../redux/actions/usersActions";
+import {
+  asyncAddFavourite,
+  asyncDeleteFavourite,
+} from "../../redux/actions/usersActions";
 
 import Stars5 from "../../assets/Stars5.png";
 import heartOff from "../../assets/Heart_off.png";
@@ -32,7 +32,7 @@ function BookDetail(props) {
 
   useEffect(() => {
     if (favourites.length > 0) {
-      let result = favourites.find((el) => el.bookID === ID);
+      let result = favourites.find((el) => el.ID === parseInt(ID));
       if (result) setAdded(true);
     }
   }, [favourites, ID]);
@@ -63,10 +63,11 @@ function BookDetail(props) {
   function addingFav() {
     if (!added) {
       if (!userProfile.ID) history.push("/login");
-      // dispatch(asyncAddFavourite());
+      console.log(ID);
+      dispatch(asyncAddFavourite(userProfile.ID, ID));
       setAdded(true);
     } else {
-      // dispatch(asyncDeleteFavourite());
+      dispatch(asyncDeleteFavourite(userProfile.ID, ID));
       setAdded(false);
     }
   }

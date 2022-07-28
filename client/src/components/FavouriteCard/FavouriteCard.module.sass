@@ -57,28 +57,56 @@
 .containerBlock2
   display: flex
   flex-direction: column
+  width: 50%
 
 .containerBlock3
   display: flex
   flex-direction: row
   // width: 100%
 
-.containerheart
+.containerCartHeart
   display: flex
-  justify-content: flex-end
+  align-content: center
+  justify-content: center
+  align-content: flex-start
+  flex-direction: row
   width: 100%
+
+.containerCart
+  width: 100%
+  // max-width: 220px
+  display: flex
+  align-content: center
+  justify-content: center
+  align-items: center
+  box-sizing: border-box
+  display: flex
+.icon
+  color: var(--color-brownish-dd)
+  font-size: 29px
+  align-items: center
+  width: 100%
+  // margin: 5px
+  cursor: pointer
+
+.containerCartHeart2
+  display: flex
+  justify-content: space-between
+  width: 100%
+  max-width: 100px
+  align-items: flex-start
   img
     height: 23px
     width: 23px
     padding: 0px 0px
-    margin: 0px 5px 5px 0px
+    margin: 5px
     cursor: pointer
 
 .containerDate1
   display: flex
   flex-direction: row
   width: 100%
-  padding: 0px 45px
+  // padding: 0px 45px
   justify-content: center
 
 .containerDate2
@@ -114,10 +142,11 @@
 .price
   display: flex
   align-items: center
-  font-size: 18px
+  font-size: 19px
   color: var(--color-brownish-dd)
-  margin: 0px 10px
+  margin: 0px
   width: 100%
+  max-width: 100px
   p
     display: flex
     justify-content: center

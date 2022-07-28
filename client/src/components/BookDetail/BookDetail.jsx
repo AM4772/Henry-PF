@@ -64,7 +64,6 @@ function BookDetail(props) {
   function addingFav() {
     if (!added) {
       if (!userProfile.ID) history.push("/login");
-      console.log(ID);
       dispatch(asyncAddFavourite(userProfile.ID, ID));
       setAdded(true);
     } else {

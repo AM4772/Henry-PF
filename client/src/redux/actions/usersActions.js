@@ -161,8 +161,6 @@ export function asyncAddFavourite(userID, bookID) {
 export function asyncDeleteFavourite(userID, bookID) {
   return async function (dispatch) {
     try {
-      console.log(userID, bookID);
-      // console.log(bookID);
       const response = (
         await axios.delete(`/users/${userID}/favourites`, {
           data: {

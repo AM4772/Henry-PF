@@ -18,7 +18,7 @@ let autoLogin = {
       name: userJSON.name,
       lastName: userJSON.surname,
       email: userJSON.email,
-      books: user.getFavourite(),
+      books: await userExists.getFavourite(),
     };
   },
 };

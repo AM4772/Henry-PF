@@ -11,9 +11,7 @@ import { clearBookDetail } from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
   asyncDeleteFavourite,
-  asyncGetItemCart,
   asyncAddItemCart,
-  asyncRemItemoveCart,
   asyncRemoveItemCart,
 } from "../../redux/actions/usersActions";
 
@@ -71,41 +69,73 @@ function BookDetail(props) {
       history.push("/");
     }
   }
-  
+
   function addingFav() {
-    if (!addedBook) {
-      if (!userProfile.ID) {
-        Swal.fire({
-          title: "To add a favourite book, you have to be logged in",
-          // text: "Do you want to log in?",
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Go to Login",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            history.push("/login");
-            dispatch(asyncAddFavourite(userProfile.ID, ID));
-            setAddedBook(true);
-          }
-        });
-      }
-    } else {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To add or remove a favourite book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    if (userProfile.ID && !addedBook) {
+      dispatch(asyncAddFavourite(userProfile.ID, ID));
+      setAddedBook(true);
+    }
+    if (userProfile.ID && addedBook) {
       dispatch(asyncDeleteFavourite(userProfile.ID, ID));
       setAddedBook(false);
     }
   }
 
   const addingToCart = () => {
-    if (!addedCart) {
-      if (!userProfile.ID) history.push("/login");
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To add or remove a book in your Cart, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    if (userProfile.ID && !addedCart) {
       dispatch(asyncAddItemCart(userProfile.ID, ID));
       setAddedCart(true);
-    } else {
+    }
+    if (userProfile.ID && addedCart) {
       dispatch(asyncRemoveItemCart(userProfile.ID, ID));
       setAddedCart(false);
     }
+  };
+
+  function buyingBook() {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To buy a book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    // dispatch(asyncBuyBook(userProfile.ID, ID));
   }
 
   function scrollSmoothTo(elementId) {
@@ -219,11 +249,11 @@ function BookDetail(props) {
                     </div>
                   </div>
                   <div className={s.containerButtons}>
-                    <button className={s.buttons} onClick={goBack}>
+                    <button className={s.buttons} onClick={buyingBook}>
                       BUY
                     </button>
                     <button className={s.buttons} onClick={addingToCart}>
-                      {!addedCart ? 'ADD TO CART' : 'REMOVE FROM CART'}
+                      {!addedCart ? "ADD TO CART" : "REMOVE FROM CART"}
                     </button>
                   </div>
                 </div>

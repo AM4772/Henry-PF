@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
@@ -6,7 +6,10 @@ import Loading from "../Loading/Loading";
 import s from "./FavouriteCard.module.sass";
 import heartOn from "../../assets/Heart_on.png";
 import { FaCartPlus } from "react-icons/fa";
-import {asyncAddItemCart, asyncRemoveItemCart} from "../../redux/actions/usersActions";
+import {
+  asyncAddItemCart,
+  asyncRemoveItemCart,
+} from "../../redux/actions/usersActions";
 
 function FavouriteCard(props) {
   let book = props;
@@ -21,7 +24,7 @@ function FavouriteCard(props) {
       let result = cart.find((el) => el.ID === parseInt(book.ID));
       if (result) setAddedCart(true);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
 
   // eslint-disable-next-line no-unused-vars
@@ -34,7 +37,7 @@ function FavouriteCard(props) {
       dispatch(asyncRemoveItemCart(userProfile.ID, book.ID));
       setAddedCart(false);
     }
-  }
+  };
 
   function deletingFav() {
     dispatch(asyncDeleteFavourite(userProfile.ID, book.ID));
@@ -68,7 +71,7 @@ function FavouriteCard(props) {
             </NavLink>
             <div className={s.containerBlock2}>
               <div className={s.containerCartHeart}>
-                <div className={s.containerCart}></div>
+                <div className={s.containerEmpty}></div>
                 <div className={s.containerCartHeart2}>
                   <button to="/cart">
                     <FaCartPlus title="Add to Cart" className={s.icon} />

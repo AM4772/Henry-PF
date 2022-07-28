@@ -2,12 +2,17 @@ const { Router } = require("express");
 const {
   getUserByUsername,
   getUserById,
-  getCartItem,
   createUser,
   getUsers,
   modifyUsers,
   deleteUser,
 } = require("../controllers/UsersControllers");
+
+const {
+  getCartItem,
+  addCartItem,
+  deleteCartItem,
+} = require("../controllers/CartControllers");
 
 const { validateUsersPost } = require("../utils/validations/userValidations");
 
@@ -23,6 +28,118 @@ router.get("/", async (req, res) => {
   const { username } = req.query;
 
   try {
+    //------------------------------FAVS-----------------------------------------------------//
+
+    router.get("/:ID/favourites", async (req, res) => {
+      const { ID } = req.params;
+      try {
+        if (ID) {
+          if (isNaN(ID)) {
+            return res.status(400).json({ message: "ID must be a number" });
+          }
+          let favourites = await getFavourites(ID);
+          res.json(favourites);
+        }
+      } catch (err) {
+        res.status(400).json(err);
+      }
+    });
+
+    router.post("/:ID/favourites", async (req, res) => {
+      const { ID } = req.params;
+      const userID = ID;
+      const bookID = req.body.ID;
+      console.log(req.body);
+      try {
+        if (isNaN(userID) && isNaN(bookID)) {
+          return res.status(400).json({ message: "ID must be a number" });
+        }
+        const favourites = await addFavourites(
+          parseInt(bookID),
+          parseInt(userID)
+        );
+        favourites
+          ? res.status(200).json({
+              data: favourites,
+              message: "Favorite added successfully",
+            })
+          : res.status(400).json({ message: `Failed to add favorite` });
+      } catch (err) {
+        res.status(400).json(err.message);
+      }
+    });
+
+    router.delete("/:ID/favourites", async (req, res) => {
+      const { ID } = req.params;
+      const userID = ID;
+      const bookID = req.body.ID;
+
+      const delFavourites = await deleteFavourites(
+        parseInt(bookID),
+        parseInt(userID)
+      );
+      delFavourites
+        ? res.status(200).json({
+            message: "Favorite deleted successfully",
+            data: delFavourites,
+          })
+        : res.status(400).json({ message: `Failed to delete favorite` });
+    });
+
+    //------------------------------CART-----------------------------------------------------//
+    router.get("/:ID/cart", async (req, res) => {
+      const { ID } = req.params;
+      try {
+        if (ID) {
+          if (isNaN(ID)) {
+            return res.status(400).json({ message: "ID must be a number" });
+          }
+          let cartItem = await getCartItem(ID);
+          res.json(cartItem);
+        }
+      } catch (err) {
+        res.status(400).json(err);
+      }
+    });
+
+    router.post("/:ID/cart", async (req, res) => {
+      const { ID } = req.params;
+      const userID = ID;
+      const bookID = req.body.ID;
+      console.log(req.body);
+      try {
+        if (isNaN(userID) && isNaN(bookID)) {
+          return res.status(400).json({ message: "ID must be a number" });
+        }
+        const cartItem = await addCartItem(parseInt(bookID), parseInt(userID));
+        cartItem
+          ? res
+              .status(200)
+              .json({ data: favourites, message: "Item added successfully" })
+          : res.status(400).json({ message: `Failed to add item` });
+      } catch (err) {
+        res.status(400).json(err.message);
+      }
+    });
+
+    router.delete("/:ID/cart", async (req, res) => {
+      const { ID } = req.params;
+      const userID = ID;
+      const bookID = req.body.ID;
+
+      const delCartItem = await deleteCartItem(
+        parseInt(bookID),
+        parseInt(userID)
+      );
+      delCartItem
+        ? res.status(200).json({
+            message: "Item deleted successfully",
+            data: deleteCartItem,
+          })
+        : res.status(400).json({ message: `Failed to delete item` });
+    });
+    //------------------------------USERS-----------------------------------------------------//
+
     if (username) {
       let userFound = await getUserByUsername(username.toLowerCase());
       userFound
@@ -33,36 +150,6 @@ router.get("/", async (req, res) => {
       dbUsers
         ? res.json(dbUsers)
         : res.status(404).json({ message: "No users found" });
-    }
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.get("/:ID/favourites", async (req, res) => {
-  const { ID } = req.params;
-  try {
-    if (ID) {
-      if (isNaN(ID)) {
-        return res.status(400).json({ message: "ID must be a number" });
-      }
-      let favourites = await getFavourites(ID);
-      res.json(favourites);
-    }
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-router.get("/:ID/cart", async (req, res) => {
-  const { ID } = req.params;
-  try {
-    if (ID) {
-      if (isNaN(ID)) {
-        return res.status(400).json({ message: "ID must be a number" });
-      }
-      let favourites = await getCartItem(ID);
-      res.json(favourites);
     }
   } catch (err) {
     res.status(400).json(err);
@@ -102,46 +189,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/:ID/favourites", async (req, res) => {
-  const { ID } = req.params;
-  const userID = ID;
-  const bookID = req.body.ID;
-  console.log(req.body);
-  try {
-    if (isNaN(userID) && isNaN(bookID)) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
-    const favourites = await addFavourites(parseInt(bookID), parseInt(userID));
-    favourites
-      ? res
-          .status(200)
-          .json({ data: favourites, message: "Favorite added successfully" })
-      : res.status(400).json({ message: `Failed to add favorite` });
-  } catch (err) {
-    res.status(400).json(err.message);
-  }
-});
-
-router.post("/:ID/cart", async (req, res) => {
-  const { ID } = req.params;
-  const userID = ID;
-  const bookID = req.body.ID;
-  console.log(req.body);
-  try {
-    if (isNaN(userID) && isNaN(bookID)) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
-    const favourites = await addCartItem(parseInt(bookID), parseInt(userID));
-    favourites
-      ? res
-          .status(200)
-          .json({ data: favourites, message: "Item added successfully" })
-      : res.status(400).json({ message: `Failed to add item` });
-  } catch (err) {
-    res.status(400).json(err.message);
-  }
-});
-
 router.put("/:ID", async (req, res) => {
   const { ID } = req.params;
   try {
@@ -160,38 +207,6 @@ router.put("/:ID", async (req, res) => {
   } catch (err) {
     res.status(400).json(err.message);
   }
-});
-
-router.delete("/:ID/favourites", async (req, res) => {
-  const { ID } = req.params;
-  const userID = ID;
-  const bookID = req.body.ID;
-
-  const delFavourites = await deleteFavourites(
-    parseInt(bookID),
-    parseInt(userID)
-  );
-  delFavourites
-    ? res
-        .status(200)
-        .json({ message: "Favorite deleted successfully", data: delFavourites })
-    : res.status(400).json({ message: `Failed to delete favorite` });
-});
-
-router.delete("/:ID/cart", async (req, res) => {
-  const { ID } = req.params;
-  const userID = ID;
-  const bookID = req.body.ID;
-
-  const delFavourites = await deleteCartItem(
-    parseInt(bookID),
-    parseInt(userID)
-  );
-  delFavourites
-    ? res
-        .status(200)
-        .json({ message: "Item deleted successfully", data: deleteCartItem })
-    : res.status(400).json({ message: `Failed to delete item` });
 });
 
 router.delete("/:ID", async (req, res) => {

@@ -5,6 +5,9 @@ import {
   loginUser,
   addFavourite,
   deleteFavourite,
+  addItemCart,
+  removeItemCart,
+  getItemCart,
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -146,18 +149,40 @@ export function asyncSetUsernames() {
   };
 }
 
+const satisfaction = Swal.mixin({
+  background: '#DED7CF',
+  backdrop: false,
+  toast: true,
+  heightAuto: false,
+  position: 'bottom-end',
+  showConfirmButton: false,
+  iconColor: '#1E110B',
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
 export function asyncAddFavourite(userID, bookID) {
   return async function (dispatch) {
     try {
       const response = (
         await axios.post(`/users/${userID}/favourites`, { ID: bookID })
       ).data.data;
+      satisfaction.fire({
+        icon: "success",
+        title: 'Added!',
+        html: "You have <b>added</b> this book to your favourites",
+      })
       dispatch(addFavourite(response));
     } catch (error) {
       console.error(error);
     }
   };
 }
+
 export function asyncDeleteFavourite(userID, bookID) {
   return async function (dispatch) {
     try {
@@ -168,8 +193,76 @@ export function asyncDeleteFavourite(userID, bookID) {
           },
         })
       ).data.data;
+      satisfaction.fire({
+        icon: "error",
+        title: 'Removed!',
+        html: "You have <b>removed</b> this book from your favourites",
+      })
       dispatch(deleteFavourite(response));
     } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncGetItemCart(userID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios(`/users/${userID}/cart`)).data.data;
+      dispatch(getItemCart(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncAddItemCart(userID, bookID) {
+  return async function (dispatch) {
+    try {
+      const response = (
+        await axios.post(`/users/${userID}/cart`, { ID: bookID })
+      ).data.data;
+      console.log(response)
+      satisfaction.fire({
+        icon: "success",
+        title: 'Added!',
+        html: "You have <b>added</b> this item to your cart",
+      })
+      dispatch(addItemCart(response));
+    } catch (error) {
+      satisfaction.fire({
+        icon: "error",
+        title: "Oops...",
+        html: "Sorry, we were unable to <b>add</b> the book to your cart",
+      })
+      console.error(error);
+    }
+  };
+}
+
+export function asyncRemoveItemCart(userID, bookID) {
+  return async function (dispatch) {
+    try {
+      const response = (
+        await axios.delete(`/users/${userID}/cart`, {
+          data: {
+            ID: parseInt(bookID),
+          },
+        })
+        ).data.data;
+      satisfaction.fire({
+        icon: "error",
+        title: 'Removed!',
+        html: "You have <b>removed</b> this book from your cart"
+      })
+      console.log(response);
+      dispatch(removeItemCart(response));
+    } catch (error) {
+      satisfaction.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Sorry, we were unable to <b>remove</b> the book from your cart",
+      })
       console.error(error);
     }
   };

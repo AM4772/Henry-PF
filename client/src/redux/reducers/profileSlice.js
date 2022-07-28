@@ -42,6 +42,15 @@ const profileSlice = createSlice({
     deleteFavourite: (state, action) => {
       state.favourites = action.payload;
     },
+    getItemCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    addItemCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    removeItemCart: (state, action) => {
+      state.cart = action.payload;
+    },
   },
 });
 
@@ -52,6 +61,9 @@ export const {
   firstAutoLogin,
   addFavourite,
   deleteFavourite,
+  getItemCart,
+  addItemCart,
+  removeItemCart,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

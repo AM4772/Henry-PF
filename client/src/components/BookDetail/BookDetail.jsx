@@ -11,6 +11,10 @@ import { clearBookDetail } from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
   asyncDeleteFavourite,
+  asyncGetItemCart,
+  asyncAddItemCart,
+  asyncRemItemoveCart,
+  asyncRemoveItemCart,
 } from "../../redux/actions/usersActions";
 
 import Stars5 from "../../assets/Stars5.png";
@@ -24,19 +28,24 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
-  const { favourites } = useSelector((state) => state.profile);
+  const { favourites, cart } = useSelector((state) => state.profile);
   let book = useSelector((state) => state.books.bookDetail);
 
-  const [added, setAdded] = useState(false);
+  const [addedBook, setAddedBook] = useState(false);
+  const [addedCart, setAddedCart] = useState(false);
 
   window.scrollTo(0, 0);
 
   useEffect(() => {
-    if (favourites.length > 0) {
+    if (favourites.length) {
       let result = favourites.find((el) => el.ID === parseInt(ID));
-      if (result) setAdded(true);
+      if (result) setAddedBook(true);
     }
-  }, [favourites, ID]);
+    if (cart.length) {
+      let result = cart.find((el) => el.ID === parseInt(ID));
+      if (result) setAddedCart(true);
+    }
+  }, [favourites, cart, ID]);
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
@@ -62,8 +71,9 @@ function BookDetail(props) {
       history.push("/");
     }
   }
+  
   function addingFav() {
-    if (!added) {
+    if (!addedBook) {
       if (!userProfile.ID) {
         Swal.fire({
           title: "To add a favourite book, you have to be logged in",
@@ -77,13 +87,24 @@ function BookDetail(props) {
           if (result.isConfirmed) {
             history.push("/login");
             dispatch(asyncAddFavourite(userProfile.ID, ID));
-            setAdded(true);
+            setAddedBook(true);
           }
         });
       }
     } else {
       dispatch(asyncDeleteFavourite(userProfile.ID, ID));
-      setAdded(false);
+      setAddedBook(false);
+    }
+  }
+
+  const addingToCart = () => {
+    if (!addedCart) {
+      if (!userProfile.ID) history.push("/login");
+      dispatch(asyncAddItemCart(userProfile.ID, ID));
+      setAddedCart(true);
+    } else {
+      dispatch(asyncRemoveItemCart(userProfile.ID, ID));
+      setAddedCart(false);
     }
   }
 
@@ -109,8 +130,8 @@ function BookDetail(props) {
                 <img
                   className={s.imgHeart}
                   alt="heart"
-                  title={!added ? "Add Favourite" : "Delete Favourite"}
-                  src={!added ? heartOff : heartOn}
+                  title={!addedBook ? "Add Favourite" : "Delete Favourite"}
+                  src={!addedBook ? heartOff : heartOn}
                   onClick={addingFav}
                 />
               </div>
@@ -201,8 +222,8 @@ function BookDetail(props) {
                     <button className={s.buttons} onClick={goBack}>
                       BUY
                     </button>
-                    <button className={s.buttons} onClick={goBack}>
-                      ADD TO CART
+                    <button className={s.buttons} onClick={addingToCart}>
+                      {!addedCart ? 'ADD TO CART' : 'REMOVE FROM CART'}
                     </button>
                   </div>
                 </div>
@@ -231,7 +252,7 @@ function BookDetail(props) {
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat."
                 </div>
-                <span>-Some crazy person-</span>
+                <span>-Some crazy person 👴-</span>
               </div>
             </div>
           </div>

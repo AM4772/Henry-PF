@@ -1,16 +1,25 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import s from "./FavouriteCard.module.sass";
 import Loading from "../Loading/Loading";
 import { NavLink } from "react-router-dom";
+import heartOn from "../../assets/Heart_on.png";
+import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
 
 function FavouriteCard(props) {
   let book = props;
+  const dispatch = useDispatch();
+  const { userProfile } = useSelector((state) => state.profile);
+
+  function deletingFav() {
+    dispatch(asyncDeleteFavourite(userProfile.ID, book.ID));
+  }
   return (
     <div className={s.cards}>
       {book.title ? (
-        <NavLink className={s.navLink} to={`/favourites/${book.ID}`}>
-          <div className={s.container0}>
-            <div className={s.container1}>
+        <div className={s.container0}>
+          <div className={s.container1}>
+            <NavLink className={s.navLink} to={`/book/${book.ID}`}>
               <div className={s.containerImage}>
                 <img
                   className={s.image}
@@ -25,30 +34,42 @@ function FavouriteCard(props) {
                     ? book.title.toUpperCase()
                     : book.title.toUpperCase().slice(0, 60) + "..."}
                 </p>
-                {/* {book.authors.map((el) => (
-                  <p key={el} id={s.author}>
-                    {el.length > 27 ? el.slice(0, 27) + "..." : el}
-                  </p>
-                ))} */}
                 <p id={s.author}>
                   {book.authors[0] && book.authors[0].length > 27
                     ? book.authors[0].slice(0, 27) + "..."
                     : book.authors[0]}
                 </p>
-                {/* <p id={s.author}>{book.authors}</p> */}
               </div>
-              <div className={s.price}>
-                <p>
-                  $
-                  {new Intl.NumberFormat("es-ES", {
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 2,
-                  }).format(book.price)}
-                </p>
+            </NavLink>
+            <div className={s.containerBlock2}>
+              <div className={s.containerheart}>
+                <img
+                  className={s.imgHeart}
+                  alt="heart"
+                  src={heartOn}
+                  onClick={deletingFav}
+                />
+              </div>
+              <div className={s.containerBlock3}>
+                <div className={s.containerDate1}>
+                  <div className={s.containerDate2}>
+                    <p>Added on</p>
+                    <p>{new Date(book.date).toLocaleDateString("es-ES")}</p>
+                  </div>
+                </div>
+                <div className={s.price}>
+                  <p>
+                    $
+                    {new Intl.NumberFormat("es-ES", {
+                      maximumFractionDigits: 2,
+                      minimumFractionDigits: 2,
+                    }).format(book.price)}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </NavLink>
+        </div>
       ) : (
         <Loading />
       )}

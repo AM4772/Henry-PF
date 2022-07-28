@@ -3,10 +3,6 @@ import s from "./BookCard.module.sass";
 import Loading from "../Loading/Loading";
 import { NavLink } from "react-router-dom";
 
-// TESTING ================
-// import { TESTING_BOOKS } from "../../testingObjects";
-// ==============================
-
 function BookCard(props) {
   let book = props;
   return (

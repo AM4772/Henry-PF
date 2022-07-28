@@ -104,7 +104,7 @@ router.post('/:ID/cart', async (req, res) => {
     itemAdded
       ? res
           .status(200)
-          .json({ message: 'Item deleted successfully', data: itemAdded })
+          .json({ message: 'Item added successfully', data: itemAdded })
       : res.status(400).json({ message: `Failed to add item` });
   } catch (err) {
     res.status(400).json('DATABASE ERROR');
@@ -117,7 +117,9 @@ router.delete('/:ID/cart', async (req, res) => {
   const bookID = req.body.ID;
 
   const delCartItem = await deleteCartItem(parseInt(bookID), parseInt(userID));
-  delCartItem
+  delCartItem === 0
+    ? res.status(400).json({ message: 'Nothing to remove', data: delCartItem })
+    : delCartItem
     ? res
         .status(200)
         .json({ message: 'Item deleted successfully', data: delCartItem })

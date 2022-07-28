@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import s from "./DashboardUsers.module.sass";
 import {
 	FaUserCheck,
@@ -7,12 +7,15 @@ import {
 	FaUserClock,
 	FaUserTimes,
 } from "react-icons/fa";
-
-import { TESTING_USERS } from "../../testingObjects";
+import { asyncGetUsers } from "../../redux/actions/usersActions";
 
 function DashboardUsers() {
 	const { users } = useSelector((state) => state.users);
+	const dispatch = useDispatch();
 
+	useEffect(() => {
+		dispatch(asyncGetUsers());
+	}, [dispatch]);
 	return (
 		<div className={s.userBoard}>
 			<div className={s.top}>
@@ -32,7 +35,7 @@ function DashboardUsers() {
 						</tr>
 					</thead>
 					<tbody>
-						{TESTING_USERS.map((u) => {
+						{users.map((u) => {
 							return (
 								<tr key={u.ID}>
 									<td>{u.ID}</td>
@@ -40,12 +43,7 @@ function DashboardUsers() {
 									<td>{u.name}</td>
 									<td>{u.surname}</td>
 									<td>{u.mail}</td>
-									<td>
-										<FaUserCheck />
-										<FaUserEdit />
-										<FaUserClock />
-										<FaUserTimes />
-									</td>
+									<td></td>
 								</tr>
 							);
 						})}

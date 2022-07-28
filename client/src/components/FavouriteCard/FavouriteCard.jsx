@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
 import Loading from "../Loading/Loading";
 import s from "./FavouriteCard.module.sass";

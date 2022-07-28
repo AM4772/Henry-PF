@@ -18,6 +18,7 @@ function UserDetail(props) {
   useEffect(() => {
     dispatch(asyncGetUserDetail(ID));
     return () => dispatch(clearUserDetail());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   function goBack() {

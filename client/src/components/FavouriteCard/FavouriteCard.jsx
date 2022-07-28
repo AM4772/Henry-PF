@@ -1,10 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import s from "./FavouriteCard.module.sass";
-import Loading from "../Loading/Loading";
-import { NavLink } from "react-router-dom";
-import heartOn from "../../assets/Heart_on.png";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
+import Loading from "../Loading/Loading";
+import s from "./FavouriteCard.module.sass";
+import heartOn from "../../assets/Heart_on.png";
+import { FaCartPlus } from "react-icons/fa";
 
 function FavouriteCard(props) {
   let book = props;
@@ -42,13 +43,20 @@ function FavouriteCard(props) {
               </div>
             </NavLink>
             <div className={s.containerBlock2}>
-              <div className={s.containerheart}>
-                <img
-                  className={s.imgHeart}
-                  alt="heart"
-                  src={heartOn}
-                  onClick={deletingFav}
-                />
+              <div className={s.containerCartHeart}>
+                <div className={s.containerCart}></div>
+                <div className={s.containerCartHeart2}>
+                  <NavLink to="/cart">
+                    <FaCartPlus title="Add to Cart" className={s.icon} />
+                  </NavLink>
+                  <img
+                    className={s.imgHeart}
+                    alt="heart"
+                    title="Delete Favourite"
+                    src={heartOn}
+                    onClick={deletingFav}
+                  />
+                </div>
               </div>
               <div className={s.containerBlock3}>
                 <div className={s.containerDate1}>

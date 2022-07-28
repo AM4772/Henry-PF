@@ -59,17 +59,19 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Books, Users, Apibooks, Paymentsession, Reviews, Userpurchasedetail } =
+const { Books, Users, Apibooks, Payments, Reviews, Userpurchasedetail } =
   sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Users.belongsToMany(Books, { through: 'user_bookfav' });
-Books.belongsToMany(Users, { through: 'user_bookfav' });
+Users.belongsToMany(Books, { through: 'user_bookfav', as: 'favourite' });
+Books.belongsToMany(Users, { through: 'user_bookfav', as: 'favourite' });
+Users.belongsToMany(Books, { through: 'user_bookcart', as: 'cart' });
+Books.belongsToMany(Users, { through: 'user_bookcart', as: 'cart' });
 Books.hasMany(Reviews);
 Reviews.belongsTo(Books);
-Users.hasOne(Paymentsession);
-Paymentsession.belongsTo(Users);
+Users.hasMany(Payments);
+Payments.belongsTo(Users);
 Users.hasOne(Userpurchasedetail);
 Userpurchasedetail.belongsTo(Users);
 // para ver los MIXINS generados de cada modelo Country o Activity

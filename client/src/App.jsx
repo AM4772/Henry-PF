@@ -3,12 +3,11 @@ import { Route, useLocation } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav/Nav";
 import BookDetail from "./components/BookDetail/BookDetail";
-// import Cart from "./components/Cart/Cart";
+import Cart from "./components/Cart/Cart";
 import UserDetail from "./components/UserDetail/UserDetail";
 import Searching from "./components/Searching/Searching";
 import Register from "./components/Register/Register";
 import LogIn from "./components/LogIn/LogIn";
-import UserMenu from "./components/UserMenu/UserMenu";
 import Profile from "./components/Profile/Profile";
 import Favourites from "./components/Favourites/Favourites";
 import Footer from "./components/Footer/Footer.jsx";
@@ -93,7 +92,7 @@ function App() {
         <Route exact path={"/profile"} component={Profile} />
         <Route exact path={"/contact"} component={Contact} />
         <Route exact path={"/favourites"} component={Favourites} />
-        {/* <Route exact path={"/cart"} component={Cart} /> */}
+        <Route exact path={"/cart"} component={Cart} />
         <Route exact path={"/dashboard/createbook"} component={CreateBook} />
         <Route exact path={"/dashboard"} component={Dashboard} />
         <Route exact path={"/"} component={Home} />

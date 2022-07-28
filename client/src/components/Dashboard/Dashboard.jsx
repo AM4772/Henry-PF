@@ -1,10 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 /* import { useSelector } from "react-redux"; */
 import Sidebar from "../Sidebar/Sidebar";
 import s from "./Dashboard.module.sass";
 import UsersBoard from "../DashboardUsers/DashboardUsers";
-import { TESTING_USERS } from "../../testingObjects";
+import { asyncGetUsers } from "../../redux/actions/usersActions";
 import {
 	FaUserCheck,
 	FaUserEdit,
@@ -14,13 +14,13 @@ import {
 
 function Dashboard() {
 	/* const { Section } = useSelector((state) => state.dashSection); */
-	const usersMini = TESTING_USERS.slice(
-		TESTING_USERS.length - 5,
-		TESTING_USERS.length
-	);
-	console.log(usersMini);
-	console.log(TESTING_USERS.length - 5);
+	const { users } = useSelector((state) => state.users);
+	const usersMini = users.slice(users.length - 5, users.length);
+	const dispatch = useDispatch();
 
+	useEffect(() => {
+		dispatch(asyncGetUsers());
+	}, [dispatch]);
 	const [section] = useState("users");
 	return (
 		<div className={s.container}>
@@ -55,12 +55,7 @@ function Dashboard() {
 															<td>{u.name}</td>
 															<td>{u.surname}</td>
 															<td>{u.mail}</td>
-															<td>
-																<FaUserCheck />
-																<FaUserEdit />
-																<FaUserClock />
-																<FaUserTimes />
-															</td>
+															<td></td>
 														</tr>
 													);
 												})}

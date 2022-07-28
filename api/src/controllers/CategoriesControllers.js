@@ -1,8 +1,8 @@
-const { Books } = require('../db');
+const { Books, Categories } = require('../db');
 
 const categoriesArray = [];
 let categoriesModel = {
-  getCategories: async function () {
+  fillCategories: async function () {
     const books = await Books.findAll();
     const categories = books.map((a) => a.dataValues.categories);
     for (let i = 0; i < categories.length; i++) {
@@ -21,8 +21,15 @@ let categoriesModel = {
     if (categoriesArray.length === 0) {
       return undefined;
     }
+    categoriesArray.map((c) => Categories.create({ category: c }));
+  },
+  getCategories: async function () {
+    const categories = await Categories.findAll();
 
-    return categoriesArray.sort();
+    if (categories) {
+      return categories.map((c) => c.toJSON().category).sort();
+    }
+    return undefined;
   },
 };
 

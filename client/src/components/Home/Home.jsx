@@ -17,8 +17,8 @@ export function Home(props) {
   var slidesMP = [];
   var slidesBS = [];
   var slidesNR = [];
-
   useEffect(() => {
+    window.scrollTo(0, 0);
     dispatch(setCurrentPage(1));
     if (!mostPopular || !bestSellers || !newReleases) {
       dispatch(asyncGetHomeBooks());
@@ -50,23 +50,21 @@ export function Home(props) {
       </figure>
     </Link>
   ));
+  function scrollSmoothTo(elementId) {
+    var element = document.getElementById(elementId);
+    element.scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
+  }
 
   return (
     <div className={s.home}>
       <div className={s.banner}>
         <img src={banner} alt="banner" className={s.bannerImg} />
-        <a
-          className={s.arrow}
-          onClick={(e) =>
-            window.scroll({
-              top: 600,
-              left: 0,
-              behavior: "smooth",
-            })
-          }
-        >
+        <div className={s.arrow} onClick={() => scrollSmoothTo("slider1")}>
           <FaChevronDown className={s.icon} id="slider1" />
-        </a>
+        </div>
       </div>
       <div className={s.carrusel}>
         <h2>Best Sellers</h2>

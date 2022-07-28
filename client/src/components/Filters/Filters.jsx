@@ -20,6 +20,7 @@ function Filters() {
     filterBooksByCategory,
     filterCard,
     authors,
+    books,
     categories,
   } = useSelector((state) => state.books);
   const dispatch = useDispatch();
@@ -56,7 +57,20 @@ function Filters() {
     }
   }
   document.addEventListener("mousedown", closeListCategory);
+  const [change, setChange] = useState(true);
 
+  useEffect(() => {
+    if (change) {
+      setBooksFilters({
+        filterAuthor: filterBooksByAuthor,
+        filterCategory: filterBooksByCategory,
+      });
+      setChange(false);
+    }
+    return () => {
+      setChange(true);
+    };
+  }, [books]);
   useEffect(() => {
     dispatch(setFilterCard("books"));
 

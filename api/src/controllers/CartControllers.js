@@ -1,12 +1,13 @@
 const { Users } = require('../db');
 
 let cartModel = {
-  getCartItem: async function () {
+  getCartItem: async function (ID) {
     const user = await Users.findOne({
       where: { ID },
     });
     return await user.getCart();
   },
+
   addCartItem: async function (bookID, userID) {
     const user = await Users.findOne({
       where: {

@@ -167,6 +167,9 @@ let BooksModel = {
     });
 
     if (verifyBook.length > 0) return undefined;
+    if (!book.image) {
+      book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
+    }
     try {
       const createdBook = await Books.create({
         title: book.title.toLowerCase(),
@@ -174,6 +177,7 @@ let BooksModel = {
         price: book.price,
         authors: book.authors,
         categories: book.categories,
+        image: book.image,
         publishedDate: book.publishedDate,
         publisher: book.publisher,
         pageCount: book.pageCount,

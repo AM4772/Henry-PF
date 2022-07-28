@@ -11,7 +11,7 @@ let validationModel = {
       errors.push('Invalid title');
     }
     if (book.description) {
-      console.log(book.description);
+      
       if (book.description == '' || book.description.length > 10000)
         errors.push('Invalid description');
     } else {

@@ -43,7 +43,7 @@ router.post('/:ID/favourites', async (req, res) => {
   const { ID } = req.params;
   const userID = ID;
   const bookID = req.body.ID;
-  console.log(req.body);
+
   try {
     if (isNaN(userID) && isNaN(bookID)) {
       return res.status(400).json({ message: 'ID must be a number' });
@@ -95,7 +95,7 @@ router.post('/:ID/cart', async (req, res) => {
   const { ID } = req.params;
   const userID = ID;
   const bookID = req.body.ID;
-  console.log(req.body);
+
   try {
     if (isNaN(userID) && isNaN(bookID)) {
       return res.status(400).json({ message: 'ID must be a number' });

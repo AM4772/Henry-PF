@@ -9,7 +9,6 @@ let verifyLoginModel = {
       where: {
         username: username.toLowerCase(),
       },
-      include: Books,
     });
 
     if (user) {
@@ -39,7 +38,7 @@ let verifyLoginModel = {
           lastName: userJSON.surname,
           email: userJSON.email,
           token: tokenPass,
-          books: userJSON.books,
+          books: user.getFavourite(),
         };
       }
       return undefined;

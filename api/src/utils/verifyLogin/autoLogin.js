@@ -10,7 +10,6 @@ let autoLogin = {
       where: {
         username: user.username.toLowerCase(),
       },
-      include: Books,
     });
     const userJSON = userExists.toJSON();
     return {
@@ -19,7 +18,7 @@ let autoLogin = {
       name: userJSON.name,
       lastName: userJSON.surname,
       email: userJSON.email,
-      books: userJSON.books,
+      books: user.getFavourite(),
     };
   },
 };

@@ -4,6 +4,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import s from "./Dashboard.module.sass";
 import UsersBoard from "../DashboardUsers/DashboardUsers";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
+import Payments from "../Payments/Payments";
 
 function Dashboard() {
 	const { users } = useSelector((state) => state.users);
@@ -26,7 +27,7 @@ function Dashboard() {
 						) : currentSection === 2 ? (
 							<div>Books</div>
 						) : currentSection === 3 ? (
-							<div>Payments</div>
+							<Payments />
 						) : currentSection === 4 ? (
 							<div>Analytics</div>
 						) : (

@@ -96,9 +96,9 @@ function App() {
         <Route exact path={"/contact"} component={Contact} />
         <Route exact path={"/favourites"} component={Favourites} />
         <Route exact path={"/cart"} component={Cart} />
-        <Route exact path={"/dashboard/createbook"} component={CreateBook} />
         <Route exact path={"/dashboard"} component={Dashboard} />
-        <Route exact path={"/payments"} component={Payments} />
+        <Route exact path={"/dashboard/createbook"} component={CreateBook} />
+        <Route exact path={"/dashboard/payments"} component={Payments} />
         <Route exact path={"/"} component={Home} />
         <Footer />
       </div>

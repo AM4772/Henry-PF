@@ -12,6 +12,7 @@ import {
   clearAllBooks,
   setAuthorFilter,
   setCategoryFilter,
+  setSortBook,
 } from "../../redux/reducers/booksSlice";
 import { updateCurrentPage } from "../../redux/reducers/paginationSlice";
 
@@ -72,6 +73,7 @@ function SearchBar({ input, setInput }) {
         setInput(input.replace(/^\s+|\s+$/g, ""));
         dispatch(setAuthorFilter([]));
         dispatch(setCategoryFilter([]));
+        dispatch(setSortBook("A-Z"));
         history.push("/search");
       }
     }

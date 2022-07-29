@@ -44,9 +44,9 @@ function Profile(props) {
 								}} */
               >
                 <h1 className={s.noImg}>
-                  {userProfile.name && userProfile.lastName
+                  {userProfile.name && userProfile.surname
                     ? userProfile.name.charAt(0).toUpperCase() +
-                      userProfile.lastName.charAt(0).toUpperCase()
+                      userProfile.surname.charAt(0).toUpperCase()
                     : null}
                 </h1>
               </div>
@@ -60,7 +60,7 @@ function Profile(props) {
               <span>Name</span>
               <hr className={s.divisors} />
               <span>
-                {userProfile.name} {userProfile.lastName}
+                {userProfile.name} {userProfile.surname}
               </span>
             </div>
             <div className={s.section}>

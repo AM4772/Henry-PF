@@ -5,6 +5,8 @@ import s from "./ProfileEdit.module.sass";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { asyncModifyUser } from "../../redux/actions/usersActions";
+import { useHistory } from "react-router-dom";
 const schema = yup
   .object()
   .shape({
@@ -26,15 +28,15 @@ const schema = yup
       .required("Name is required.")
       .min(3, "Name must be at least 3 characters.")
       .max(20, "Name must be at most 20 characters."),
-    lastName: yup
+    surname: yup
       .string()
       .matches(
         /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
-        "Lastname cannot contain symbols."
+        "surname cannot contain symbols."
       )
-      .required("Lastname is required.")
-      .min(3, "Lastname must be at least 3 characters.")
-      .max(20, "Lastname must be at most 20 characters."),
+      .required("surname is required.")
+      .min(3, "surname must be at least 3 characters.")
+      .max(20, "surname must be at most 20 characters."),
     email: yup
       .string()
       .email("E-mail is invalid.")
@@ -51,6 +53,7 @@ const schema = yup
   .required();
 
 function ProfileEdit() {
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -64,16 +67,16 @@ function ProfileEdit() {
   const { userProfile } = useSelector((state) => state.profile);
 
   let nameCapitalize = [];
-  let lastNameCapitalize = [];
+  let surnameCapitalize = [];
   if (userProfile.name) {
     let nameSplitted = userProfile.name.split(" ");
     nameCapitalize = nameSplitted.map(
       (n) => n.charAt(0).toUpperCase() + n.slice(1)
     );
   }
-  if (userProfile.lastName) {
-    let lastNameSplitted = userProfile.lastName.split(" ");
-    lastNameCapitalize = lastNameSplitted.map(
+  if (userProfile.surname) {
+    let surnameSplitted = userProfile.surname.split(" ");
+    surnameCapitalize = surnameSplitted.map(
       (n) => n.charAt(0).toUpperCase() + n.slice(1)
     );
   }
@@ -97,10 +100,10 @@ function ProfileEdit() {
     {
       pos: 2,
       type: "text",
-      name: "lastName",
-      placeholder: "Lastname",
-      label: "Lastname:",
-      value: lastNameCapitalize.join(" "),
+      name: "surname",
+      placeholder: "surname",
+      label: "surname:",
+      value: surnameCapitalize.join(" "),
     },
     {
       pos: 3,
@@ -188,7 +191,7 @@ function ProfileEdit() {
         request = {
           username: input[0].value,
           name: input[1].value,
-          lastName: input[2].value,
+          surname: input[2].value,
           email: input[3].value,
           password: input[4].value,
           newPassword: input[5].value,
@@ -199,21 +202,24 @@ function ProfileEdit() {
       request = {
         username: input[0].value,
         name: input[1].value,
-        lastName: input[2].value,
+        surname: input[2].value,
         email: input[3].value,
         password: "",
         newPassword: "",
         editPassword: false,
       };
     }
-    // dispatch(asyncModifyUser(request));
+    dispatch(asyncModifyUser(userProfile.ID, request)).then((r) => {
+      if (r) {
+        window.location.reload();
+      }
+    });
   }
   function handleChangeType(e, id) {
     e.preventDefault();
     setInput([
       ...input,
       (input[id].type = input[id].type === "password" ? "text" : "password"),
-      // editPassword: false,
     ]);
   }
 
@@ -221,13 +227,8 @@ function ProfileEdit() {
     e.preventDefault();
     const { onChange } = register(name);
     onChange(e);
-    setInput([
-      ...input,
-      (input[id].value = e.target.value),
-      // editPassword: false,
-    ]);
+    setInput([...input, (input[id].value = e.target.value)]);
   }
-  console.log(errors);
   return (
     <>
       <div className={s.data}>
@@ -285,13 +286,17 @@ function ProfileEdit() {
                     {passError.password}
                   </p>
                 ) : null}
-                {inp.name === "newPassword" ? (
+                {inp.name === "newPassword" && passError !== " " ? (
                   <p
                     className={`${s.errors} ${
-                      passError.newPassword === "" ? s.errorsDisable : null
+                      passError.newPassword.length <= 1 ? s.errorsDisable : null
                     }`}
                   >
-                    {inp.name === "newPassword" ? passError.newPassword : null}
+                    {inp.name === "newPassword"
+                      ? passError.newPassword !== " "
+                        ? passError.newPassword
+                        : ""
+                      : ""}
                   </p>
                 ) : null}
                 <p

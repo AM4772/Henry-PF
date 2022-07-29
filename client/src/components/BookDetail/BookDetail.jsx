@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { asyncGetBookDetail } from "../../redux/actions/booksActions";
+import { asyncGetBookDetail, asyncDeleteBook } from "../../redux/actions/booksActions";
 import { clearBookDetail } from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
@@ -155,20 +155,10 @@ function BookDetail(props) {
       }
     });
   }
-  function deleteBook() {
-    Swal.fire({
-      title: "You are going to delete this book, are you sure?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "DELETE BOOK",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //dispatch(asyncDeleteBook(ID));
-        history.push("/login");
-      }
-    });
+  const deleteBook = () => {
+    dispatch(asyncDeleteBook(ID, book.title)).then(state => {
+      if (state) history.push('/')
+    })
   }
 
   function scrollSmoothTo(elementId) {

@@ -253,7 +253,6 @@ export function asyncRemoveItemCart(userID, bookID) {
         title: "Removed!",
         html: "You have <b>removed</b> this book from your cart",
       });
-      console.log(response);
       dispatch(removeItemCart(response));
     } catch (error) {
       satisfaction.fire({

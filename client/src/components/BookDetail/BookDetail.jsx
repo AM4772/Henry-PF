@@ -73,7 +73,7 @@ function BookDetail(props) {
   function addingFav() {
     if (!userProfile.ID) {
       Swal.fire({
-        title: "To add or remove a favourite book, you have to be logged in",
+        title: "To add a favourite book, you have to be logged in",
         icon: "info",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -98,7 +98,7 @@ function BookDetail(props) {
   const addingToCart = () => {
     if (!userProfile.ID) {
       Swal.fire({
-        title: "To add or remove a book in your Cart, you have to be logged in",
+        title: "To add a book to your Cart, you have to be logged in",
         icon: "info",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -137,6 +137,35 @@ function BookDetail(props) {
     }
     // dispatch(asyncBuyBook(userProfile.ID, ID));
   }
+  function editBook() {
+    Swal.fire({
+      title: "You are going to edit this book, are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "EDIT BOOK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // history.push("/editboook");
+      }
+    });
+  }
+  function deleteBook() {
+    Swal.fire({
+      title: "You are going to delete this book, are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "DELETE BOOK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //dispatch(asyncDeleteBook(userProfile.ID, ID));
+        history.push("/login");
+      }
+    });
+  }
 
   function scrollSmoothTo(elementId) {
     var element = document.getElementById(elementId);
@@ -156,6 +185,22 @@ function BookDetail(props) {
                   Back
                 </button>
               </div>
+              {userProfile.ID && userProfile.admin ? (
+                <div className={s.hiddenButtons}>
+                  <div className={s.hiddenButton}>
+                    <button className={s.buttonEdit} onClick={editBook}>
+                      EDIT Book
+                    </button>
+                  </div>
+                  <div className={s.hiddenButton}>
+                    <button className={s.buttonDelete} onClick={deleteBook}>
+                      DELETE BOOK
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={s.hiddenButtons}></div>
+              )}
               <div className={s.containerheart}>
                 <img
                   className={s.imgHeart}

@@ -44,7 +44,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       dateSuspended: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
 
       admin: {

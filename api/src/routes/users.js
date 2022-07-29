@@ -7,6 +7,7 @@ const {
   modifyUsers,
   deleteUser,
   suspendUser,
+  enabledSuspendedUser,
 } = require('../controllers/UsersControllers');
 
 const { validateUsersPost } = require('../utils/validations/userValidations');
@@ -190,6 +191,17 @@ router.put('/:ID', async (req, res) => {
     if (ID) {
       if (suspended) {
         const userSuspended = await suspendUser(ID);
+        if (userSuspended === 1) {
+          return res.status(200).send({
+            message: 'User banned permanently',
+            resason: 'Too many suspensions',
+          });
+        } else if (userSuspended === 2) {
+          return res.status(404).send({
+            message: 'User not found',
+          });
+        }
+        return res.status(200).send(userSuspended);
       }
 
       const validate = await validateUsersPost(req.body);

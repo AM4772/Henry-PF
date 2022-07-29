@@ -18,6 +18,7 @@ const Favourites = () => {
         stack[i] !== "/register" &&
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
+        stack[i] !== "/cart" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);

@@ -31,24 +31,28 @@ function BookDetail(props) {
 
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
+  // const [counter, setCounter] = useState(0);
 
   window.scrollTo(0, 0);
-
   useEffect(() => {
+    // if (!counter) window.scrollTo(0, 0);
+    // setCounter((count) => count++);
     if (favourites.length) {
       let result = favourites.find((el) => el.ID === parseInt(ID));
-      if (result) setAddedBook(true);
+      if (result) setAddedBook(true); //(bookState) => !bookState);
     }
     if (cart.length) {
       let result = cart.find((el) => el.ID === parseInt(ID));
-      if (result) setAddedCart(true);
+      if (result) setAddedCart(true); //(bookState) => !bookState);
     }
-  }, [favourites, cart, ID]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favourites, cart]);
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
     return () => dispatch(clearBookDetail());
-  }, [dispatch, ID]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ID]);
 
   function goBack() {
     var lastPath = [];
@@ -161,7 +165,7 @@ function BookDetail(props) {
       confirmButtonText: "DELETE BOOK",
     }).then((result) => {
       if (result.isConfirmed) {
-        //dispatch(asyncDeleteBook(userProfile.ID, ID));
+        //dispatch(asyncDeleteBook(ID));
         history.push("/login");
       }
     });

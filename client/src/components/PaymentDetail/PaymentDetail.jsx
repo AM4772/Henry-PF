@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import s from "./PaymentDetail.module.sass";
 import Loading from "../Loading/Loading";
 import { useHistory } from "react-router-dom";
@@ -34,9 +34,9 @@ function PaymentDetail() {
                 <p>{test.userInfo.userID}</p>
               </div>
             </div>
-            {test.purchasedBooks.map((book) => {
+            {test.purchasedBooks.map((book, i) => {
               return (
-                <div className={s.contain}>
+                <div key={i} className={s.contain}>
                   <div>
                     <img src={book.image} alt="" className={s.image} />
                   </div>
@@ -46,14 +46,22 @@ function PaymentDetail() {
                     <p>${book.price}</p>
                     <div className={s.list}>
                       <p>Authors:</p>
-                      {book.authors.map((au) => {
-                        return <div className={s.item}>{au}</div>;
+                      {book.authors.map((au, u) => {
+                        return (
+                          <div key={u} className={s.item}>
+                            {au}
+                          </div>
+                        );
                       })}
                     </div>
                     <div className={s.list}>
                       <p>Categories:</p>
-                      {book.categories.map((cat) => {
-                        return <div className={s.item}>{cat}</div>;
+                      {book.categories.map((cat, j) => {
+                        return (
+                          <div key={j} className={s.item}>
+                            {cat}
+                          </div>
+                        );
                       })}
                     </div>
                   </div>

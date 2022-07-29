@@ -5,7 +5,7 @@
   align-items: center
   margin-top: 65px
   margin-bottom: 20px
-  min-height: calc(100vh - 115px)
+  min-height: calc(100vh - 135px)
 
 .container1
   display: flex
@@ -119,6 +119,7 @@
   margin: 0px
   margin-left: 5px
   margin-bottom: 5px
+  cursor: pointer
   p
     width: 100%
     font-size: 15px
@@ -136,6 +137,7 @@
   flex-direction: row
   align-items: center
   width: 100%
+  margin-bottom: 7px
 
 .containerheart
   // width: 100%
@@ -143,7 +145,7 @@
     height: 35px
     width: 35px
     padding: 0px 0px
-    margin: 10px 10px 0px 0px
+    margin: 12px 10px 0px 0px
     cursor: pointer
 
 .reviews
@@ -255,7 +257,7 @@
 .backButton
   display: flex
   justify-content: left
-  width: 100%
+  width: 35%
   padding-bottom: 0px
   // padding-left: 5px
   margin-bottom: 0px
@@ -263,9 +265,9 @@
 .buttonBack
   border-radius: 3px
   padding: 5px
-  margin: 5px 0px 0px 10px
+  margin: 0px 0px 0px 10px
   border: none
-  font-size: 12px
+  font-size: 13px
   color: var(--color-brownish-dd)
   background-color: var(--color-yellowish-d)
   -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
@@ -297,4 +299,42 @@
 .buttons:hover
   color: var(--color-yellowish-d)
   background-color: var(--color-brownish-d)
+  transition: 0.7s
+
+.hiddenButtons
+  width: 100%
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  margin: 0px
+
+.hiddenButton
+  display: flex
+  justify-content: left
+  width: 100%
+  padding-bottom: 0px
+  // padding-left: 5px
+  margin-bottom: 0px
+
+.buttonDelete, .buttonEdit
+  border-radius: 5px
+  padding: 10px
+  margin: 0px
+  margin-top: 0px
+  border: none
+  font-size: 14px
+  font-weight: bold
+  // color: var(--color-brownish-dd)
+  color: #dddd
+  // background-color: var(--color-yellowish-d)
+  background-color: #e53a3ad2
+  -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  cursor: pointer
+  transition: 0.7s
+
+.buttonDelete:hover, .buttonEdit:hover
+  color: var(--color-brownish-d)
+  background-color: var(--color-yellowish-d)
   transition: 0.7s

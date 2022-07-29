@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 const initialState = {
   userProfile: {},
@@ -7,6 +8,22 @@ const initialState = {
   appLoadingProfile: true,
   firstAuto: true,
 };
+
+const satisfaction = Swal.mixin({
+  background: "#DED7CF",
+  backdrop: false,
+  toast: true,
+  heightAuto: false,
+  position: "bottom-end",
+  showConfirmButton: false,
+  iconColor: "#1E110B",
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 
 const profileSlice = createSlice({
   name: "profile",
@@ -22,19 +39,24 @@ const profileSlice = createSlice({
         lastName: action.payload.lastName,
         username: action.payload.username,
         email: action.payload.email,
+        admin: action.payload.admin,
       };
+      state.favourites = action.payload.books;
       state.appLoadingProfile = false;
     },
     logOut: (state) => {
       state.userProfile = {};
+      state.favourites = [];
       localStorage.removeItem("ALTKN");
+      satisfaction.fire({
+        icon: "info",
+        title: "Logged out!",
+        html: "You have successfully <b>logged out</b>",
+      });
     },
     firstAutoLogin: (state) => {
       state.firstAuto = false;
       state.appLoadingProfile = false;
-    },
-    getFavourites: (state, action) => {
-      state.favourites = action.payload;
     },
     addFavourite: (state, action) => {
       state.favourites = action.payload;
@@ -42,8 +64,14 @@ const profileSlice = createSlice({
     deleteFavourite: (state, action) => {
       state.favourites = action.payload;
     },
-    deleteAllFavourites: (state, action) => {
-      state.favourites = action.payload;
+    getItemsCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    addItemCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    removeItemCart: (state, action) => {
+      state.cart = action.payload;
     },
   },
 });
@@ -53,10 +81,11 @@ export const {
   loginUser,
   logOut,
   firstAutoLogin,
-  getFavourites,
   addFavourite,
   deleteFavourite,
-  deleteAllFavourites,
+  getItemsCart,
+  addItemCart,
+  removeItemCart,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

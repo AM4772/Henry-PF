@@ -5,8 +5,9 @@
 .container0
   display: flex
   justify-content: center
-  margin: 10px 0px
+  margin: 7px 0px
   width: 100%
+
   height: 90%
 
 .container1
@@ -18,13 +19,22 @@
   background: var(--color-whiteish)
   padding: 10px
   width: 90%
+  max-width: 900px
   border: none
   -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
 
 .containerImage
-  // width: 90px
+  width: 90px
   height: 90px
+
+.containerBookName
+  display: flex
+  align-items: center
+  justify-content: center
+  align-content: center
+  flex-direction: column
+  width: 80%
 
 .image
   object-fit: contain
@@ -34,13 +44,88 @@
   max-height: 100%
   width: 90px
 
+.navLink
+  display: flex
+  flex-direction: row
+  width: 100%
+
 .navLink, .navLink:link, .navLink:visited, .navLink:focus, .navLink:active
   text-decoration: none
   color: inherit
   outline: 0
 
+.containerBlock2
+  display: flex
+  flex-direction: column
+  width: 50%
+
+.containerBlock3
+  display: flex
+  flex-direction: row
+  // width: 100%
+
+.containerCartHeart
+  display: flex
+  align-content: center
+  justify-content: center
+  align-content: flex-start
+  flex-direction: row
+  width: 100%
+
+.containerEmpty
+  width: 100%
+  // max-width: 220px
+  display: flex
+  align-content: center
+  justify-content: center
+  align-items: center
+  box-sizing: border-box
+  display: flex
+
+.containerCartHeart2
+  display: flex
+  justify-content: space-between
+  width: 100%
+  max-width: 100px
+  align-items: flex-start
+  img
+    height: 23px
+    width: 23px
+    padding: 0px 0px
+    margin: 5px
+    cursor: pointer
+  button
+    background: none
+    border: none
+
+.icon
+  color: var(--color-brownish-dd)
+  font-size: 29px
+  align-items: center
+  width: 100%
+  // margin: 5px
+  cursor: pointer
+
+.containerDate1
+  display: flex
+  flex-direction: row
+  width: 100%
+  // padding: 0px 45px
+  justify-content: center
+
+.containerDate2
+  width: 100%
+  p
+    display: flex
+    justify-content: center
+  p:first-child
+    font-size: 14px
+  p:last-child
+    font-size: 14px
+    font-weight: 600
+
 #bookTitle
-  font-size: 14px
+  font-size: 17px
   font-weight: bold
   margin: 0px 10px
   color: var(--color-brownish-dd)
@@ -49,7 +134,9 @@
   text-align: center
 
 #author
-  font-size: 13px
+  font-size: 15px
+  font-weight: 600
+  color: #1c5dd6
   margin: 0px 10px
   text-overflow: ellipsis
   white-space: nowrap
@@ -57,6 +144,15 @@
   text-align: center
 
 .price
-  font-size: 16px
+  display: flex
+  align-items: center
+  font-size: 19px
   color: var(--color-brownish-dd)
-  margin-right: 10px
+  margin: 0px
+  width: 100%
+  max-width: 100px
+  p
+    display: flex
+    justify-content: center
+    padding: 0px 10px
+    width: 100%

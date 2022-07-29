@@ -1,17 +1,43 @@
-// import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import FavouriteCard from "../FavouriteCard/FavouriteCard";
 import s from "./Favourites.module.sass";
 
 const Favourites = () => {
-  // const dispatch = useDispatch();
+  const history = useHistory();
   const { favourites } = useSelector((state) => state.profile);
+  const { stack } = useSelector((state) => state.history);
 
+  useEffect(() => {}, [favourites]);
+
+  function goBack() {
+    var lastPath = [];
+    for (let i = 1; i < stack.length; i++) {
+      if (
+        stack[i] !== "/register" &&
+        stack[i] !== "/login" &&
+        stack[i] !== "/profile" &&
+        stack[i] !== stack[0]
+      ) {
+        lastPath.push(stack[i]);
+      }
+    }
+    if (lastPath.length > 0) {
+      history.push(lastPath[0]);
+    } else {
+      history.push("/");
+    }
+  }
   return favourites.length > 0 ? (
-    favourites.map((b) => (
-      <div className={s.containerFav0}>
-        <div className={s.containerFav1}>
+    <div className={s.containerFav0}>
+      <div className={s.backButton}>
+        <button className={s.buttonBack} onClick={goBack}>
+          Back
+        </button>
+      </div>
+      {favourites.map((b) => (
+        <div key={b.ID} className={s.containerFav1}>
           <FavouriteCard
             key={b.ID}
             ID={b.ID}
@@ -19,13 +45,11 @@ const Favourites = () => {
             title={b.title}
             authors={b.authors}
             price={b.price}
+            date={b.user_bookfav.createdAt}
           />
         </div>
-        <div>
-          <button className="buttons">Empty List</button>
-        </div>
-      </div>
-    ))
+      ))}
+    </div>
   ) : (
     <div className={s.containerNotFav}>
       <div className={s.NotFav}>

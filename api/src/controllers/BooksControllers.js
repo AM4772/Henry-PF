@@ -1,7 +1,8 @@
 const axios = require('axios');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { Books, Apibooks } = require('../db');
+const { Books, Apibooks, Authors, Categories } = require('../db');
+const { imageRegex } = require('../utils/validations/regex');
 
 const maxResults = 40;
 const term = [
@@ -167,13 +168,39 @@ let BooksModel = {
     });
 
     if (verifyBook.length > 0) return undefined;
+
+    const authorValue = book.authors.map((a) => a.value);
+    const authorCreated = book.authors.map((a) => a.created);
+    const categoryValue = book.categories.map((c) => c.value);
+    const categoryCreated = book.categories.map((c) => c.created);
+
+    for (let i = 0; i < book.authors.length; i++) {
+      if (authorCreated[i]) {
+        Authors.findOrCreate({
+          where: { name: authorValue[i] },
+        });
+      }
+    }
+
+    for (let i = 0; i < book.categories.length; i++) {
+      if (categoryCreated[i]) {
+        Categories.findOrCreate({
+          where: { category: categoryValue[i] },
+        });
+      }
+    }
+
+    if (!imageRegex.test(book.image)) {
+      book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
+    }
     try {
       const createdBook = await Books.create({
         title: book.title.toLowerCase(),
         description: book.description.toLowerCase(),
         price: book.price,
-        authors: book.authors,
-        categories: book.categories,
+        authors: authorValue,
+        categories: categoryValue,
+        image: book.image,
         publishedDate: book.publishedDate,
         publisher: book.publisher,
         pageCount: book.pageCount,

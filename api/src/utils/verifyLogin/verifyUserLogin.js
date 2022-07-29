@@ -1,14 +1,17 @@
 const bcrypt = require('bcrypt');
-const { Users } = require('../../db');
+const { Users, Books } = require('../../db');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 require('dotenv').config();
 
 let verifyLoginModel = {
   verifyLogin: async function ({ username, password }) {
-    
     const user = await Users.findOne({
       where: {
-        username: username.toLowerCase(),
+        [Op.or]: [
+          { username: username.toLowerCase() },
+          { email: username.toLowerCase() },
+        ],
       },
     });
 
@@ -39,6 +42,8 @@ let verifyLoginModel = {
           lastName: userJSON.surname,
           email: userJSON.email,
           token: tokenPass,
+          books: await user.getFavourite(),
+          admin: userJSON.admin,
         };
       }
       return undefined;

@@ -5,12 +5,15 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 import { clearBookDetail } from "../../redux/reducers/booksSlice";
-// import {
-//   asyncAddFavourite,
-//   asyncDeleteFavourite,
-// } from "../../redux/actions/usersActions";
+import {
+  asyncAddFavourite,
+  asyncDeleteFavourite,
+  asyncAddItemCart,
+  asyncRemoveItemCart,
+} from "../../redux/actions/usersActions";
 
 import Stars5 from "../../assets/Stars5.png";
 import heartOff from "../../assets/Heart_off.png";
@@ -23,19 +26,24 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
-  const { favourites } = useSelector((state) => state.profile);
+  const { favourites, cart } = useSelector((state) => state.profile);
   let book = useSelector((state) => state.books.bookDetail);
 
-  const [added, setAdded] = useState(false);
+  const [addedBook, setAddedBook] = useState(false);
+  const [addedCart, setAddedCart] = useState(false);
 
   window.scrollTo(0, 0);
 
   useEffect(() => {
-    if (favourites.length > 0) {
-      let result = favourites.find((el) => el.bookID === ID);
-      if (result) setAdded(true);
+    if (favourites.length) {
+      let result = favourites.find((el) => el.ID === parseInt(ID));
+      if (result) setAddedBook(true);
     }
-  }, [favourites, ID]);
+    if (cart.length) {
+      let result = cart.find((el) => el.ID === parseInt(ID));
+      if (result) setAddedCart(true);
+    }
+  }, [favourites, cart, ID]);
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
@@ -49,6 +57,7 @@ function BookDetail(props) {
         stack[i] !== "/register" &&
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
+        stack[i] !== "/favourites" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -60,17 +69,111 @@ function BookDetail(props) {
       history.push("/");
     }
   }
+
   function addingFav() {
-    if (!added) {
-      if (!userProfile.ID) history.push("/login");
-      // dispatch(asyncAddFavourite());
-      setAdded(true);
-    } else {
-      // dispatch(asyncDeleteFavourite());
-      setAdded(false);
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To add a favourite book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    if (userProfile.ID && !addedBook) {
+      dispatch(asyncAddFavourite(userProfile.ID, ID));
+      setAddedBook(true);
+    }
+    if (userProfile.ID && addedBook) {
+      dispatch(asyncDeleteFavourite(userProfile.ID, ID));
+      setAddedBook(false);
     }
   }
 
+  const addingToCart = () => {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To add a book to your Cart, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    if (userProfile.ID && !addedCart) {
+      dispatch(asyncAddItemCart(userProfile.ID, ID));
+      setAddedCart(true);
+    }
+    if (userProfile.ID && addedCart) {
+      dispatch(asyncRemoveItemCart(userProfile.ID, ID));
+      setAddedCart(false);
+    }
+  };
+
+  function buyingBook() {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To buy a book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    }
+    // dispatch(asyncBuyBook(userProfile.ID, ID));
+  }
+  function editBook() {
+    Swal.fire({
+      title: "You are going to edit this book, are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "EDIT BOOK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // history.push("/editboook");
+      }
+    });
+  }
+  function deleteBook() {
+    Swal.fire({
+      title: "You are going to delete this book, are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "DELETE BOOK",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //dispatch(asyncDeleteBook(userProfile.ID, ID));
+        history.push("/login");
+      }
+    });
+  }
+
+  function scrollSmoothTo(elementId) {
+    var element = document.getElementById(elementId);
+    element.scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
+  }
   return (
     <div>
       {book.title ? (
@@ -82,11 +185,28 @@ function BookDetail(props) {
                   Back
                 </button>
               </div>
+              {userProfile.ID && userProfile.admin ? (
+                <div className={s.hiddenButtons}>
+                  <div className={s.hiddenButton}>
+                    <button className={s.buttonEdit} onClick={editBook}>
+                      EDIT Book
+                    </button>
+                  </div>
+                  <div className={s.hiddenButton}>
+                    <button className={s.buttonDelete} onClick={deleteBook}>
+                      DELETE BOOK
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={s.hiddenButtons}></div>
+              )}
               <div className={s.containerheart}>
                 <img
                   className={s.imgHeart}
                   alt="heart"
-                  src={!added ? heartOff : heartOn}
+                  title={!addedBook ? "Add Favourite" : "Delete Favourite"}
+                  src={!addedBook ? heartOff : heartOn}
                   onClick={addingFav}
                 />
               </div>
@@ -120,12 +240,16 @@ function BookDetail(props) {
                       ))}
                     </div>
                     <div className={s.containerReviews1}>
-                      <a className={s.containerReviews2} href="#reviewsMark">
+                      <div
+                        className={s.containerReviews2}
+                        onClick={() => scrollSmoothTo("reviewsMark")}
+                        // href="#reviewsMark"
+                      >
                         <img className={s.reviews} alt="5stars" src={Stars5} />
                         <p>
                           {""}(23 reviews){""}
                         </p>
-                      </a>
+                      </div>
                     </div>
 
                     <div className={s.arr}>
@@ -170,11 +294,11 @@ function BookDetail(props) {
                     </div>
                   </div>
                   <div className={s.containerButtons}>
-                    <button className={s.buttons} onClick={goBack}>
+                    <button className={s.buttons} onClick={buyingBook}>
                       BUY
                     </button>
-                    <button className={s.buttons} onClick={goBack}>
-                      ADD TO CART
+                    <button className={s.buttons} onClick={addingToCart}>
+                      {!addedCart ? "ADD TO CART" : "REMOVE FROM CART"}
                     </button>
                   </div>
                 </div>
@@ -203,7 +327,7 @@ function BookDetail(props) {
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat."
                 </div>
-                <span>-Some crazy person-</span>
+                <span>-Some crazy person 👴-</span>
               </div>
             </div>
           </div>

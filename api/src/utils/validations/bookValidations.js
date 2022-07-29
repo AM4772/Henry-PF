@@ -1,11 +1,6 @@
-const {
-  usernameRegex,
-  nameAndLastRegex,
-  mailRegex,
-  dateRegex,
-} = require('./regex');
-
+const { dateRegex } = require('./regex');
 let errors = [];
+
 let validationModel = {
   validateBook: async function (book) {
     errors = [];
@@ -16,7 +11,7 @@ let validationModel = {
       errors.push('Invalid title');
     }
     if (book.description) {
-      console.log(book.description);
+      
       if (book.description == '' || book.description.length > 10000)
         errors.push('Invalid description');
     } else {
@@ -26,33 +21,18 @@ let validationModel = {
       if (book.price < 0 || isNaN(book.price)) errors.push('Invalid price');
     }
     if (book.authors) {
-      if (book.authors.length > 0) {
-        book.authors.map((a) => {
-          if (isNaN(a)) {
-            if (!nameAndLastRegex.test(a.toLowerCase()))
-              errors.push('Invalid author');
-          } else {
-            errors.push('Invalid author');
-          }
-        });
-      } else {
+      if (!book.authors.length) {
         errors.push('Invalid author');
       }
     }
     if (book.categories) {
-      if (book.categories.length > 0) {
-        book.categories.map((a) => {
-          if (isNaN(a)) {
-            if (!nameAndLastRegex.test(a.toLowerCase()))
-              errors.push('Invalid category');
-          } else {
-            errors.push('Invalid category');
-          }
-        });
-      } else {
+      if (!book.categories.length) {
         errors.push('Invalid category');
       }
+    } else {
+      errors.push('Invalid category');
     }
+
     if (book.publisher) {
       if (book.publisher == '' || book.publisher.length > 10000)
         errors.push('Invalid publisher');

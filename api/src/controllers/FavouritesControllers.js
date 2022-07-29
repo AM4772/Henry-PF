@@ -1,11 +1,10 @@
-const { Users, Books } = require('../db');
+const { Users } = require('../db');
 let FavouritesModel = {
   getFavourites: async function (ID) {
     const user = await Users.findOne({
       where: { ID },
-      include: Books,
     });
-    return user;
+    return await user.getFavourite();
   },
 
   addFavourites: async function (bookID, userID) {
@@ -15,29 +14,26 @@ let FavouritesModel = {
       },
     });
     if (user) {
-      await user.addBooks(bookID);
+      await user.addFavourite(bookID);
       const result = await Users.findOne({
         where: { ID: userID },
-        include: Books,
       });
-      return result;
+      return await result.getFavourite();
     }
     return undefined;
   },
   deleteFavourites: async function (bookID, userID) {
-    // try {
-    //   const user = await Users.findByPk(userID);
-    //   if (user === null) {
-    //     return null;
-    //   }
-    //     await user.destroy({
-    //         where: {
-    //       }
-    //   });
-    //   return user;
-    // } catch (error) {
-    //   return null;
-    // }
+    try {
+      let user = await Users.findByPk(userID);
+      if (user === null) {
+        return null;
+      }
+      await user.removeFavourite(bookID);
+      user = await Users.findByPk(userID);
+      return await user.getFavourite();
+    } catch (error) {
+      return null;
+    }
   },
 };
 

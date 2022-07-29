@@ -22,6 +22,8 @@ function Cart() {
           setLoading(false);
         })
         .catch(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile]);
@@ -74,7 +76,13 @@ function Cart() {
   ) : loading && !cart.length ? (
     <Loading />
   ) : (
+  <div className={s.containerNotFav0}>
     <div className={s.containerNotFav}>
+      <div className={s.backButton}>
+        <button className={s.buttonBack} onClick={goBack}>
+          Back
+        </button>
+      </div>
       <div className={s.NotFav}>
         <h4>You have not added any book to your cart yet</h4>
         <p>
@@ -86,6 +94,7 @@ function Cart() {
         </p>
       </div>
     </div>
+  </div>
   );
 }
 

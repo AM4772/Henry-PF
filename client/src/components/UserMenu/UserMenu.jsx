@@ -55,7 +55,8 @@ function UserMenu() {
     if (!cart.length && userProfile.ID) {
       dispatch(asyncGetItemsCart(parseInt(userProfile.ID)));
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userProfile]);
   useEffect(() => {
     if (userProfile.email) {
       setLogged(true);

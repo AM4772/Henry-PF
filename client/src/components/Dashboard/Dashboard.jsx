@@ -10,7 +10,7 @@ function Dashboard() {
 	const { users } = useSelector((state) => state.users);
 	const usersMini = users.slice(users.length - 5, users.length);
 	const dispatch = useDispatch();
-	const { currentSection } = useSelector((state) => state.pagination);
+	const { currentSection } = useSelector((state) => state.dashboard);
 
 	useEffect(() => {
 		dispatch(asyncGetUsers());

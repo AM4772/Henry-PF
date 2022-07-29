@@ -5,6 +5,7 @@ import s from "./Dashboard.module.sass";
 import UsersBoard from "../DashboardUsers/DashboardUsers";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
 import Payments from "../Payments/Payments";
+import CreateBook from "../CreateBook/CreateBook";
 
 function Dashboard() {
 	const { users } = useSelector((state) => state.users);
@@ -25,7 +26,7 @@ function Dashboard() {
 						{currentSection === 1 ? (
 							<UsersBoard />
 						) : currentSection === 2 ? (
-							<div>Books</div>
+							<CreateBook />
 						) : currentSection === 3 ? (
 							<Payments />
 						) : currentSection === 4 ? (

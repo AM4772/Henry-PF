@@ -34,7 +34,7 @@ function UserMenu() {
       dispatch(asyncGetItemsCart(parseInt(userProfile.ID)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile, cart]);
+  }, [userProfile]);
   function handleLogOut() {
     dispatch(logOut());
     setLogged(false);

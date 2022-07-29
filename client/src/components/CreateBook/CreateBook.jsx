@@ -318,9 +318,9 @@ export default function CreateBook() {
   };
   return (
     <div id={s.toCenter}>
-      <button className={s.buttonBack} onClick={goBack}>
+      {/* <button className={s.buttonBack} onClick={goBack}>
         Back
-      </button>
+      </button> */}
       <div id={s.card}>
         <form onSubmit={handleSubmit}>
           <h1 className={s.register}>Create book</h1>

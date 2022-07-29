@@ -146,7 +146,8 @@ function ProfileEdit() {
       }
       if (
         (input[4].value !== "" && input[5].value === "") ||
-        input[4].value.length < 8
+        input[4].value.length < 8 ||
+        input[5].value.length < 8
       ) {
         error = true;
         setPassError({
@@ -155,13 +156,11 @@ function ProfileEdit() {
               ? "Password must be at least 8 characters."
               : "",
           newPassword:
-            input[4].value !== "" && input[5].value === "" ? " " : "",
-        });
-      } else if (input[5].value.length < 8) {
-        error = true;
-        setPassError({
-          ...passError,
-          newPassword: "New password must be at least 8 characters.",
+            input[4].value !== "" && input[5].value === ""
+              ? " "
+              : input[5].value.length < 8
+              ? "New password must be at least 8 characters."
+              : "",
         });
       }
       if (!error) {
@@ -228,6 +227,7 @@ function ProfileEdit() {
       // editPassword: false,
     ]);
   }
+  console.log(errors);
   return (
     <>
       <div className={s.data}>
@@ -242,7 +242,25 @@ function ProfileEdit() {
                   <input
                     type={inp.type}
                     value={inp.value}
-                    className={s.input}
+                    className={`${s.input} ${
+                      errors[inp.name]?.message
+                        ? errors[inp.name]?.message === ""
+                          ? ""
+                          : s.inputError
+                        : ""
+                    } ${
+                      inp.name === "password"
+                        ? passError.password === ""
+                          ? ""
+                          : s.inputError
+                        : ""
+                    } ${
+                      inp.name === "newPassword"
+                        ? passError.newPassword === ""
+                          ? ""
+                          : s.inputError
+                        : ""
+                    }`}
                     {...register(inp.name, { required: true })}
                     onChange={(e) => handleChange(e, inp.pos, inp.name)}
                   />
@@ -259,12 +277,38 @@ function ProfileEdit() {
                   ) : null}
                 </div>
                 {inp.name === "password" ? (
-                  <span className={s.errors}>{passError.password}</span>
+                  <p
+                    className={`${s.errors} ${
+                      passError.password === "" ? s.errorsDisable : null
+                    }`}
+                  >
+                    {passError.password}
+                  </p>
                 ) : null}
                 {inp.name === "newPassword" ? (
-                  <span className={s.errors}>{passError.newPassword}</span>
+                  <p
+                    className={`${s.errors} ${
+                      passError.newPassword === "" ? s.errorsDisable : null
+                    }`}
+                  >
+                    {inp.name === "newPassword" ? passError.newPassword : null}
+                  </p>
                 ) : null}
-                <span className={s.errors}>{errors[inp.name]?.message}</span>
+                <p
+                  className={`${s.errors} ${
+                    errors[inp.name]?.message
+                      ? errors[inp.name]?.message === ""
+                        ? s.errorsDisable
+                        : null
+                      : s.errorsDisable
+                  }`}
+                >
+                  {errors[inp.name]?.message
+                    ? errors[inp.name]?.message.length > 0
+                      ? errors[inp.name]?.message
+                      : null
+                    : null}
+                </p>
               </div>
             ) : null
           )}

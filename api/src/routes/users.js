@@ -6,6 +6,7 @@ const {
   getUsers,
   modifyUsers,
   deleteUser,
+  suspendUser,
 } = require('../controllers/UsersControllers');
 
 const { validateUsersPost } = require('../utils/validations/userValidations');
@@ -183,8 +184,15 @@ router.post('/', async (req, res) => {
 
 router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
+  const { suspended } = req.query;
+  
   try {
     if (ID) {
+      if (suspended) {
+        const userSuspended = await suspendUser(ID);
+        console.log(userSuspended);
+      }
+
       const validate = await validateUsersPost(req.body);
       if (!validate) {
         const modified = await modifyUsers(req.body, ID);
@@ -197,9 +205,11 @@ router.put('/:ID', async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
+
 router.delete('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {

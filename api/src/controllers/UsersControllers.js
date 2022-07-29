@@ -88,6 +88,21 @@ let UsersModel = {
     }
   },
 
+  suspendUser: async function (ID) {
+    const user = await Users.findByPk(ID);
+    const suspendedUser = user.toJSON().suspendedTimes;
+    console.log(suspendedUser);
+
+    const suspended = await Users.update(
+      {
+        suspendedTimes: suspendedUser + 1,
+      },
+      {
+        where: { ID },
+      }
+    );
+  },
+
   modifyUsers: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;

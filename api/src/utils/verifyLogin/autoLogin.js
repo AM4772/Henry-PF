@@ -19,6 +19,7 @@ let autoLogin = {
       lastName: userJSON.surname,
       email: userJSON.email,
       books: await userExists.getFavourite(),
+      admin: userJSON.admin,
     };
   },
 };

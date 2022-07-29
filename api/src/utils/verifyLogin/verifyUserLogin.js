@@ -45,6 +45,7 @@ let verifyLoginModel = {
           books: await user.getFavourite(),
           admin: userJSON.admin,
           enabled: userJSON.enabled,
+          dateSuspended: userJSON.dateSuspended,
           suspendedTimes: userJSON.suspendedTimes,
         };
       }

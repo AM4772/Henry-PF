@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import s from "./Sidebar.module.sass";
 import logo from "../../assets/Book_Logo.png";
 import Data from "./SideBarData.js";
-import { changeSection } from "../../redux/reducers/paginationSlice.js";
+import { changeSection } from "../../redux/reducers/dashboardSlice.js";
 import { useDispatch } from "react-redux";
 function Sidebar() {
 	const [active, setActive] = useState(0);

@@ -1,5 +1,5 @@
-import axios from "axios";
-import Swal from "sweetalert2";
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import {
   firstAutoLogin,
   loginUser,
@@ -7,15 +7,15 @@ import {
   deleteFavourite,
   addItemCart,
   removeItemCart,
-  getItemCart,
-} from "../reducers/profileSlice";
+  getItemsCart,
+} from '../reducers/profileSlice';
 import {
   getUsers,
   getUserDetail,
   getSearchUser,
   setEmails,
   setUsernames,
-} from "../reducers/usersSlice";
+} from '../reducers/usersSlice';
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
@@ -23,7 +23,7 @@ export function asyncGetUsers(username) {
   return async function (dispatch) {
     try {
       if (!username) {
-        const response = (await axios("/users")).data;
+        const response = (await axios('/users')).data;
         dispatch(getUsers(response));
       } else {
         const response = (await axios(`/users?username=${username}`)).data;
@@ -38,7 +38,7 @@ export function asyncGetUsers(username) {
 export function asyncGetSearchUser() {
   return async function (dispatch) {
     try {
-      const response = (await axios("/users")).data;
+      const response = (await axios('/users')).data;
       dispatch(getSearchUser(response));
     } catch (error) {
       dispatch(getSearchUser([]));
@@ -49,7 +49,7 @@ export function asyncGetSearchUser() {
 export function asyncGetUserDetail(ID) {
   return async function (dispatch) {
     try {
-      const response = (await axios("/users/" + ID)).data;
+      const response = (await axios('/users/' + ID)).data;
       dispatch(getUserDetail(response));
     } catch (error) {
       console.error(error);
@@ -60,10 +60,10 @@ export function asyncGetUserDetail(ID) {
 export function asyncRegisterUser(info) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post("/users", info)).data;
+      const response = (await axios.post('/users', info)).data;
       return await Swal.fire({
-        icon: "success",
-        title: "Your account has been created, check your email",
+        icon: 'success',
+        title: 'Your account has been created, check your email',
         text: `${response.message}`,
         showConfirmButton: false,
         timer: 2000,
@@ -72,9 +72,9 @@ export function asyncRegisterUser(info) {
       });
     } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Sorry, we were unable to register you, please try again later",
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Sorry, we were unable to register you, please try again later',
       }).then(() => {
         return false;
       });
@@ -85,21 +85,21 @@ export function asyncRegisterUser(info) {
 export function asyncLogin(body) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post("/login", body)).data;
+      const response = (await axios.post('/login', body)).data;
       Swal.fire({
-        icon: "success",
-        text: "You have logged in successfully",
+        icon: 'success',
+        text: 'You have logged in successfully',
         title: `${response.message}`,
         showConfirmButton: false,
         timer: 2000,
       }).then(() => {
         dispatch(loginUser(response));
-        localStorage.setItem("ALTKN", response.token);
+        localStorage.setItem('ALTKN', response.token);
       });
     } catch (error) {
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
+        icon: 'error',
+        title: 'Oops...',
         text: `${error.response.data.message}`,
       });
     }
@@ -109,7 +109,7 @@ export function asyncLogin(body) {
 export function asyncAutoLogin(token) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post("/login/autoLogin", { token })).data;
+      const response = (await axios.post('/login/autoLogin', { token })).data;
       dispatch(loginUser(response));
     } catch (error) {
       dispatch(firstAutoLogin());
@@ -120,13 +120,13 @@ export function asyncAutoLogin(token) {
 export function asyncSetEmails() {
   return async function (dispatch) {
     try {
-      const response = (await axios("/emails")).data;
+      const response = (await axios('/emails')).data;
       dispatch(setEmails(response));
     } catch (error) {
       console.log(error);
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
+        icon: 'error',
+        title: 'Oops...',
         text: `${error.response.data}`,
       });
     }
@@ -136,13 +136,13 @@ export function asyncSetEmails() {
 export function asyncSetUsernames() {
   return async function (dispatch) {
     try {
-      const response = (await axios("/usernames")).data;
+      const response = (await axios('/usernames')).data;
       dispatch(setUsernames(response));
     } catch (error) {
       console.log(error);
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
+        icon: 'error',
+        title: 'Oops...',
         text: `${error.response.data}`,
       });
     }
@@ -151,19 +151,17 @@ export function asyncSetUsernames() {
 
 const satisfaction = Swal.mixin({
   background: '#DED7CF',
-  backdrop: false,
   toast: true,
-  heightAuto: false,
   position: 'bottom-end',
   showConfirmButton: false,
   iconColor: '#1E110B',
   timer: 2000,
   timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
+  didOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
 
 export function asyncAddFavourite(userID, bookID) {
   return async function (dispatch) {
@@ -172,10 +170,10 @@ export function asyncAddFavourite(userID, bookID) {
         await axios.post(`/users/${userID}/favourites`, { ID: bookID })
       ).data.data;
       satisfaction.fire({
-        icon: "success",
+        icon: 'success',
         title: 'Added!',
-        html: "You have <b>added</b> this book to your favourites",
-      })
+        html: 'You have <b>added</b> this book to your favourites',
+      });
       dispatch(addFavourite(response));
     } catch (error) {
       console.error(error);
@@ -194,10 +192,10 @@ export function asyncDeleteFavourite(userID, bookID) {
         })
       ).data.data;
       satisfaction.fire({
-        icon: "error",
+        icon: 'error',
         title: 'Removed!',
-        html: "You have <b>removed</b> this book from your favourites",
-      })
+        html: 'You have <b>removed</b> this book from your favourites',
+      });
       dispatch(deleteFavourite(response));
     } catch (error) {
       console.error(error);
@@ -205,11 +203,11 @@ export function asyncDeleteFavourite(userID, bookID) {
   };
 }
 
-export function asyncGetItemCart(userID) {
+export function asyncGetItemsCart(userID) {
   return async function (dispatch) {
     try {
-      const response = (await axios(`/users/${userID}/cart`)).data.data;
-      dispatch(getItemCart(response));
+      const response = (await axios(`/users/${userID}/cart`)).data;
+      dispatch(getItemsCart(response));
     } catch (error) {
       console.error(error);
     }
@@ -222,19 +220,19 @@ export function asyncAddItemCart(userID, bookID) {
       const response = (
         await axios.post(`/users/${userID}/cart`, { ID: bookID })
       ).data.data;
-      console.log(response)
+      console.log(response);
       satisfaction.fire({
-        icon: "success",
+        icon: 'success',
         title: 'Added!',
-        html: "You have <b>added</b> this item to your cart",
-      })
+        html: 'You have <b>added</b> this item to your cart',
+      });
       dispatch(addItemCart(response));
     } catch (error) {
       satisfaction.fire({
-        icon: "error",
-        title: "Oops...",
-        html: "Sorry, we were unable to <b>add</b> the book to your cart",
-      })
+        icon: 'error',
+        title: 'Oops...',
+        html: 'Sorry, we were unable to <b>add</b> the book to your cart',
+      });
       console.error(error);
     }
   };
@@ -249,20 +247,21 @@ export function asyncRemoveItemCart(userID, bookID) {
             ID: parseInt(bookID),
           },
         })
-        ).data.data;
+      ).data.data;
+      console.log(response);
       satisfaction.fire({
-        icon: "error",
+        icon: 'error',
         title: 'Removed!',
-        html: "You have <b>removed</b> this book from your cart"
-      })
+        html: 'You have <b>removed</b> this book from your cart',
+      });
       console.log(response);
       dispatch(removeItemCart(response));
     } catch (error) {
       satisfaction.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Sorry, we were unable to <b>remove</b> the book from your cart",
-      })
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Sorry, we were unable to <b>remove</b> the book from your cart',
+      });
       console.error(error);
     }
   };

@@ -127,28 +127,32 @@ router.delete('/:ID/cart', async (req, res) => {
         .json({ message: 'Item deleted successfully', data: delCartItem })
     : res.status(400).json({ message: `Failed to delete item` });
 }),
-  //----------------------------USERS-----------------------------------
+  //----------------------------Auth0-----------------------------------
   //----------------------------------------------------------------------
-  router.get('/', async (req, res) => {
-    const { username } = req.query;
+  router.get('/auth0', async (req, res) => {});
 
-    try {
-      if (username) {
-        const userFound = await getUserByUsername(username.toLowerCase());
+//----------------------------USERS-----------------------------------
+//----------------------------------------------------------------------
+router.get('/', async (req, res) => {
+  const { username } = req.query;
 
-        userFound
-          ? res.json(userFound)
-          : res.status(404).json({ message: `Username ${username} not found` });
-      } else {
-        const dbUsers = await getUsers();
-        dbUsers
-          ? res.json(dbUsers)
-          : res.status(404).json({ message: 'No users found' });
-      }
-    } catch (err) {
-      res.status(400).json('DATABASE ERROR');
+  try {
+    if (username) {
+      const userFound = await getUserByUsername(username.toLowerCase());
+
+      userFound
+        ? res.json(userFound)
+        : res.status(404).json({ message: `Username ${username} not found` });
+    } else {
+      const dbUsers = await getUsers();
+      dbUsers
+        ? res.json(dbUsers)
+        : res.status(404).json({ message: 'No users found' });
     }
-  });
+  } catch (err) {
+    res.status(400).json('DATABASE ERROR');
+  }
+});
 
 router.get('/:ID', async (req, res) => {
   const { ID } = req.params;

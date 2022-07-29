@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import s from "./Sidebar.module.sass";
 import logo from "../../assets/Book_Logo.png";
 import Data from "./SideBarData.js";
-
+import { changeSection } from "../../redux/reducers/paginationSlice.js";
+import { useDispatch } from "react-redux";
 function Sidebar() {
 	const [active, setActive] = useState(0);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(changeSection(active));
+	}, [dispatch, active]);
 	return (
 		<div className={s.sidebar}>
 			<div className={s.logo}>

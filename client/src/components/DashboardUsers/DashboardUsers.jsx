@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./DashboardUsers.module.sass";
-import {
-	FaUserCheck,
-	FaUserEdit,
-	FaUserClock,
-	FaUserTimes,
-} from "react-icons/fa";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
 
 function DashboardUsers() {

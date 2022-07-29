@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import {
   getBooks,
   getBookDetail,
@@ -77,6 +78,32 @@ export function asyncGetHomeBooks() {
       dispatch(getHomeBooks(response));
     } catch (error) {
       console.error(error);
+    }
+  };
+}
+
+export function asyncCreateBook(book) {
+  return async function (dispatch) {
+    try {
+      console.log(book)
+      const response = (await axios.post("/books", book)).data;
+      console.log(response)
+      Swal.fire({
+        icon: "success",
+        text: response.data,
+        title: response.message,
+        showConfirmButton: false,
+        timer: 2000,
+      })
+      // dispatch(createBook(response));
+    } catch (error) {
+      console.error(error);
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data}`,
+      });
     }
   };
 }

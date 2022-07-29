@@ -8,7 +8,6 @@ let UsersModel = {
     const foundUsers = await Users.findAll();
     if (foundUsers.length > 0) {
       const userJSON = foundUsers.map((u) => u.toJSON());
-
       return userJSON.map((u) => {
         return {
           ID: u.ID,
@@ -87,6 +86,21 @@ let UsersModel = {
     } catch (error) {
       throw new Error(error.message);
     }
+  },
+
+  suspendUser: async function (ID) {
+    const user = await Users.findByPk(ID);
+    const suspendedUser = user.toJSON().suspendedTimes;
+    console.log(suspendedUser);
+
+    const suspended = await Users.update(
+      {
+        suspendedTimes: suspendedUser + 1,
+      },
+      {
+        where: { ID },
+      }
+    );
   },
 
   modifyUsers: async function (changes, ID) {

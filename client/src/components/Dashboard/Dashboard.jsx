@@ -4,12 +4,14 @@ import Sidebar from "../Sidebar/Sidebar";
 import s from "./Dashboard.module.sass";
 import UsersBoard from "../DashboardUsers/DashboardUsers";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
+import Payments from "../Payments/Payments";
+import CreateBook from "../CreateBook/CreateBook";
 
 function Dashboard() {
 	const { users } = useSelector((state) => state.users);
 	const usersMini = users.slice(users.length - 5, users.length);
 	const dispatch = useDispatch();
-	const { currentSection } = useSelector((state) => state.pagination);
+	const { currentSection } = useSelector((state) => state.dashboard);
 
 	useEffect(() => {
 		dispatch(asyncGetUsers());
@@ -24,9 +26,9 @@ function Dashboard() {
 						{currentSection === 1 ? (
 							<UsersBoard />
 						) : currentSection === 2 ? (
-							<div>Books</div>
+							<CreateBook />
 						) : currentSection === 3 ? (
-							<div>Payments</div>
+							<Payments />
 						) : currentSection === 4 ? (
 							<div>Analytics</div>
 						) : (

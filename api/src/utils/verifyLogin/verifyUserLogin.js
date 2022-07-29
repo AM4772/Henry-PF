@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-const { Users, Books } = require('../../db');
-const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const { Users } = require('../../db');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 let verifyLoginModel = {
@@ -28,7 +28,7 @@ let verifyLoginModel = {
           {
             ID: userJSON.ID,
             name: userJSON.name,
-            lastName: userJSON.surname,
+            surname: userJSON.surname,
             username: userJSON.username,
             email: userJSON.email,
           },
@@ -39,7 +39,7 @@ let verifyLoginModel = {
           ID: userJSON.ID,
           username: userJSON.username,
           name: userJSON.name,
-          lastName: userJSON.surname,
+          surname: userJSON.surname,
           email: userJSON.email,
           token: tokenPass,
           books: await user.getFavourite(),

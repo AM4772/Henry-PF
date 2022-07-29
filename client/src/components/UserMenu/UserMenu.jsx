@@ -11,6 +11,7 @@ function UserMenu() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { stack } = useSelector((state) => state.history);
 
   const { cart, userProfile } = useSelector((state) => state.profile);
   const profileList = useRef();
@@ -23,6 +24,30 @@ function UserMenu() {
       !profileList.current.contains(e.target)
     ) {
       setOpen(false);
+    }
+  }
+
+
+  function goBack() {
+    var lastPath = [];
+    for (let i = 0; i < stack.length; i++) {
+      if (
+        stack[i] !== "/register" &&
+        stack[i] !== "/profile" &&
+        stack[i] !== "/favourites" &&
+        stack[i] !== "/cart" &&
+        stack[i] !== "/dashboard" &&
+        stack[i] !== "/dashboard/payments" &&
+        stack[i] !== "/dashboard/users"
+        // && stack[i] !== stack[0]
+      ) {
+        lastPath.push(stack[i]);
+      }
+    }
+    if (lastPath.length > 0) {
+      history.push(lastPath[0]);
+    } else {
+      history.push("/");
     }
   }
   document.addEventListener("mousedown", closeList);
@@ -41,7 +66,7 @@ function UserMenu() {
     dispatch(logOut());
     setLogged(false);
     setOpen(!open);
-    history.push("/");
+    goBack();
   }
   return (
     <div className={s.container}>

@@ -7,7 +7,6 @@
   justify-content: center
   margin: 7px 0px
   width: 100%
-
   height: 90%
 
 .container1
@@ -82,6 +81,10 @@
   box-sizing: border-box
   display: flex
 
+.imgHeart
+  &:hover
+    filter: grayscale(100%)
+
 .containerCartHeart2
   display: flex
   justify-content: space-between
@@ -102,9 +105,23 @@
   color: var(--color-brownish-dd)
   font-size: 29px
   align-items: center
+  fill: #0a5101
+  transition: 0.3s
   width: 100%
-  // margin: 5px
   cursor: pointer
+  &:hover
+    filter: grayscale(100%)
+
+.icon2
+  color: var(--color-brownish-dd)
+  font-size: 29px
+  fill: #620000
+  transition: 0.3s
+  align-items: center
+  width: 100%
+  cursor: pointer
+  &:hover
+    filter: grayscale(100%)
 
 .containerDate1
   display: flex

@@ -2,6 +2,8 @@ const { Users } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 let UsersModel = {
   getUsers: async function () {
@@ -91,11 +93,12 @@ let UsersModel = {
   suspendUser: async function (ID) {
     const user = await Users.findByPk(ID);
     const suspendedUser = user.toJSON().suspendedTimes;
-    console.log(suspendedUser);
 
     const suspended = await Users.update(
       {
         suspendedTimes: suspendedUser + 1,
+        enabled: false,
+        //dateSuspended: dateSuspended,
       },
       {
         where: { ID },
@@ -129,10 +132,30 @@ let UsersModel = {
       await user.update({
         username: changes.username,
         name: changes.name,
-        surname: changes.lastName,
+        surname: changes.surname,
         email: changes.email,
       });
-      return user;
+      const userUpdated = (await Users.findByPk(ID)).toJSON();
+      const tokenPass = jwt.sign(
+        {
+          ID: userUpdated.ID,
+          name: userUpdated.name,
+          surname: userUpdated.surname,
+          username: userUpdated.username,
+          email: userUpdated.email,
+        },
+        process.env.PASS_TOKEN
+      );
+      return {
+        ID: userUpdated.ID,
+        username: userUpdated.username,
+        name: userUpdated.name,
+        surname: userUpdated.surname,
+        email: userUpdated.email,
+        token: tokenPass,
+        books: await user.getFavourite(),
+        admin: userUpdated.admin,
+      };
     } catch (error) {
       return null;
     }

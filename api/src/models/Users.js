@@ -43,6 +43,10 @@ module.exports = (sequelize) => {
         defaultValue: 0,
         allowNull: false,
       },
+      dateSuspended: {
+        type: DataTypes.DATE,
+      },
+
       admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

@@ -185,12 +185,11 @@ router.post('/', async (req, res) => {
 router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
   const { suspended } = req.query;
-  
+
   try {
     if (ID) {
       if (suspended) {
         const userSuspended = await suspendUser(ID);
-        console.log(userSuspended);
       }
 
       const validate = await validateUsersPost(req.body);
@@ -198,7 +197,9 @@ router.put('/:ID', async (req, res) => {
         const modified = await modifyUsers(req.body, ID);
 
         modified
-          ? res.status(200).json({ message: 'User modified successfully' })
+          ? res
+              .status(200)
+              .json({ message: 'User modified successfully', data: modified })
           : res.status(400).json({ message: `Error modifying user` });
       } else {
         res.status(400).json(validate);

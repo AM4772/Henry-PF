@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import Loading from '../Loading/Loading.jsx';
 import CartCard from '../CartCard/CartCard.jsx';
 import { useDispatch } from 'react-redux';
@@ -63,6 +63,7 @@ function Cart() {
         </div>
       ))}
       <div id={s.centerMe}>
+        <NavLink to='/' className='buttons'>CONTINUE BUYING</NavLink>
         <button className="buttons">💸💴💹💹💱BUY 🤑💲💳💷💵</button>
       </div>
     </div>

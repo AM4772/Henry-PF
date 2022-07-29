@@ -73,7 +73,7 @@ function FavouriteCard(props) {
                 <div className={s.containerEmpty}></div>
                 <div className={s.containerCartHeart2}>
                   <button onClick={handleCart}>
-                    { addedCart ?  <BsFillCartDashFill title="Remove from cart" className={s.icon}/> : <BsFillCartPlusFill title="Add to Cart" className={s.icon} />}
+                    { addedCart ?  <BsFillCartDashFill title="Remove from cart" className={s.icon2}/> : <BsFillCartPlusFill title="Add to Cart" className={s.icon} />}
                   </button>
                   <img
                     className={s.imgHeart}

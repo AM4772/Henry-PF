@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import s from './UserMenu.module.sass';
-import { FaShoppingCart } from 'react-icons/fa';
-import { BiLogOut } from 'react-icons/bi';
-import { useDispatch, useSelector } from 'react-redux';
-import { asyncGetItemsCart } from '../../redux/actions/usersActions';
-import { logOut } from '../../redux/reducers/profileSlice';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import s from "./UserMenu.module.sass";
+import { FaShoppingCart } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetItemsCart } from "../../redux/actions/usersActions";
+import { logOut } from "../../redux/reducers/profileSlice";
 
 function UserMenu() {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { stack } = useSelector((state) => state.history);
 
-  const { cart, userProfile } = useSelector(state => state.profile);
+  const { cart, userProfile } = useSelector((state) => state.profile);
   const profileList = useRef();
   const [logged, setLogged] = useState(false);
   const [open, setOpen] = useState(false);
@@ -25,7 +26,30 @@ function UserMenu() {
       setOpen(false);
     }
   }
-  document.addEventListener('mousedown', closeList);
+
+  function goBack() {
+    var lastPath = [];
+    for (let i = 0; i < stack.length; i++) {
+      if (
+        stack[i] !== "/register" &&
+        stack[i] !== "/profile" &&
+        stack[i] !== "/favourites" &&
+        stack[i] !== "/cart" &&
+        stack[i] !== "/dashboard" &&
+        stack[i] !== "/dashboard/payments" &&
+        stack[i] !== "/dashboard/users"
+        // && stack[i] !== stack[0]
+      ) {
+        lastPath.push(stack[i]);
+      }
+    }
+    if (lastPath.length > 0) {
+      history.push(lastPath[0]);
+    } else {
+      history.push("/");
+    }
+  }
+  document.addEventListener("mousedown", closeList);
   useEffect(() => {
     if (userProfile.email) {
       setLogged(true);
@@ -34,12 +58,12 @@ function UserMenu() {
       dispatch(asyncGetItemsCart(parseInt(userProfile.ID)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile, cart]);
+  }, [userProfile]);
   function handleLogOut() {
     dispatch(logOut());
     setLogged(false);
     setOpen(!open);
-    history.push('/');
+    goBack();
   }
   return (
     <div className={s.container}>
@@ -70,7 +94,7 @@ function UserMenu() {
                 <FaShoppingCart className={s.icon} />
                 {cart.length ? (
                   <p id={s.cartNumber}>
-                    {cart.length < 10 && cart.length >= 1 ? cart.length : '9+'}
+                    {cart.length < 10 && cart.length >= 1 ? cart.length : "9+"}
                   </p>
                 ) : undefined}
               </span>

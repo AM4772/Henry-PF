@@ -15,9 +15,9 @@ const Payments = () => {
 
   return payment.length > 0 ? (
     <div className={s.containerPay0}>
-      <div className={s.backButton}>
+      {/* <div className={s.backButton}>
         <button className={s.buttonBack}>Back</button>
-      </div>
+      </div> */}
       <div className={s.tableContainer}>
         <table>
           <thead>

@@ -17,9 +17,13 @@ function Cart() {
   useEffect(() => {
     if (!cart.length && userProfile.ID) {
       setLoading(true);
-      dispatch(asyncGetItemsCart(parseInt(userProfile.ID))).then(() => {
-        setLoading(false);
-      });
+      dispatch(asyncGetItemsCart(parseInt(userProfile.ID)))
+        .then(() => {
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile]);
@@ -63,14 +67,22 @@ function Cart() {
         </div>
       ))}
       <div id={s.centerMe}>
-        <NavLink to='/' className='buttons'>CONTINUE BUYING</NavLink>
-        <button className="buttons">💸💴💹💹💱BUY 🤑💲💳💷💵</button>
+        <NavLink to="/" className="buttons">
+          CONTINUE BUYING
+        </NavLink>
+        <button className="buttons">BUY</button>
       </div>
     </div>
   ) : loading && !cart.length ? (
     <Loading />
   ) : (
+  <div className={s.containerNotFav0}>
     <div className={s.containerNotFav}>
+      <div className={s.backButton}>
+        <button className={s.buttonBack} onClick={goBack}>
+          Back
+        </button>
+      </div>
       <div className={s.NotFav}>
         <h4>You have not added any book to your cart yet</h4>
         <p>
@@ -82,6 +94,7 @@ function Cart() {
         </p>
       </div>
     </div>
+  </div>
   );
 }
 

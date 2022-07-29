@@ -36,7 +36,7 @@ const profileSlice = createSlice({
       state.userProfile = {
         ID: action.payload.ID,
         name: action.payload.name,
-        lastName: action.payload.lastName,
+        surname: action.payload.surname,
         username: action.payload.username,
         email: action.payload.email,
         admin: action.payload.admin,
@@ -44,6 +44,7 @@ const profileSlice = createSlice({
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;
     },
+
     logOut: (state) => {
       state.userProfile = {};
       state.favourites = [];

@@ -27,6 +27,7 @@ function UserMenu() {
     }
   }
 
+
   function goBack() {
     var lastPath = [];
     for (let i = 0; i < stack.length; i++) {
@@ -51,11 +52,14 @@ function UserMenu() {
   }
   document.addEventListener("mousedown", closeList);
   useEffect(() => {
-    if (userProfile.email) {
-      setLogged(true);
-    }
     if (!cart.length && userProfile.ID) {
       dispatch(asyncGetItemsCart(parseInt(userProfile.ID)));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userProfile]);
+  useEffect(() => {
+    if (userProfile.email) {
+      setLogged(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile]);
@@ -82,7 +86,7 @@ function UserMenu() {
                   <div className={s.noIMG}>
                     {userProfile.name
                       ? userProfile.name.charAt(0).toUpperCase() +
-                        userProfile.lastName.charAt(0).toUpperCase()
+                        userProfile.surname.charAt(0).toUpperCase()
                       : null}
                   </div>
                 )}

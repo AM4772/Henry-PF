@@ -79,12 +79,12 @@ function Profile(props) {
                 </div>
               </div>
               <div className={s.section}>
-                <span>Username</span>
+                <span>username</span>
                 <hr className={s.divisors} />
                 <span>{userProfile.username}</span>
               </div>
               <div className={s.section}>
-                <span>Name</span>
+                <span>name</span>
                 <hr className={s.divisors} />
                 <span>
                   {userProfile.name} {userProfile.surname}
@@ -94,6 +94,11 @@ function Profile(props) {
                 <span>e-mail</span>
                 <hr className={s.divisors} />
                 <span>{userProfile.email}</span>
+              </div>
+              <div className={s.section}>
+                <span>password</span>
+                <hr className={s.divisors} />
+                <span>**************</span>
               </div>
             </div>
           ) : (

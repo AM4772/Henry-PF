@@ -47,7 +47,7 @@ const Payments = () => {
                 />*/
               <tr key={b.ID}>
                 <td>
-                  <a href="/payment/{b.ID}">{b.ID}</a>
+                  <a href={`/dashboard/payment/${b.ID}`}>{b.ID}</a>
                 </td>
                 <td>{b.purchasedBooks.length}</td>
                 <td>{b.userInfo.userID}</td>

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { asyncModifyUser } from "../../redux/actions/usersActions";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 const schema = yup
   .object()
   .shape({
@@ -53,7 +53,7 @@ const schema = yup
   .required();
 
 function ProfileEdit() {
-  const history = useHistory();
+  // const history = useHistory();
   const {
     register,
     handleSubmit,

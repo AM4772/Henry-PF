@@ -64,7 +64,7 @@ const profileSlice = createSlice({
     deleteFavourite: (state, action) => {
       state.favourites = action.payload;
     },
-    getItemCart: (state, action) => {
+    getItemsCart: (state, action) => {
       state.cart = action.payload;
     },
     addItemCart: (state, action) => {
@@ -83,7 +83,7 @@ export const {
   firstAutoLogin,
   addFavourite,
   deleteFavourite,
-  getItemCart,
+  getItemsCart,
   addItemCart,
   removeItemCart,
 } = profileSlice.actions;

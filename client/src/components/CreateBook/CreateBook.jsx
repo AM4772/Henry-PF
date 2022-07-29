@@ -155,7 +155,6 @@ export default function CreateBook() {
   const [caterogiesOptions, setCaterogiesOptions] = useState(null);
   const { authors, categories } = useSelector(state => state.books);
   const { stack } = useSelector(state => state.history);
-
   const [info, setInfo] = useState(infoInitialState);
   const [isValid, setIsValid] = useState(isValidInitialState);
   const [isAllowed, setIsAllowed] = useState(false);
@@ -200,8 +199,8 @@ export default function CreateBook() {
     if (!info.price.length) isValidCopy.price = ' ';
     else if (isNaN(info.price))
       isValidCopy.price = 'Price must be a number .-.';
-    else if (info.price > 150 || info.price < 1)
-      isValidCopy.price = 'Price must be between 1$ - 150$';
+    else if (info.price > 10000 || info.price < 1)
+      isValidCopy.price = 'Price must be between $1 - $10.000';
     else delete isValidCopy.price;
     // Image
     if (!info.image.length) isValidCopy.image = ' ';
@@ -272,10 +271,20 @@ export default function CreateBook() {
   };
   const handleSubmit = async e => {
     e.preventDefault();
+    let authorsCopy = info.authors.map(author => {
+      if (authors.find(element => element === author)) return {value: author, created: false}
+      else return {value: author, created: true}
+    }) 
+    let categoriesCopy = info.categories.map(category => {
+      if (categories.find(element => element === category)) return {value: category, created: false}
+      else return {value: category, created: true}
+    })
     setIsPending(true);
     dispatch(
       asyncCreateBook({
         ...info,
+        authors: authorsCopy,
+        categories: categoriesCopy,
         publishedDate: `${info.publishedDate.getFullYear()}-${(
           info.publishedDate.getMonth() + 1
         )
@@ -285,7 +294,12 @@ export default function CreateBook() {
           .toString()
           .padStart(2, '0')}`,
       })
-    ).then(() => setIsPending(false));
+    ).then(() => {
+      setIsPending(false)
+      setInfo(infoInitialState)
+      setIsValid(isValidInitialState)
+      setCount(countInitialState)
+    });
   };
   const handleButton = () => {
     if (isPending)

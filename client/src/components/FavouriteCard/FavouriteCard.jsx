@@ -5,7 +5,7 @@ import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
 import Loading from "../Loading/Loading";
 import s from "./FavouriteCard.module.sass";
 import heartOn from "../../assets/Heart_on.png";
-import { FaCartPlus } from "react-icons/fa";
+import { BsFillCartPlusFill, BsFillCartDashFill} from "react-icons/bs";
 import {
   asyncAddItemCart,
   asyncRemoveItemCart,
@@ -27,8 +27,7 @@ function FavouriteCard(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cart]);
 
-  // eslint-disable-next-line no-unused-vars
-  const addingToCart = () => {
+  const handleCart = () => {
     if (!addedCart) {
       if (!userProfile.ID) history.push("/login");
       dispatch(asyncAddItemCart(userProfile.ID, book.ID));
@@ -73,8 +72,8 @@ function FavouriteCard(props) {
               <div className={s.containerCartHeart}>
                 <div className={s.containerEmpty}></div>
                 <div className={s.containerCartHeart2}>
-                  <button to="/cart">
-                    <FaCartPlus title="Add to Cart" className={s.icon} />
+                  <button onClick={handleCart}>
+                    { addedCart ?  <BsFillCartDashFill title="Remove from cart" className={s.icon}/> : <BsFillCartPlusFill title="Add to Cart" className={s.icon} />}
                   </button>
                   <img
                     className={s.imgHeart}

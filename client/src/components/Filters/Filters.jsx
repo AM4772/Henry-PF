@@ -3,6 +3,7 @@ import s from "./Filters.module.sass";
 import { useSelector, useDispatch } from "react-redux";
 import {
   applyBookFilters,
+  applyBookSort,
   setAuthorFilter,
   setCategoryFilter,
   setFilterCard,
@@ -83,6 +84,7 @@ function Filters() {
       dispatch(setAuthorFilter(booksFilters.filterAuthor));
       dispatch(setCategoryFilter(booksFilters.filterCategory));
       dispatch(applyBookFilters());
+      dispatch(applyBookSort());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, filterBooksByAuthor, generalFilter, booksFilters]);

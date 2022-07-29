@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.19.26",
+    "@hookform/resolvers": "^2.9.7",
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
@@ -15,6 +16,7 @@
     "react": "^17.0.2",
     "react-datepicker": "^4.8.0",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.33.1",
     "react-icons": "^4.4.0",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
@@ -23,7 +25,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sass": "^1.53.0",
-    "sweetalert2": "^11.4.24"
+    "sweetalert2": "^11.4.24",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

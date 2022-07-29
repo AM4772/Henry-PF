@@ -154,7 +154,7 @@ const satisfaction = Swal.mixin({
   toast: true,
   position: 'bottom-end',
   showConfirmButton: false,
-  iconColor: '#1E110B',
+  iconColor: "#1E110B",
   timer: 2000,
   timerProgressBar: true,
   didOpen: toast => {
@@ -248,7 +248,6 @@ export function asyncRemoveItemCart(userID, bookID) {
           },
         })
       ).data.data;
-      console.log(response);
       satisfaction.fire({
         icon: 'error',
         title: 'Removed!',

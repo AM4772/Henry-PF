@@ -1,156 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { FaQuestionCircle, FaEye } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import s from "./ProfileEdit.module.sass";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+const schema = yup
+  .object()
+  .shape({
+    username: yup
+      .string()
+      .required("Username is required.")
+      .matches(
+        /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
+        "Username cannot contain symbols or whitespaces."
+      )
+      .min(3, "Username must be at least 3 characters.")
+      .max(20, "Username must be at most 20 characters."),
+    name: yup
+      .string()
+      .matches(
+        /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
+        "Name cannot contain symbols."
+      )
+      .required("Name is required.")
+      .min(3, "Name must be at least 3 characters.")
+      .max(20, "Name must be at most 20 characters."),
+    lastName: yup
+      .string()
+      .matches(
+        /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
+        "Lastname cannot contain symbols."
+      )
+      .required("Lastname is required.")
+      .min(3, "Lastname must be at least 3 characters.")
+      .max(20, "Lastname must be at most 20 characters."),
+    email: yup
+      .string()
+      .email("E-mail is invalid.")
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "E-mail is invalid."
+      )
+      .required("E-mail is required."),
+    password: yup.string().max(20, "Password must be at most 20 characters."),
+    newPassword: yup
+      .string()
+      .max(20, "New password must be at most 20 characters."),
+  })
+  .required();
 
 function ProfileEdit() {
-  //waiting backend
-  // const dispatch = useDispatch()
-  const { userProfile } = useSelector((state) => state.profile);
-  const [errors, setErrors] = useState({
-    username: "",
-    name: "",
-    lastName: "",
-    email: "",
-    password: "",
-    newPassword: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
+    resolver: yupResolver(schema),
   });
+  //waiting backend
+  const dispatch = useDispatch();
+  const { userProfile } = useSelector((state) => state.profile);
 
   let nameCapitalize = [];
   let lastNameCapitalize = [];
-  let regex = {
-    username: /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
-    nameAndLast: /^([a-z]+([ ]?[a-z]?[a-z]+)*)$/,
-    email:
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  };
-
-  function validate() {
-    if (
-      input.username.length < 3 ||
-      input.username.length > 20 ||
-      input.username === "" ||
-      !regex.username.test(input.username.replace(/^\s+|\s+$/g, ""))
-    ) {
-      setErrors({
-        ...errors,
-        username:
-          input.username === ""
-            ? " "
-            : input.username.length < 3
-            ? "Username is too short"
-            : input.username.length > 20
-            ? "Username is too long"
-            : "Username cannot contain symbols or whitespaces",
-      });
-    }
-    if (
-      input.name.length < 3 ||
-      input.name.length > 20 ||
-      input.name === "" ||
-      !regex.nameAndLast.test(
-        input.name.toLowerCase().replace(/^\s+|\s+$/g, "")
-      )
-    ) {
-      setErrors({
-        ...errors,
-        name:
-          input.name === ""
-            ? " "
-            : input.name.length < 3
-            ? "Name is too short"
-            : input.name.length > 20
-            ? "Name is too long"
-            : "Name cannot contain symbols",
-      });
-    }
-    if (
-      input.lastName.length < 3 ||
-      input.lastName.length > 20 ||
-      input.lastName === "" ||
-      !regex.nameAndLast.test(
-        input.lastName.toLowerCase().replace(/^\s+|\s+$/g, "")
-      )
-    ) {
-      setErrors({
-        ...errors,
-        lastName:
-          input.lastName === ""
-            ? " "
-            : input.lastName.length < 3
-            ? "Lastname is too short"
-            : input.lastName.length > 20
-            ? "Lastname is too long"
-            : "Lastname cannot contain symbols",
-      });
-    }
-    if (
-      input.email === "" ||
-      !regex.email.test(input.email.replace(/^\s+|\s+$/g, ""))
-    ) {
-      setErrors({
-        ...errors,
-        email: input.email === "" ? " " : "Email invalid",
-      });
-    }
-    if (input.password !== "") {
-      if (
-        input.newPassword.length < 8 ||
-        input.newPassword.length > 30 ||
-        input.newPassword === "" ||
-        input.password.length < 8 ||
-        input.password.length > 30
-      ) {
-        setErrors({
-          ...errors,
-          password:
-            input.password.length < 8
-              ? "Password is too short"
-              : input.password.length > 30
-              ? "Password is too long"
-              : "",
-          newPassword:
-            input.newPassword === ""
-              ? " "
-              : input.newPassword.length < 8
-              ? "Password is too short"
-              : input.password.length > 30
-              ? "Password is too long"
-              : "",
-        });
-      }
-    }
-    if (input.newPassword !== "") {
-      if (input.password === "") {
-        setErrors({
-          ...errors,
-          password: "You must first enter your password",
-        });
-      }
-    }
-    if (
-      errors.username === "" &&
-      errors.name === "" &&
-      errors.lastName === "" &&
-      errors.email === "" &&
-      errors.password === "" &&
-      errors.newPassword === ""
-    ) {
-      if (input.password !== "" && input.editPassword === false) {
-        setInput({ ...input, editPassword: true });
-      }
-      return true;
-    } else return false;
-  }
-  function validatePassword() {
-    if (input.password !== "") {
-      setInput({
-        ...input,
-        editPassword: true,
-      });
-    }
-  }
-
   if (userProfile.name) {
     let nameSplitted = userProfile.name.split(" ");
     nameCapitalize = nameSplitted.map(
@@ -163,190 +77,198 @@ function ProfileEdit() {
       (n) => n.charAt(0).toUpperCase() + n.slice(1)
     );
   }
-  const [input, setInput] = useState({
-    username: userProfile.username,
-    name: nameCapitalize.join(" "),
-    lastName: lastNameCapitalize.join(" "),
-    email: userProfile.email,
+  const [input, setInput] = useState([
+    {
+      pos: 0,
+      type: "text",
+      name: "username",
+      placeholder: "Username",
+      label: "Username:",
+      value: userProfile.username,
+    },
+    {
+      pos: 1,
+      type: "text",
+      name: "name",
+      placeholder: "Name",
+      label: "Name:",
+      value: nameCapitalize.join(" "),
+    },
+    {
+      pos: 2,
+      type: "text",
+      name: "lastName",
+      placeholder: "Lastname",
+      label: "Lastname:",
+      value: lastNameCapitalize.join(" "),
+    },
+    {
+      pos: 3,
+      type: "text",
+      name: "email",
+      placeholder: "E-mail",
+      label: "E-mail:",
+      value: userProfile.email,
+    },
     //=========
     // Chequear el tema de la verif de password,
+    {
+      pos: 4,
+      type: "password",
+      name: "password",
+      placeholder: "Password",
+      label: "Password:",
+      value: "",
+    },
+    {
+      pos: 5,
+      type: "password",
+      name: "newPassword",
+      placeholder: "New password",
+      label: "New password:",
+      value: "",
+    },
+  ]);
+  const [passError, setPassError] = useState({
     password: "",
     newPassword: "",
-    editPassword: false,
   });
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [newPasswordShown, setNewPasswordShown] = useState(false);
-
-  function handleChange(e) {
-    e.preventDefault();
-    setErrors({ ...errors, [e.target.name]: "", newPassword: "" });
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-      editPassword: false,
-    });
-  }
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (validate()) {
-      validatePassword();
-      /* dispatch(asyncUserEdit(input)) */
+  function validatePassword() {
+    if (input[4].value !== "" || input[5].value !== "") {
+      var error = false;
+      if (input[5].value !== "" && input[4].value === "") {
+        error = true;
+        setPassError({
+          ...passError,
+          newPassword: "You must first type your current password.",
+        });
+        return;
+      }
+      if (
+        (input[4].value !== "" && input[5].value === "") ||
+        input[4].value.length < 8
+      ) {
+        error = true;
+        setPassError({
+          password:
+            input[4].value.length < 8
+              ? "Password must be at least 8 characters."
+              : "",
+          newPassword:
+            input[4].value !== "" && input[5].value === "" ? " " : "",
+        });
+      } else if (input[5].value.length < 8) {
+        error = true;
+        setPassError({
+          ...passError,
+          newPassword: "New password must be at least 8 characters.",
+        });
+      }
+      if (!error) {
+        setPassError({
+          password: "",
+          newPassword: "",
+        });
+      }
+    } else {
+      setPassError({
+        password: "",
+        newPassword: "",
+      });
     }
   }
-
   useEffect(() => {
-    validate();
+    validatePassword();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
+  function onSubmit(data) {
+    var request;
+    if (input[4].value !== "") {
+      validatePassword();
+      if (passError.password === "" && passError.newPassword === "") {
+        request = {
+          username: input[0].value,
+          name: input[1].value,
+          lastName: input[2].value,
+          email: input[3].value,
+          password: input[4].value,
+          newPassword: input[5].value,
+          editPassword: true,
+        };
+      }
+    } else {
+      request = {
+        username: input[0].value,
+        name: input[1].value,
+        lastName: input[2].value,
+        email: input[3].value,
+        password: "",
+        newPassword: "",
+        editPassword: false,
+      };
+    }
+    // dispatch(asyncModifyUser(request));
+  }
+  function handleChangeType(e, id) {
+    e.preventDefault();
+    setInput([
+      ...input,
+      (input[id].type = input[id].type === "password" ? "text" : "password"),
+      // editPassword: false,
+    ]);
+  }
 
+  function handleChange(e, id, name) {
+    e.preventDefault();
+    const { onChange } = register(name);
+    onChange(e);
+    setInput([
+      ...input,
+      (input[id].value = e.target.value),
+      // editPassword: false,
+    ]);
+  }
   return (
     <>
       <div className={s.data}>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div className={s.section}>
-            <span>
-              Username: <FaQuestionCircle />
-              {/* La idea seria que con un hover en el ?*/}
-            </span>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              className={`${s.input} ${
-                errors.username !== "" ? s.inputError : null
-              }`}
-              value={input.username}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-
-          <div
-            className={`${s.errorsDisable} ${
-              errors.username && errors.username !== " " ? s.errors : null
-            }`}
-          >
-            {errors.username}
-          </div>
-
-          <div className={s.section}>
-            <span>
-              Name: <FaQuestionCircle />
-            </span>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={input.name}
-              className={`${s.input} ${
-                errors.name !== "" ? s.inputError : null
-              }`}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <div
-            className={`${s.errorsDisable} ${
-              errors.name && errors.name !== " " ? s.errors : null
-            }`}
-          >
-            {errors.name}
-          </div>
-          <div className={s.section}>
-            <span>
-              Surname: <FaQuestionCircle />
-            </span>
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Surname"
-              value={input.lastName}
-              className={`${s.input} ${
-                errors.lastName !== "" ? s.inputError : null
-              }`}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <div
-            className={`${s.errorsDisable} ${
-              errors.lastName && errors.lastName !== " " ? s.errors : null
-            }`}
-          >
-            {errors.lastName}
-          </div>
-          <div className={s.section}>
-            <span>
-              E-mail: <FaQuestionCircle />
-            </span>
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={input.email}
-              className={`${s.input} ${
-                errors.email !== "" ? s.inputError : null
-              }`}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <div
-            className={`${s.errorsDisable} ${
-              errors.email && errors.email !== " " ? s.errors : null
-            }`}
-          >
-            {errors.email}
-          </div>
-          <div className={s.section}>
-            <span>
-              Current password: <FaQuestionCircle />
-            </span>
-            <div className={s.inputDiv}>
-              <input
-                type={passwordShown ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                value={input.password}
-                className={`${s.input} ${
-                  errors.password !== "" ? s.inputError : null
-                }`}
-                onChange={(e) => handleChange(e)}
-              />
-              <FaEye onClick={() => setPasswordShown(!passwordShown)} />
-            </div>
-          </div>
-          <div
-            className={`${s.errorsDisable} ${
-              errors.password && errors.password !== " " ? s.errors : null
-            }`}
-          >
-            {errors.password}
-          </div>
-          <div className={s.section}>
-            <span>
-              New password: <FaQuestionCircle />
-            </span>
-            <div className={s.inputDiv}>
-              <input
-                type={newPasswordShown ? "text" : "password"}
-                name="newPassword"
-                placeholder="New password"
-                value={input.newPassword}
-                className={`${s.input} ${
-                  errors.newPassword !== "" ? s.inputError : null
-                }`}
-                onChange={(e) => handleChange(e)}
-              />
-              <FaEye onClick={() => setNewPasswordShown(!newPasswordShown)} />
-            </div>
-          </div>
-          <div
-            className={`${s.errorsDisable} ${
-              errors.newPassword && errors.newPassword !== " " ? s.errors : null
-            }`}
-          >
-            {errors.newPassword}
-          </div>
-          <div className={s.section}>
-            <button className="buttons">Save changes</button>
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {input.map((inp, key) =>
+            inp.name ? (
+              <div className={s.section} key={key}>
+                <span>
+                  {inp.label} <FaQuestionCircle />
+                </span>
+                <div>
+                  <input
+                    type={inp.type}
+                    value={inp.value}
+                    className={s.input}
+                    {...register(inp.name, { required: true })}
+                    onChange={(e) => handleChange(e, inp.pos, inp.name)}
+                  />
+                  {inp.name === "password" ? (
+                    <FaEye
+                      className={s.eye}
+                      onClick={(e) => handleChangeType(e, inp.pos)}
+                    />
+                  ) : inp.name === "newPassword" ? (
+                    <FaEye
+                      className={s.eye}
+                      onClick={(e) => handleChangeType(e, inp.pos)}
+                    />
+                  ) : null}
+                </div>
+                {inp.name === "password" ? (
+                  <span className={s.errors}>{passError.password}</span>
+                ) : null}
+                {inp.name === "newPassword" ? (
+                  <span className={s.errors}>{passError.newPassword}</span>
+                ) : null}
+                <span className={s.errors}>{errors[inp.name]?.message}</span>
+              </div>
+            ) : null
+          )}
+          <button className="buttons">Save changes</button>
         </form>
       </div>
     </>

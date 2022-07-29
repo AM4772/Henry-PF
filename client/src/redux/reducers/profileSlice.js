@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 const initialState = {
   userProfile: {},
@@ -7,6 +8,22 @@ const initialState = {
   appLoadingProfile: true,
   firstAuto: true,
 };
+
+const satisfaction = Swal.mixin({
+  background: "#DED7CF",
+  backdrop: false,
+  toast: true,
+  heightAuto: false,
+  position: "bottom-end",
+  showConfirmButton: false,
+  iconColor: "#1E110B",
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 
 const profileSlice = createSlice({
   name: "profile",
@@ -22,8 +39,8 @@ const profileSlice = createSlice({
         lastName: action.payload.lastName,
         username: action.payload.username,
         email: action.payload.email,
+        admin: action.payload.admin,
       };
-      // console.log(action.payload);
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;
     },
@@ -31,6 +48,11 @@ const profileSlice = createSlice({
       state.userProfile = {};
       state.favourites = [];
       localStorage.removeItem("ALTKN");
+      satisfaction.fire({
+        icon: "info",
+        title: "Logged out!",
+        html: "You have successfully <b>logged out</b>",
+      });
     },
     firstAutoLogin: (state) => {
       state.firstAuto = false;

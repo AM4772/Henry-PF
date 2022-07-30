@@ -113,7 +113,7 @@ export function asyncCreateBook(book) {
 export function asyncEditBook(ID, book) {
   return async function (dispatch) {
     try {
-      console.log(book)
+      // console.log(book)
       const response = (await axios.put(`/books/${ID}`, book)).data;
       Swal.fire({
         icon: 'success',
@@ -123,6 +123,7 @@ export function asyncEditBook(ID, book) {
         timer: 2000,
       }).then(() => {
         window.location.reload(false);
+        // console.log(response)
       })
     } catch (error) {
       console.error(error);

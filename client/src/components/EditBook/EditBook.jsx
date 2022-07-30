@@ -27,17 +27,20 @@ export default function CreateBook({ book }) {
     description: book.description,
     price: book.price,
     image: book.image,
-    authors: book.authors.map(author => {
-      return { label: author, value: author };
-    }),
-    categories: book.categories.map(category => {
-      return { label: category, value: category };
-    }),
+    authors: book.authors,
+    categories: book.categories,
     publisher: book.publisher,
     publishedDate: publishedDateCaca,
     pageCount: book.pageCount,
-    language: {label: book.language, value: book.language, color: '#65ff6f'},
+    language: book.language,
   };
+  const booksInitialState = book.authors.map(author => {
+    return { label: author, value: author };
+  })
+  const categoriesInitialState = book.categories.map(category => {
+    return { label: category, value: category };
+  })
+  const languageInitialState = {label: book.language, value: book.language, color: '#65ff6f'}
   const countInitialState = {
     title: 0,
     description: 0,
@@ -217,17 +220,15 @@ export default function CreateBook({ book }) {
     if (!info.pageCount) isValidCopy.pageCount = ' ';
     else if (isNaN(info.pageCount))
       isValidCopy.pageCount = 'Page count must be a number .-.';
-    else if (info.pageCount > 2000 || info.pageCount < 10)
-      isValidCopy.pageCount = 'Page count must be between 10 - 2000';
+    else if (info.pageCount > 5000 || info.pageCount < 10)
+      isValidCopy.pageCount = 'Page count must be between 10 - 5000';
     else delete isValidCopy.pageCount;
     // Language
-    console.log(info.language)
     if (info.language.value) delete isValidCopy.language
     else if (!info.language.length) isValidCopy.language = ' ';
     else delete isValidCopy.language;
     setIsValid(isValidCopy);
     // Check if its valid
-    console.log(isValidCopy)
     var size = Object.keys(isValidCopy).length;
     if (!size) setIsAllowed(true);
     else if (size) setIsAllowed(false);
@@ -476,7 +477,7 @@ export default function CreateBook({ book }) {
             <CreatableSelect
               isClearable={false}
               isMulti={true}
-              defaultValue={info.authors}
+              defaultValue={booksInitialState}
               name="authors"
               options={authorsOptions ? authorsOptions : defaultOptions}
               styles={customStylesAuthors}
@@ -499,7 +500,7 @@ export default function CreateBook({ book }) {
             <CreatableSelect
               isClearable={false}
               isMulti={true}
-              defaultValue={info.categories}
+              defaultValue={categoriesInitialState}
               name="categories"
               options={caterogiesOptions ? caterogiesOptions : defaultOptions}
               styles={customStylesCategories}
@@ -545,7 +546,7 @@ export default function CreateBook({ book }) {
               isClearable={false}
               name="language"
               menuColor="red"
-              defaultValue={info.language}
+              defaultValue={languageInitialState}
               options={languageOptions}
               styles={customStylesLanguage}
               onChange={e =>

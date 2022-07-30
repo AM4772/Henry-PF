@@ -43,8 +43,9 @@ export function asyncGetBookDetail(ID) {
     try {
       const response = (await axios('/books/' + ID)).data;
       dispatch(getBookDetail(response));
+      return true
     } catch (error) {
-      console.error(error);
+      return false
     }
   };
 }
@@ -94,8 +95,35 @@ export function asyncCreateBook(book) {
         title: response.message,
         showConfirmButton: false,
         timer: 2000,
+      }).then(() => {
+        dispatch(asyncGetSearch())
+      })
+    } catch (error) {
+      console.error(error);
+      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
       });
-      // dispatch(createBook(response));
+    }
+  };
+}
+
+export function asyncEditBook(ID, book) {
+  return async function (dispatch) {
+    try {
+      console.log(book)
+      const response = (await axios.put(`/books/${ID}`, book)).data;
+      Swal.fire({
+        icon: 'success',
+        text: response.data,
+        title: response.message,
+        showConfirmButton: false,
+        timer: 2000,
+      }).then(() => {
+        window.location.reload(false);
+      })
     } catch (error) {
       console.error(error);
       console.log(error);
@@ -110,7 +138,7 @@ export function asyncCreateBook(book) {
 
 export function asyncDeleteBook(book, title) {
   return async function (dispatch) {
-    Swal.fire({
+    return await Swal.fire({
       title: 'Are you sure you want to delet this book?',
       text: "You won't be able to revert this!",
       icon: 'warning',
@@ -121,26 +149,26 @@ export function asyncDeleteBook(book, title) {
     }).then(async result => {
       try {
         if (result.isConfirmed) {
-          const response = (await axios.delete(`/books/${book}`)).data;
-          console.log(response);
-          Swal.fire(
+          await axios.delete(`/books/${book}`);
+          return await Swal.fire(
             'Deleted!',
             `${title} has been deleted.`,
             'success'
-          );
-          return true
+          ).then(() => {
+            return true
+          })
         }
       } catch (error) {
         console.error(error);
         console.log(error);
-        Swal.fire({
+        return await Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: `${error.response.data}`,
-        });
-        return false
+        }).then(() => {
+          return false
+        })
       }
     });
-    return false
   };
 }

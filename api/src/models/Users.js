@@ -31,7 +31,13 @@ module.exports = (sequelize) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        validate:{
+          isAuth0(value){
+            if(!this.authzero){
+              if(!value)throw new Error("Password cannot be null")
+            }
+          }
+        }
       },
       enabled: {
         type: DataTypes.BOOLEAN,
@@ -44,13 +50,16 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       dateSuspended: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
-
       admin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false,
+      },
+      authzero: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {

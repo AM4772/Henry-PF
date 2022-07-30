@@ -21,6 +21,7 @@ import { addStack } from "./redux/reducers/historySlice";
 import { asyncAutoLogin } from "./redux/actions/usersActions";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Payments from "./components/Payments/Payments";
+import PaymentDetail from "./components/PaymentDetail/PaymentDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,7 +55,8 @@ function App() {
       location.pathname.includes("user") ||
       location.pathname.includes("cart") ||
       location.pathname === "/contact" ||
-      location.pathname === "/payments"
+      location.pathname === "/payments" ||
+      location.pathname.includes("payment")
     ) {
       setTimeout(() => {
         setLoading(false);
@@ -99,6 +101,11 @@ function App() {
         <Route exact path={"/dashboard"} component={Dashboard} />
         <Route exact path={"/dashboard/createbook"} component={CreateBook} />
         <Route exact path={"/dashboard/payments"} component={Payments} />
+        <Route
+          exact
+          path={"/dashboard/payment/:ID"}
+          component={PaymentDetail}
+        />
         <Route exact path={"/"} component={Home} />
         <Footer />
       </div>

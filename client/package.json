@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.10.2",
     "@brainhubeu/react-carousel": "^1.19.26",
     "@hookform/resolvers": "^2.9.7",
     "@reduxjs/toolkit": "^1.8.3",

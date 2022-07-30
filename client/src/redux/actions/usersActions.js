@@ -8,6 +8,8 @@ import {
   addItemCart,
   removeItemCart,
   getItemsCart,
+  enableAndSuspendUser,
+  enableUser,
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -82,6 +84,17 @@ export function asyncRegisterUser(info) {
   };
 }
 
+export function asyncEnable(ID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post(`/login/enable/${ID}`)).data;
+      dispatch(enableAndSuspendUser(response));
+    } catch (error) {
+      dispatch(enableUser({ enabled: false }));
+    }
+  };
+}
+
 export function asyncLogin(body) {
   return async function (dispatch) {
     try {
@@ -94,7 +107,18 @@ export function asyncLogin(body) {
         timer: 2000,
       }).then(() => {
         dispatch(loginUser(response));
+        var today = Date.now();
         localStorage.setItem("ALTKN", response.token);
+        console.log(response);
+        if (!response.enabled) {
+          if (response.dateSuspended) {
+            if (
+              !(parseInt(today) < parseInt(response.dateSuspended) + 86400000)
+            ) {
+              dispatch(asyncEnable(response.ID));
+            }
+          }
+        }
       });
     } catch (error) {
       Swal.fire({
@@ -110,7 +134,17 @@ export function asyncAutoLogin(token) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/login/autoLogin", { token })).data;
+      var today = Date.now();
       dispatch(loginUser(response));
+      if (!response.enabled) {
+        if (response.dateSuspended) {
+          if (
+            !(parseInt(today) < parseInt(response.dateSuspended) + 86400000)
+          ) {
+            dispatch(asyncEnable(response.ID));
+          }
+        }
+      }
     } catch (error) {
       dispatch(firstAutoLogin());
     }
@@ -253,7 +287,6 @@ export function asyncRemoveItemCart(userID, bookID) {
         title: "Removed!",
         html: "You have <b>removed</b> this book from your cart",
       });
-      console.log(response);
       dispatch(removeItemCart(response));
     } catch (error) {
       satisfaction.fire({
@@ -276,6 +309,31 @@ export function asyncModifyUser(ID, body) {
     } catch (error) {
       console.error(error);
       return false;
+    }
+  };
+}
+
+export function asyncRegisterAuth0(body) {
+  return async function (dispatch) {
+    console.log(body);
+    try {
+      const response = (await axios.post("/users/auth0", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function asyncLoginAuth0(body) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/users/auth0/login", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      console.log(error);
     }
   };
 }

@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-
 const { getAuthors } = require('../controllers/AuthorsControllers.js');
 
 router.get('/', async (req, res) => {

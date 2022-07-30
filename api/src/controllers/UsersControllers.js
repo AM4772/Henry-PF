@@ -92,18 +92,70 @@ let UsersModel = {
 
   suspendUser: async function (ID) {
     const user = await Users.findByPk(ID);
-    const suspendedUser = user.toJSON().suspendedTimes;
+    if (user) {
+      const suspendedTimes = user.toJSON().suspendedTimes;
+      const timeStamp = Date.now();
 
-    const suspended = await Users.update(
-      {
-        suspendedTimes: suspendedUser + 1,
-        enabled: false,
-        //dateSuspended: dateSuspended,
-      },
-      {
-        where: { ID },
+      if (suspendedTimes >= 3) {
+        await user.destroy();
+        return 1;
+      } else {
+        await Users.update(
+          {
+            suspendedTimes: suspendedTimes + 1,
+            enabled: false,
+            dateSuspended: timeStamp,
+          },
+          {
+            where: { ID },
+          }
+        );
+        const suspendedUser = await Users.findByPk(ID);
+        return {
+          ID: suspendedUser.ID,
+          username: suspendedUser.username,
+          name: suspendedUser.name,
+          surname: suspendedUser.surname,
+          email: suspendedUser.email,
+          books: await user.getFavourite(),
+          admin: suspendedUser.admin,
+          enabled: suspendedUser.enabled,
+          suspendedTimes: suspendedUser.suspendedTimes,
+        };
       }
-    );
+    }
+    return 2;
+  },
+
+  enabledSuspendedUser: async function (ID) {
+    const user = await Users.findByPk(ID);
+    if (user) {
+      let suspendedDate = user.dateSuspended;
+      let today = Date.now();
+
+      if (!(parseInt(today) + 86400000 < parseInt(suspendedDate) + 86400000)) {
+        await Users.update(
+          {
+            enabled: true,
+          },
+          {
+            where: { ID },
+          }
+        );
+        const enabledUser = await Users.findByPk(ID);
+        return {
+          ID: enabledUser.ID,
+          username: enabledUser.username,
+          name: enabledUser.name,
+          surname: enabledUser.surname,
+          email: enabledUser.email,
+          books: await user.getFavourite(),
+          admin: enabledUser.admin,
+          enabled: enabledUser.enabled,
+          suspendedTimes: enabledUser.suspendedTimes,
+        };
+      } else return null;
+    } else return 1;
   },
 
   modifyUsers: async function (changes, ID) {

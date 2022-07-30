@@ -32,6 +32,21 @@ const profileSlice = createSlice({
     getProfile: (state, action) => {
       state.userProfile = action.payload;
     },
+    enableAndSuspendUser: (state, action) => {
+      state.userProfile = {
+        ...state.userProfile,
+        enabled: action.payload.enabled,
+        suspendedTimes: action.payload.suspendedTimes,
+      };
+      state.appLoadingProfile = false;
+    },
+    enableUser: (state, action) => {
+      state.userProfile = {
+        ...state.userProfile,
+        enabled: action.payload.enabled,
+      };
+      state.appLoadingProfile = false;
+    },
     loginUser: (state, action) => {
       state.userProfile = {
         ID: action.payload.ID,
@@ -40,6 +55,8 @@ const profileSlice = createSlice({
         username: action.payload.username,
         email: action.payload.email,
         admin: action.payload.admin,
+        enabled: action.payload.enabled,
+        suspendedTimes: action.payload.suspendedTimes,
       };
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;
@@ -86,7 +103,9 @@ export const {
   deleteFavourite,
   getItemsCart,
   addItemCart,
+  enableUser,
   removeItemCart,
+  enableAndSuspendUser,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -20,6 +20,9 @@ let autoLogin = {
       email: userJSON.email,
       books: await userExists.getFavourite(),
       admin: userJSON.admin,
+      enabled: userJSON.enabled,
+      dateSuspended: userJSON.dateSuspended,
+      suspendedTimes: userJSON.suspendedTimes,
     };
   },
 };

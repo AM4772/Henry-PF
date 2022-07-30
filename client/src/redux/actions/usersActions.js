@@ -7,7 +7,9 @@ import {
   deleteFavourite,
   addItemCart,
   removeItemCart,
-  getItemCart,
+  getItemsCart,
+  enableAndSuspendUser,
+  enableUser,
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -82,6 +84,17 @@ export function asyncRegisterUser(info) {
   };
 }
 
+export function asyncEnable(ID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post(`/login/enable/${ID}`)).data;
+      dispatch(enableAndSuspendUser(response));
+    } catch (error) {
+      dispatch(enableUser({ enabled: false }));
+    }
+  };
+}
+
 export function asyncLogin(body) {
   return async function (dispatch) {
     try {
@@ -94,7 +107,18 @@ export function asyncLogin(body) {
         timer: 2000,
       }).then(() => {
         dispatch(loginUser(response));
+        var today = Date.now();
         localStorage.setItem("ALTKN", response.token);
+        console.log(response);
+        if (!response.enabled) {
+          if (response.dateSuspended) {
+            if (
+              !(parseInt(today) < parseInt(response.dateSuspended) + 86400000)
+            ) {
+              dispatch(asyncEnable(response.ID));
+            }
+          }
+        }
       });
     } catch (error) {
       Swal.fire({
@@ -110,7 +134,17 @@ export function asyncAutoLogin(token) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/login/autoLogin", { token })).data;
+      var today = Date.now();
       dispatch(loginUser(response));
+      if (!response.enabled) {
+        if (response.dateSuspended) {
+          if (
+            !(parseInt(today) < parseInt(response.dateSuspended) + 86400000)
+          ) {
+            dispatch(asyncEnable(response.ID));
+          }
+        }
+      }
     } catch (error) {
       dispatch(firstAutoLogin());
     }
@@ -151,9 +185,7 @@ export function asyncSetUsernames() {
 
 const satisfaction = Swal.mixin({
   background: "#DED7CF",
-  backdrop: false,
   toast: true,
-  heightAuto: false,
   position: "bottom-end",
   showConfirmButton: false,
   iconColor: "#1E110B",
@@ -205,11 +237,11 @@ export function asyncDeleteFavourite(userID, bookID) {
   };
 }
 
-export function asyncGetItemCart(userID) {
+export function asyncGetItemsCart(userID) {
   return async function (dispatch) {
     try {
-      const response = (await axios(`/users/${userID}/cart`)).data.data;
-      dispatch(getItemCart(response));
+      const response = (await axios(`/users/${userID}/cart`)).data;
+      dispatch(getItemsCart(response));
     } catch (error) {
       console.error(error);
     }
@@ -255,7 +287,6 @@ export function asyncRemoveItemCart(userID, bookID) {
         title: "Removed!",
         html: "You have <b>removed</b> this book from your cart",
       });
-      console.log(response);
       dispatch(removeItemCart(response));
     } catch (error) {
       satisfaction.fire({
@@ -264,6 +295,45 @@ export function asyncRemoveItemCart(userID, bookID) {
         text: "Sorry, we were unable to <b>remove</b> the book from your cart",
       });
       console.error(error);
+    }
+  };
+}
+
+export function asyncModifyUser(ID, body) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.put(`/users/${ID}`, body)).data;
+      dispatch(loginUser(response.data));
+      localStorage.setItem("ALTKN", response.data.token);
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+}
+
+export function asyncRegisterAuth0(body) {
+  return async function (dispatch) {
+    console.log(body);
+    try {
+      const response = (await axios.post("/users/auth0", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function asyncLoginAuth0(body) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/users/auth0/login", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      console.log(error);
     }
   };
 }

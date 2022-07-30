@@ -18,6 +18,7 @@ const Favourites = () => {
         stack[i] !== "/register" &&
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
+        stack[i] !== "/cart" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -51,16 +52,24 @@ const Favourites = () => {
       ))}
     </div>
   ) : (
-    <div className={s.containerNotFav}>
-      <div className={s.NotFav}>
-        <h4>You have not selected a favorite book yet</h4>
-        <p>
-          You can add favorite books by clicking on the heart that appears in
-          the detail of each book
-        </p>
-        <p>
-          Browse the <a href="/">home</a> section to find your favourites books!
-        </p>
+    <div className={s.containerNotFav0}>
+      <div className={s.backButton}>
+        <button className={s.buttonBack} onClick={goBack}>
+          Back
+        </button>
+      </div>
+      <div className={s.containerNotFav}>
+        <div className={s.NotFav}>
+          <h4>You have not selected a favorite book yet</h4>
+          <p>
+            You can add favorite books by clicking on the heart that appears in
+            the detail of each book
+          </p>
+          <p>
+            Browse the <a href="/">home</a> section to find your favourites
+            books!
+          </p>
+        </div>
       </div>
     </div>
   );

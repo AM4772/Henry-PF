@@ -1,46 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
-import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
+import { NavLink } from "react-router-dom";
 import Loading from "../Loading/Loading";
-import s from "./FavouriteCard.module.sass";
-import heartOn from "../../assets/Heart_on.png";
-import { BsFillCartPlusFill, BsFillCartDashFill} from "react-icons/bs";
-import {
-  asyncAddItemCart,
-  asyncRemoveItemCart,
-} from "../../redux/actions/usersActions";
+import { BsFillCartDashFill } from "react-icons/bs";
+import { asyncRemoveItemCart } from "../../redux/actions/usersActions";
+import s from "./CartCard.module.sass";
 
-function FavouriteCard(props) {
+function CartCard(props) {
   let book = props;
-  const history = useHistory();
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
-  const { cart } = useSelector((state) => state.profile);
-  const [addedCart, setAddedCart] = useState(false);
+  const handleRemoveItemCart = () =>
+    dispatch(asyncRemoveItemCart(userProfile.ID, book.ID));
 
-  useEffect(() => {
-    if (cart.length) {
-      let result = cart.find((el) => el.ID === parseInt(book.ID));
-      if (result) setAddedCart(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
-
-  const handleCart = () => {
-    if (!addedCart) {
-      if (!userProfile.ID) history.push("/login");
-      dispatch(asyncAddItemCart(userProfile.ID, book.ID));
-      setAddedCart(true);
-    } else {
-      dispatch(asyncRemoveItemCart(userProfile.ID, book.ID));
-      setAddedCart(false);
-    }
-  };
-
-  function deletingFav() {
-    dispatch(asyncDeleteFavourite(userProfile.ID, book.ID));
-  }
   return (
     <div className={s.cards}>
       {book.title ? (
@@ -70,18 +42,16 @@ function FavouriteCard(props) {
             </NavLink>
             <div className={s.containerBlock2}>
               <div className={s.containerCartHeart}>
-                <div className={s.containerEmpty}></div>
                 <div className={s.containerCartHeart2}>
-                  <button onClick={handleCart}>
-                    { addedCart ?  <BsFillCartDashFill title="Remove from cart" className={s.icon2}/> : <BsFillCartPlusFill title="Add to Cart" className={s.icon} />}
+                  <button
+                    className={s.iconPosition}
+                    onClick={() => handleRemoveItemCart()}
+                  >
+                    <BsFillCartDashFill
+                      title="Remove from cart"
+                      className={s.icon}
+                    />
                   </button>
-                  <img
-                    className={s.imgHeart}
-                    alt="heart"
-                    title="Delete Favourite"
-                    src={heartOn}
-                    onClick={deletingFav}
-                  />
                 </div>
               </div>
               <div className={s.containerBlock3}>
@@ -111,4 +81,4 @@ function FavouriteCard(props) {
   );
 }
 
-export default FavouriteCard;
+export default CartCard;

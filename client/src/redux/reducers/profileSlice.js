@@ -32,18 +32,36 @@ const profileSlice = createSlice({
     getProfile: (state, action) => {
       state.userProfile = action.payload;
     },
+    enableAndSuspendUser: (state, action) => {
+      state.userProfile = {
+        ...state.userProfile,
+        enabled: action.payload.enabled,
+        suspendedTimes: action.payload.suspendedTimes,
+      };
+      state.appLoadingProfile = false;
+    },
+    enableUser: (state, action) => {
+      state.userProfile = {
+        ...state.userProfile,
+        enabled: action.payload.enabled,
+      };
+      state.appLoadingProfile = false;
+    },
     loginUser: (state, action) => {
       state.userProfile = {
         ID: action.payload.ID,
         name: action.payload.name,
-        lastName: action.payload.lastName,
+        surname: action.payload.surname,
         username: action.payload.username,
         email: action.payload.email,
         admin: action.payload.admin,
+        enabled: action.payload.enabled,
+        suspendedTimes: action.payload.suspendedTimes,
       };
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;
     },
+
     logOut: (state) => {
       state.userProfile = {};
       state.favourites = [];
@@ -64,7 +82,7 @@ const profileSlice = createSlice({
     deleteFavourite: (state, action) => {
       state.favourites = action.payload;
     },
-    getItemCart: (state, action) => {
+    getItemsCart: (state, action) => {
       state.cart = action.payload;
     },
     addItemCart: (state, action) => {
@@ -83,9 +101,11 @@ export const {
   firstAutoLogin,
   addFavourite,
   deleteFavourite,
-  getItemCart,
+  getItemsCart,
   addItemCart,
+  enableUser,
   removeItemCart,
+  enableAndSuspendUser,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

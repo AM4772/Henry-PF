@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-/* import { useSelector } from "react-redux"; */
 import Sidebar from "../Sidebar/Sidebar";
 import s from "./Dashboard.module.sass";
 import UsersBoard from "../DashboardUsers/DashboardUsers";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
-import {
-	FaUserCheck,
-	FaUserEdit,
-	FaUserClock,
-	FaUserTimes,
-} from "react-icons/fa";
+import Payments from "../Payments/Payments";
+import CreateBook from "../CreateBook/CreateBook";
 
 function Dashboard() {
-	/* const { Section } = useSelector((state) => state.dashSection); */
 	const { users } = useSelector((state) => state.users);
 	const usersMini = users.slice(users.length - 5, users.length);
 	const dispatch = useDispatch();
+	const { currentSection } = useSelector((state) => state.dashboard);
 
 	useEffect(() => {
 		dispatch(asyncGetUsers());
 	}, [dispatch]);
-	const [section] = useState("users");
+
 	return (
 		<div className={s.container}>
 			<>
 				<div className={s.dashboard}>
 					<Sidebar className={s.Sidebar} />
 					<div>
-						{section === "users" ? (
+						{currentSection === 1 ? (
 							<UsersBoard />
+						) : currentSection === 2 ? (
+							<CreateBook />
+						) : currentSection === 3 ? (
+							<Payments />
+						) : currentSection === 4 ? (
+							<div>Analytics</div>
 						) : (
 							<div className={s.mainContainer}>
 								<div className={s.topSection}>Top side</div>
@@ -54,7 +55,7 @@ function Dashboard() {
 															<td>{u.username}</td>
 															<td>{u.name}</td>
 															<td>{u.surname}</td>
-															<td>{u.mail}</td>
+															<td>{u.email}</td>
 															<td></td>
 														</tr>
 													);

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { Users, Books } = require('../../db.js');
+const { Users } = require('../../db.js');
 
 let autoLogin = {
   verifyTokenLogin: async function (token) {
@@ -16,9 +16,13 @@ let autoLogin = {
       ID: userJSON.ID,
       username: userJSON.username,
       name: userJSON.name,
-      lastName: userJSON.surname,
+      surname: userJSON.surname,
       email: userJSON.email,
       books: await userExists.getFavourite(),
+      admin: userJSON.admin,
+      enabled: userJSON.enabled,
+      dateSuspended: userJSON.dateSuspended,
+      suspendedTimes: userJSON.suspendedTimes,
     };
   },
 };

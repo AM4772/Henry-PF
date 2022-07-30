@@ -1,13 +1,22 @@
 #card
   background: var(--color-whiteish)
-  // background: rgba(234, 221, 204, .7)
   width: 420px
   display: flex
   border-radius: 10px
   height: 100%
-  margin-bottom: 25px
 
-#register
+#card2
+  background: var(--color-whiteish)
+  width: 420px
+  display: flex
+  align-content: center
+  flex-direction: column
+  border-radius: 10px
+  margin-left: 30px
+  padding-bottom: 25px
+  height: 100%
+
+.register
   color: var(--color-brownish-dd)
   display: flex
   justify-content: center
@@ -16,9 +25,13 @@
 
 #toCenter
   display: flex
-  justify-content: center
+  width: 899px
   margin-top: 75px
-  min-height: calc( 100vh - 125px )
+  position: absolute
+  left: 0
+  right: 0
+  margin-left: auto
+  margin-right: auto
 
 .errorMessage
   color: #f13e3e
@@ -29,16 +42,16 @@
   user-select: none
 
 .noErrorMessage
-  user-select: none
   height: 0px
   display: hidden
   color: #22222200
   transition: all ease 0.3s
 
-#creationCardDisplay
+.creationCardDisplay
   display: flex
-  align-items: center
+  justify-content: center
   flex-direction: column
+  align-items: center
 
 #waiting
   display: flex
@@ -46,9 +59,8 @@
   height: 43.8px
   background: gray
   color: var(--color-brownish-dd)
-
-#waiting:hover
-  background: gray
+  &:hover
+    background: gray
 
 #bottomButton
   display: flex
@@ -56,19 +68,19 @@
   margin-top: 10px
   margin-bottom: 15px
 
-.fatEye
-  position: absolute
-  display: flex
-  margin: -35px -21px 116px 344px
-  z-index: 50
-  width: 18.5px
-  height: 18.5px
-  transition: 0.3s
-  background: white
-  &:hover
-    background: white
-    transition: 0.3s
-    filter: opacity(50%)
+.textarea
+  font-family: var(--font-roboto)
+  padding: .5rem
+  resize: none
+  width: 100%
+  height: 100px
+  font-weight: 400
+  font-size: 16px
+  padding: 10px 10px 10px 10px
+  border-radius: 15px
+  border: none
+  &:focus
+    outline: none
 
 .input
   font-family: var(--font-roboto)
@@ -102,10 +114,33 @@
 .fillTitle
   user-select: none
 
-#registerNow
-  position: absolute
-  color: blue
+.buttonBack
+  border-radius: 3px
+  padding: 5px
+  margin: 1px 20px 0px 10px
+  height: 23px
+  border: none
+  font-weight: 600
+  font-size: 13px
+  color: var(--color-brownish-dd)
+  background-color: var(--color-yellowish-d)
+  -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  cursor: pointer
+  transition: 0.7s
+
+#customInput
+  font-family: var(--font-roboto)
+  background: white
+  width: 100%
+  padding: 7px 10px
   font-size: 14px
-  margin: 50px 0px 0px 250px
-  &:visited
-    color: blue
+  font-weight: 400
+  box-sizing: border-box
+  font-size: 16px
+  margin: 0px auto 7px auto
+  border-radius: 10px
+  border: none
+  transition: 0s
+  &:focus
+    outline: none

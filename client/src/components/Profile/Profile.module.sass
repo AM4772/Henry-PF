@@ -1,11 +1,20 @@
-.body
-  min-height: 100vh
-  width: 100%
+.containerProf0
+  margin-top: 68px
+  margin-bottom: 50px
+  min-height: calc( 100vh - 168px )
+
+  .body
+
+    min-height: 80vh
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-items: center
   //a
-  display: flex
-  justify-content: center
-  align-items: center
-  margin-bottom: 30px
+    // display: flex
+    // justify-content: center
+    // align-items: center
+    // margin-bottom: 30px
 
 .container
   min-height: 85vh
@@ -16,7 +25,7 @@
   // box-sizing: border-box
   border: none
   border-radius: 15px
-  margin-top: 70px
+  // margin-top: 70px
   background-color: var(--color-whiteish)
 
 .sections
@@ -52,7 +61,7 @@
 .section
   background-color: var(--color-whiteish)
   // min-height: 100%
-  margin: 10px 20px
+  margin: 20px 20px
   padding: 5px 5px
   display: flex
   flex-direction: column
@@ -78,19 +87,44 @@
   display: flex
   justify-content: center
   align-items: center
-  margin: 10px 20px
+  margin: 26px 20px
   padding: 5px 5px
 
 .testIMG
-  height: 100px
-  width: 100px
+  height: 170px
+  width: 170px
   border-radius: 50%
   color: var(--color-brownish-dd)
   border: solid 1.5px var(--color-brownish-dd)
-
   display: flex
   justify-content: center
   align-items: center
   background: rgba(241, 166, 53, 0.596)
-
   user-select: none
+  h1
+    font-size: 45px
+
+.backButton
+  display: flex
+  justify-content: center
+  width: 100%
+  padding-bottom: 0px
+  margin-bottom: 15px
+
+.buttonBack
+  border-radius: 3px
+  padding: 5px
+  margin: 5px 0px 0px 10px
+  border: none
+  font-size: 13px
+  color: var(--color-brownish-dd)
+  background-color: var(--color-yellowish-d)
+  -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  cursor: pointer
+  transition: 0.7s
+
+.buttonBack:hover
+  color: var(--color-yellowish-d)
+  background-color: var(--color-brownish-d)
+  transition: 0.7s

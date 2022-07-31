@@ -7,6 +7,7 @@ import { TESTING_PAYMENTS } from "../../TESTING_PAYMENTS";
 import SearchBarPayments from "./SearchBarPayments";
 import { useEffect, useState } from "react";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Payments = () => {
   // const history = useHistory();
@@ -319,7 +320,7 @@ const Payments = () => {
                 />*/
               <tr key={b.ID}>
                 <td className={s.td}>
-                  <a href={`/dashboard/payment/${b.ID}`}>{b.ID}</a>
+                  <Link to={`/dashboard/payment/${b.ID}`}>{b.ID}</Link>
                 </td>
                 <td className={s.td}>{b.purchasedBooks.length}</td>
                 <td className={s.td}>{b.userInfo.userID}</td>

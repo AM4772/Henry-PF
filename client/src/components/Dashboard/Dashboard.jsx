@@ -6,6 +6,7 @@ import UsersBoard from "../DashboardUsers/DashboardUsers";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
 import Payments from "../Payments/Payments";
 import CreateBook from "../CreateBook/CreateBook";
+import { Line, Donut, Graph } from "../Analytics/Analytics";
 
 function Dashboard() {
 	const { users } = useSelector((state) => state.users);
@@ -30,7 +31,11 @@ function Dashboard() {
 						) : currentSection === 3 ? (
 							<Payments />
 						) : currentSection === 4 ? (
-							<div>Analytics</div>
+							<>
+								<Graph/>
+								<Line />
+								<Donut />
+							</>
 						) : (
 							<div className={s.mainContainer}>
 								<div className={s.topSection}>Top side</div>

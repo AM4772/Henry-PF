@@ -8,8 +8,8 @@ function BookCard(props) {
   return (
     <div className={s.cards}>
       {book.title ? (
-        <NavLink className={s.navLink} to={`/book/${book.ID}`}>
-          <div className={s.container0}>
+        <div className={s.container0}>
+          <NavLink className={s.navLink} to={`/book/${book.ID}`}>
             <div className={s.container1}>
               <div className={s.containerImage}>
                 <img
@@ -47,8 +47,8 @@ function BookCard(props) {
                 </p>
               </div>
             </div>
-          </div>
-        </NavLink>
+          </NavLink>
+        </div>
       ) : (
         <Loading />
       )}

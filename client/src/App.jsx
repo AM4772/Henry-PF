@@ -12,7 +12,6 @@ import Profile from "./components/Profile/Profile";
 import Favourites from "./components/Favourites/Favourites";
 import Footer from "./components/Footer/Footer.jsx";
 import Contact from "./components/Contact/Contact";
-import CreateBook from "./components/CreateBook/CreateBook";
 import "./App.sass";
 import s from "./App.module.sass";
 import logo from "./assets/Book_Logo.png";
@@ -20,7 +19,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addStack } from "./redux/reducers/historySlice";
 import { asyncAutoLogin } from "./redux/actions/usersActions";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Payments from "./components/Payments/Payments";
 import PaymentDetail from "./components/PaymentDetail/PaymentDetail";
 
 function App() {
@@ -55,7 +53,6 @@ function App() {
       location.pathname.includes("user") ||
       location.pathname.includes("cart") ||
       location.pathname === "/contact" ||
-      location.pathname === "/payments" ||
       location.pathname.includes("payment")
     ) {
       setTimeout(() => {
@@ -99,8 +96,6 @@ function App() {
         <Route exact path={"/favourites"} component={Favourites} />
         <Route exact path={"/cart"} component={Cart} />
         <Route exact path={"/dashboard"} component={Dashboard} />
-        <Route exact path={"/dashboard/createbook"} component={CreateBook} />
-        <Route exact path={"/dashboard/payments"} component={Payments} />
         <Route
           exact
           path={"/dashboard/payment/:ID"}

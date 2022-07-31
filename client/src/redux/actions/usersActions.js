@@ -95,7 +95,7 @@ export function asyncEnable(ID) {
   };
 }
 
-export function asyncLogin(body) {
+export function asyncLogin(body, remember) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/login", body)).data;
@@ -108,8 +108,7 @@ export function asyncLogin(body) {
       }).then(() => {
         dispatch(loginUser(response));
         var today = Date.now();
-        localStorage.setItem("ALTKN", response.token);
-        console.log(response);
+        if (remember) localStorage.setItem("ALTKN", response.token);
         if (!response.enabled) {
           if (response.dateSuspended) {
             if (
@@ -157,7 +156,6 @@ export function asyncSetEmails() {
       const response = (await axios("/emails")).data;
       dispatch(setEmails(response));
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -173,7 +171,6 @@ export function asyncSetUsernames() {
       const response = (await axios("/usernames")).data;
       dispatch(setUsernames(response));
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -254,7 +251,6 @@ export function asyncAddItemCart(userID, bookID) {
       const response = (
         await axios.post(`/users/${userID}/cart`, { ID: bookID })
       ).data.data;
-      console.log(response);
       satisfaction.fire({
         icon: "success",
         title: "Added!",
@@ -315,13 +311,12 @@ export function asyncModifyUser(ID, body) {
 
 export function asyncRegisterAuth0(body) {
   return async function (dispatch) {
-    console.log(body);
     try {
       const response = (await axios.post("/users/auth0", body)).data;
       localStorage.setItem("ALTKN", response.data.token);
       dispatch(loginUser(response.data));
     } catch (error) {
-      console.log(error);
+      dispatch(asyncLoginAuth0(body))
     }
   };
 }

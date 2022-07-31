@@ -75,15 +75,15 @@ function Register(props) {
       if (!name.length) isValidCopy.name = " ";
       else if (name.includes("-"))
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
-      else if (name.length < 3 || name.length > 20)
-        isValidCopy.name = "Name contain between 3-20 characters";
+      else if (name.length < 1 || name.length > 50)
+        isValidCopy.name = "Name contain between 1-50 characters";
       else if (regex.symbols.test(name))
         isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
       else delete isValidCopy.name;
       // Surname
       if (!surname.length) isValidCopy.surname = " ";
-      else if (surname.length < 3 || surname.length > 20)
-        isValidCopy.surname = "Surname needs to be between 3-20 characters";
+      else if (surname.length < 1 || surname.length > 50)
+        isValidCopy.surname = "Surname needs to be between 1-50 characters";
       else if (regex.symbols.test(surname))
         isValidCopy.surname =
           "Surname can't contain symbols, spaces nor numbers";
@@ -106,7 +106,7 @@ function Register(props) {
       else delete isValidCopy.email;
       // Password validation
       if (!password.length) isValidCopy.password = " ";
-      else if (password.length < 8 || password.length > 30)
+      else if (password.length < 8 || password.length > 50)
         isValidCopy.password = "Password must contain between 8-30 characters";
       else delete isValidCopy.password;
       // Repeat Password validation
@@ -347,7 +347,6 @@ function Register(props) {
             </div>
           </div>
           <div id={s.bottomButton}>{handleButton()}</div>
-          {/* <p>Already registered?</p> */}
         </form>
       </div>
     </div>

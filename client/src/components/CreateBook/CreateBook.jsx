@@ -190,8 +190,8 @@ export default function CreateBook() {
     else delete isValidCopy.title;
     // Description
     if (!info.description.length) isValidCopy.description = " ";
-    else if (info.description.length < 16 || info.description.length > 120)
-      isValidCopy.description = "Description must contain 16-120 characters";
+    else if (info.description.length < 16 || info.description.length > 5000)
+      isValidCopy.description = "Description must contain 16-5000 characters";
     else delete isValidCopy.description;
     // Price
     if (!info.price.length) isValidCopy.price = " ";
@@ -221,8 +221,8 @@ export default function CreateBook() {
     if (!info.pageCount.length) isValidCopy.pageCount = " ";
     else if (isNaN(info.pageCount))
       isValidCopy.pageCount = "Page count must be a number .-.";
-    else if (info.pageCount > 2000 || info.pageCount < 10)
-      isValidCopy.pageCount = "Page count must be between 10 - 2000";
+    else if (info.pageCount > 5000 || info.pageCount < 10)
+      isValidCopy.pageCount = "Page count must be between 10 - 5000";
     else delete isValidCopy.pageCount;
     // Language
     if (!info.language.length) isValidCopy.language = " ";

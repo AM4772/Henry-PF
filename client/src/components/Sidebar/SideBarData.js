@@ -17,7 +17,7 @@ const sideBarData = [
 	},
 	{
 		icon: MdMenuBook,
-		heading: "Books",
+		heading: "Create",
 	},
 	{
 		icon: MdPayments,

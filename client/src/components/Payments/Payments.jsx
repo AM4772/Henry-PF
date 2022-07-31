@@ -263,7 +263,10 @@ const Payments = () => {
       {/* <div className={s.backButton}>
         <button className={s.buttonBack}>Back</button>
       </div> */}
-      <SearchBarPayments value={search} onChange={handleChange} />
+      <div className={s.top}>
+        <h1>Payments</h1>
+        <SearchBarPayments value={search} onChange={handleChange} />
+      </div>
       <div className={s.tableContainer}>
         <table>
           <thead>
@@ -275,7 +278,7 @@ const Payments = () => {
                 </span>
               </th>
               <th className={s.sort} onClick={() => sort("purchasedBooks")}>
-                Items Buyed
+                Items
                 <span>
                   {sorting.purchasedBooks ? (
                     <RiArrowUpSFill />

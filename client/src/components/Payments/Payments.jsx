@@ -305,39 +305,32 @@ const Payments = () => {
           </thead>
           <tbody>
             {filterPayment.map((b) => (
-              /*<PaymentCard
-                  key={b.ID}
-                  ID={b.ID}
-                  totalItems={b.purchasedBooks.length}
-                  userID={b.userInfo.userID}
-                  username={b.userInfo.username}
-                  buyDate={b.purchaseDate}
-                  price={
-                    b.purchasedBooks.reduce((ac, el) => ({
-                      price: ac.price + el.price,
-                    })).price
-                  }
-                />*/
               <tr key={b.ID}>
                 <td className={s.td}>
                   <Link to={`/dashboard/payment/${b.ID}`}>{b.ID}</Link>
                 </td>
-                <td className={s.td}>{b.purchasedBooks.length}</td>
+                <td className={s.td}>
+                  <a href={`/dashboard/payment/${b.ID}`}>
+                    {b.purchasedBooks.length}
+                  </a>
+                </td>
                 <td className={s.td}>{b.userInfo.userID}</td>
                 <td className={s.td}>{b.userInfo.username}</td>
                 <td className={s.td}>
                   {new Date(b.purchaseDate).toLocaleDateString("es-ES")}
                 </td>
                 <td className={s.td}>
-                  $
-                  {new Intl.NumberFormat("es-ES", {
-                    maximumFractionDigits: 2,
-                    minimumFractionDigits: 2,
-                  }).format(
-                    b.purchasedBooks.reduce((ac, el) => ({
-                      price: ac.price + el.price,
-                    })).price
-                  )}
+                  <a href={`/dashboard/payment/${b.ID}`}>
+                    $
+                    {new Intl.NumberFormat("es-ES", {
+                      maximumFractionDigits: 2,
+                      minimumFractionDigits: 2,
+                    }).format(
+                      b.purchasedBooks.reduce((ac, el) => ({
+                        price: ac.price + el.price,
+                      })).price
+                    )}
+                  </a>
                 </td>
               </tr>
             ))}

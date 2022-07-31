@@ -12,6 +12,7 @@ function PaymentDetail() {
   function goBack() {
     history.goBack();
   }
+  var tot = 0;
 
   return (
     <div className={s.paymentDetail}>
@@ -33,41 +34,48 @@ function PaymentDetail() {
                 <p>Buyer ID:</p>
                 <p>{test.userInfo.userID}</p>
               </div>
+              <div className={s.userList}>
+                <p>Purchase Date:</p>
+                <p>{test.purchaseDate}</p>
+              </div>
+              <div className={s.line}></div>
             </div>
-            {test.purchasedBooks.map((book, i) => {
-              return (
-                <div key={i} className={s.contain}>
-                  <div>
-                    <img src={book.image} alt="" className={s.image} />
-                  </div>
-                  <div className={s.bookInfo}>
-                    <p>Book: {book.title}</p>
-                    <p>ID: {book.ID}</p>
-                    <p>${book.price}</p>
-                    <div className={s.list}>
-                      <p>Authors:</p>
-                      {book.authors.map((au, u) => {
-                        return (
-                          <div key={u} className={s.item}>
-                            {au}
-                          </div>
-                        );
-                      })}
+            <div className={s.purchase}>
+              {test.purchasedBooks.map((book) => {
+                tot += book.price;
+                return (
+                  <div className={s.info}>
+                    <div className={s.contain}>
+                      <div>
+                        <img src={book.image} alt="" className={s.image} />
+                      </div>
+                      <div className={s.bookInfo}>
+                        <p>Book: {book.title}</p>
+                        <p>ID: {book.ID}</p>
+                        <div className={s.list}>
+                          <p>Authors:</p>
+                          {book.authors.map((au) => {
+                            return <div className={s.item}>{au}</div>;
+                          })}
+                        </div>
+                        <div className={s.list}>
+                          <p>Categories:</p>
+                          {book.categories.map((cat) => {
+                            return <div className={s.item}>{cat}</div>;
+                          })}
+                        </div>
+                        <p className={s.price}>${book.price}</p>
+                      </div>
                     </div>
-                    <div className={s.list}>
-                      <p>Categories:</p>
-                      {book.categories.map((cat, j) => {
-                        return (
-                          <div key={j} className={s.item}>
-                            {cat}
-                          </div>
-                        );
-                      })}
-                    </div>
+                    <div className={s.line}></div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+            <div className={s.final}>
+              <p className={s.titulo}>Total:</p>
+              <p className={s.total}>${tot}</p>
+            </div>
           </div>
         </div>
       ) : (

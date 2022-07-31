@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { asyncModifyUser } from "../../redux/actions/usersActions";
+import Swal from "sweetalert2";
 // import { useHistory } from "react-router-dom";
 const schema = yup
   .object()
@@ -211,7 +212,16 @@ function ProfileEdit() {
     }
     dispatch(asyncModifyUser(userProfile.ID, request)).then((r) => {
       if (r) {
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Changes were successfully saved",
+          // text: "You can see the changes in the profile section",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1300);
       }
     });
   }

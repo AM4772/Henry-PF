@@ -86,9 +86,7 @@ export function asyncGetHomeBooks() {
 export function asyncCreateBook(book) {
   return async function (dispatch) {
     try {
-      console.log(book);
-      const response = (await axios.post("/books", book)).data;
-      console.log(response);
+      const response = (await axios.post('/books', book)).data;
       Swal.fire({
         icon: "success",
         text: response.data,
@@ -99,8 +97,6 @@ export function asyncCreateBook(book) {
         dispatch(asyncGetSearch());
       });
     } catch (error) {
-      console.error(error);
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -113,7 +109,6 @@ export function asyncCreateBook(book) {
 export function asyncEditBook(ID, book) {
   return async function (dispatch) {
     try {
-      // console.log(book)
       const response = (await axios.put(`/books/${ID}`, book)).data;
       Swal.fire({
         icon: "success",
@@ -123,11 +118,8 @@ export function asyncEditBook(ID, book) {
         timer: 2000,
       }).then(() => {
         window.location.reload(false);
-        // console.log(response)
-      });
+      })
     } catch (error) {
-      console.error(error);
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -160,8 +152,6 @@ export function asyncDeleteBook(book, title) {
           });
         }
       } catch (error) {
-        console.error(error);
-        console.log(error);
         return await Swal.fire({
           icon: "error",
           title: "Oops...",

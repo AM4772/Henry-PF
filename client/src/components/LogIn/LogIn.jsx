@@ -21,6 +21,7 @@ function LogIn({ prev }) {
   };
   const [count, setCount] = useState(countInitialState);
   const [isValid, setIsvalid] = useState(isValidInitialState);
+  const [remember, setRemember] = useState(false)
   const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -75,22 +76,22 @@ function LogIn({ prev }) {
     e.preventDefault();
     const values = { username: emailOrUsername, password };
     setIsPending(true)
-    dispatch(asyncLogin(values)).then(() => {
+    dispatch(asyncLogin(values, remember)).then(() => {
       setIsPending(false)
     });
   };
   const handleButton = () => {
     if (!isPending && isAllowed && refresh !== 1)
-      return <button className="buttons">Log In</button>;
+      return <button className={`buttons ${s.login}`} id={s.active}>Log In</button>;
     else if (isPending)
       return (
-        <p className="buttons" id={s.waiting}>
+        <p className='buttons' id={s.waiting}>
           Logging In...
         </p>
       );
     else
       return (
-        <p className="buttons" id={s.waiting}>
+        <p className='buttons' id={s.waiting}>
           Log In
         </p>
       );
@@ -161,8 +162,14 @@ function LogIn({ prev }) {
             </div>
           </div>
           <div id={s.bottomButton}>
+            <div id={s.forgotPassword}>
+              {/* <a href='/' className={s.caca}>Forgot password?</a> */}
+              <div onClick={() => setRemember(caca => !caca)}>
+                <input type='checkbox' checked={remember} readOnly={true} className={s.checkbox}/><label>Remember me?</label>
+              </div>
+              <NavLink to='/register' className={s.caca}>Not registered yet?</NavLink>
+            </div>
             <div id="button-handler">{handleButton()}</div>
-            <NavLink to='/register' id={s.registerNow}>Not registered yet?</NavLink>
           </div>
         </form>
       </div>

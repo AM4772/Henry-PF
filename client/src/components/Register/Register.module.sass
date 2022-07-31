@@ -27,6 +27,8 @@
   height: 20px
   transition: all ease 0.3s
   user-select: none
+  overflow: hidden
+  margin: 0px 6px
 
 .noErrorMessage
   user-select: none
@@ -34,6 +36,8 @@
   display: hidden
   color: #22222200
   transition: all ease 0.3s
+  overflow: hidden
+  margin: 0px 6px
 
 #creationCardDisplay
   display: flex
@@ -44,8 +48,15 @@
   display: flex
   align-items: center
   height: 43.8px
+  width: 370px
+  justify-content: center
   background: gray
   color: var(--color-brownish-dd)
+  margin-top: 25px
+
+#active
+  margin-top: 25px
+  width: 370px
 
 #waiting:hover
   background: gray
@@ -106,6 +117,27 @@
   position: absolute
   color: blue
   font-size: 14px
-  margin: 50px 0px 0px 250px
+  margin: 55px 0px 0px 255px
+  &:visited
+    color: blue
+
+#forgotPassword
+  position: absolute
+  display: flex
+  width: 370px
+  justify-content: space-between
+  color: blue
+  font-size: 13.7px
+  margin: -7px 0px 0px 0px
+  div
+    display: flex
+    align-items: center
+    user-select: none
+  label
+    margin-left: 2px
+    color: black
+
+.caca
+  margin: 0px 6px
   &:visited
     color: blue

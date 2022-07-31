@@ -95,10 +95,18 @@ function Profile(props) {
                 <hr className={s.divisors} />
                 <span>{userProfile.email}</span>
               </div>
-              <div className={s.section}>
-                <span>password</span>
-                <hr className={s.divisors} />
-                <span>**************</span>
+              <div className={userProfile.admin ? s.sectionAdmin : s.section}>
+                {userProfile.admin ? (
+                  <>
+                    <span className={s.adminTrue}>ADMIN</span>
+                  </>
+                ) : (
+                  <>
+                    <span>user state</span>
+                    <hr className={s.divisors} />
+                    <span>active</span>
+                  </>
+                )}
               </div>
             </div>
           ) : (

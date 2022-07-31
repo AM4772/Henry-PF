@@ -1,5 +1,5 @@
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import Swal from "sweetalert2";
 import {
   getBooks,
   getBookDetail,
@@ -7,7 +7,7 @@ import {
   getCategories,
   getSearch,
   getHomeBooks,
-} from '../reducers/booksSlice';
+} from "../reducers/booksSlice";
 
 axios.defaults.baseURL = `https://db-proyecto-final.herokuapp.com`;
 
@@ -15,7 +15,7 @@ export function asyncGetBooks(query) {
   return async function (dispatch) {
     try {
       if (!query) {
-        const response = (await axios('/books')).data;
+        const response = (await axios("/books")).data;
         dispatch(getBooks(response));
       } else {
         const response = (await axios(`/books?title=${query}`)).data;
@@ -30,7 +30,7 @@ export function asyncGetBooks(query) {
 export function asyncGetSearch() {
   return async function (dispatch) {
     try {
-      const response = (await axios('/books')).data;
+      const response = (await axios("/books")).data;
       dispatch(getSearch(response));
     } catch (error) {
       console.error(error);
@@ -41,11 +41,11 @@ export function asyncGetSearch() {
 export function asyncGetBookDetail(ID) {
   return async function (dispatch) {
     try {
-      const response = (await axios('/books/' + ID)).data;
+      const response = (await axios("/books/" + ID)).data;
       dispatch(getBookDetail(response));
-      return true
+      return true;
     } catch (error) {
-      return false
+      return false;
     }
   };
 }
@@ -53,7 +53,7 @@ export function asyncGetBookDetail(ID) {
 export function asyncGetAuthors() {
   return async function (dispatch) {
     try {
-      const response = (await axios.get('/authors')).data;
+      const response = (await axios.get("/authors")).data;
       dispatch(getAuthors(response));
     } catch (error) {
       console.error(error);
@@ -64,7 +64,7 @@ export function asyncGetAuthors() {
 export function asyncGetCategories() {
   return async function (dispatch) {
     try {
-      const response = (await axios.get('/categories')).data;
+      const response = (await axios.get("/categories")).data;
       dispatch(getCategories(response));
     } catch (error) {
       console.error(error);
@@ -75,7 +75,7 @@ export function asyncGetCategories() {
 export function asyncGetHomeBooks() {
   return async function (dispatch) {
     try {
-      const response = (await axios.get('/books/homeBooks')).data;
+      const response = (await axios.get("/books/homeBooks")).data;
       dispatch(getHomeBooks(response));
     } catch (error) {
       console.error(error);
@@ -88,18 +88,18 @@ export function asyncCreateBook(book) {
     try {
       const response = (await axios.post('/books', book)).data;
       Swal.fire({
-        icon: 'success',
+        icon: "success",
         text: response.data,
         title: response.message,
         showConfirmButton: false,
         timer: 2000,
       }).then(() => {
-        dispatch(asyncGetSearch())
-      })
+        dispatch(asyncGetSearch());
+      });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data}`,
       });
     }
@@ -111,7 +111,7 @@ export function asyncEditBook(ID, book) {
     try {
       const response = (await axios.put(`/books/${ID}`, book)).data;
       Swal.fire({
-        icon: 'success',
+        icon: "success",
         text: response.data,
         title: response.message,
         showConfirmButton: false,
@@ -121,8 +121,8 @@ export function asyncEditBook(ID, book) {
       })
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data}`,
       });
     }
@@ -132,33 +132,33 @@ export function asyncEditBook(ID, book) {
 export function asyncDeleteBook(book, title) {
   return async function (dispatch) {
     return await Swal.fire({
-      title: 'Are you sure you want to delet this book?',
+      title: "Are you sure you want to delet this book?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete book!',
-    }).then(async result => {
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete book!",
+    }).then(async (result) => {
       try {
         if (result.isConfirmed) {
           await axios.delete(`/books/${book}`);
           return await Swal.fire(
-            'Deleted!',
-            `${title} has been deleted.`,
-            'success'
+            "Deleted!",
+            `<b>${title.toUpperCase()}</b> has been deleted.`,
+            "success"
           ).then(() => {
-            return true
-          })
+            return true;
+          });
         }
       } catch (error) {
         return await Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
+          icon: "error",
+          title: "Oops...",
           text: `${error.response.data}`,
         }).then(() => {
-          return false
-        })
+          return false;
+        });
       }
     });
   };

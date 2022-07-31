@@ -15,6 +15,27 @@
   overflow: hidden
   background: linear-gradient(135deg, rgb(234, 221, 204, 0.9) 30%, rgba(223, 201, 154, 0.6) 60%, rgb(221, 181, 119, 0.75) 100%)
 
+  .cont
+    display: flex
+    align-items: center
+    overflow-x: hidden
+    overflow-x: auto
+    min-height: 80vh
+    padding: 20px
+    justify-content: center
+    &::-webkit-scrollbar
+      z-index: 1
+      background: #dfdeded3
+    &::-webkit-scrollbar-thumb
+      background: #7a6c6c38
+      border-radius: 4px
+    &::-webkit-scrollbar-thumb:hover
+      background: rgba(117, 91, 72, 0.298)
+      border-radius: 4px
+      box-shadow: 0 0 2px 1px rgba(144, 36, 36, 0.2)
+    &::-webkit-scrollbar-thumb:active
+      background-color: #DDB577
+
 .mainContainer
   height: 100%
   width: 100%
@@ -34,3 +55,6 @@
   display: flex
   justify-content: center
   align-items: center
+.td
+  text-align: center
+    

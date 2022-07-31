@@ -41,10 +41,10 @@ function PaymentDetail() {
               <div className={s.line}></div>
             </div>
             <div className={s.purchase}>
-              {test.purchasedBooks.map((book) => {
+              {test.purchasedBooks.map((book, i) => {
                 tot += book.price;
                 return (
-                  <div className={s.info}>
+                  <div key={i} className={s.info}>
                     <div className={s.contain}>
                       <div>
                         <img src={book.image} alt="" className={s.image} />
@@ -54,14 +54,22 @@ function PaymentDetail() {
                         <p>ID: {book.ID}</p>
                         <div className={s.list}>
                           <p>Authors:</p>
-                          {book.authors.map((au) => {
-                            return <div className={s.item}>{au}</div>;
+                          {book.authors.map((au, i) => {
+                            return (
+                              <div key={i} className={s.item}>
+                                {au}
+                              </div>
+                            );
                           })}
                         </div>
                         <div className={s.list}>
                           <p>Categories:</p>
-                          {book.categories.map((cat) => {
-                            return <div className={s.item}>{cat}</div>;
+                          {book.categories.map((cat, i) => {
+                            return (
+                              <div key={i} className={s.item}>
+                                {cat}
+                              </div>
+                            );
                           })}
                         </div>
                         <p className={s.price}>${book.price}</p>

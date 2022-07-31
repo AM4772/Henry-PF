@@ -6,13 +6,21 @@ import UsersBoard from "../DashboardUsers/DashboardUsers";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
 import Payments from "../Payments/Payments";
 import CreateBook from "../CreateBook/CreateBook";
+import { useHistory } from "react-router-dom";
 
 function Dashboard() {
   const { users } = useSelector((state) => state.users);
+  const { userProfile } = useSelector((state) => state.profile);
   const usersMini = users.slice(0, 4);
+  const history = useHistory();
   const dispatch = useDispatch();
   const { currentSection } = useSelector((state) => state.dashboard);
-
+  useEffect(() => {
+    if (!userProfile.admin) {
+      history.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     dispatch(asyncGetUsers());
   }, [dispatch]);
@@ -22,7 +30,7 @@ function Dashboard() {
       <>
         <div className={s.dashboard}>
           <Sidebar className={s.Sidebar} />
-          <div>
+          <div className={s.cont}>
             {currentSection === 1 ? (
               <UsersBoard />
             ) : currentSection === 2 ? (

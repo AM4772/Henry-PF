@@ -334,3 +334,25 @@ export function asyncLoginAuth0(body) {
     }
   };
 }
+
+export function asyncDisableUser(ID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
+      dispatch(getUserDetail(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function asyncEnableUser(ID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.put(`/users/${ID}?enabled=true`)).data;
+      dispatch(getUserDetail(response));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}

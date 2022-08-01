@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./DashboardUsers.module.sass";
+import { Link } from "react-router-dom";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
 import SearchBarUser from "./SearchBarUser";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
@@ -175,8 +176,12 @@ function DashboardUsers() {
             {filterUser?.map((u) => {
               return (
                 <tr key={u.ID}>
-                  <td className={s.td}>{u.ID}</td>
-                  <td className={s.td}>{u.username}</td>
+                  <td className={s.td}>
+                    <Link to={`/user/${u.ID}`}>{u.ID}</Link>
+                  </td>
+                  <td className={s.td}>
+                    <Link to={`/user/${u.ID}`}>{u.username}</Link>
+                  </td>
                   <td className={s.td}>{u.name}</td>
                   <td className={s.td}>{u.surname}</td>
                   <td className={s.td}>{u.email}</td>

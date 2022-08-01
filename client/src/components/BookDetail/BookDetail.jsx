@@ -188,7 +188,10 @@ function BookDetail(props) {
               {userProfile.ID && userProfile.admin ? (
                 <div className={s.hiddenButtons}>
                   <div className={s.hiddenButton}>
-                    <button className={s.buttonEdit} onClick={() => setEditEnabled(true)}>
+                    <button
+                      className={s.buttonEdit}
+                      onClick={() => setEditEnabled(true)}
+                    >
                       EDIT Book
                     </button>
                   </div>
@@ -332,16 +335,15 @@ function BookDetail(props) {
             </div>
           </div>
           {editEnabled ? (
-            <div>
-              <div id={s.displayMePlease}></div>
-              <div id={s.editor} ref={openEdit}>
-                <EditBook book={book}/>
+              <div id={s.displayMePlease}>
+                <div id={s.editor} ref={openEdit}>
+                  <EditBook book={book} />
+                </div>
               </div>
-            </div>
           ) : undefined}
         </div>
       ) : (
-        <Loading/>
+        <Loading />
       )}
     </div>
   );

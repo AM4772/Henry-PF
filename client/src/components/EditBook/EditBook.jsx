@@ -15,13 +15,22 @@ import {
 
 export default function CreateBook({ book }) {
   const dispatch = useDispatch();
-  const isValidInitialState = {
-  };
-  const publishedDateCopy = book.publishedDate.split('-')
-  let publishedDateCaca = ''
-  if (publishedDateCopy.length === 3) publishedDateCaca = new Date(publishedDateCopy[0], publishedDateCopy[1], publishedDateCopy[2])
-  else if (publishedDateCopy.length === 2) publishedDateCaca = new Date(parseInt(publishedDateCopy[0]), parseInt(publishedDateCopy[1]))
-  else if (publishedDateCopy.length === 1) publishedDateCaca = new Date(parseInt(publishedDateCopy[0]))
+  const isValidInitialState = {};
+  const publishedDateCopy = book.publishedDate.split('-');
+  let publishedDateCaca = '';
+  if (publishedDateCopy.length === 3)
+    publishedDateCaca = new Date(
+      publishedDateCopy[0],
+      publishedDateCopy[1],
+      publishedDateCopy[2]
+    );
+  else if (publishedDateCopy.length === 2)
+    publishedDateCaca = new Date(
+      parseInt(publishedDateCopy[0]),
+      parseInt(publishedDateCopy[1])
+    );
+  else if (publishedDateCopy.length === 1)
+    publishedDateCaca = new Date(parseInt(publishedDateCopy[0]));
   const infoInitialState = {
     title: book.title,
     description: book.description,
@@ -36,11 +45,15 @@ export default function CreateBook({ book }) {
   };
   const booksInitialState = book.authors.map(author => {
     return { label: author, value: author };
-  })
+  });
   const categoriesInitialState = book.categories.map(category => {
     return { label: category, value: category };
-  })
-  const languageInitialState = {label: book.language, value: book.language, color: '#65ff6f'}
+  });
+  const languageInitialState = {
+    label: book.language,
+    value: book.language,
+    color: '#65ff6f',
+  };
   const countInitialState = {
     title: 0,
     description: 0,
@@ -116,6 +129,17 @@ export default function CreateBook({ book }) {
         border: 'none',
       },
     }),
+    menu: (provided, state) => ({
+      ...provided,
+      height: '100px',
+      borderBottom: '1px dotted pink',
+      color: state.selectProps.menuColor,
+      overflow: 'hidden'
+    }),
+    menuList: (provided, state) => ({
+      ...provided,
+      height: '100px',
+    }),
     placeholder: styles => ({ ...styles, ...dot('#ccc') }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
   };
@@ -133,6 +157,17 @@ export default function CreateBook({ book }) {
           : '#ffffff98 solid 2px',
       transition: '0.3s',
     }),
+    menu: (provided, state) => ({
+      ...provided,
+      height: '200px',
+      borderBottom: '1px dotted pink',
+      color: state.selectProps.menuColor,
+      overflow: 'hidden'
+    }),
+    menuList: (provided, state) => ({
+      ...provided,
+      height: '200px',
+    })
   };
   const customStylesCategories = {
     control: () => ({
@@ -148,6 +183,17 @@ export default function CreateBook({ book }) {
           : '#ffffff98 solid 2px',
       transition: '0.3s',
     }),
+    menu: (provided, state) => ({
+      ...provided,
+      height: '200px',
+      borderBottom: '1px dotted pink',
+      color: state.selectProps.menuColor,
+      overflow: 'hidden'
+    }),
+    menuList: (provided, state) => ({
+      ...provided,
+      height: '200px',
+    })
   };
   const defaultOptions = [{ value: '', label: 'Loading...', isDisabled: true }];
   const [count, setCount] = useState(countInitialState);
@@ -184,8 +230,8 @@ export default function CreateBook({ book }) {
     const isValidCopy = { ...isValid };
     // Title
     if (!info.title.length) isValidCopy.title = ' ';
-    else if (info.title.length < 3 || info.title.length > 50)
-      isValidCopy.title = 'Title must contain 3-50 characters';
+    else if (info.title.length < 3 || info.title.length > 200)
+      isValidCopy.title = 'Title must contain 3-200 characters';
     else delete isValidCopy.title;
     // Description
     if (!info.description.length) isValidCopy.description = ' ';
@@ -224,7 +270,7 @@ export default function CreateBook({ book }) {
       isValidCopy.pageCount = 'Page count must be between 10 - 5000';
     else delete isValidCopy.pageCount;
     // Language
-    if (info.language.value) delete isValidCopy.language
+    if (info.language.value) delete isValidCopy.language;
     else if (!info.language.length) isValidCopy.language = ' ';
     else delete isValidCopy.language;
     setIsValid(isValidCopy);
@@ -327,34 +373,6 @@ export default function CreateBook({ book }) {
                 }
               >
                 {isValid.title}
-              </p>
-            </div>
-            <div className={s.inline}>
-              <label className={s.fillTitle}>Description: </label>
-              <input
-                type="text"
-                placeholder="Description"
-                value={info.description}
-                className={`${s.input} ${
-                  isValid.description &&
-                  isValid.description.length &&
-                  count.description
-                    ? s.danger
-                    : s.nejDanger
-                }`}
-                onChange={e =>
-                  setInfo({ ...info, description: e.target.value }) ||
-                  setCount({ ...count, description: 1 })
-                }
-              ></input>
-              <p
-                className={
-                  isValid.description && isValid.description !== ' '
-                    ? s.errorMessage
-                    : s.noErrorMessage
-                }
-              >
-                {isValid.description}
               </p>
             </div>
             <div className={s.inline}>
@@ -472,6 +490,34 @@ export default function CreateBook({ book }) {
       <div id={s.card2}>
         <h1 className={s.register}>Aditional info</h1>
         <div className={s.creationCardDisplay}>
+          <div className={s.inline}>
+            <label className={s.fillTitle}>Description: </label>
+            <textarea
+              type="text"
+              placeholder="Description"
+              value={info.description}
+              className={`${s.textarea} ${
+                isValid.description &&
+                isValid.description.length &&
+                count.description
+                  ? s.danger
+                  : s.nejDanger
+              }`}
+              onChange={e =>
+                setInfo({ ...info, description: e.target.value }) ||
+                setCount({ ...count, description: 1 })
+              }
+            ></textarea>
+            <p
+              className={
+                isValid.description && isValid.description !== ' '
+                  ? s.errorMessage
+                  : s.noErrorMessage
+              }
+            >
+              {isValid.description}
+            </p>
+          </div>
           <div className={s.inline}>
             <label className={s.fillTitle}>Authors: </label>
             <CreatableSelect

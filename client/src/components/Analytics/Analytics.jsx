@@ -26,6 +26,15 @@ const Line = () => {
     stroke: {
       curve: 'smooth',
     },
+    plotOptions: {
+      pie: {
+        customScale: 0.8,
+        offsetY: 20,
+      },
+      stroke: {
+        colors: undefined
+      }
+    },
     colors: ['#F10000', '#00E396'],
     yaxis: [
       {
@@ -63,44 +72,31 @@ const Line = () => {
       },
     },
   };
-  return (
-    <div className={s.box2}>
-      <ApexChartsReact options={options} series={series} width="500" />
-    </div>
-  );
+  return <ApexChartsReact options={options} series={series} width='170%' height='90%' />;
 };
 
 const Donut = () => {
   var options = {
     chart: {
-      type: 'donut',
+      width: '100%',
+      height: 400
     },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: 'bottom',
-          },
+    plotOptions: {
+      pie: {
+        customScale: 0.8,
+        donut: {
+          size: '75%',
         },
+        offsetY: 20,
       },
-    ],
+      stroke: {
+        colors: undefined
+      }
+    },
     labels: ['Fiction', 'Drama', 'Romance', 'Donut', 'Something'],
   };
   const series = [44, 55, 41, 17, 15];
-  return (
-    <div className={s.box2}>
-      <ApexChartsReact
-        options={options}
-        series={series}
-        width="500"
-        type="donut"
-      />
-    </div>
-  );
+  return <ApexChartsReact options={options} series={series} type="donut" width='170%' height='100%' />
 };
 
 const Graph = () => {

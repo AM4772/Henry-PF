@@ -318,7 +318,11 @@ const Payments = () => {
                   </Link>
                 </td>
                 <td className={s.td}>{b.userInfo.userID}</td>
-                <td className={s.td}>{b.userInfo.username}</td>
+                <td className={s.td}>
+                  <Link to={`/user/${b.userInfo.userID}`}>
+                    {b.userInfo.username}
+                  </Link>
+                </td>
                 <td className={s.td}>
                   {new Date(b.purchaseDate).toLocaleDateString("es-ES")}
                 </td>

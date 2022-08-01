@@ -46,6 +46,7 @@ function SearchBar({ input, setInput }) {
     setSearchButton(false);
     if (title !== "") {
       if (filterCard === "books") {
+        window.scrollTo(0, 0);
         dispatch(asyncGetBooks(title));
         setInput(title);
         history.push("/search");

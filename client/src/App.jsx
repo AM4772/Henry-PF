@@ -38,7 +38,6 @@ function App() {
     var token = localStorage.getItem("ALTKN");
     var index = document.cookie.lastIndexOf("ALTKNcookie");
     var cookie = document.cookie.slice(index).split("=");
-    console.log(cookie[1]);
     if (token || cookie[1]) {
       if (firstAuto) {
         dispatch(asyncAutoLogin(token ? token : cookie[1]));

@@ -59,7 +59,7 @@ const booksSlice = createSlice({
     },
     applyBookFilters: (state) => {
       state.books = [...state.allBooks];
-
+      state.booksNoSorted = [...state.allBooks];
       if (state.books[0] !== null && state.books.length > 0) {
         if (state.filterBooksByAuthor.length > 0) {
           var filterAuthorArray = [];

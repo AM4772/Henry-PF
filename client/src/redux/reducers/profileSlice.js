@@ -65,6 +65,9 @@ const profileSlice = createSlice({
     logOut: (state) => {
       state.userProfile = {};
       state.favourites = [];
+      var index = document.cookie.lastIndexOf("ALTKNcookie");
+      var cookie = document.cookie.slice(index).split("=");
+      document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
       localStorage.removeItem("ALTKN");
       satisfaction.fire({
         icon: "info",

@@ -36,9 +36,12 @@ function App() {
       dispatch(addStack(location.pathname));
     }
     var token = localStorage.getItem("ALTKN");
-    if (token) {
+    var index = document.cookie.lastIndexOf("ALTKNcookie");
+    var cookie = document.cookie.slice(index).split("=");
+    console.log(cookie[1]);
+    if (token || cookie[1]) {
       if (firstAuto) {
-        dispatch(asyncAutoLogin(token));
+        dispatch(asyncAutoLogin(token ? token : cookie[1]));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

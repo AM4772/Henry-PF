@@ -313,9 +313,9 @@ const Payments = () => {
                   <Link to={`/dashboard/payment/${b.ID}`}>{b.ID}</Link>
                 </td>
                 <td className={s.td}>
-                  <a href={`/dashboard/payment/${b.ID}`}>
+                  <Link to={`/dashboard/payment/${b.ID}`}>
                     {b.purchasedBooks.length}
-                  </a>
+                  </Link>
                 </td>
                 <td className={s.td}>{b.userInfo.userID}</td>
                 <td className={s.td}>{b.userInfo.username}</td>
@@ -323,7 +323,7 @@ const Payments = () => {
                   {new Date(b.purchaseDate).toLocaleDateString("es-ES")}
                 </td>
                 <td className={s.td}>
-                  <a href={`/dashboard/payment/${b.ID}`}>
+                  <Link to={`/dashboard/payment/${b.ID}`}>
                     $
                     {new Intl.NumberFormat("es-ES", {
                       maximumFractionDigits: 2,
@@ -333,7 +333,7 @@ const Payments = () => {
                         price: ac.price + el.price,
                       })).price
                     )}
-                  </a>
+                  </Link>
                 </td>
               </tr>
             ))}

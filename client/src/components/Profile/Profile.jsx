@@ -45,20 +45,20 @@ function Profile(props) {
       <div className={s.body}>
         <div className={s.container}>
           <div className={s.sections}>
-            <span>
+            <span onClick={() => setEdit(true)}>
               {" "}
-              <FaUserCircle /> Usuario
+              <FaUserCircle /> User
             </span>
             <span>
               {" "}
-              <FaWallet /> Compras
+              <FaWallet /> Orders
             </span>
             <span>
-              {" "}
-              <MdOutlinePrivacyTip /> Privacidad
+              <MdOutlinePrivacyTip />
+              Privacy
             </span>
-            <span>
-              <FaUserEdit onClick={() => setEdit(!edit)} />
+            <span onClick={() => setEdit(!edit)}>
+              <FaUserEdit /> Edit
             </span>
           </div>
           {edit ? (

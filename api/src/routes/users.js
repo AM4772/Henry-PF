@@ -22,6 +22,7 @@ const {
   addCartItem,
   deleteCartItem,
 } = require('../controllers/CartControllers');
+const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
 
 const router = Router();
 
@@ -129,7 +130,31 @@ router.delete('/:ID/cart', async (req, res) => {
 }),
   //----------------------------Auth0-----------------------------------
   //----------------------------------------------------------------------
-  router.get('/auth0', async (req, res) => {});
+  router.post('/auth0', async (req, res) => {
+    try {
+      const newUser = await createUser(req.body);
+      newUser
+        ? res
+            .status(201)
+            .json({ data: newUser, message: 'Successfully registered' })
+        : res.status(400).json({ message: `Error creating user` });
+    } catch (err) {
+      res.status(400).json('DATABASE ERROR');
+    }
+  });
+
+router.post('/auth0/login', async (req, res) => {
+  try {
+    const newUser = await verifyLogin(req.body);
+    newUser
+      ? res
+          .status(201)
+          .json({ data: newUser, message: 'Successfully registered' })
+      : res.status(400).json({ message: `Error creating user` });
+  } catch (err) {
+    res.status(400).json('DATABASE ERROR');
+  }
+});
 
 //----------------------------USERS-----------------------------------
 //----------------------------------------------------------------------

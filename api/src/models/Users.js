@@ -31,13 +31,13 @@ module.exports = (sequelize) => {
       },
       password: {
         type: DataTypes.STRING,
-        validate:{
-          isAuth0(value){
-            if(!this.authzero){
-              if(!value)throw new Error("Password cannot be null")
-            }
-          }
-        }
+        // validate:{
+        //   isAuth0(value){
+        //     if(!this.authzero){
+        //       if(!value)throw new Error("Password cannot be null")
+        //     }
+        //   }
+        // }
       },
       enabled: {
         type: DataTypes.BOOLEAN,

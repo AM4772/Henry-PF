@@ -6,7 +6,7 @@ const {
   getHomeBooks,
   createBook,
   modifyBooks,
-  deleteBook
+  deleteBook,
 } = require('../controllers/BooksControllers');
 
 const router = Router();

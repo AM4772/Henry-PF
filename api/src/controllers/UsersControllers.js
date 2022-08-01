@@ -72,20 +72,42 @@ let UsersModel = {
         username: user.username.toLowerCase(),
       },
     });
-
     if (verifyUser.length > 0) return undefined;
+
     try {
-      const createdUser = await Users.create({
-        name: user.name.toLowerCase(),
-        surname: user.surname.toLowerCase(),
-        username: user.username.toLowerCase(),
-        email: user.email.toLowerCase(),
-        password: await hashPassword(user.password),
-        enabled: user.enabled,
-        suspendedTimes: user.suspendedTimes,
-      });
-      return createdUser;
+      if (user.auth_zero) {
+        const tokenPass = jwt.sign(
+          {
+            name: user.name,
+            surname: user.surname,
+            username: user.username,
+            email: user.email,
+          },
+          process.env.PASS_TOKEN
+        );
+
+        const authzeroUser = (
+          await Users.create({
+            name: user.name.toLowerCase(),
+            surname: user.surname.toLowerCase(),
+            username: user.username.toLowerCase(),
+            email: user.email.toLowerCase(),
+            authzero: true,
+          })
+        ).toJSON();
+        return { ...authzeroUser, token: tokenPass };
+      } else {
+        const createdUser = await Users.create({
+          name: user.name.toLowerCase(),
+          surname: user.surname.toLowerCase(),
+          username: user.username.toLowerCase(),
+          email: user.email.toLowerCase(),
+          password: await hashPassword(user.password),
+        });
+        return createdUser;
+      }
     } catch (error) {
+      console.log(error);
       throw new Error(error.message);
     }
   },
@@ -133,7 +155,7 @@ let UsersModel = {
       let suspendedDate = user.dateSuspended;
       let today = Date.now();
 
-      if (!(parseInt(today) + 86400000 < parseInt(suspendedDate) + 86400000)) {
+      if (!(parseInt(today) < parseInt(suspendedDate) + 86400000)) {
         await Users.update(
           {
             enabled: true,

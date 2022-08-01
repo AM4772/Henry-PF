@@ -208,19 +208,56 @@ let BooksModel = {
       });
       return createdBook;
     } catch (error) {
-      throw new Error(error.message);
+      return error;
     }
   },
   modifyBooks: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;
     }
+
+    const authorValue = changes.authors.map((a) => a.value);
+    const authorCreated = changes.authors.map((a) => a.created);
+    const categoryValue = changes.categories.map((c) => c.value);
+    const categoryCreated = changes.categories.map((c) => c.created);
+
+    for (let i = 0; i < changes.authors.length; i++) {
+      if (authorCreated[i]) {
+        Authors.findOrCreate({
+          where: { name: authorValue[i] },
+        });
+      }
+    }
+
+    for (let i = 0; i < changes.categories.length; i++) {
+      if (categoryCreated[i]) {
+        Categories.findOrCreate({
+          where: { category: categoryValue[i] },
+        });
+      }
+    }
+
+    if (!imageRegex.test(changes.image)) {
+      changes.image =
+        'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
+    }
     try {
       const book = await Books.findByPk(ID);
       if (book === null) {
         return null;
       }
-      await book.update(changes);
+      await book.update({
+        title: changes.title.toLowerCase(),
+        description: changes.description.toLowerCase(),
+        price: changes.price,
+        authors: authorValue,
+        categories: categoryValue,
+        image: changes.image,
+        publishedDate: changes.publishedDate,
+        publisher: changes.publisher,
+        pageCount: changes.pageCount,
+        language: changes.language,
+      });
       return book;
     } catch (error) {
       return null;

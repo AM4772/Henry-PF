@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { asyncGetUserDetail } from "../../redux/actions/usersActions";
+import {
+  asyncDisableUser,
+  asyncEnableUser,
+  asyncGetUserDetail,
+} from "../../redux/actions/usersActions";
 import { clearUserDetail } from "../../redux/reducers/usersSlice";
 import Loading from "../Loading/Loading";
 import s from "./UserDetail.module.sass";
@@ -12,8 +16,7 @@ function UserDetail(props) {
   const history = useHistory();
   const { ID } = useParams();
   const user = useSelector((state) => state.users.userDetail);
-
-  const [enable, setEnable] = useState(false);
+  const { userProfile } = useSelector((state) => state.profile);
 
   useEffect(() => {
     dispatch(asyncGetUserDetail(ID));
@@ -21,27 +24,65 @@ function UserDetail(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
   function goBack() {
     history.goBack();
   }
 
   function handleClick() {
-    if (enable) {
-      Swal.fire({
-        title: "Are you sure?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, disable it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire("Deleted!", "The user has been disabled.", "success");
-          setEnable(false);
+    if (userProfile.admin) {
+      if (user.enabled) {
+        if (user.suspendedTimes < 3) {
+          Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, disable it!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire("Disabled!", "The user has been disabled.", "success");
+              dispatch(asyncDisableUser(user.ID));
+            }
+          });
+        } else {
+          Swal.fire({
+            title: "Are you sure? This action is irreversible.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, ban this user permanently.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire(
+                "Banned permanently",
+                "The user has been banned.",
+                "success"
+              );
+              dispatch(asyncDisableUser(user.ID));
+              history.goBack();
+            }
+          });
         }
-      });
-    } else {
-      setEnable(true);
+      } else {
+        Swal.fire({
+          title: "Are you sure?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, enable!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire("Enabled!", "The user has been enabled.", "success");
+            dispatch(asyncEnableUser(user.ID));
+          }
+        });
+      }
     }
   }
 
@@ -99,7 +140,7 @@ function UserDetail(props) {
                   <span
                     onClick={(e) => handleClick(e)}
                     className={
-                      enable === true
+                      user.enabled === true
                         ? `${s.sliderEnabled} ${s.slider}`
                         : `${s.sliderDisabled} ${s.slider}`
                     }

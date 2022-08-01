@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, Link } from "react-router-dom";
 
-import s from './Dashboard.module.sass';
-import Sidebar from '../Sidebar/Sidebar';
-import UsersBoard from '../DashboardUsers/DashboardUsers';
-import { asyncGetUsers } from '../../redux/actions/usersActions';
-import Payments from '../Payments/Payments';
-import CreateBook from '../CreateBook/CreateBook';
-import { Line, Donut, Graph } from '../Analytics/Analytics';
-import { TESTING_PAYMENTS } from '../../TESTING_PAYMENTS';
+import s from "./Dashboard.module.sass";
+import Sidebar from "../Sidebar/Sidebar";
+import UsersBoard from "../DashboardUsers/DashboardUsers";
+import { asyncGetUsers } from "../../redux/actions/usersActions";
+import Payments from "../Payments/Payments";
+import CreateBook from "../CreateBook/CreateBook";
+import { Line, Donut, Graph } from "../Analytics/Analytics";
+import { TESTING_PAYMENTS } from "../../TESTING_PAYMENTS";
 
 function Dashboard() {
-  const { users } = useSelector(state => state.users);
-  const { userProfile } = useSelector(state => state.profile);
+  const { users } = useSelector((state) => state.users);
+  const { userProfile } = useSelector((state) => state.profile);
   const usersMini = users.slice(users.length - 5, users.length).reverse();
   const payments = TESTING_PAYMENTS;
   const paymentsMini = payments
@@ -21,10 +21,10 @@ function Dashboard() {
     .reverse();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { currentSection } = useSelector(state => state.dashboard);
+  const { currentSection } = useSelector((state) => state.dashboard);
   useEffect(() => {
     if (!userProfile.admin) {
-      history.push('/');
+      history.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -47,14 +47,14 @@ function Dashboard() {
             ) : currentSection === 4 ? (
               <div id={s.fixMe}>
                 <Graph />
-								<div id={s.npm}>
-									<div className={s.box3}>
-										<Line />
-									</div>
-									<div className={s.box3}>
-										<Donut />
-									</div>
-								</div>
+                <div id={s.npm}>
+                  <div className={s.box3}>
+                    <Line />
+                  </div>
+                  <div className={s.box3}>
+                    <Donut />
+                  </div>
+                </div>
               </div>
             ) : (
               <div className={s.mainContainer}>
@@ -80,15 +80,15 @@ function Dashboard() {
                         </tr>
                       </thead>
                       <tbody>
-                        {usersMini.map(u => {
+                        {usersMini.map((u) => {
                           return (
                             <tr key={u.ID}>
-                              <td className={s.td}>{u.ID}</td>
-                              <td className={s.td}>{u.username}</td>
-                              <td className={s.td}>{u.name}</td>
-                              <td className={s.td}>{u.surname}</td>
+                              <td className={s.tdU}>{u.ID}</td>
+                              <td className={s.tdU}>{u.username}</td>
+                              <td className={s.tdU}>{u.name}</td>
+                              <td className={s.tdU}>{u.surname}</td>
                               {/* 															<td className={s.td}>{u.email}</td> */}
-                              <td className={s.td}></td>
+                              <td className={s.tdU}></td>
                             </tr>
                           );
                         })}
@@ -108,7 +108,7 @@ function Dashboard() {
                         </tr>
                       </thead>
                       <tbody>
-                        {paymentsMini.map(p => {
+                        {paymentsMini.map((p) => {
                           return (
                             <tr key={p.ID}>
                               <td className={s.td}>
@@ -123,12 +123,12 @@ function Dashboard() {
                               <td className={s.td}>{p.userInfo.username}</td>
                               <td className={s.td}>
                                 {new Date(p.purchaseDate).toLocaleDateString(
-                                  'es-ES'
+                                  "es-ES"
                                 )}
                               </td>
                               <td className={s.td}>
                                 $
-                                {new Intl.NumberFormat('es-ES', {
+                                {new Intl.NumberFormat("es-ES", {
                                   maximumFractionDigits: 2,
                                   minimumFractionDigits: 2,
                                 }).format(

@@ -61,8 +61,21 @@ th
 .td
   text-align: center
   padding: 0
+  font-weight: normal
+  &:first-child
+    font-weight: 700
+  &:nth-child(5)
+    font-weight: 700
   a
-    color: #000
+    color: var(--color-brownish-dd)
+.tdU
+  text-align: center
+  padding: 0
+  font-weight: normal
+  &:nth-child(2)
+    font-weight: 700
+  a
+    color: var(--color-brownish-dd)
 
 .tableContainer, .tableContainer2
   width: 50%

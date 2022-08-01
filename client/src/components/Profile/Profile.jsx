@@ -104,7 +104,11 @@ function Profile(props) {
                   <>
                     <span>user state</span>
                     <hr className={s.divisors} />
-                    <span>active</span>
+                    {userProfile.enabled ? (
+                      <span className={s.spanActive}>active</span>
+                    ) : (
+                      <span className={s.spanSuspended}>suspended</span>
+                    )}
                   </>
                 )}
               </div>

@@ -45,11 +45,17 @@ function Dashboard() {
             ) : currentSection === 3 ? (
               <Payments />
             ) : currentSection === 4 ? (
-              <>
+              <div id={s.fixMe}>
                 <Graph />
-                <Line />
-                <Donut />
-              </>
+                <div id={s.npm}>
+                  <div className={s.box3}>
+                    <Line />
+                  </div>
+                  <div className={s.box3}>
+                    <Donut />
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className={s.mainContainer}>
                 <div className={s.topSection}>

@@ -17,7 +17,9 @@ let UsersModel = {
           name: u.name,
           surname: u.surname,
           email: u.email,
-          enabled: u.enabled //
+          suspendedTimes: u.suspendedTimes,
+          enabled: u.enabled, //
+          admin: u.admin,
         };
       });
     } else {
@@ -64,7 +66,9 @@ let UsersModel = {
       name: foundUser.name,
       surname: foundUser.surname,
       email: foundUser.email,
-      enabled: foundUser.enabled //
+      suspendedTimes: foundUser.suspendedTimes,
+      enabled: foundUser.enabled, //
+      admin: foundUser.admin,
     };
   },
 
@@ -84,7 +88,8 @@ let UsersModel = {
             surname: user.surname,
             username: user.username,
             email: user.email,
-            enabled: user.enabled //
+            suspendedTimes: user.suspendedTimes,
+            enabled: user.enabled, //
           },
           process.env.PASS_TOKEN
         );
@@ -152,6 +157,31 @@ let UsersModel = {
     }
     return 2;
   },
+  manualEnabled: async function (ID) {
+    const user = await Users.findByPk(ID);
+    if (user) {
+      await Users.update(
+        {
+          enabled: true,
+        },
+        {
+          where: { ID },
+        }
+      );
+      const enabledUser = (await Users.findByPk(ID)).toJSON();
+      return {
+        ID: enabledUser.ID,
+        username: enabledUser.username,
+        name: enabledUser.name,
+        surname: enabledUser.surname,
+        email: enabledUser.email,
+        books: await user.getFavourite(),
+        admin: enabledUser.admin,
+        enabled: enabledUser.enabled,
+        suspendedTimes: enabledUser.suspendedTimes,
+      };
+    } else return undefined;
+  },
 
   enabledSuspendedUser: async function (ID) {
     const user = await Users.findByPk(ID);
@@ -168,7 +198,7 @@ let UsersModel = {
             where: { ID },
           }
         );
-        const enabledUser = await Users.findByPk(ID);
+        const enabledUser = (await Users.findByPk(ID)).toJSON();
         return {
           ID: enabledUser.ID,
           username: enabledUser.username,
@@ -231,6 +261,7 @@ let UsersModel = {
         surname: userUpdated.surname,
         email: userUpdated.email,
         token: tokenPass,
+        suspendedTimes: userUpdated.suspendedTimes,
         books: await user.getFavourite(),
         admin: userUpdated.admin,
       };

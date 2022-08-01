@@ -7,7 +7,7 @@ const {
   modifyUsers,
   deleteUser,
   suspendUser,
-  enabledSuspendedUser,
+  manualEnabled,
 } = require('../controllers/UsersControllers');
 
 const { validateUsersPost } = require('../utils/validations/userValidations');
@@ -214,7 +214,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
-  const { suspended } = req.query;
+  const { suspended, enabled } = req.query;
 
   try {
     if (ID) {
@@ -231,6 +231,13 @@ router.put('/:ID', async (req, res) => {
           });
         }
         return res.status(200).send(userSuspended);
+      } else if (enabled) {
+        const userEnabled = await manualEnabled(ID);
+        return userEnabled
+          ? res.status(200).send(userEnabled)
+          : res.status(404).send({
+              message: 'User not found',
+            });
       }
 
       const validate = await validateUsersPost(req.body);

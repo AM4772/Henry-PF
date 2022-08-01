@@ -20,6 +20,7 @@ function UserDetail(props) {
 
   useEffect(() => {
     dispatch(asyncGetUserDetail(ID));
+    if (!userProfile.admin) history.push("/");
     return () => dispatch(clearUserDetail());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -134,18 +135,20 @@ function UserDetail(props) {
                 <p>{user.suspendedTimes}</p>
               </div> */}
               <div className={s.item}>
-                <p>Enabled: </p>
+                {!user.admin ? <p>Enabled: </p> : null}
                 {/* <p>{user.enabled === "true" ? "true" : "false"}</p> */}
-                <div className={s.switch}>
-                  <span
-                    onClick={(e) => handleClick(e)}
-                    className={
-                      user.enabled === true
-                        ? `${s.sliderEnabled} ${s.slider}`
-                        : `${s.sliderDisabled} ${s.slider}`
-                    }
-                  ></span>
-                </div>
+                {!user.admin ? (
+                  <div className={s.switch}>
+                    <span
+                      onClick={(e) => handleClick(e)}
+                      className={
+                        user.enabled === true
+                          ? `${s.sliderEnabled} ${s.slider}`
+                          : `${s.sliderDisabled} ${s.slider}`
+                      }
+                    ></span>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>

@@ -58,8 +58,8 @@ function BookCard(props) {
     <div className={s.cards}>
       {book.title ? (
         <div className={s.container0}>
-          <NavLink className={s.navLink} to={`/book/${book.ID}`}>
-            <div className={s.container1}>
+          <div className={s.container1}>
+            <NavLink className={s.navLink} to={`/book/${book.ID}`}>
               <div className={s.containerImage}>
                 <img
                   className={s.image}
@@ -86,16 +86,18 @@ function BookCard(props) {
                 </p>
                 {/* <p id={s.author}>{book.authors}</p> */}
               </div>
-              <div className={s.containerheart}>
-                <div>
-                  <img
-                    className={s.imgHeart}
-                    alt="heart"
-                    title={!addedBook ? "Add Favourite" : "Delete Favourite"}
-                    src={!addedBook ? heartOff : heartOn}
-                    onClick={addingFav}
-                  />
-                </div>
+            </NavLink>
+            <div className={s.containerHeartPrice}>
+              <div className={s.containerHeart}>
+                <img
+                  className={s.imgHeart}
+                  alt="heart"
+                  title={!addedBook ? "Add Favourite" : "Delete Favourite"}
+                  src={!addedBook ? heartOff : heartOn}
+                  onClick={addingFav}
+                />
+              </div>
+              <NavLink className={s.navLink2} to={`/book/${book.ID}`}>
                 <div className={s.price}>
                   <p>
                     $
@@ -105,9 +107,9 @@ function BookCard(props) {
                     }).format(book.price)}
                   </p>
                 </div>
-              </div>
+              </NavLink>
             </div>
-          </NavLink>
+          </div>
         </div>
       ) : (
         <Loading />

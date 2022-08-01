@@ -29,6 +29,13 @@
   // width: 90px
   height: 90px
 
+.containerBookName
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  width: 100%
+
 .image
   object-fit: contain
   object-position: center center
@@ -42,6 +49,22 @@
   color: inherit
   outline: 0
   width: 100%
+  display: flex
+  align-items: center
+  flex-direction: row
+  align-content: center
+  justify-content: flex-start
+
+.navLink2, .navLink2:link, .navLink2:visited, .navLink2:focus, .navLink2:active
+  text-decoration: none
+  color: inherit
+  outline: 0
+  width: 100%
+  display: flex
+  align-items: center
+  flex-direction: row
+  align-content: center
+  justify-content: flex-end
 
 #bookTitle
   font-size: 14px
@@ -68,13 +91,13 @@
   color: var(--color-brownish-dd)
   margin-right: 10px
 
-.containerheart
+.containerHeartPrice
   display: flex
   flex-direction: column
   align-items: flex-end
   justify-content: space-between
   width: 100%
-  max-width: 100px
+  max-width: 80px
   height: 80px
   img
     height: 23px
@@ -86,3 +109,6 @@
   button
     background: none
     border: none
+
+// .containerHeart
+//   pointer-events: none

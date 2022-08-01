@@ -1,24 +1,24 @@
 .paymentDetail
-    margin-top: 65px
-    margin-bottom: 50px
-    height: auto
-    width: 100% 
-    display: flex
-    align-items: center
-    flex-direction: column
-    
+  margin-top: 65px
+  margin-bottom: 50px
+  min-height: calc( 100vh - 166px )
+  width: 100%
+  display: flex
+  align-items: center
+  flex-direction: column
+
 .container
-    display: flex
-    justify-content: center
-    flex-direction: column
-    background-color: var(--color-whiteish)
-    border-radius: 10px
-    padding: 10px
-    padding-bottom: 35px 
-    margin-top: 10px
-    margin-bottom: 0px
-    min-width: 50%
-    width: auto
+  display: flex
+  justify-content: center
+  flex-direction: column
+  background-color: var(--color-whiteish)
+  border-radius: 10px
+  padding: 10px
+  padding-bottom: 35px
+  margin-top: 10px
+  margin-bottom: 0px
+  min-width: 50%
+  width: auto
 
 .backButton
   display: flex
@@ -47,51 +47,82 @@
   transition: 0.7s
 
 .card
-    display: flex
-    flex-direction: column
-    margin: 10px 20px 0px 20px
+  display: flex
+  flex-direction: column
+  margin: 10px 20px 0px 20px
+  h4
+    font-size: 28px
+    font-weight: 400
 
 .userList
-    display: flex
-    flex-direction: row
-    text-align: left
-    font-size: 15px
-    color: var(--color-brownish-dd)
-    margin-top: 2px
-    width: 100%
+  display: flex
+  flex-direction: row
+  text-align: left
+  font-size: 15px
+  color: var(--color-brownish-dd)
+  margin-top: 2px
+  width: 100%
 
 .userList p:first-child
-    font-weight: bold
-    width: 180px
-    text-align: left
-    margin: 0px
+  width: 180px
+  text-align: left
+  margin: 0px
 
 .userList p
-    align-self: left
-    padding: 0px 5px 0px 5px
-    text-align: left
+  align-self: left
+  padding: 0px 5px 0px 5px
+  text-align: left
 
 .userList p:last-child
-    min-width: 35%
-    width: auto
+  font-weight: bold
+  min-width: 35%
+  width: auto
+  padding-left: 0px
 
+.price
+  // display: flex
+  // justify-content: flex-end
+  // margin-left: 385px
+  text-align: right
+  font-size: 25px
 
 .contain
-    display: flex
-    flex-direction: row
-    margin: 10px 20px 0px 20px
+  display: flex
+  flex-direction: row
+  margin: 10px 20px 0px 20px
 
 .bookInfo
-    margin-left:20px
+  margin-left: 20px
+  width: 100%
 
 .list
-    display: flex
+  display: flex
 
 .item
-    margin-left: 10px
-
+  margin-left: 10px
 
 .image
-    height: 150px
+  height: 150px
 
-    
+.line
+  border: 1px solid rgba(141, 141, 141, 0.66)
+  height: 1px
+  width: 100%
+  padding: 0
+  margin: 20px auto 20px auto
+
+.final
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+  p:first-child
+    font-weight: 500
+  p:last-child
+    font-weight: 600
+
+.titulo
+  font-size: 25px
+
+.total
+  font-size: 35px
+    // font-weight: bold

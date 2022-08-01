@@ -4,7 +4,7 @@
   align-items: center
   padding-top: 50px
   min-height: calc( 100vh - 50px )
-  
+
 .dashboard
   display: grid
   grid-template-columns: 11rem auto
@@ -15,22 +15,89 @@
   overflow: hidden
   background: linear-gradient(135deg, rgb(234, 221, 204, 0.9) 30%, rgba(223, 201, 154, 0.6) 60%, rgb(221, 181, 119, 0.75) 100%)
 
+  .cont
+    display: flex
+    align-items: center
+    overflow-x: hidden
+    overflow-x: auto
+    min-height: 80vh
+    padding: 20px
+    justify-content: center
+    &::-webkit-scrollbar
+      z-index: 1
+      background: #dfdeded3
+    &::-webkit-scrollbar-thumb
+      background: #7a6c6c38
+      border-radius: 4px
+    &::-webkit-scrollbar-thumb:hover
+      background: rgba(117, 91, 72, 0.298)
+      border-radius: 4px
+      box-shadow: 0 0 2px 1px rgba(144, 36, 36, 0.2)
+    &::-webkit-scrollbar-thumb:active
+      background-color: #DDB577
+
 .mainContainer
   height: 100%
   width: 100%
 
 .topSection
-  .botSection
-  height: 50%
+  height: 60%
   width: 100%
-  
+
   display: flex
   justify-content: center
   align-items: center
+
 .botSection
-  height: 50%
+  height: 40%
   width: 100%
-  
+
+  display: flex
+  justify-content: space-around
+  align-items: center
+
+th
+  padding: 0px 0.5rem
+.td
+  text-align: center
+  padding: 0
+  a
+    color: #000
+
+.tableContainer, .tableContainer2
+  width: 50%
+  padding: 0 1rem
+
+.box2
+  box-shadow: 0px 1px 22px -12px #607d8b
+  background-color: #8b8b8b70
+  margin: 10px 10px
+  border-radius: 15px
+  width: 90%
+  height: 90%
+
   display: flex
   justify-content: center
+  overflow: hidden
+  align-items: center
+
+#fixMe
+  display: flex
+  flex-direction: column
+  // align-items: center
+
+#npm
+  display: flex
+
+.box3
+  box-shadow: 0px 1px 22px -12px #607d8b
+  background-color: #8b8b8b70
+  margin: 10px 10px
+  border-radius: 15px
+  width: 500px
+  height: 320px
+
+  display: flex
+  justify-content: center
+  overflow: hidden
   align-items: center

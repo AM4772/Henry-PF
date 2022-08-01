@@ -5,8 +5,8 @@
 .container0
   display: flex
   justify-content: center
-  margin: 10px 0px
-  width: 100%
+  margin: 10px 5px
+  min-width: 400px
   height: 90%
 
 .container1
@@ -18,7 +18,9 @@
   background: var(--color-whiteish)
   // background: rgba(234, 221, 204, .6)
   padding: 10px
-  width: 90%
+  min-width: 100%
+  min-height: 100%
+  width: 100%
   border: none
   -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
@@ -39,6 +41,7 @@
   text-decoration: none
   color: inherit
   outline: 0
+  width: 100%
 
 #bookTitle
   font-size: 14px
@@ -64,3 +67,22 @@
   font-size: 16px
   color: var(--color-brownish-dd)
   margin-right: 10px
+
+.containerheart
+  display: flex
+  flex-direction: column
+  align-items: flex-end
+  justify-content: space-between
+  width: 100%
+  max-width: 100px
+  height: 80px
+  img
+    height: 23px
+    width: 23px
+    padding: 0px 0px
+    margin: 5px
+    cursor: pointer
+    z-index: 10
+  button
+    background: none
+    border: none

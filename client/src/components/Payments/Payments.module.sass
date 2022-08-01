@@ -1,9 +1,4 @@
 .containerPay0
-  margin-top: 68px
-  margin-bottom: 50px
-  min-height: calc( 100vh - 180px )
-  // margin-left: 10px
-  // margin-right: 10px
   height: 90%
   width: 100%
   box-sizing: border-box
@@ -11,7 +6,7 @@
 
 .tableContainer
 
-  max-height: 80%
+  max-height: 90%
   overflow-y: scroll
   .sticky
     position: sticky
@@ -46,6 +41,8 @@
   tr td:last-child
     font-weight: bold
     justify-content: center
+    a
+      color: inherit
   tr:last-child td
     border-bottom: 1px solid #ccc
     padding-left: 0.5em
@@ -55,8 +52,6 @@
     border-bottom-right-radius: 0.5rem
 
 .containerNotPaym
-  margin-top: 65px
-  margin-bottom: 50px
   height: calc( 100vh - 166px )
   width: 100%
   display: flex
@@ -90,6 +85,7 @@
     font-style: normal
   p:last-child
     font-weight: bold
+
   a
     animation: fadein .2s
     @keyframes fadein
@@ -122,3 +118,30 @@
   color: var(--color-yellowish-d)
   background-color: var(--color-brownish-d)
   transition: 0.7s
+.td
+  text-align: center
+  a
+    color: var(--color-brownish-dd)
+    font-weight: 600
+.sort
+  user-select: none
+  cursor: pointer
+.searchDiv
+  width: 100%
+  display: flex
+  justify-content: flex-end
+  margin: 10px 0
+.searchInput
+  font-family: var(--font-poppins)
+  border: none
+  height: 30px
+  border-radius: 10px
+  padding: 0px 10px
+  width: 100%
+  max-width: 200px
+  &:focus
+    outline: none
+.top
+  display: flex
+  justify-content: space-between
+  align-items: center

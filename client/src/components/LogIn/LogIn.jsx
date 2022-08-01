@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaEye } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { asyncLogin } from '../../redux/actions/usersActions';
-import s from '../Register/Register.module.sass';
+import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { FaEye } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { asyncLogin } from "../../redux/actions/usersActions";
+import s from "../Register/Register.module.sass";
 
 function LogIn({ prev }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { stack } = useSelector(state => state.history);
-  const { userProfile } = useSelector(state => state.profile);
+  const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
   const isValidInitialState = {
-    emailOrUsername: '',
-    password: '',
+    emailOrUsername: "",
+    password: "",
   };
   const countInitialState = {
     emailOrUsername: 0,
@@ -21,25 +21,26 @@ function LogIn({ prev }) {
   };
   const [count, setCount] = useState(countInitialState);
   const [isValid, setIsvalid] = useState(isValidInitialState);
+  const [remember, setRemember] = useState(false);
   const [refresh, setRefresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [password, setPassword] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
     if (userProfile.email) {
       var lastPath = [];
       for (let i = 0; i < stack.length; i++) {
-        if (stack[i] !== '/register' && stack[i] !== '/login') {
+        if (stack[i] !== "/register" && stack[i] !== "/login") {
           lastPath.push(stack[i]);
         }
       }
       if (lastPath.length > 0) {
         history.push(lastPath[0]);
       } else {
-        history.push('/');
+        history.push("/");
       }
     } else {
       setRefresh(refresh + 1);
@@ -49,15 +50,15 @@ function LogIn({ prev }) {
       if (refresh === 0) {
       } // Skip
       else {
-        if (!emailOrUsername.length) isValidCopy.emailOrUsername = ' ';
+        if (!emailOrUsername.length) isValidCopy.emailOrUsername = " ";
         else if (emailOrUsername.length < 3 || emailOrUsername.length > 50)
-          isValidCopy.emailOrUsername = 'Email or username is invalid';
+          isValidCopy.emailOrUsername = "Email or username is invalid";
         else delete isValidCopy.emailOrUsername;
         // Password validation
-        if (!password.length) isValidCopy.password = ' ';
+        if (!password.length) isValidCopy.password = " ";
         else if (password.length < 8 || password.length > 30)
           isValidCopy.password =
-            'Password must contain between 8-30 characters';
+            "Password must contain between 8-30 characters";
         else delete isValidCopy.password;
       }
       setIsvalid(isValidCopy);
@@ -71,17 +72,21 @@ function LogIn({ prev }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailOrUsername, password, userProfile]);
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const values = { username: emailOrUsername, password };
-    setIsPending(true)
-    dispatch(asyncLogin(values)).then(() => {
-      setIsPending(false)
+    setIsPending(true);
+    dispatch(asyncLogin(values, remember)).then(() => {
+      setIsPending(false);
     });
   };
   const handleButton = () => {
     if (!isPending && isAllowed && refresh !== 1)
-      return <button className="buttons">Log In</button>;
+      return (
+        <button className={`buttons ${s.login}`} id={s.active}>
+          Log In
+        </button>
+      );
     else if (isPending)
       return (
         <p className="buttons" id={s.waiting}>
@@ -113,15 +118,15 @@ function LogIn({ prev }) {
                     : s.nejDanger
                 }`}
                 value={emailOrUsername}
-                onChange={e =>
+                onChange={(e) =>
                   setCount({ ...count, emailOrUsername: 1 }) ||
                   setEmailOrUsername(e.target.value)
                 }
                 placeholder="Email/Username"
-              ></input>{' '}
+              ></input>{" "}
               <p
                 className={
-                  isValid.emailOrUsername && isValid.emailOrUsername !== ' '
+                  isValid.emailOrUsername && isValid.emailOrUsername !== " "
                     ? s.errorMessage
                     : s.noErrorMessage
                 }
@@ -132,7 +137,7 @@ function LogIn({ prev }) {
             <div className={s.inline}>
               <label className={s.fillTitle}>Password: </label>
               <input
-                type={passwordShown ? 'text' : 'password'}
+                type={passwordShown ? "text" : "password"}
                 className={`${s.input} ${
                   isValid.password && isValid.password.length && count.password
                     ? s.danger
@@ -140,18 +145,18 @@ function LogIn({ prev }) {
                 }`}
                 value={password}
                 placeholder="Password"
-                onChange={e =>
+                onChange={(e) =>
                   setCount({ ...count, password: 1 }) ||
                   setPassword(e.target.value)
                 }
-              ></input>{' '}
+              ></input>{" "}
               <FaEye
                 className={s.fatEye}
                 onClick={() => setPasswordShown(!passwordShown)}
               />
               <p
                 className={
-                  isValid.password && isValid.password !== ' '
+                  isValid.password && isValid.password !== " "
                     ? s.errorMessage
                     : s.noErrorMessage
                 }
@@ -161,8 +166,22 @@ function LogIn({ prev }) {
             </div>
           </div>
           <div id={s.bottomButton}>
+            <div id={s.forgotPassword}>
+              {/* <a href='/' className={s.caca}>Forgot password?</a> */}
+              <div onClick={() => setRemember((caca) => !caca)}>
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  readOnly={true}
+                  className={s.checkbox}
+                />
+                <label>Remember me</label>
+              </div>
+              <NavLink to="/register" className={s.caca}>
+                Not registered yet?
+              </NavLink>
+            </div>
             <div id="button-handler">{handleButton()}</div>
-            <NavLink to='/register' id={s.registerNow}>Not registered yet?</NavLink>
           </div>
         </form>
       </div>

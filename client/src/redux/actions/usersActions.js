@@ -8,6 +8,8 @@ import {
   addItemCart,
   removeItemCart,
   getItemsCart,
+  enableAndSuspendUser,
+  enableUser,
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -82,7 +84,18 @@ export function asyncRegisterUser(info) {
   };
 }
 
-export function asyncLogin(body) {
+export function asyncEnable(ID) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post(`/login/enable/${ID}`)).data;
+      dispatch(enableAndSuspendUser(response));
+    } catch (error) {
+      dispatch(enableUser({ enabled: false }));
+    }
+  };
+}
+
+export function asyncLogin(body, remember) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/login", body)).data;
@@ -94,7 +107,19 @@ export function asyncLogin(body) {
         timer: 2000,
       }).then(() => {
         dispatch(loginUser(response));
-        localStorage.setItem("ALTKN", response.token);
+        var today = Date.now();
+        if (remember) localStorage.setItem("ALTKN", response.token);
+        else
+          document.cookie = `ALTKNcookie=${response.token}; max-age=86400; path=/;`;
+        if (!response.enabled) {
+          if (response.dateSuspended) {
+            if (
+              !(parseInt(today) < parseInt(response.dateSuspended) + 86400000)
+            ) {
+              dispatch(asyncEnable(response.ID));
+            }
+          }
+        }
       });
     } catch (error) {
       Swal.fire({
@@ -110,7 +135,17 @@ export function asyncAutoLogin(token) {
   return async function (dispatch) {
     try {
       const response = (await axios.post("/login/autoLogin", { token })).data;
+      var today = Date.now();
       dispatch(loginUser(response));
+      if (!response.enabled) {
+        if (response.dateSuspended) {
+          if (
+            !(parseInt(today) < parseInt(response.dateSuspended) + 86400000)
+          ) {
+            dispatch(asyncEnable(response.ID));
+          }
+        }
+      }
     } catch (error) {
       dispatch(firstAutoLogin());
     }
@@ -123,7 +158,6 @@ export function asyncSetEmails() {
       const response = (await axios("/emails")).data;
       dispatch(setEmails(response));
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -139,7 +173,6 @@ export function asyncSetUsernames() {
       const response = (await axios("/usernames")).data;
       dispatch(setUsernames(response));
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -220,7 +253,6 @@ export function asyncAddItemCart(userID, bookID) {
       const response = (
         await axios.post(`/users/${userID}/cart`, { ID: bookID })
       ).data.data;
-      console.log(response);
       satisfaction.fire({
         icon: "success",
         title: "Added!",
@@ -258,7 +290,7 @@ export function asyncRemoveItemCart(userID, bookID) {
       satisfaction.fire({
         icon: "error",
         title: "Oops...",
-        text: "Sorry, we were unable to <b>remove</b> the book from your cart",
+        html: "Sorry, we were unable to <b>remove</b> the book from your cart",
       });
       console.error(error);
     }
@@ -275,6 +307,30 @@ export function asyncModifyUser(ID, body) {
     } catch (error) {
       console.error(error);
       return false;
+    }
+  };
+}
+
+export function asyncRegisterAuth0(body) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/users/auth0", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      dispatch(asyncLoginAuth0(body));
+    }
+  };
+}
+
+export function asyncLoginAuth0(body) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post("/users/auth0/login", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
+      dispatch(loginUser(response.data));
+    } catch (error) {
+      console.log(error);
     }
   };
 }

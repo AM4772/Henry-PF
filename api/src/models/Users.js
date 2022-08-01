@@ -41,7 +41,7 @@ module.exports = (sequelize) => {
       },
       enabled: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        defaultValue: true,
         allowNull: false,
       },
       suspendedTimes: {

@@ -290,7 +290,7 @@ export function asyncRemoveItemCart(userID, bookID) {
       satisfaction.fire({
         icon: "error",
         title: "Oops...",
-        text: "Sorry, we were unable to <b>remove</b> the book from your cart",
+        html: "Sorry, we were unable to <b>remove</b> the book from your cart",
       });
       console.error(error);
     }

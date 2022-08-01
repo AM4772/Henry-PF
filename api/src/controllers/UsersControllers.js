@@ -155,7 +155,7 @@ let UsersModel = {
       let suspendedDate = user.dateSuspended;
       let today = Date.now();
 
-      if (!(parseInt(today) + 86400000 < parseInt(suspendedDate) + 86400000)) {
+      if (!(parseInt(today) < parseInt(suspendedDate) + 86400000)) {
         await Users.update(
           {
             enabled: true,

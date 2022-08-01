@@ -109,6 +109,8 @@ export function asyncLogin(body, remember) {
         dispatch(loginUser(response));
         var today = Date.now();
         if (remember) localStorage.setItem("ALTKN", response.token);
+        else
+          document.cookie = `ALTKNcookie=${response.token}; max-age=86400; path=/;`;
         if (!response.enabled) {
           if (response.dateSuspended) {
             if (
@@ -316,7 +318,7 @@ export function asyncRegisterAuth0(body) {
       localStorage.setItem("ALTKN", response.data.token);
       dispatch(loginUser(response.data));
     } catch (error) {
-      dispatch(asyncLoginAuth0(body))
+      dispatch(asyncLoginAuth0(body));
     }
   };
 }

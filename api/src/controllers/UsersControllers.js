@@ -17,6 +17,7 @@ let UsersModel = {
           name: u.name,
           surname: u.surname,
           email: u.email,
+          enabled: u.enabled //
         };
       });
     } else {
@@ -63,6 +64,7 @@ let UsersModel = {
       name: foundUser.name,
       surname: foundUser.surname,
       email: foundUser.email,
+      enabled: foundUser.enabled //
     };
   },
 
@@ -82,6 +84,7 @@ let UsersModel = {
             surname: user.surname,
             username: user.username,
             email: user.email,
+            enabled: user.enabled //
           },
           process.env.PASS_TOKEN
         );
@@ -92,6 +95,7 @@ let UsersModel = {
             surname: user.surname.toLowerCase(),
             username: user.username.toLowerCase(),
             email: user.email.toLowerCase(),
+            enabled: user.enabled, //
             authzero: true,
           })
         ).toJSON();

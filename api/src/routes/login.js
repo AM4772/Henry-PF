@@ -8,6 +8,9 @@ const { enabledSuspendedUser } = require('../controllers/UsersControllers');
 router.post('/', async (req, res) => {
   try {
     const validateLogin = await verifyLogin(req.body);
+    if (validateLogin === 5) {
+      return res.status(401).json({ message: 'User has been banned' });
+    }
     validateLogin
       ? res.json(validateLogin)
       : res.status(400).json({ message: 'Wrong username or password' });
@@ -19,6 +22,9 @@ router.post('/', async (req, res) => {
 router.post('/autoLogin', async (req, res) => {
   try {
     const validateToken = await verifyTokenLogin(req.body.token);
+    if (validateToken === 5) {
+      return res.status(401).json({ message: 'User has been banned' });
+    }
     validateToken
       ? res.json(validateToken)
       : res.status(400).json({ message: 'Sign in error' });

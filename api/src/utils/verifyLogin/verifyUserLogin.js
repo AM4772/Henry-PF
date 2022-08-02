@@ -16,6 +16,9 @@ let verifyLoginModel = {
     });
 
     if (user) {
+      if (user.banned) {
+        return 5;
+      }
       const authUserJSON = user.toJSON();
       if (authUserJSON.authzero) {
         const tokenPass = jwt.sign(

@@ -194,6 +194,13 @@ let BooksModel = {
       book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
     }
     try {
+      let hours;
+      let minutes;
+      if (book.pageCount !== 0) {
+        const avgRT = (300 * book.pageCount) / 250 / 60;
+        hours = Math.trunc(avgRT);
+        minutes = Math.round((avgRT - Math.trunc(avgRT)) * 60);
+      }
       const createdBook = await Books.create({
         title: book.title.toLowerCase(),
         description: book.description.toLowerCase(),
@@ -205,12 +212,17 @@ let BooksModel = {
         publisher: book.publisher,
         pageCount: book.pageCount,
         language: book.language,
+        avgReadingTime:
+          book.pageCount === 0
+            ? 'Cannot estimate reading time'
+            : hours + ' hs and ' + minutes + ' minutes',
       });
       return createdBook;
     } catch (error) {
       return error;
     }
   },
+
   modifyBooks: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;
@@ -246,6 +258,13 @@ let BooksModel = {
       if (book === null) {
         return null;
       }
+      let hours;
+      let minutes;
+      if (changes.pageCount !== 0) {
+        const avgRT = (300 * changes.pageCount) / 250 / 60;
+        hours = Math.trunc(avgRT);
+        minutes = Math.round((avgRT - Math.trunc(avgRT)) * 60);
+      }
       await book.update({
         title: changes.title.toLowerCase(),
         description: changes.description.toLowerCase(),
@@ -257,6 +276,10 @@ let BooksModel = {
         publisher: changes.publisher,
         pageCount: changes.pageCount,
         language: changes.language,
+        avgReadingTime:
+          changes.pageCount === 0
+            ? 'Cannot estimate reading time'
+            : hours + ' hs and ' + minutes + ' minutes',
       });
       return book;
     } catch (error) {
@@ -269,7 +292,9 @@ let BooksModel = {
       if (book === null) {
         return null;
       }
-      await book.destroy();
+      await book.update({
+        deleted: true,
+      });
       return book;
     } catch (error) {
       return null;

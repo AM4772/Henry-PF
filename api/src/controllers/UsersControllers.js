@@ -20,6 +20,7 @@ let UsersModel = {
           suspendedTimes: u.suspendedTimes,
           enabled: u.enabled, //
           admin: u.admin,
+          banned: u.banned,
         };
       });
     } else {
@@ -69,6 +70,7 @@ let UsersModel = {
       suspendedTimes: foundUser.suspendedTimes,
       enabled: foundUser.enabled, //
       admin: foundUser.admin,
+      banned: foundUser.banned,
     };
   },
 
@@ -116,7 +118,6 @@ let UsersModel = {
         return createdUser;
       }
     } catch (error) {
-      console.log(error);
       throw new Error(error.message);
     }
   },
@@ -128,7 +129,9 @@ let UsersModel = {
       const timeStamp = Date.now();
 
       if (suspendedTimes >= 3) {
-        await user.destroy();
+        await user.update({
+          banned: true,
+        });
         return 1;
       } else {
         await Users.update(
@@ -152,6 +155,7 @@ let UsersModel = {
           admin: suspendedUser.admin,
           enabled: suspendedUser.enabled,
           suspendedTimes: suspendedUser.suspendedTimes,
+          banned: suspendedUser.banned,
         };
       }
     }
@@ -179,6 +183,7 @@ let UsersModel = {
         admin: enabledUser.admin,
         enabled: enabledUser.enabled,
         suspendedTimes: enabledUser.suspendedTimes,
+        banned: enabledUser.banned,
       };
     } else return undefined;
   },
@@ -209,6 +214,7 @@ let UsersModel = {
           admin: enabledUser.admin,
           enabled: enabledUser.enabled,
           suspendedTimes: enabledUser.suspendedTimes,
+          banned: enabledUser.banned,
         };
       } else return null;
     } else return 1;
@@ -264,6 +270,7 @@ let UsersModel = {
         suspendedTimes: userUpdated.suspendedTimes,
         books: await user.getFavourite(),
         admin: userUpdated.admin,
+        banned: userUpdated.banned,
       };
     } catch (error) {
       return null;
@@ -276,7 +283,9 @@ let UsersModel = {
       if (user === null) {
         return null;
       }
-      await user.destroy();
+      await user.update({
+        banned: true,
+      });
       return user;
     } catch (error) {
       return null;

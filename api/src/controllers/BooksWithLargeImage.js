@@ -6,6 +6,7 @@ let imgVer = {
   imgVerify: async function (img) {
     //console.log(img);
     // const imgUrl =
+
     //   'https://images-na.ssl-images-amazon.com/images/P/0345247868.01._SX180_SCLZZZZZZZ_.jpg';
     const options = url.parse(img);
     return new Promise((resolve, reject) => {
@@ -47,6 +48,13 @@ let imgVer = {
 
     booksArray &&
       booksArray.map(async (b) => {
+        let hours;
+        let minutes;
+        if (b.pageCount !== 0) {
+          const avgRT = (300 * b.pageCount) / 250 / 60;
+          hours = Math.trunc(avgRT);
+          minutes = Math.round((avgRT - Math.trunc(avgRT)) * 60);
+        }
         await Books.findOrCreate({
           where: {
             title: b.title,
@@ -60,6 +68,10 @@ let imgVer = {
             pageCount: b.pageCount ? b.pageCount : 0,
             rating: 0,
             language: b.language ? b.language : 'NO INFO',
+            avgReadingTime:
+              b.pageCount === 0
+                ? 'Cannot estimate reading time'
+                : hours + ' hs and ' + minutes + ' minutes',
           },
         });
       });

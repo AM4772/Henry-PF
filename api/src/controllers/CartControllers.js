@@ -31,7 +31,6 @@ let cartModel = {
       }
       const items = await user.removeCart(bookID);
       if (items === 0) return items;
-      console.log(items);
       user = await Users.findByPk(userID);
       return await user.getCart();
     } catch (error) {

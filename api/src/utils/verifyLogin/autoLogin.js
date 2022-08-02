@@ -5,13 +5,15 @@ const { Users } = require('../../db.js');
 let autoLogin = {
   verifyTokenLogin: async function (token) {
     const user = jwt.decode(token, process.env.PASS_TOKEN);
-
     const userExists = await Users.findOne({
       where: {
         username: user.username.toLowerCase(),
       },
     });
     const userJSON = userExists.toJSON();
+    if (userJSON.banned) {
+      return 5;
+    }
     return {
       ID: userJSON.ID,
       username: userJSON.username,

@@ -29,6 +29,9 @@ module.exports = (sequelize) => {
         unique: true,
         allowNull: false,
       },
+      profilepic: {
+        type: DataTypes.STRING
+      },
       password: {
         type: DataTypes.STRING,
         // validate:{
@@ -39,10 +42,17 @@ module.exports = (sequelize) => {
         //   }
         // }
       },
+      resetCode: {
+        type: DataTypes.INTEGER        
+      },
       enabled: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
         allowNull: false,
+      },
+      banned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       suspendedTimes: {
         type: DataTypes.INTEGER,

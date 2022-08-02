@@ -53,6 +53,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(10000),
       allowNull: true
     },
+    avgReadingTime: {
+      type: DataTypes.STRING,
+      defaultValue: 'Cannot estimate average reading time'
+    }
   },
     {
       timestamps: false

@@ -10,15 +10,15 @@ module.exports = (sequelize) => {
     },
     review: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     rating: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: true
     },
     reports: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.INTEGER,
+        defaultValue: 0
       },
   },
     {

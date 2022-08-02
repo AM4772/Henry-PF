@@ -57,7 +57,7 @@ function Profile(props) {
               <MdOutlinePrivacyTip />
               Privacy
             </span>
-            <span onClick={() => setEdit(!edit)}>
+            <span onClick={() => setEdit(false)}>
               <FaUserEdit /> Edit
             </span>
           </div>

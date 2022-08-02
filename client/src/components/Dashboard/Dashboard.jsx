@@ -5,15 +5,16 @@ import { useHistory, Link } from "react-router-dom";
 import s from "./Dashboard.module.sass";
 import Sidebar from "../Sidebar/Sidebar";
 import UsersBoard from "../DashboardUsers/DashboardUsers";
-import { asyncGetUsers } from "../../redux/actions/usersActions";
 import Payments from "../Payments/Payments";
 import CreateBook from "../CreateBook/CreateBook";
+import { asyncGetUsers } from "../../redux/actions/usersActions";
 import { Line, Donut, Graph } from "../Analytics/Analytics";
 import { TESTING_PAYMENTS } from "../../TESTING_PAYMENTS";
 
 function Dashboard() {
   const { users } = useSelector((state) => state.users);
   const { userProfile } = useSelector((state) => state.profile);
+  const { currentSection } = useSelector((state) => state.dashboard);
   const usersMini = users.slice(users.length - 5, users.length).reverse();
   const payments = TESTING_PAYMENTS;
   const paymentsMini = payments
@@ -21,7 +22,6 @@ function Dashboard() {
     .reverse();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { currentSection } = useSelector((state) => state.dashboard);
   useEffect(() => {
     if (!userProfile.admin) {
       history.push("/");
@@ -83,12 +83,18 @@ function Dashboard() {
                         {usersMini.map((u) => {
                           return (
                             <tr key={u.ID}>
-                              <td className={s.tdU}>{u.ID}</td>
-                              <td className={s.tdU}>{u.username}</td>
-                              <td className={s.tdU}>{u.name}</td>
-                              <td className={s.tdU}>{u.surname}</td>
+                              <td className={s.tdUs}>{u.ID}</td>
+                              <td className={s.tdUs}>{u.username}</td>
+                              <td className={s.tdUs}>{u.name}</td>
+                              <td className={s.tdUs}>{u.surname}</td>
                               {/* 															<td className={s.td}>{u.email}</td> */}
-                              <td className={s.tdU}></td>
+                              <td
+                                className={`${s.tdUs} ${
+                                  u.enabled ? s.spanActive : s.spanSuspended
+                                }`}
+                              >
+                                {u.enabled ? "active" : "suspended"}
+                              </td>
                             </tr>
                           );
                         })}

@@ -11,6 +11,11 @@ router.post('/', async (req, res) => {
     if (validateLogin === 5) {
       return res.status(401).json({ message: 'User has been banned' });
     }
+    if (validateLogin === 1) {
+      return res
+        .status(404)
+        .json({ message: 'User not found, consider registering' });
+    }
     validateLogin
       ? res.json(validateLogin)
       : res.status(400).json({ message: 'Wrong username or password' });

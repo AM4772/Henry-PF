@@ -86,7 +86,7 @@ let verifyLoginModel = {
         return undefined;
       }
     }
-    return undefined;
+    return 1;
   },
 };
 

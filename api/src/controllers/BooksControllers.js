@@ -6,17 +6,21 @@ const { imageRegex } = require('../utils/validations/regex');
 
 const maxResults = 40;
 const term = [
-  'sherlock',
-  'ethereum',
-  'little',
-  'prince',
-  'deep web',
-  'lord of the rings',
-  'javascript',
-  'holmes',
-  'shakespeare',
-  'hamlet',
+  'harry potter y',
   'harry potter and',
+  'el principito',
+  'el señor de los anillos',
+  'lord of the rings',
+  'increibles',
+  'grandes',
+  'javascript',
+  'fantasticos',
+  'comic',
+  'locos',
+  'sherlock holmes',
+  'ethereum',
+  'deep web',
+  'shakespeare',
 ];
 
 async function getImage(industryID) {
@@ -36,6 +40,9 @@ async function getImage(industryID) {
 }
 
 let BooksModel = {
+  //-----------------------------------------------------------------------------------------
+  //                                  GET API BOOKS
+  //-----------------------------------------------------------------------------------------
   getBooksApi: async function () {
     try {
       for (let i = 0; i < term.length; i++) {
@@ -102,6 +109,9 @@ let BooksModel = {
       throw new Error(error.message);
     }
   },
+  //-----------------------------------------------------------------------------------------
+  //                                  GETS
+  //-----------------------------------------------------------------------------------------
   getBooks: async function () {
     const foundBooks = await Books.findAll();
     const foundBooksJSON = foundBooks.map((b) => b.toJSON());
@@ -160,6 +170,9 @@ let BooksModel = {
     }
     return undefined;
   },
+  //-----------------------------------------------------------------------------------------
+  //                                  CREATE
+  //-----------------------------------------------------------------------------------------
   createBook: async function (book) {
     const verifyBook = await Books.findAll({
       where: {
@@ -222,7 +235,9 @@ let BooksModel = {
       return error;
     }
   },
-
+  //-----------------------------------------------------------------------------------------
+  //                                  MODIFY
+  //-----------------------------------------------------------------------------------------
   modifyBooks: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;
@@ -286,6 +301,10 @@ let BooksModel = {
       return null;
     }
   },
+
+  //-----------------------------------------------------------------------------------------
+  //                                  DELETE
+  //-----------------------------------------------------------------------------------------
   deleteBook: async function (ID) {
     try {
       const book = await Books.findByPk(ID);

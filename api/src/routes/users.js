@@ -263,8 +263,8 @@ router.delete('/:ID', async (req, res) => {
   try {
     const deletedUser = await deleteUser(ID);
     deletedUser
-      ? res.status(201).json({ message: 'User deleted successfully' })
-      : res.status(400).json({ message: `Error deleting user with id ${ID}` });
+      ? res.status(201).json({ message: 'User banned successfully' })
+      : res.status(400).json({ message: `Error banning user with id ${ID}` });
   } catch (err) {
     res.status(400).json('DATABASE ERROR');
   }

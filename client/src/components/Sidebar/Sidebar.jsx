@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import s from "./Sidebar.module.sass";
@@ -14,6 +14,10 @@ function Sidebar() {
 		dispatch(changeSection(e));
 		setActive(e);
 	}
+	useEffect(() => {
+		setActive(currentSection);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentSection]);
 	return (
 		<div className={s.sidebar}>
 			<Link to="/" className={s.logo}>

@@ -68,7 +68,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:reviewID', async (req, res) => {
+router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
     if (ID) {
@@ -87,7 +87,7 @@ router.put('/:reviewID', async (req, res) => {
   }
 });
 
-router.delete('/:reviewID', async (req, res) => {
+router.delete('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
     if (isNaN(ID)) {

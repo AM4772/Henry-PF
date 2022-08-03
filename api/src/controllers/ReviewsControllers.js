@@ -3,11 +3,22 @@ let errors = [];
 let reviewModel = {
   validateReview: async function (review) {
     errors = [];
-    if (review.title.length > 20) {
-      errors.push('Title cannot be more than 20 characters long');
+    if (review.title) {
+      if (review.title.length > 20) {
+        errors.push('Title cannot be more than 20 characters long');
+      }
+    } else {
+      errors.push('Title cannot be empty');
     }
-    if (review.rating > 5) {
-      errors.push('Rating must be between 0 and 5');
+    if (!review.review) {
+      errors.push('Review cannot be empty');
+    }
+    if (review.rating) {
+      if (review.rating > 5) {
+        errors.push('Rating must be between 0 and 5');
+      }
+    } else {
+      errors.push('Rating cannot be empty');
     }
     if (errors.length) {
       return errors;
@@ -83,8 +94,30 @@ let reviewModel = {
     });
     return createdReview;
   },
-  modifyReview: async function () {},
-  deleteReview: async function () {},
+  modifyReview: async function (changes, ID) {
+    const reviewModified = await Reviews.findByPk(ID);
+    if (changes.reports) {
+      reviewModified.update({
+        reports: reviewModified.reports + 1,
+      });
+      return reviewModified.toJSON();
+    } else {
+      reviewModified.update({
+        title: changes.title,
+        review: changes.review,
+        rating: changes.rating,
+      });
+      return reviewModified.toJSON();
+    }
+  },
+  deleteReview: async function (ID) {
+    const deletedReview = await Reviews.findByPk(ID);
+    if (deletedReview) {
+      await deletedReview.destroy();
+      return true;
+    }
+    return false;
+  },
 };
 
 module.exports = reviewModel;

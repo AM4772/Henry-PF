@@ -3,13 +3,14 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
 
   sequelize.define('payments', {
-    ID: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     mpID: {
       type: DataTypes.STRING,
+      primaryKey: true,
       allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
     items: {
       type: DataTypes.ARRAY(DataTypes.JSON),

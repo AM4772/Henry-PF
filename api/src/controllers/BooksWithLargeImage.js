@@ -4,7 +4,7 @@ const sizeOf = require('image-size');
 const { Books, Apibooks } = require('../db');
 let imgVer = {
   imgVerify: async function (img) {
-    //console.log(img);
+    console.log(img);
     // const imgUrl =
     //   'https://images-na.ssl-images-amazon.com/images/P/0345247868.01._SX180_SCLZZZZZZZ_.jpg';
     const options = url.parse(img);
@@ -20,6 +20,7 @@ let imgVer = {
           .on('end', function () {
             const buffer = Buffer.concat(chunks);
             imgSize = sizeOf(buffer);
+
             resolve(imgSize);
           });
       });

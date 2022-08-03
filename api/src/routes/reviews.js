@@ -54,8 +54,8 @@ router.get('/user/:ID', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    //const validate = await validateReview(req.body);
-    if (true) {
+    const validate = await validateReview(req.body);
+    if (!validate) {
       const newReview = await createReview(req.body);
       newReview
         ? res.status(201).json({ message: 'Review created successfully' })
@@ -68,13 +68,14 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:reviewID', async (req, res) => {
+router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
+  const { report } = req.query;
   try {
     if (ID) {
       const validate = await validateReview(req.body);
       if (!validate) {
-        const modified = await modifyReview(req.body, ID);
+        const modified = await modifyReview(req.body, ID, report);
         modified
           ? res.status(200).json({ message: 'Review modified successfully' })
           : res.status(400).json({ message: `Error modifying review` });
@@ -87,7 +88,7 @@ router.put('/:reviewID', async (req, res) => {
   }
 });
 
-router.delete('/:reviewID', async (req, res) => {
+router.delete('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
     if (isNaN(ID)) {

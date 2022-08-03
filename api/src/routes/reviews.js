@@ -54,8 +54,8 @@ router.get('/user/:ID', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    //const validate = await validateReview(req.body);
-    if (true) {
+    const validate = await validateReview(req.body);
+    if (!validate) {
       const newReview = await createReview(req.body);
       newReview
         ? res.status(201).json({ message: 'Review created successfully' })

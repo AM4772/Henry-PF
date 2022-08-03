@@ -1,5 +1,19 @@
 const { Reviews, Users, Books } = require('../db');
+let errors = [];
 let reviewModel = {
+  validateReview: async function (review) {
+    errors = [];
+    if (review.title.length > 20) {
+      errors.push('Title cannot be more than 20 characters long');
+    }
+    if (review.rating > 5) {
+      errors.push('Rating must be between 0 and 5');
+    }
+    if (errors.length) {
+      return errors;
+    }
+    return false;
+  },
   getAllReviews: async function () {
     const reviews = await Reviews.findAll();
     const filteredReviews = reviews.map(async (r) => {
@@ -49,6 +63,7 @@ let reviewModel = {
   },
   createReview: async function (newReview) {
     const createdReview = await Reviews.create({
+      title: newReview.title,
       review: newReview.review,
       rating: newReview.rating,
       bookID: newReview.bookID,
@@ -64,7 +79,7 @@ let reviewModel = {
       console.log(book.toJSON().reviews[i].rating);
     }
     await book.update({
-      rating: sum / book.toJSON().reviews.length,
+      rating: (sum / book.toJSON().reviews.length).toFixed(1),
     });
     return createdReview;
   },

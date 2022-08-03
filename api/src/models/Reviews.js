@@ -8,13 +8,17 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
+    title: {
+      type: DataTypes.STRING(20),
+      allowNull: false
+    },
     review: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     rating: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false
     },
     reports: {
         type: DataTypes.INTEGER,

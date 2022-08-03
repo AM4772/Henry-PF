@@ -311,9 +311,7 @@ let BooksModel = {
       if (book === null) {
         return null;
       }
-      await book.update({
-        deleted: true,
-      });
+      await book.destroy();
       return book;
     } catch (error) {
       return null;

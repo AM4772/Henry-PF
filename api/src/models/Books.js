@@ -57,10 +57,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: 'Cannot estimate average reading time'
     },
-    deleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
+   
   },
     {
       timestamps: false

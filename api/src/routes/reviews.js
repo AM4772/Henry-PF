@@ -9,7 +9,7 @@ const {
   createReview,
   modifyReview,
   deleteReview,
-} = require("../controllers/....");
+} = require("../controllers/ReviewsControllers");
 
 router.get("/:bookID", async (req, res) => {
   const { ID } = req.params;

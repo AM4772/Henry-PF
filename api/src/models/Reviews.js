@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     rating: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     reports: {

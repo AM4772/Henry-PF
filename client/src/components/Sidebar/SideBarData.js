@@ -16,12 +16,12 @@ const sideBarData = [
 		heading: "Users",
 	},
 	{
-		icon: MdMenuBook,
-		heading: "Create",
-	},
-	{
 		icon: MdPayments,
 		heading: "Payments",
+	},
+	{
+		icon: MdMenuBook,
+		heading: "Reviews",
 	},
 	{
 		icon: MdLeaderboard,

@@ -10,16 +10,17 @@ import Register from "./components/Register/Register";
 import LogIn from "./components/LogIn/LogIn";
 import Profile from "./components/Profile/Profile";
 import Favourites from "./components/Favourites/Favourites";
+import Purchases from "./components/Purchases/Purchases";
 import Footer from "./components/Footer/Footer.jsx";
 import Contact from "./components/Contact/Contact";
+import Dashboard from "./components/Dashboard/Dashboard";
+import PaymentDetail from "./components/PaymentDetail/PaymentDetail";
 import "./App.sass";
 import s from "./App.module.sass";
 import logo from "./assets/Book_Logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { addStack } from "./redux/reducers/historySlice";
 import { asyncAutoLogin } from "./redux/actions/usersActions";
-import Dashboard from "./components/Dashboard/Dashboard";
-import PaymentDetail from "./components/PaymentDetail/PaymentDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -55,7 +56,8 @@ function App() {
       location.pathname.includes("user") ||
       location.pathname.includes("cart") ||
       location.pathname === "/contact" ||
-      location.pathname.includes("payment")
+      location.pathname.includes("payment") ||
+      location.pathname.includes("purchase")
     ) {
       setTimeout(() => {
         setLoading(false);
@@ -97,6 +99,7 @@ function App() {
         <Route exact path={"/contact"} component={Contact} />
         <Route exact path={"/favourites"} component={Favourites} />
         <Route exact path={"/cart"} component={Cart} />
+        <Route exact path={"/purchases"} component={Purchases} />
         <Route exact path={"/dashboard"} component={Dashboard} />
         <Route
           exact

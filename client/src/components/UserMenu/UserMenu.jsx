@@ -6,6 +6,7 @@ import { BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetItemsCart } from "../../redux/actions/usersActions";
 import { logOut } from "../../redux/reducers/profileSlice";
+import { changeSection } from "../../redux/reducers/dashboardSlice";
 
 function UserMenu() {
 	const location = useLocation();
@@ -26,7 +27,10 @@ function UserMenu() {
 			setOpen(false);
 		}
 	}
-
+	function dashboard() {
+		dispatch(changeSection(0));
+		setOpen(false);
+	}
 	function goBack() {
 		var lastPath = [];
 		for (let i = 0; i < stack.length; i++) {
@@ -108,7 +112,7 @@ function UserMenu() {
 							<ul>
 								{userProfile.admin ? (
 									<>
-										<Link onClick={() => setOpen(!open)} to="/dashboard">
+										<Link onClick={() => dashboard()} to="/dashboard">
 											<li>
 												<span>Dashboard</span>
 											</li>

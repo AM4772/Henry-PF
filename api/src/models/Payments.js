@@ -5,15 +5,14 @@ module.exports = (sequelize) => {
   sequelize.define('payments', {
     ID: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
+      allowNull: false
     },
     mpID: {
       type: DataTypes.STRING,
       allowNull: false
     },
     items: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.ARRAY(DataTypes.JSON),
       allowNull: false
     },
     total: {

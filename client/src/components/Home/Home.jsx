@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import s from "./Home.module.sass";
 import sa from "../Slider/Slider.module.sass";
 import banner from "../../assets/banner.jpg";
-import banner1 from "../../assets/banner-1.png";
-import banner2 from "../../assets/banner-2.jpg";
-import banner3 from "../../assets/banner-3.jpg";
+import banner1 from "../../assets/bannerB.jpg";
+import banner2 from "../../assets/bannerC.jpg";
+import banner3 from "../../assets/bannerD.jpg";
+import banner4 from "../../assets/bannerE.jpg";
 import { FaChevronDown } from "react-icons/fa";
 import Slider from "../Slider/Slider.jsx";
 import { setCurrentPage } from "../../redux/actions/paginationActions";
@@ -94,6 +95,13 @@ export function Home(props) {
       onDragStart={handleDragStart}
       role="presentation"
     />,
+    <img
+      src={banner4}
+      alt="banner"
+      className={s.bannerImg}
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
   ];
 
   return (
@@ -104,8 +112,11 @@ export function Home(props) {
           autoPlayStrategy="all"
           disableButtonsControls="true"
           infinite="true"
-          paddingLeft={250}
-          autoPlayInterval={10000}
+          // paddingLeft={320}
+          // paddingRight={0}
+          // autoWidth="true"
+          // autoHeight="true"
+          autoPlayInterval={3000}
           items={bannerSlides}
         />
         <div className={s.arrow} onClick={() => scrollSmoothTo("slider1")}>

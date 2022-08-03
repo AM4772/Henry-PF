@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { asyncGetUsers } from "../../redux/actions/usersActions";
 import SearchBarUser from "./SearchBarUser";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
+import { AiOutlineReload } from "react-icons/ai";
 
 function DashboardUsers() {
   const { users } = useSelector((state) => state.users);
@@ -17,15 +18,15 @@ function DashboardUsers() {
     surname: false,
     username: false,
     email: false,
+    suspendedTimes: false,
+    status: false,
   });
   useEffect(() => {
-    if (users.length <= 0) {
-      dispatch(asyncGetUsers());
-      setFilterUser(users);
-    }
+    dispatch(asyncGetUsers());
+    setFilterUser(users);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {}, [dispatch, search]);
+  useEffect(() => {}, [dispatch, search, users]);
   function handleChange(e) {
     e.preventDefault();
     setSearch(e.target.value);
@@ -95,42 +96,76 @@ function DashboardUsers() {
   useEffect(() => {
     filterUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  }, [search, users]);
   function sort(from) {
-    if (sorting[from]) {
-      setFilterUser([
-        ...filterUser.sort((a, b) => {
-          if (a[from] < b[from]) {
-            return -1;
-          }
-          if (a[from] > b[from]) {
-            return 1;
-          }
-          return 0;
-        }),
-      ]);
+    if (from === "status") {
+      if (sorting.status) {
+        setFilterUser([
+          ...filterUser.sort((a, b) => {
+            if ((a.enabled && !b.enabled) || (!a.banned && b.banned)) {
+              return -1;
+            }
+            if ((!a.enabled && b.enabled) || (a.banned && !b.banned)) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      } else {
+        setFilterUser([
+          ...filterUser.sort((a, b) => {
+            if ((!a.enabled && b.enabled) || (a.banned && !b.banned)) {
+              return -1;
+            }
+            if ((a.enabled && !b.enabled) || (!a.banned && b.banned)) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      }
     } else {
-      setFilterUser([
-        ...filterUser.sort((a, b) => {
-          if (a[from] > b[from]) {
-            return -1;
-          }
-          if (a[from] < b[from]) {
-            return 1;
-          }
-          return 0;
-        }),
-      ]);
+      if (sorting[from]) {
+        setFilterUser([
+          ...filterUser.sort((a, b) => {
+            if (a[from] < b[from]) {
+              return -1;
+            }
+            if (a[from] > b[from]) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      } else {
+        setFilterUser([
+          ...filterUser.sort((a, b) => {
+            if (a[from] > b[from]) {
+              return -1;
+            }
+            if (a[from] < b[from]) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      }
     }
     setSortName({ ...sorting, [from]: !sorting[from] });
   }
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterUser]);
+  function reload() {
+    dispatch(asyncGetUsers());
+  }
   return (
     <div className={s.userBoard}>
       <div className={s.top}>
         <h1>Users</h1>
+        <div className={s.reloadCont}>
+          <AiOutlineReload className={s.reload} onClick={() => reload()} />
+        </div>
         <span>
           <SearchBarUser onChange={handleChange} />
         </span>
@@ -169,7 +204,22 @@ function DashboardUsers() {
                   {sorting.email ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
                 </span>
               </th>
-              <th>Status</th>
+              <th className={s.sort} onClick={() => sort("status")}>
+                Status
+                <span>
+                  {sorting.status ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
+                </span>
+              </th>
+              <th className={s.sort} onClick={() => sort("suspendedTimes")}>
+                Suspensions
+                <span>
+                  {sorting.suspendedTimes ? (
+                    <RiArrowUpSFill />
+                  ) : (
+                    <RiArrowDownSFill />
+                  )}
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -187,11 +237,16 @@ function DashboardUsers() {
                   <td className={s.td}>{u.email}</td>
                   <td
                     className={`${s.td} ${
-                      u.enabled ? s.spanActive : s.spanSuspended
+                      u.banned
+                        ? s.spanSuspended
+                        : u.enabled
+                        ? s.spanActive
+                        : s.spanSuspended
                     }`}
                   >
-                    {u.enabled ? "active" : "suspended"}
+                    {u.banned ? "banned" : u.enabled ? "active" : "suspended"}
                   </td>
+                  <td className={s.td}>{u.suspendedTimes}</td>
                 </tr>
               );
             })}

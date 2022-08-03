@@ -6,7 +6,6 @@ let imgVer = {
   imgVerify: async function (img) {
     //console.log(img);
     // const imgUrl =
-
     //   'https://images-na.ssl-images-amazon.com/images/P/0345247868.01._SX180_SCLZZZZZZZ_.jpg';
     const options = url.parse(img);
     return new Promise((resolve, reject) => {
@@ -21,9 +20,7 @@ let imgVer = {
           .on('end', function () {
             const buffer = Buffer.concat(chunks);
             imgSize = sizeOf(buffer);
-            setTimeout(() => {
-              resolve(imgSize);
-            }, 1000);
+            resolve(imgSize);
           });
       });
     });

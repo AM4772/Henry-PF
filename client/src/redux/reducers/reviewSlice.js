@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-	reviews2: [],
+	reviews: [],
 	allReviews: [],
 };
 const reviewSlice = createSlice({
@@ -8,8 +8,8 @@ const reviewSlice = createSlice({
 	initialState,
 	reducers: {
 		getReviews: (state, action) => {
-			state.reviews2 = action.payload;
-			state.allReviews = [action.payload];
+			state.reviews = action.payload;
+			state.allReviews = [...action.payload];
 		},
 	},
 });

@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SearchBarReviews from "./SearchBarReviews";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import s from "./DashboardReviews.module.sass";
-import { TESTING_REVIEWS } from "../../testingObjects";
+import { asyncGetReviews } from "../../redux/actions/reviewActions";
 
 function DashboardReviews() {
-	const reviews = TESTING_REVIEWS;
+	const dispatch = useDispatch();
+	const { reviews } = useSelector((state) => state.reviews);
 
-	const { allReviews } = useSelector((state) => state.reviews);
-	console.log("soy reviews", allReviews);
+	useEffect(() => {
+		dispatch(asyncGetReviews());
+	}, [dispatch]);
 
-	useEffect(() => {}, [allReviews]);
 	return (
 		<div className={s.container}>
 			<div className={s.top}>
@@ -24,17 +25,17 @@ function DashboardReviews() {
 				{reviews?.map((e) => {
 					return (
 						<ReviewCard
-							key={e.reviewID}
-							id={e.reviewID}
-							title={e.reviewTitle}
+							key={e.ID}
+							id={e.ID}
+							title="Holiwis"
 							review={e.review}
 							rating={e.rating}
-							username={e.username}
-							userID={e.userID}
-							bookTitle={e.bookTitle}
-							bookID={e.bookID}
-							img={e.bookImg}
 							reports={e.reports}
+							username={e.user.username}
+							userID={e.user.ID}
+							bookTitle={e.book.title}
+							bookID={e.book.ID}
+							img={e.book.image}
 						/>
 					);
 				})}

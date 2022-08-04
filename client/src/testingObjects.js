@@ -362,3 +362,78 @@ export const TESTING_USERS = [
 			"https://i.pinimg.com/474x/8f/1b/09/8f1b09269d8df868039a5f9db169a772.jpg",
 	},
 ];
+
+export const TESTING_REVIEWS = [
+	{
+		userID: 1,
+		username: "Nachito",
+		bookID: 232,
+		bookTitle: "Harry Potter",
+		bookImg:
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6zKQpZZlZy4RnkXeMXslIklt9aZQdvLavA&usqp=CAU",
+		reviewID: 1,
+		reviewTitle: "Excelente libro",
+		review:
+			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+		rating: 5,
+		reports: 0,
+	},
+	{
+		userID: 2,
+		username: "leomessi10",
+		bookID: 232,
+		bookTitle: "Harry Potter",
+		bookImg:
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6zKQpZZlZy4RnkXeMXslIklt9aZQdvLavA&usqp=CAU",
+		reviewID: 2,
+		reviewTitle: "Casi tan bueno como yo",
+		review:
+			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+		rating: 4,
+		reports: 0,
+	},
+
+	{
+		userID: 3,
+		username: "Nachito",
+		bookID: 232,
+		bookTitle: "Harry Potter",
+		bookImg:
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6zKQpZZlZy4RnkXeMXslIklt9aZQdvLavA&usqp=CAU",
+		reviewID: 3,
+		reviewTitle: "Muy bueno, recomendado",
+		review:
+			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+		rating: 5,
+		reports: 0,
+	},
+	{
+		userID: 4,
+		username: "Mauricio",
+		bookID: 232,
+		bookTitle: "Harry Potter",
+		bookImg:
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6zKQpZZlZy4RnkXeMXslIklt9aZQdvLavA&usqp=CAU",
+		reviewID: 4,
+		reviewTitle: "Yo lo hubiera hecho mejor",
+		review:
+			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+		rating: 3,
+		reports: 5,
+	},
+
+	{
+		userID: 5,
+		username: "Jorge",
+		bookID: "232",
+		bookTitle: "Harry Potter",
+		bookImg:
+			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh6zKQpZZlZy4RnkXeMXslIklt9aZQdvLavA&usqp=CAU",
+		reviewID: 5,
+		reviewTitle: "No me gusto, me esperaba otra cosa",
+		review:
+			"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+		rating: 1,
+		reports: 5,
+	},
+];

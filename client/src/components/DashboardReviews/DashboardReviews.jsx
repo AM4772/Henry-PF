@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import SearchBarReviews from "./SearchBarReviews";
 import ReviewCard from "../ReviewCard/ReviewCard";
 import s from "./DashboardReviews.module.sass";
 import { TESTING_REVIEWS } from "../../testingObjects";
-import SearchBarReviews from "./SearchBarReviews";
 
 function DashboardReviews() {
 	const reviews = TESTING_REVIEWS;
+
+	const { allReviews } = useSelector((state) => state.reviews);
+	console.log("soy reviews", allReviews);
+
+	useEffect(() => {}, [allReviews]);
 	return (
 		<div className={s.container}>
 			<div className={s.top}>

@@ -14,6 +14,7 @@
     "axios": "^0.27.2",
     "chroma-js": "^2.4.2",
     "dotenv": "^16.0.1",
+    "firebase": "^9.9.1",
     "image-size": "^1.0.2",
     "react": "^17.0.2",
     "react-alice-carousel": "^2.6.4",

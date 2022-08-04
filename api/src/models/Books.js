@@ -56,8 +56,12 @@ module.exports = (sequelize) => {
     avgReadingTime: {
       type: DataTypes.STRING,
       defaultValue: 'Cannot estimate average reading time'
+<<<<<<< HEAD
+    }
+=======
     },
    
+>>>>>>> 4cabc12d6411ddad17d4512188df61b6e86ddc14
   },
     {
       timestamps: false

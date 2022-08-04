@@ -73,10 +73,8 @@ Books.hasMany(Reviews);
 Reviews.belongsTo(Books);
 Users.hasMany(Reviews);
 Reviews.belongsTo(Users);
-Payments.belongsToMany(Books, { through: 'pymts_books' });
-Books.belongsToMany(Payments, { through: 'pymts_books' });
-Users.belongsToMany(Payments, { through: 'user_pymts' });
-Payments.belongsToMany(Users, { through: 'user_pymts' });
+Users.hasMany(Payments);
+Payments.belongsTo(Users);
 Users.hasMany(Userpurchasedetail);
 Userpurchasedetail.belongsTo(Users);
 // para ver los MIXINS generados de cada modelo Country o Activity

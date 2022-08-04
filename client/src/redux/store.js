@@ -5,6 +5,7 @@ import profileReducer from "./reducers/profileSlice";
 import paginationReducer from "./reducers/paginationSlice";
 import historySlice from "./reducers/historySlice";
 import dashboardSlice from "./reducers/dashboardSlice";
+import reviewSlice from "./reducers/reviewSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
 		pagination: paginationReducer,
 		history: historySlice,
 		dashboard: dashboardSlice,
+		reviews: reviewSlice,
 	},
 });

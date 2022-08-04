@@ -3,68 +3,66 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('books', {
-    ID: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    title: {
-      type: DataTypes.STRING(10000),
-      allowNull: false
-    },
-    description: {
-      type: DataTypes.STRING(10000),
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    image: {
-      type: DataTypes.STRING(10000),
-      allowNull: true
-    },
-    authors: {
-      type: DataTypes.ARRAY(DataTypes.STRING(10000)),
-      allowNull: false
-    },
-    categories: {
-      type: DataTypes.ARRAY(DataTypes.STRING(10000)),
-      allowNull: false
-    },
-    publisher: {
-      type: DataTypes.STRING(10000),
-      allowNull: true
-    },
-    publishedDate: {
-      type: DataTypes.STRING(10000),
-      allowNull: true
-    },
-    pageCount: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    rating: {
-      type: DataTypes.FLOAT,
-      allowNull: true
-    },
-    language: {
-      type: DataTypes.STRING(10000),
-      allowNull: true
-    },
-    avgReadingTime: {
-      type: DataTypes.STRING,
-      defaultValue: 'Cannot estimate average reading time'
-<<<<<<< HEAD
-    }
-=======
-    },
-   
->>>>>>> 4cabc12d6411ddad17d4512188df61b6e86ddc14
-  },
+  sequelize.define(
+    'books',
     {
-      timestamps: false
+      ID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      title: {
+        type: DataTypes.STRING(10000),
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING(10000),
+        allowNull: false,
+      },
+      price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      image: {
+        type: DataTypes.STRING(10000),
+        allowNull: true,
+      },
+      authors: {
+        type: DataTypes.ARRAY(DataTypes.STRING(10000)),
+        allowNull: false,
+      },
+      categories: {
+        type: DataTypes.ARRAY(DataTypes.STRING(10000)),
+        allowNull: false,
+      },
+      publisher: {
+        type: DataTypes.STRING(10000),
+        allowNull: true,
+      },
+      publishedDate: {
+        type: DataTypes.STRING(10000),
+        allowNull: true,
+      },
+      pageCount: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      rating: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+      },
+      language: {
+        type: DataTypes.STRING(10000),
+        allowNull: true,
+      },
+      avgReadingTime: {
+        type: DataTypes.STRING,
+        defaultValue: 'Cannot estimate average reading time',
+      },
+    },
+
+    {
+      timestamps: false,
     }
   );
 };

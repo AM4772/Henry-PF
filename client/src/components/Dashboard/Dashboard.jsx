@@ -22,12 +22,12 @@ function Dashboard() {
 		.reverse();
 	const history = useHistory();
 	const dispatch = useDispatch();
-	/* useEffect(() => {
+	useEffect(() => {
 		if (!userProfile.admin) {
 			history.push("/");
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []); */
+	}, []);
 	useEffect(() => {
 		dispatch(asyncGetUsers());
 	}, [dispatch]);

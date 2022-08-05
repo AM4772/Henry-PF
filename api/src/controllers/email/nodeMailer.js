@@ -14,10 +14,10 @@ var transporter = nodemailer.createTransport({
 
 const handlebarOptions = {
   viewEngine: {
-    partialsDir: path.resolve('./src/controllers/email/handlebars/'),
+    partialsDir: path.resolve(path.join(__dirname, 'handlebars/')),
     defaultLayout: false,
   },
-  viewPath: path.resolve('./src/controllers/email/handlebars/'),
+  viewPath: path.resolve(path.join(__dirname, 'handlebars/')),
 };
 
 transporter.use('compile', hbs(handlebarOptions));
@@ -48,8 +48,8 @@ let emailsModule = {
     }
     if (data.emailType === 'eBook') {
       for (let i = 0; i < data.items.length; i++) {
-        subject = 'eBook';
-        template = 'eBook';
+        subject = 'ebook';
+        template = 'ebook';
         const book = await Books.findByPk(data.items[i].ID);
         const booksJSON = book.toJSON();
         let pdfOutput = await createPDF(data.items[i].ID);

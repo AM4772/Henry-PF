@@ -1,7 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
+import { setPayment } from "../../redux/reducers/checkoutSlice";
 
 function ValidateMP() {
+  const dispatch = useDispatch();
   function useQuery() {
     const { search } = useLocation();
 
@@ -9,14 +12,21 @@ function ValidateMP() {
   }
   let query = useQuery();
   let status = query.get("status");
+  let mpID = query.get("payment_id");
+  dispatch(
+    setPayment({
+      mpID,
+      status,
+    })
+  );
   return (
     <Redirect
       to={
         status === "approved"
-          ? "/payment/success"
-          : status === "rejected"
-          ? "/payment/failure"
-          : "/payment/pending"
+          ? "/checkout/success"
+          : status === "pending"
+          ? "/checkout/pending"
+          : "/checkout/rejected"
       }
     />
   );

@@ -46,3 +46,48 @@
     align-items: center
     margin: 0
     padding: 0
+.filtersButton
+    display: none
+@media(max-width: 800px)
+    .sort
+        justify-content: space-between
+    .filterCont
+        display: none
+    .cardsCont
+        width: 100vw
+        padding: 0px 10px
+    .filtersButton
+        font-weight: 500
+        height: 30px
+        font-size: 16px
+        padding: 0px 10px
+        border-radius: 10px
+        cursor: pointer
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        border: none
+        background-color: var(--color-whiteish)
+        font-family: var(--font-poppins)
+        &:focus
+            outline: none   
+    .filtersOpen
+        position: absolute
+        display: flex
+        top: 80px
+        margin: 0
+        z-index: 90
+        padding: 0 10px
+        flex-direction: column
+        width: 100vw
+        left: 0px
+    .closeButton
+        width: 100%
+        height: 15px
+        padding-right: 10px
+        font-size: 25px
+        display: flex
+        justify-content: flex-end
+        align-items: center
+        svg
+            cursor: pointer	

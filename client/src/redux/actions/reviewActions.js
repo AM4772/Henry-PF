@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getReviews, addReview, editReview } from "../reducers/reviewSlice";
+import { getReviews, editReview } from "../reducers/reviewSlice";
 
 const heroku = `https://db-proyecto-final.herokuapp.com/`;
 axios.defaults.baseURL = heroku;
@@ -16,10 +16,9 @@ export function asyncGetReviews() {
 }
 
 export function asyncAddReview(body) {
-  console.log(body);
   return async function (dispatch) {
     try {
-      const response = (await axios.post("/reviews", body)).data;
+      await axios.post("/reviews", body);
     } catch (error) {
       console.log(error);
     }

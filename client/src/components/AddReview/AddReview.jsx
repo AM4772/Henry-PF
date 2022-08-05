@@ -3,37 +3,38 @@ import { useDispatch, useSelector } from "react-redux";
 import s from "./AddReview.module.sass";
 import StarFull from "../../assets/StarFull.png";
 import StarEmpty from "../../assets/StarEmpty.png";
+import { asyncAddReview } from "../../redux/actions/reviewActions";
 
 export default function AddReview({ book }) {
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
 
-  const [errors, setErrors] = React.useState({}); // -> uso estado LOCAL para almacenar errores
+  const [errors, setErrors] = React.useState({});
   const [countStars, setCountStars] = useState(0);
   const [myForm, setMyForm] = useState({
     title: "",
     review: "",
     rating: 0,
-    userID: userProfile.ID,
     bookID: book.ID,
+    userID: userProfile.ID,
   });
 
   function validate(input) {
     let errors = {};
 
-    if (!input.title || input.title.length > 30) {
-      errors.title = "Title is required, and must not exceed 30 characters";
+    if (!input.title || input.title.length > 20) {
+      errors.title = "Title is required, and must not exceed 20 characters";
     } else if (!/^[a-zA-Z0-9\s,Ññáéíóú]+$/.test(input.title)) {
       errors.title =
-        "The title of the review is invalid, no special characters are allowed"; // -> "/[$%&|<>#]/" valida caracteres especiales
+        "The title of the review is invalid, no special characters are allowed";
     }
-    if (input.review.length > 350) {
-      errors.review = "Description must not exceed 350 characters";
+    if (input.review.length > 350 || input.review.length > 350) {
+      errors.review =
+        "Descriptionis required, and must not exceed 350 characters";
     }
     return errors;
   }
 
-  // con CADA CAMBIO seteo la prop del FORM y del ERROR
   let handleChange = (e) => {
     setMyForm({
       ...myForm,
@@ -55,23 +56,40 @@ export default function AddReview({ book }) {
   }, [countStars]);
 
   let handleSubmit = (e) => {
-    e.preventDefault(); // -> al querer salir  aviso x info cargada
-    // dispatch(asyncAddReview(myForm)); // -> solicito el POST
-    updateFilters(); // -> limpio filtros
+    e.preventDefault();
+    dispatch(asyncAddReview(myForm));
+    resetFilters();
     setMyForm({
-      // -> limpio formulario
       title: "",
       review: "",
+      rating: 0,
+      bookID: "",
+      userID: "",
     });
   };
-  //reseteo ambos filtros
-  function updateFilters() {
+
+  function resetFilters() {
     setCountStars(0);
     document.getElementById("titleID").selectedIndex = "";
     document.getElementById("descriptionID").selectedIndex = "";
   }
 
   function goBack() {}
+
+  function handleButton() {
+    if (myForm.title.length && myForm.review.length && myForm.rating)
+      return (
+        <button id={s.active} className={`buttons`}>
+          CREATE REVIEW
+        </button>
+      );
+    else
+      return (
+        <p id={s.waiting} className="buttons">
+          CREATE REVIEW
+        </p>
+      );
+  }
 
   return (
     <div className={s.container0} id="myinput">
@@ -172,9 +190,10 @@ export default function AddReview({ book }) {
                   >
                     {errors.review}
                   </p>
-                  <div className={s.bottomButton}>
+                  <div className={s.bottomButton}>{handleButton()}</div>
+                  {/* <div className={s.bottomButton}>
                     <button className="buttons">CREATE REVIEW</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </form>

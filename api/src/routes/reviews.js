@@ -31,7 +31,7 @@ router.get('/book/:ID', async (req, res) => {
       return res.status(400).json({ message: 'ID must be a number' });
     }
     let reviewBook = await getReviewBook(ID);
-    book
+    reviewBook
       ? res.json(reviewBook)
       : res.status(404).json({ message: 'Review not found with id ' + ID });
   } catch (err) {
@@ -46,7 +46,7 @@ router.get('/user/:ID', async (req, res) => {
       return res.status(400).json({ message: 'ID must be a number' });
     }
     let reviewUser = await getReviewUser(ID);
-    book
+    reviewUser
       ? res.json(reviewUser)
       : res.status(404).json({ message: 'Review not found with id ' + ID });
   } catch (err) {

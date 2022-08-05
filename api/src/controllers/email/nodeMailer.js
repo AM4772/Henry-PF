@@ -71,12 +71,15 @@ let emailsModule = {
           try {
             transporter.sendMail(mailOptions, async function (error, info) {
               if (error) {
+                console.log(error);
                 reject();
               }
+              console.log(info);
               resolve(info);
               return info;
             });
           } catch (error) {
+            console.log(error);
             reject();
             return null;
           }
@@ -88,6 +91,7 @@ let emailsModule = {
           })
         );
       }
+      console.log('array', array);
       return Promise.all(array);
     } else {
       var mailOptions = {
@@ -101,9 +105,11 @@ let emailsModule = {
       return new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
+            console.log(error);
             reject(error);
           }
           if (info) {
+            console.log(info);
             resolve('Message sent: ', info.response);
           }
         });

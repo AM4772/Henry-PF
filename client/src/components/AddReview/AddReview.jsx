@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./AddReview.module.sass";
 import StarFull from "../../assets/StarFull.png";
 import StarEmpty from "../../assets/StarEmpty.png";
 import { asyncAddReview } from "../../redux/actions/reviewActions";
+import { setCloseButtonReview } from "../../redux/reducers/booksSlice";
 
 export default function AddReview({ book }) {
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
-
+  const { closeButtonReview } = useSelector((state) => state.books);
   const [errors, setErrors] = React.useState({});
   const [countStars, setCountStars] = useState(0);
   const [myForm, setMyForm] = useState({
@@ -18,6 +19,19 @@ export default function AddReview({ book }) {
     bookID: book.ID,
     userID: userProfile.ID,
   });
+
+  const openReview = useRef();
+  document.addEventListener("mousedown", closeListReview);
+
+  function closeListReview(e) {
+    if (
+      openReview.current &&
+      closeButtonReview &&
+      !openReview.current.contains(e.target)
+    ) {
+      dispatch(setCloseButtonReview());
+    }
+  }
 
   function validate(input) {
     let errors = {};
@@ -74,10 +88,12 @@ export default function AddReview({ book }) {
     document.getElementById("descriptionID").selectedIndex = "";
   }
 
-  function goBack() {}
+  function goBack() {
+    dispatch(setCloseButtonReview());
+  }
 
   function handleButton() {
-    if (myForm.title.length && myForm.review.length && myForm.rating)
+    if (!errors.title && !errors.review && myForm.rating)
       return (
         <button id={s.active} className={`buttons`}>
           CREATE REVIEW
@@ -98,7 +114,7 @@ export default function AddReview({ book }) {
           Back
         </button>
       </div>
-      <div className={s.containerCard}>
+      <div className={s.containerCard} ref={openReview}>
         <h1 className={s.titleAdd}>Add Review</h1>
         <div className={s.containerImageForm}>
           <div className={s.containerImage}>

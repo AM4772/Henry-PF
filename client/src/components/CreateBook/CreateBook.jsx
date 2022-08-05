@@ -7,6 +7,7 @@ import chroma from 'chroma-js';
 import { languageOptions, CustomInput } from './data.jsx';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { IoIosArrowBack } from 'react-icons/io';
 import s from './CreateBook.module.sass';
 import {
   asyncGetAuthors,
@@ -121,7 +122,7 @@ export default function CreateBook() {
       height: '100px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
@@ -149,12 +150,12 @@ export default function CreateBook() {
       height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
       height: '200px',
-    })
+    }),
   };
   const customStylesCategories = {
     control: () => ({
@@ -175,12 +176,12 @@ export default function CreateBook() {
       height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
       height: '200px',
-    })
+    }),
   };
   const defaultOptions = [{ value: '', label: 'Loading...', isDisabled: true }];
   const [count, setCount] = useState(countInitialState);
@@ -191,7 +192,6 @@ export default function CreateBook() {
   const [info, setInfo] = useState(infoInitialState);
   const [isValid, setIsValid] = useState(isValidInitialState);
   const [isAllowed, setIsAllowed] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [isPending, setIsPending] = useState(false);
   useMemo(() => {
     if (!authorsOptions || !caterogiesOptions) {
@@ -213,6 +213,7 @@ export default function CreateBook() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authors, categories]);
+
   useEffect(() => {
     var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
     const isValidCopy = { ...isValid };
@@ -223,8 +224,6 @@ export default function CreateBook() {
     else delete isValidCopy.title;
     // Description
     if (!info.description.length) isValidCopy.description = ' ';
-    else if (info.description.length < 16 || info.description.length > 5000)
-      isValidCopy.description = 'Description must contain 16-5000 characters';
     else delete isValidCopy.description;
     // Price
     if (!info.price.length) isValidCopy.price = ' ';
@@ -267,7 +266,6 @@ export default function CreateBook() {
     else if (size) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [info]);
-  // eslint-disable-next-line no-unused-vars
   const goBack = () => {
     var lastPath = [];
     for (let i = 1; i < stack.length; i++) {
@@ -351,274 +349,278 @@ export default function CreateBook() {
       );
   };
   return (
-    <div id={s.toCenter}>
-      {/* <button className={s.buttonBack} onClick={goBack}>
-        Back
-      </button> */}
-      <div id={s.card}>
-        <form onSubmit={handleSubmit}>
-          <h1 className={s.register}>Create book</h1>
+    <div id={s.pleaseWork}>
+      <div id={s.toCenter}>
+        <button className={s.buttonBack} onClick={goBack}>
+          <IoIosArrowBack id={s.arrow} />
+          Back
+        </button>
+        <h1 id={s.title}>Create book</h1>
+        <div id={s.card}>
+          <form onSubmit={handleSubmit}>
+            <h1 className={s.hiddenTitle}>Create book</h1>
+            <div className={s.creationCardDisplay}>
+              <div className={s.inline}>
+                <label className={s.fillTitle}>Title: </label>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={info.title}
+                  className={`${s.input} ${
+                    isValid.title && isValid.title.length && count.title
+                      ? s.danger
+                      : s.nejDanger
+                  }`}
+                  onChange={e =>
+                    setInfo({ ...info, title: e.target.value }) ||
+                    setCount({ ...count, title: 1 })
+                  }
+                ></input>
+                <p
+                  className={
+                    isValid.title && isValid.title !== ' '
+                      ? s.errorMessage
+                      : s.noErrorMessage
+                  }
+                >
+                  {isValid.title}
+                </p>
+              </div>
+              <div className={s.inline}>
+                <label className={s.fillTitle}>Price: </label>
+                <input
+                  type="text"
+                  placeholder="Price"
+                  value={info.price}
+                  className={`${s.input} ${
+                    isValid.price && isValid.price.length && count.price
+                      ? s.danger
+                      : s.nejDanger
+                  }`}
+                  onChange={e =>
+                    setInfo({ ...info, price: e.target.value }) ||
+                    setCount({ ...count, price: 1 })
+                  }
+                ></input>
+                <p
+                  className={
+                    isValid.price && isValid.price !== ' '
+                      ? s.errorMessage
+                      : s.noErrorMessage
+                  }
+                >
+                  {isValid.price}
+                </p>
+              </div>
+              <div className={s.inline}>
+                <label className={s.fillTitle}>Image: </label>
+                <input
+                  type="text"
+                  placeholder="Image"
+                  value={info.image}
+                  className={`${s.input} ${
+                    isValid.image && isValid.image.length && count.image
+                      ? s.danger
+                      : s.nejDanger
+                  }`}
+                  onChange={e =>
+                    setInfo({ ...info, image: e.target.value }) ||
+                    setCount({ ...count, image: 1 })
+                  }
+                ></input>
+                <p
+                  className={
+                    isValid.image && isValid.image !== ' '
+                      ? s.errorMessage
+                      : s.noErrorMessage
+                  }
+                >
+                  {isValid.image}
+                </p>
+              </div>
+              <div className={s.inline}>
+                <label className={s.fillTitle}>Publisher: </label>
+                <input
+                  type="text"
+                  placeholder="Publisher"
+                  value={info.publisher}
+                  className={`${s.input} ${
+                    isValid.publisher &&
+                    isValid.publisher.length &&
+                    count.publisher
+                      ? s.danger
+                      : s.nejDanger
+                  }`}
+                  onChange={e =>
+                    setInfo({ ...info, publisher: e.target.value }) ||
+                    setCount({ ...count, publisher: 1 })
+                  }
+                ></input>
+                <p
+                  className={
+                    isValid.publisher && isValid.publisher !== ' '
+                      ? s.errorMessage
+                      : s.noErrorMessage
+                  }
+                >
+                  {isValid.publisher}
+                </p>
+              </div>
+              <div className={s.inline}>
+                <label className={s.fillTitle}>Page count: </label>
+                <input
+                  type="text"
+                  placeholder="Page count"
+                  value={info.pageCount}
+                  className={`${s.input} ${
+                    isValid.pageCount &&
+                    isValid.pageCount.length &&
+                    count.pageCount
+                      ? s.danger
+                      : s.nejDanger
+                  }`}
+                  onChange={e =>
+                    setInfo({ ...info, pageCount: e.target.value }) ||
+                    setCount({ ...count, pageCount: 1 })
+                  }
+                ></input>
+                <p
+                  className={
+                    isValid.pageCount && isValid.pageCount !== ' '
+                      ? s.errorMessage
+                      : s.noErrorMessage
+                  }
+                >
+                  {isValid.pageCount}
+                </p>
+              </div>
+            </div>
+            <div id={s.bottomButton}> {handleButton()} </div>
+          </form>
+        </div>
+        <div id={s.card2}>
+          <h1 className={s.hiddenTitle}>Aditional info</h1>
           <div className={s.creationCardDisplay}>
             <div className={s.inline}>
-              <label className={s.fillTitle}>Title: </label>
-              <input
+              <label className={s.fillTitle}>Description: </label>
+              <textarea
                 type="text"
-                placeholder="Title"
-                value={info.title}
-                className={`${s.input} ${
-                  isValid.title && isValid.title.length && count.title
+                placeholder="Description"
+                value={info.description}
+                className={`${s.textarea} ${
+                  isValid.description &&
+                  isValid.description.length &&
+                  count.description
                     ? s.danger
                     : s.nejDanger
                 }`}
                 onChange={e =>
-                  setInfo({ ...info, title: e.target.value }) ||
-                  setCount({ ...count, title: 1 })
+                  setInfo({ ...info, description: e.target.value }) ||
+                  setCount({ ...count, description: 1 })
                 }
-              ></input>
+              ></textarea>
               <p
                 className={
-                  isValid.title && isValid.title !== ' '
+                  isValid.description && isValid.description !== ' '
                     ? s.errorMessage
                     : s.noErrorMessage
                 }
               >
-                {isValid.title}
+                {isValid.description}
               </p>
             </div>
             <div className={s.inline}>
-              <label className={s.fillTitle}>Price: </label>
-              <input
-                type="text"
-                placeholder="Price"
-                value={info.price}
-                className={`${s.input} ${
-                  isValid.price && isValid.price.length && count.price
-                    ? s.danger
-                    : s.nejDanger
-                }`}
+              <label className={s.fillTitle}>Authors: </label>
+              <CreatableSelect
+                isClearable
+                isMulti
+                name="authors"
+                options={authorsOptions ? authorsOptions : defaultOptions}
+                styles={customStylesAuthors}
                 onChange={e =>
-                  setInfo({ ...info, price: e.target.value }) ||
-                  setCount({ ...count, price: 1 })
+                  handleAuthors(e) || setCount({ ...count, authors: 1 })
                 }
-              ></input>
+              />
               <p
                 className={
-                  isValid.price && isValid.price !== ' '
+                  isValid.authors && isValid.authors !== ' '
                     ? s.errorMessage
                     : s.noErrorMessage
                 }
               >
-                {isValid.price}
+                {isValid.authors}
               </p>
             </div>
             <div className={s.inline}>
-              <label className={s.fillTitle}>Image: </label>
-              <input
-                type="text"
-                placeholder="Image"
-                value={info.image}
-                className={`${s.input} ${
-                  isValid.image && isValid.image.length && count.image
-                    ? s.danger
-                    : s.nejDanger
-                }`}
+              <label className={s.fillTitle}>Categories: </label>
+              <CreatableSelect
+                isClearable
+                isMulti
+                name="categories"
+                options={caterogiesOptions ? caterogiesOptions : defaultOptions}
+                styles={customStylesCategories}
                 onChange={e =>
-                  setInfo({ ...info, image: e.target.value }) ||
-                  setCount({ ...count, image: 1 })
+                  handleCategories(e) || setCount({ ...count, categories: 1 })
                 }
-              ></input>
-              <p
-                className={
-                  isValid.image && isValid.image !== ' '
-                    ? s.errorMessage
-                    : s.noErrorMessage
-                }
-              >
-                {isValid.image}
-              </p>
-            </div>
-            <div className={s.inline}>
-              <label className={s.fillTitle}>Publisher: </label>
-              <input
-                type="text"
-                placeholder="Publisher"
-                value={info.publisher}
-                className={`${s.input} ${
-                  isValid.publisher &&
-                  isValid.publisher.length &&
-                  count.publisher
-                    ? s.danger
-                    : s.nejDanger
-                }`}
-                onChange={e =>
-                  setInfo({ ...info, publisher: e.target.value }) ||
-                  setCount({ ...count, publisher: 1 })
-                }
-              ></input>
-              <p
-                className={
-                  isValid.publisher && isValid.publisher !== ' '
-                    ? s.errorMessage
-                    : s.noErrorMessage
-                }
-              >
-                {isValid.publisher}
-              </p>
-            </div>
-            <div className={s.inline}>
-              <label className={s.fillTitle}>Page count: </label>
-              <input
-                type="text"
-                placeholder="Page count"
-                value={info.pageCount}
-                className={`${s.input} ${
-                  isValid.pageCount &&
-                  isValid.pageCount.length &&
-                  count.pageCount
-                    ? s.danger
-                    : s.nejDanger
-                }`}
-                onChange={e =>
-                  setInfo({ ...info, pageCount: e.target.value }) ||
-                  setCount({ ...count, pageCount: 1 })
-                }
-              ></input>
-              <p
-                className={
-                  isValid.pageCount && isValid.pageCount !== ' '
-                    ? s.errorMessage
-                    : s.noErrorMessage
-                }
-              >
-                {isValid.pageCount}
-              </p>
-            </div>
-          </div>
-          <div id={s.bottomButton}> {handleButton()} </div>
-        </form>
-      </div>
-      <div id={s.card2}>
-        <h1 className={s.register}>Aditional info</h1>
-        <div className={s.creationCardDisplay}>
-          <div className={s.inline}>
-            <label className={s.fillTitle}>Description: </label>
-            <textarea
-              type="text"
-              placeholder="Description"
-              value={info.description}
-              className={`${s.textarea} ${
-                isValid.description &&
-                isValid.description.length &&
-                count.description
-                  ? s.danger
-                  : s.nejDanger
-              }`}
-              onChange={e =>
-                setInfo({ ...info, description: e.target.value }) ||
-                setCount({ ...count, description: 1 })
-              }
-            ></textarea>
-            <p
-              className={
-                isValid.description && isValid.description !== ' '
-                  ? s.errorMessage
-                  : s.noErrorMessage
-              }
-            >
-              {isValid.description}
-            </p>
-          </div>
-          <div className={s.inline}>
-            <label className={s.fillTitle}>Authors: </label>
-            <CreatableSelect
-              isClearable
-              isMulti
-              name="authors"
-              options={authorsOptions ? authorsOptions : defaultOptions}
-              styles={customStylesAuthors}
-              onChange={e =>
-                handleAuthors(e) || setCount({ ...count, authors: 1 })
-              }
-            />
-            <p
-              className={
-                isValid.authors && isValid.authors !== ' '
-                  ? s.errorMessage
-                  : s.noErrorMessage
-              }
-            >
-              {isValid.authors}
-            </p>
-          </div>
-          <div className={s.inline}>
-            <label className={s.fillTitle}>Categories: </label>
-            <CreatableSelect
-              isClearable
-              isMulti
-              name="categories"
-              options={caterogiesOptions ? caterogiesOptions : defaultOptions}
-              styles={customStylesCategories}
-              onChange={e =>
-                handleCategories(e) || setCount({ ...count, categories: 1 })
-              }
-            />
-            {/* // onChange={e =>
+              />
+              {/* // onChange={e =>
               //   setInfo({ ...info, categories: e.target.value }) ||
               //   setCount({ ...count, categories: 1 }) */}
-            <p
-              className={
-                isValid.categories && isValid.categories !== ' '
-                  ? s.errorMessage
-                  : s.noErrorMessage
-              }
-            >
-              {isValid.categories}
-            </p>
-          </div>
-          <div className={s.inline}>
-            <label className={s.fillTitle}>Published date: </label>
-            <DatePicker
-              selected={info.publishedDate}
-              value={info.publishedDate}
-              dateFormat="dd-MM-yyyy"
-              customInput={<CustomInput />}
-              onChange={date =>
-                setInfo({ ...info, publishedDate: date }) ||
-                setCount({ ...count, publishedDate: 1 })
-              }
-            />
-            <p
-              className={
-                isValid.publishedDate && isValid.publishedDate !== ' '
-                  ? s.errorMessage
-                  : s.noErrorMessage
-              }
-            >
-              {isValid.publishedDate}
-            </p>
-          </div>
-          <div className={s.inline}>
-            <label className={s.fillTitle}>Language: </label>
-            <Select
-              isClearable={true}
-              name="language"
-              menuColor="red"
-              options={languageOptions}
-              styles={customStylesLanguage}
-              onChange={e =>
-                handleLanguage(e) || setCount({ ...count, language: 1 })
-              }
-            />
-            <p
-              className={
-                isValid.language && isValid.language !== ' '
-                  ? s.errorMessage
-                  : s.noErrorMessage
-              }
-            >
-              {' '}
-              {isValid.language}{' '}
-            </p>
+              <p
+                className={
+                  isValid.categories && isValid.categories !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.categories}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>Published date: </label>
+              <DatePicker
+                selected={info.publishedDate}
+                value={info.publishedDate}
+                dateFormat="dd-MM-yyyy"
+                customInput={<CustomInput />}
+                onChange={date =>
+                  setInfo({ ...info, publishedDate: date }) ||
+                  setCount({ ...count, publishedDate: 1 })
+                }
+              />
+              <p
+                className={
+                  isValid.publishedDate && isValid.publishedDate !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {isValid.publishedDate}
+              </p>
+            </div>
+            <div className={s.inline}>
+              <label className={s.fillTitle}>Language: </label>
+              <Select
+                isClearable={true}
+                name="language"
+                menuColor="red"
+                options={languageOptions}
+                styles={customStylesLanguage}
+                onChange={e =>
+                  handleLanguage(e) || setCount({ ...count, language: 1 })
+                }
+              />
+              <p
+                className={
+                  isValid.language && isValid.language !== ' '
+                    ? s.errorMessage
+                    : s.noErrorMessage
+                }
+              >
+                {' '}
+                {isValid.language}{' '}
+              </p>
+            </div>
           </div>
         </div>
       </div>

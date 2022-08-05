@@ -32,6 +32,7 @@ import heartOff from "../../assets/Heart_off.png";
 import heartOn from "../../assets/Heart_on.png";
 import EditBook from "../EditBook/EditBook";
 import AddReview from "../AddReview/AddReview";
+import { setItems } from "../../redux/reducers/checkoutSlice";
 
 // import { TESTING_REVIEWS } from "../../testingObjects";
 
@@ -188,6 +189,9 @@ function BookDetail(props) {
           history.push("/login");
         }
       });
+    } else {
+      dispatch(setItems([book]));
+      history.push("/checkout");
     }
     // dispatch(asyncBuyBook(userProfile.ID, ID));
   }
@@ -365,13 +369,13 @@ function BookDetail(props) {
             <div className={s.container6}>
               <div className={s.textReviews} id="reviewsMark">
                 {reviews.map((el) => (
-                  <div key={el.reviewID}>
+                  <div key={el.ID}>
                     <div className={s.starTitle}>
-                      <img src={stars[el.rating]} alt={el.reviewID} />
+                      <img src={stars[el.rating]} alt={el.ID} />
                       {el.title}
                     </div>
                     <span>{el.review}</span>
-                    {reviews[reviews.length - 1].reviewID !== el.reviewID ? (
+                    {reviews[reviews.length - 1].ID !== el.ID ? (
                       <p className={s.divisor}></p>
                     ) : null}
                   </div>

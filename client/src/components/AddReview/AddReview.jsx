@@ -5,7 +5,7 @@ import StarFull from "../../assets/StarFull.png";
 import StarEmpty from "../../assets/StarEmpty.png";
 import { asyncAddReview } from "../../redux/actions/reviewActions";
 import { setCloseButtonReview } from "../../redux/reducers/booksSlice";
-import { asyncGetBookDetail } from "../../redux/actions/booksActions";
+// import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 
 export default function AddReview({ book }) {
   const dispatch = useDispatch();

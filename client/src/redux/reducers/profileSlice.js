@@ -57,6 +57,7 @@ const profileSlice = createSlice({
         admin: action.payload.admin,
         enabled: action.payload.enabled,
         suspendedTimes: action.payload.suspendedTimes,
+        payments: action.payload.payments,
       };
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;
@@ -65,6 +66,7 @@ const profileSlice = createSlice({
     logOut: (state) => {
       state.userProfile = {};
       state.favourites = [];
+      state.cart = [];
       var index = document.cookie.lastIndexOf("ALTKNcookie");
       var cookie = document.cookie.slice(index).split("=");
       document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;

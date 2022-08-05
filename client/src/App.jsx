@@ -20,6 +20,11 @@ import { addStack } from "./redux/reducers/historySlice";
 import { asyncAutoLogin } from "./redux/actions/usersActions";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PaymentDetail from "./components/PaymentDetail/PaymentDetail";
+import Checkout from "./components/Checkout/Checkout";
+import Success from "./components/MercadoPago/SuccessMP";
+import Rejected from "./components/MercadoPago/RejectedMP";
+import Pending from "./components/MercadoPago/PendingMP";
+import Validate from "./components/MercadoPago/ValidateMP";
 
 function App() {
   const dispatch = useDispatch();
@@ -55,7 +60,8 @@ function App() {
       location.pathname.includes("user") ||
       location.pathname.includes("cart") ||
       location.pathname === "/contact" ||
-      location.pathname.includes("payment")
+      location.pathname.includes("payment") ||
+      location.pathname.includes("checkout")
     ) {
       setTimeout(() => {
         setLoading(false);
@@ -88,6 +94,11 @@ function App() {
       ) : null}
       <div className="App">
         <Nav />
+        <Route exact path={"/checkout/validate"} component={Validate} />
+        <Route exact path={"/checkout/pending"} component={Pending} />
+        <Route exact path={"/checkout/rejected"} component={Rejected} />
+        <Route exact path={"/checkout/success"} component={Success} />
+        <Route exact path={"/checkout"} component={Checkout} />
         <Route exact path={"/book/:ID"} component={BookDetail} />
         <Route exact path={"/user/:ID"} component={UserDetail} />
         <Route exact path={"/search"} component={Searching} />

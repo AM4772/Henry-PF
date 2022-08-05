@@ -5,7 +5,7 @@
     padding: 0
     padding-left: 10px
     font-size: 40px
-    padding-right: 16px
+    padding-right: 10px
     cursor: pointer
     transition: all ease .2s
     border-radius: 0px 2px 2px 0px
@@ -63,7 +63,8 @@
     box-shadow: 0px 2px 10px #00000054
     transition: all ease .3s
     margin-top: -150000px
-    
+.back
+    display: none
 .usualActive
     background-color: #fff
     width: 95%
@@ -86,3 +87,38 @@
     white-space: nowrap
     overflow: hidden
     width: 100%
+@media(max-width: 800px)
+    .allowBack
+        display: flex
+        justify-content: center
+        align-items: center
+        margin-left: 10px
+        cursor: pointer
+    .formSearch
+        width: 100%
+        .searchDiv
+            width: 100%
+            margin: 0px
+            input
+                width: 100%
+    .container
+        width: 70%
+    .searchButton
+        width: 10%
+        padding: 1% 2%
+        box-sizing: content-box
+    @media(max-width: 700px)
+        .usualSearch
+            width: 60vw
+        @media(max-width: 400px)
+            .usualSearch
+                width: 100vw
+                margin: 0
+                margin-top: 7px 
+                left: 0px
+                max-height: 70vh
+                z-index: 80
+            .usualActive
+                margin: 0
+                width: 100vw
+                max-height: 70vh

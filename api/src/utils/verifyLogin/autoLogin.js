@@ -10,6 +10,8 @@ let autoLogin = {
         username: user.username.toLowerCase(),
       },
     });
+    const paymentsByUser = await userExists.getPayments();
+
     const userJSON = userExists.toJSON();
     if (userJSON.banned) {
       return 5;
@@ -25,6 +27,7 @@ let autoLogin = {
       enabled: userJSON.enabled,
       dateSuspended: userJSON.dateSuspended,
       suspendedTimes: userJSON.suspendedTimes,
+      payments: paymentsByUser.map((p) => p.toJSON()),
     };
   },
 };

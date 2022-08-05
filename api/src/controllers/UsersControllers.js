@@ -1,4 +1,4 @@
-const { Users } = require('../db');
+const { Users, Payments } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
@@ -10,7 +10,9 @@ let UsersModel = {
   //                                  GETS
   //-----------------------------------------------------------------------------------------
   getUsers: async function () {
-    const foundUsers = await Users.findAll();
+    const foundUsers = await Users.findAll({
+      include: Payments,
+    });
     if (foundUsers.length > 0) {
       const userJSON = foundUsers.map((u) => u.toJSON());
       return userJSON.map((u) => {
@@ -24,6 +26,7 @@ let UsersModel = {
           enabled: u.enabled, //
           admin: u.admin,
           banned: u.banned,
+          payments: u.payments,
         };
       });
     } else {

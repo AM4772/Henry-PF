@@ -29,6 +29,10 @@ function Filters() {
     author: "",
     category: "",
   });
+  const [select, setSelect] = useState({
+    authors: books.map((b) => authors.filter((a) => b.authors.includes(a))[0]),
+    categories: categories,
+  });
   const [generalFilter] = useState(filterCard);
   const [booksFilters, setBooksFilters] = useState({
     filterAuthor: filterBooksByAuthor.length > 0 ? filterBooksByAuthor : [],
@@ -75,7 +79,34 @@ function Filters() {
   }, [books]);
   useEffect(() => {
     dispatch(setFilterCard("books"));
-
+    var auth = [];
+    books.map(
+      (b) =>
+        authors.filter((a) => {
+          if (b.authors.includes(a)) {
+            if (!auth.includes(a)) {
+              auth.push(a);
+            }
+          }
+          return "";
+        })[0]
+    );
+    var cat = [];
+    books.map(
+      (b) =>
+        categories.filter((c) => {
+          if (b.categories.includes(c)) {
+            if (!cat.includes(c)) {
+              cat.push(c);
+            }
+          }
+          return "";
+        })[0]
+    );
+    setSelect({
+      authors: auth,
+      categories: cat,
+    });
     if (authors.length <= 0 || categories.length <= 0) {
       dispatch(asyncGetAuthors());
       dispatch(asyncGetCategories());
@@ -160,7 +191,7 @@ function Filters() {
             <div ref={authorRef} className={s.searchAuthorCont}>
               <div>
                 {inputs.author.length > 0 && openAuthor
-                  ? authors.map((a, i) =>
+                  ? select.authors.map((a, i) =>
                       a
                         .toLowerCase()
                         .replace(/\./g, "")
@@ -209,7 +240,7 @@ function Filters() {
             <div ref={categoryRef} className={s.searchCategoryCont}>
               <div>
                 {inputs.category.length > 0 && openCategory
-                  ? categories.map((c, i) =>
+                  ? select.categories.map((c, i) =>
                       c
                         .replace(/\./g, "")
                         .replace(/^\s+|\s+$/g, "")

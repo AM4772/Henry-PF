@@ -1,40 +1,66 @@
-import React, { useEffect, useRef } from 'react';
-import s from './BookDetail.module.sass';
-import Loading from '../Loading/Loading';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import Swal from 'sweetalert2';
+import React, { useEffect, useRef } from "react";
+import s from "./BookDetail.module.sass";
+import Loading from "../Loading/Loading";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import Swal from "sweetalert2";
 import {
   asyncGetBookDetail,
   asyncDeleteBook,
-} from '../../redux/actions/booksActions';
-import { clearBookDetail } from '../../redux/reducers/booksSlice';
+} from "../../redux/actions/booksActions";
+import {
+  clearBookDetail,
+  setCloseButtonReview,
+  setCloseButtonEdit,
+} from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
   asyncDeleteFavourite,
   asyncAddItemCart,
   asyncRemoveItemCart,
-} from '../../redux/actions/usersActions';
+} from "../../redux/actions/usersActions";
 
-import Stars5 from '../../assets/Stars5.png';
-import heartOff from '../../assets/Heart_off.png';
-import heartOn from '../../assets/Heart_on.png';
-import EditBook from '../EditBook/EditBook';
+import Stars0 from "../../assets/Stars0.png";
+import Stars1 from "../../assets/Stars1.png";
+import Stars2 from "../../assets/Stars2.png";
+import Stars3 from "../../assets/Stars3.png";
+import Stars4 from "../../assets/Stars4.png";
+import Stars5 from "../../assets/Stars5.png";
+import heartOff from "../../assets/Heart_off.png";
+import heartOn from "../../assets/Heart_on.png";
+import EditBook from "../EditBook/EditBook";
+import AddReview from "../AddReview/AddReview";
+
+import { TESTING_REVIEWS } from "../../testingObjects";
+
+const stars = [Stars0, Stars1, Stars2, Stars3, Stars4, Stars5];
 
 function BookDetail(props) {
   const { ID } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { stack } = useSelector(state => state.history);
-  const { userProfile } = useSelector(state => state.profile);
-  const { favourites, cart } = useSelector(state => state.profile);
-  let book = useSelector(state => state.books.bookDetail);
+  const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
+  const { closeButtonReview, closeButtonEdit } = useSelector(
+    (state) => state.books
+  );
+  const { favourites, cart } = useSelector((state) => state.profile);
+
+  let book = useSelector((state) => state.books.bookDetail);
+
+  let reviews = TESTING_REVIEWS;
+
+  const ratingTotal = Math.round(
+    reviews.reduce((ac, el) => ({
+      rating: ac.rating + el.rating,
+    })).rating / reviews.length
+  );
 
   const openEdit = useRef();
-  document.addEventListener('mousedown', closeList);
+  document.addEventListener("mousedown", closeList);
 
   function closeList(e) {
     if (
@@ -47,6 +73,7 @@ function BookDetail(props) {
   }
 
   const [editEnabled, setEditEnabled] = useState(false);
+
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
   window.scrollTo(0, 0);
@@ -55,19 +82,19 @@ function BookDetail(props) {
     // if (!counter) window.scrollTo(0, 0);
     // setCounter((count) => count++);
     if (favourites.length) {
-      let result = favourites.find(el => el.ID === parseInt(ID));
+      let result = favourites.find((el) => el.ID === parseInt(ID));
       if (result) setAddedBook(true); //(bookState) => !bookState);
     }
     if (cart.length) {
-      let result = cart.find(el => el.ID === parseInt(ID));
+      let result = cart.find((el) => el.ID === parseInt(ID));
       if (result) setAddedCart(true); //(bookState) => !bookState);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [favourites, cart]);
 
   useEffect(() => {
-    dispatch(asyncGetBookDetail(ID)).then(result => {
-      if (!result) history.push('/');
+    dispatch(asyncGetBookDetail(ID)).then((result) => {
+      if (!result) history.push("/");
     });
     return () => dispatch(clearBookDetail());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,10 +104,10 @@ function BookDetail(props) {
     var lastPath = [];
     for (let i = 1; i < stack.length; i++) {
       if (
-        stack[i] !== '/register' &&
-        stack[i] !== '/login' &&
-        stack[i] !== '/profile' &&
-        stack[i] !== '/favourites' &&
+        stack[i] !== "/register" &&
+        stack[i] !== "/login" &&
+        stack[i] !== "/profile" &&
+        stack[i] !== "/favourites" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -89,22 +116,22 @@ function BookDetail(props) {
     if (lastPath.length > 0) {
       history.push(lastPath[0]);
     } else {
-      history.push('/');
+      history.push("/");
     }
   }
 
   function addingFav() {
     if (!userProfile.ID) {
       Swal.fire({
-        title: 'To add a favourite book, you have to be logged in',
-        icon: 'info',
+        title: "To add a favourite book, you have to be logged in",
+        icon: "info",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Go to Login',
-      }).then(result => {
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
         if (result.isConfirmed) {
-          history.push('/login');
+          history.push("/login");
         }
       });
     }
@@ -121,15 +148,15 @@ function BookDetail(props) {
   const addingToCart = () => {
     if (!userProfile.ID) {
       Swal.fire({
-        title: 'To add a book to your Cart, you have to be logged in',
-        icon: 'info',
+        title: "To add a book to your Cart, you have to be logged in",
+        icon: "info",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Go to Login',
-      }).then(result => {
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
         if (result.isConfirmed) {
-          history.push('/login');
+          history.push("/login");
         }
       });
     }
@@ -146,15 +173,15 @@ function BookDetail(props) {
   function buyingBook() {
     if (!userProfile.ID) {
       Swal.fire({
-        title: 'To buy a book, you have to be logged in',
-        icon: 'info',
+        title: "To buy a book, you have to be logged in",
+        icon: "info",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Go to Login',
-      }).then(result => {
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
         if (result.isConfirmed) {
-          history.push('/login');
+          history.push("/login");
         }
       });
     }
@@ -162,16 +189,16 @@ function BookDetail(props) {
   }
 
   const deleteBook = () => {
-    dispatch(asyncDeleteBook(ID, book.title)).then(state => {
-      if (state) history.push('/');
+    dispatch(asyncDeleteBook(ID, book.title)).then((state) => {
+      if (state) history.push("/");
     });
   };
 
   function scrollSmoothTo(elementId) {
     var element = document.getElementById(elementId);
     element.scrollIntoView({
-      block: 'start',
-      behavior: 'smooth',
+      block: "start",
+      behavior: "smooth",
     });
   }
   return (
@@ -208,7 +235,7 @@ function BookDetail(props) {
                 <img
                   className={s.imgHeart}
                   alt="heart"
-                  title={!addedBook ? 'Add Favourite' : 'Delete Favourite'}
+                  title={!addedBook ? "Add Favourite" : "Delete Favourite"}
                   src={!addedBook ? heartOff : heartOn}
                   onClick={addingFav}
                 />
@@ -236,7 +263,7 @@ function BookDetail(props) {
                     <div className={s.arr}>
                       {/* <p>Authors:</p> */}
                       {/* <p id={s.author}>{book.authors}</p> */}
-                      {book.authors.map(el => (
+                      {book.authors.map((el) => (
                         <p key={el} id={s.author}>
                           {el}
                         </p>
@@ -245,13 +272,28 @@ function BookDetail(props) {
                     <div className={s.containerReviews1}>
                       <div
                         className={s.containerReviews2}
-                        onClick={() => scrollSmoothTo('reviewsMark')}
+
                         // href="#reviewsMark"
                       >
-                        <img className={s.reviews} alt="5stars" src={Stars5} />
-                        <p>
-                          {''}(23 reviews){''}
+                        <img
+                          className={s.reviews}
+                          onClick={() => scrollSmoothTo("reviewsMark")}
+                          alt="5stars"
+                          src={stars[ratingTotal]}
+                        />
+                        <p onClick={() => scrollSmoothTo("reviewsMark")}>
+                          {""}({reviews.length} reviews){""}
                         </p>
+                        <div className={s.reviewButtonCont}>
+                          {userProfile.ID && userProfile.admin ? ( //CAMBIAR por BookPurchased
+                            <button
+                              className={s.buttonReview}
+                              onClick={() => dispatch(setCloseButtonReview())}
+                            >
+                              Add a review
+                            </button>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
 
@@ -268,7 +310,7 @@ function BookDetail(props) {
                       <p>Release Date:</p>
                       <p>
                         {new Date(book.publishedDate).toLocaleDateString(
-                          'es-ES'
+                          "es-ES"
                         )}
                       </p>
                     </div>
@@ -289,7 +331,7 @@ function BookDetail(props) {
                     <div className={s.price}>
                       <p>
                         $
-                        {new Intl.NumberFormat('es-ES', {
+                        {new Intl.NumberFormat("es-ES", {
                           maximumFractionDigits: 2,
                           minimumFractionDigits: 2,
                         }).format(book.price)}
@@ -301,7 +343,7 @@ function BookDetail(props) {
                       BUY
                     </button>
                     <button className={s.buttons} onClick={addingToCart}>
-                      {!addedCart ? 'ADD TO CART' : 'REMOVE FROM CART'}
+                      {!addedCart ? "ADD TO CART" : "REMOVE FROM CART"}
                     </button>
                   </div>
                 </div>
@@ -318,28 +360,34 @@ function BookDetail(props) {
             <p>REVIEWS</p>
             <div className={s.container6}>
               <div className={s.textReviews} id="reviewsMark">
-                <div>
-                  "The book is really excellent, with a lot of common places..."{' '}
-                </div>
-                <span>-Someone-</span>
-                <div>"It is a masterpiece"</div>
-                <span>-Someone else-</span>
-                <div>
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat."
-                </div>
-                <span>-Some crazy person 👴-</span>
+                {reviews.map((el) => (
+                  <div key={el.reviewID}>
+                    <div className={s.starTitle}>
+                      <img src={stars[el.rating]} alt={el.reviewID} />
+                      {el.reviewTitle}
+                    </div>
+                    <span>{el.review}</span>
+                    {reviews[reviews.length - 1].reviewID !== el.reviewID ? (
+                      <p className={s.divisor}></p>
+                    ) : null}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
           {editEnabled ? (
-              <div id={s.displayMePlease}>
-                <div id={s.editor} ref={openEdit}>
-                  <EditBook book={book} />
-                </div>
+            <div id={s.displayMePlease}>
+              <div id={s.editor} ref={openEdit}>
+                <EditBook book={book} />
               </div>
+            </div>
+          ) : undefined}
+          {closeButtonReview ? (
+            <div id={s.displayMePlease}>
+              <div id={s.review}>
+                <AddReview book={book} />
+              </div>
+            </div>
           ) : undefined}
         </div>
       ) : (

@@ -35,6 +35,7 @@ let verifyLoginModel = {
         const names = nameSplitted.map(
           (n) => n.charAt(0).toUpperCase() + n.slice(1)
         );
+        const paymentsByUser = await user.getPayments();
         return {
           message: `Welcome ${names.join(' ')}`,
           ID: authUserJSON.ID,
@@ -48,6 +49,7 @@ let verifyLoginModel = {
           enabled: authUserJSON.enabled,
           dateSuspended: authUserJSON.dateSuspended,
           suspendedTimes: authUserJSON.suspendedTimes,
+          payments: paymentsByUser.map((p) => p.toJSON()),
         };
       } else {
         const userJSON = user.toJSON();
@@ -68,6 +70,7 @@ let verifyLoginModel = {
             },
             process.env.PASS_TOKEN
           );
+          const paymentsByUser = await user.getPayments();
           return {
             message: `Welcome ${names.join(' ')}`,
             ID: userJSON.ID,
@@ -81,12 +84,13 @@ let verifyLoginModel = {
             enabled: userJSON.enabled,
             dateSuspended: userJSON.dateSuspended,
             suspendedTimes: userJSON.suspendedTimes,
+            payments: paymentsByUser.map((p) => p.toJSON()),
           };
         }
         return undefined;
       }
     }
-    return undefined;
+    return 1;
   },
 };
 

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import {
   asyncRegisterUser,
   asyncSetEmails,
   asyncSetUsernames,
 } from "../../redux/actions/usersActions";
+import Auth0 from "../Auth/Auth0";
 import s from "./Register.module.sass";
 
 function Register(props) {
@@ -64,7 +65,7 @@ function Register(props) {
       }
     } else {
       let regex = {
-        symbols: new RegExp(/[^a-zA-Z\-\\/]/),
+        symbols: new RegExp(/^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/),
         username: new RegExp(/^(?!...)(?!..$)[^\W][\w.]{0,29}$/),
         email: new RegExp(
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -74,27 +75,27 @@ function Register(props) {
       // Name
       if (!name.length) isValidCopy.name = " ";
       else if (name.includes("-"))
-        isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
+        isValidCopy.name = "Name can't contain symbols, numbers nor spaces at the end of the input";
       else if (name.length < 1 || name.length > 50)
         isValidCopy.name = "Name contain between 1-50 characters";
-      else if (regex.symbols.test(name))
-        isValidCopy.name = "Name can't contain symbols, spaces nor numbers";
+      else if (!regex.symbols.test(name))
+        isValidCopy.name = "Name can't contain symbols, numbers nor spaces at the end of the input";
       else delete isValidCopy.name;
       // Surname
       if (!surname.length) isValidCopy.surname = " ";
       else if (surname.length < 1 || surname.length > 50)
         isValidCopy.surname = "Surname needs to be between 1-50 characters";
-      else if (regex.symbols.test(surname))
+      else if (!regex.symbols.test(surname))
         isValidCopy.surname =
-          "Surname can't contain symbols, spaces nor numbers";
+          "Surname can't contain symbols nor numbers";
       else delete isValidCopy.surname;
       // Username
       if (!username.length) isValidCopy.username = " ";
       else if (username.length < 3 || username.length > 20)
         isValidCopy.username = "Username contain between 3-20 characters";
-      else if (regex.username.test(username))
+      else if (username.includes(' '))
         isValidCopy.username =
-          "Username can't contain symbols, spaces nor numbers";
+          "Username can't contain spaces";
       else if (usernames.includes(username))
         isValidCopy.username = "Username is already taken";
       else delete isValidCopy.username;
@@ -167,7 +168,7 @@ function Register(props) {
           Registering...
         </p>
       );
-    else if (isAllowed) return <button className="buttons">Register</button>;
+    else if (isAllowed) return <button id={s.active} className={`buttons`}>Register</button>;
     else
       return (
         <p id={s.waiting} className="buttons">
@@ -346,7 +347,11 @@ function Register(props) {
               </p>
             </div>
           </div>
-          <div id={s.bottomButton}>{handleButton()}</div>
+          <div id={s.perroAustraliano}>
+            <NavLink to="/login" id={s.linker}>Already registered?</NavLink>
+          </div>
+          <div className={s.bottomButton}>{handleButton()}</div>
+          <div className={s.buttomButton} id={s.auth0}><Auth0/></div>
         </form>
       </div>
     </div>

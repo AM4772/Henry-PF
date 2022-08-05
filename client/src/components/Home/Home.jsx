@@ -4,10 +4,16 @@ import { Link } from "react-router-dom";
 import s from "./Home.module.sass";
 import sa from "../Slider/Slider.module.sass";
 import banner from "../../assets/banner.jpg";
+import banner1 from "../../assets/bannerB.jpg";
+import banner2 from "../../assets/bannerC.jpg";
+import banner3 from "../../assets/bannerD.jpg";
+import banner4 from "../../assets/bannerE.jpg";
 import { FaChevronDown } from "react-icons/fa";
 import Slider from "../Slider/Slider.jsx";
 import { setCurrentPage } from "../../redux/actions/paginationActions";
 import { asyncGetHomeBooks } from "../../redux/actions/booksActions";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 export function Home(props) {
   const dispatch = useDispatch();
@@ -58,10 +64,61 @@ export function Home(props) {
     });
   }
 
+  const handleDragStart = (e) => e.preventDefault();
+
+  const bannerSlides = [
+    <img
+      src={banner}
+      alt="banner"
+      className={s.bannerImg}
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src={banner1}
+      alt="banner"
+      className={s.bannerImg}
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src={banner2}
+      alt="banner"
+      className={s.bannerImg}
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src={banner3}
+      alt="banner"
+      className={s.bannerImg}
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+    <img
+      src={banner4}
+      alt="banner"
+      className={s.bannerImg}
+      onDragStart={handleDragStart}
+      role="presentation"
+    />,
+  ];
+
   return (
     <div className={s.home}>
       <div className={s.banner}>
-        <img src={banner} alt="banner" className={s.bannerImg} />
+        <AliceCarousel
+          autoPlay="true"
+          autoPlayStrategy="all"
+          disableButtonsControls="true"
+          infinite="true"
+          // paddingLeft={320}
+          // paddingRight={0}
+          // autoWidth="true"
+          // autoHeight="true"
+          autoPlayInterval={3000}
+          items={bannerSlides}
+        />
         <div className={s.arrow} onClick={() => scrollSmoothTo("slider1")}>
           <FaChevronDown className={s.icon} id="slider1" />
         </div>

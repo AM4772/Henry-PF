@@ -1,0 +1,164 @@
+#card
+  background: var(--color-whiteish)
+  width: 420px
+  display: flex
+  border-radius: 10px
+  height: 100%
+  margin-bottom: 25px
+
+#register
+  color: var(--color-brownish-dd)
+  display: flex
+  justify-content: center
+  width: 420px
+  margin-bottom: 5px
+
+#toCenter
+  display: flex
+  justify-content: center
+  margin-top: 75px
+  min-height: calc( 100vh - 125px )
+
+.errorMessage
+  color: #f13e3e
+  font-weight: 400
+  font-size: 14.5px
+  height: 20px
+  transition: all ease 0.3s
+  user-select: none
+  overflow: hidden
+  margin: 0px 6px
+
+.noErrorMessage
+  user-select: none
+  height: 0px
+  display: hidden
+  color: #22222200
+  transition: all ease 0.3s
+  overflow: hidden
+  margin: 0px 6px
+
+#creationCardDisplay
+  display: flex
+  align-items: center
+  flex-direction: column
+
+#waiting
+  display: flex
+  align-items: center
+  height: 43.8px
+  width: 370px
+  justify-content: center
+  background: gray
+  color: var(--color-brownish-dd)
+  margin-top: 30px
+
+#active
+  margin-top: 30px
+  width: 370px
+  &:focus
+    outline: none
+
+#waiting:hover
+  background: gray
+
+.bottomButton
+  display: flex
+  justify-content: center
+  margin-top: 2px
+  margin-bottom: 2px
+
+#perroAustraliano
+  margin-top: 2px
+  display: flex
+  justify-content: center
+  align-items: center
+
+#linker
+  position: relative
+  color: blue
+  font-size: 14px
+  // margin: 55px 200px 0px 200px
+  &:visited
+    color: blue
+
+.fatEye
+  position: absolute
+  display: flex
+  margin: -35px -21px 116px 344px
+  z-index: 50
+  width: 18.5px
+  height: 18.5px
+  transition: 0.3s
+  background: white
+  &:hover
+    background: white
+    transition: 0.3s
+    filter: opacity(50%)
+
+.input
+  font-family: var(--font-roboto)
+  background: white
+  width: 100%
+  padding: 7px 10px
+  font-size: 14px
+  font-weight: 400
+  box-sizing: border-box
+  font-size: 16px
+  margin: 0px auto 7px auto
+  border-radius: 10px
+  border: none
+  &:focus
+    outline: none
+
+.inline
+  color: var(--color-brownish-dd)
+  width: 370px
+  font-size: 16px
+  font-weight: 500
+
+.danger
+  border: #ff000098 solid 2px
+  transition: 0.3s
+
+.nejDanger
+  border: #ffffff98 solid 2px
+  transition: 0.3s
+
+.fillTitle
+  user-select: none
+
+#registerNow
+  position: absolute
+  color: blue
+  font-size: 14px
+  margin: 55px 0px 0px 255px
+  &:visited
+    color: blue
+
+#rememberMe
+  position: absolute
+  display: flex
+  width: 362px
+  justify-content: space-between
+  color: blue
+  font-size: 13.7px
+  margin: -146px 0px 0px 0px
+  div
+    display: flex
+    align-items: center
+    user-select: none
+  label
+    margin-left: 5px
+    color: black
+
+.caca
+  margin: 0px 6px
+  &:visited
+    color: blue
+
+#forgor
+  font-size: 13.7px
+  margin: 7px
+  &:visited
+    color: blue

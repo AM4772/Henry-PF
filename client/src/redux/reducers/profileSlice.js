@@ -58,6 +58,8 @@ const profileSlice = createSlice({
         enabled: action.payload.enabled,
         suspendedTimes: action.payload.suspendedTimes,
         payments: action.payload.payments,
+        banned: action.payload.banned,
+
       };
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;

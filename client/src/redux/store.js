@@ -6,7 +6,7 @@ import paginationReducer from "./reducers/paginationSlice";
 import historySlice from "./reducers/historySlice";
 import dashboardSlice from "./reducers/dashboardSlice";
 import checkoutSlice from "./reducers/checkoutSlice";
-
+import reviewSlice from "./reducers/reviewSlice";
 export const store = configureStore({
   reducer: {
     books: booksReducer,
@@ -16,5 +16,6 @@ export const store = configureStore({
     history: historySlice,
     dashboard: dashboardSlice,
     checkout: checkoutSlice,
+    reviews: reviewSlice,
   },
 });

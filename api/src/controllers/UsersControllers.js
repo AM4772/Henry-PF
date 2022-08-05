@@ -1,4 +1,4 @@
-const { Users } = require('../db');
+const { Users, Payments } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
@@ -6,8 +6,13 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 let UsersModel = {
+  //-----------------------------------------------------------------------------------------
+  //                                  GETS
+  //-----------------------------------------------------------------------------------------
   getUsers: async function () {
-    const foundUsers = await Users.findAll();
+    const foundUsers = await Users.findAll({
+      include: Payments,
+    });
     if (foundUsers.length > 0) {
       const userJSON = foundUsers.map((u) => u.toJSON());
       return userJSON.map((u) => {
@@ -21,6 +26,7 @@ let UsersModel = {
           enabled: u.enabled, //
           admin: u.admin,
           banned: u.banned,
+          payments: u.payments,
         };
       });
     } else {
@@ -73,7 +79,9 @@ let UsersModel = {
       banned: foundUser.banned,
     };
   },
-
+  //-----------------------------------------------------------------------------------------
+  //                                  CREATE
+  //-----------------------------------------------------------------------------------------
   createUser: async function (user) {
     const verifyUser = await Users.findAll({
       where: {
@@ -121,7 +129,9 @@ let UsersModel = {
       throw new Error(error.message);
     }
   },
-
+  //-----------------------------------------------------------------------------------------
+  //                                  SUSPEND
+  //-----------------------------------------------------------------------------------------
   suspendUser: async function (ID) {
     const user = await Users.findByPk(ID);
     if (user) {
@@ -131,6 +141,7 @@ let UsersModel = {
       if (suspendedTimes >= 3) {
         await user.update({
           banned: true,
+          enabled: false,
         });
         return 1;
       } else {
@@ -161,6 +172,9 @@ let UsersModel = {
     }
     return 2;
   },
+  //-----------------------------------------------------------------------------------------
+  //                                  ENABLE
+  //-----------------------------------------------------------------------------------------
   manualEnabled: async function (ID) {
     const user = await Users.findByPk(ID);
     if (user) {
@@ -220,6 +234,10 @@ let UsersModel = {
     } else return 1;
   },
 
+  //-----------------------------------------------------------------------------------------
+  //                                  MODIFY
+  //-----------------------------------------------------------------------------------------
+
   modifyUsers: async function (changes, ID) {
     if (Object.keys(changes).length === 0) {
       return null;
@@ -277,6 +295,9 @@ let UsersModel = {
     }
   },
 
+  //-----------------------------------------------------------------------------------------
+  //                                  DELETE
+  //-----------------------------------------------------------------------------------------
   deleteUser: async function (ID) {
     try {
       const user = await Users.findByPk(ID);

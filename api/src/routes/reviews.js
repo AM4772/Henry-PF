@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const { Router } = require('express');
 const router = Router();
 
 const {
@@ -9,56 +9,58 @@ const {
   createReview,
   modifyReview,
   deleteReview,
-} = require("../controllers/....");
+} = require('../controllers/ReviewsControllers');
 
-router.get("/:bookID", async (req, res) => {
-  const { ID } = req.params;
-  try {
-    if (isNaN(ID)) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
-    let reviewBook = await getReviewBook(ID);
-    book
-      ? res.json(reviewBook)
-      : res.status(404).json({ message: "Review not found with id " + ID });
-  } catch (err) {
-    res.status(404).json(err);
-  }
-});
-
-router.get("/:userID", async (req, res) => {
-  const { ID } = req.params;
-  try {
-    if (isNaN(ID)) {
-      return res.status(400).json({ message: "ID must be a number" });
-    }
-    let reviewUser = await getReviewUser(ID);
-    book
-      ? res.json(reviewUser)
-      : res.status(404).json({ message: "Review not found with id " + ID });
-  } catch (err) {
-    res.status(404).json(err);
-  }
-});
-
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     let reviews = await getAllReviews();
-    reviews
+    reviews[0] === undefined
+      ? res.status(404).json({ message: 'Cannot get reviews' })
+      : reviews
       ? res.json(reviews)
-      : res.status(404).json({ message: "Cannot get reviews" });
+      : res.status(404).json({ message: 'Cannot get reviews' });
   } catch (err) {
     res.status(404).json(err);
   }
 });
 
-router.post("/", async (req, res) => {
+router.get('/book/:ID', async (req, res) => {
+  const { ID } = req.params;
+  try {
+    if (isNaN(ID)) {
+      return res.status(400).json({ message: 'ID must be a number' });
+    }
+    let reviewBook = await getReviewBook(ID);
+    reviewBook
+      ? res.json(reviewBook)
+      : res.status(404).json({ message: 'Review not found with id ' + ID });
+  } catch (err) {
+    res.status(404).json(err);
+  }
+});
+
+router.get('/user/:ID', async (req, res) => {
+  const { ID } = req.params;
+  try {
+    if (isNaN(ID)) {
+      return res.status(400).json({ message: 'ID must be a number' });
+    }
+    let reviewUser = await getReviewUser(ID);
+    reviewUser
+      ? res.json(reviewUser)
+      : res.status(404).json({ message: 'Review not found with id ' + ID });
+  } catch (err) {
+    res.status(404).json(err);
+  }
+});
+
+router.post('/', async (req, res) => {
   try {
     const validate = await validateReview(req.body);
     if (!validate) {
       const newReview = await createReview(req.body);
       newReview
-        ? res.status(201).json({ message: "Review created successfully" })
+        ? res.status(201).json({ message: 'Review created successfully' })
         : res.status(400).json({ message: `Error creating review` });
     } else {
       res.status(400).json(validate);
@@ -68,15 +70,16 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:reviewID", async (req, res) => {
+router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
+  const { report } = req.query;
   try {
     if (ID) {
       const validate = await validateReview(req.body);
       if (!validate) {
-        const modified = await modifyReview(req.body, ID);
+        const modified = await modifyReview(req.body, ID, report);
         modified
-          ? res.status(200).json({ message: "Review modified successfully" })
+          ? res.status(200).json({ message: 'Review modified successfully' })
           : res.status(400).json({ message: `Error modifying review` });
       } else {
         res.status(400).json(validate);
@@ -87,15 +90,15 @@ router.put("/:reviewID", async (req, res) => {
   }
 });
 
-router.delete("/:reviewID", async (req, res) => {
+router.delete('/:ID', async (req, res) => {
   const { ID } = req.params;
   try {
     if (isNaN(ID)) {
-      return res.status(400).json({ message: "ID must be a number" });
+      return res.status(400).json({ message: 'ID must be a number' });
     }
     const delReview = await deleteReview(ID);
     delReview
-      ? res.status(201).json({ message: "Review deleted successfully" })
+      ? res.status(201).json({ message: 'Review deleted successfully' })
       : res
           .status(400)
           .json({ message: `Error deleting review with id ${ID}` });

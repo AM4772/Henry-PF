@@ -10,7 +10,11 @@ import {
   asyncGetBookDetail,
   asyncDeleteBook,
 } from "../../redux/actions/booksActions";
-import { clearBookDetail } from "../../redux/reducers/booksSlice";
+import {
+  clearBookDetail,
+  setCloseButtonReview,
+  setCloseButtonEdit,
+} from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
   asyncDeleteFavourite,
@@ -40,6 +44,9 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
+  const { closeButtonReview, closeButtonEdit } = useSelector(
+    (state) => state.books
+  );
   const { favourites, cart } = useSelector((state) => state.profile);
 
   let book = useSelector((state) => state.books.bookDetail);
@@ -66,7 +73,6 @@ function BookDetail(props) {
   }
 
   const [editEnabled, setEditEnabled] = useState(false);
-  const [addReviewEnabled, setAddReviewEnabled] = useState(false);
 
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
@@ -282,7 +288,7 @@ function BookDetail(props) {
                           {userProfile.ID && userProfile.admin ? ( //CAMBIAR por BookPurchased
                             <button
                               className={s.buttonReview}
-                              onClick={() => setAddReviewEnabled(true)}
+                              onClick={() => dispatch(setCloseButtonReview())}
                             >
                               Add a review
                             </button>
@@ -376,7 +382,7 @@ function BookDetail(props) {
               </div>
             </div>
           ) : undefined}
-          {addReviewEnabled ? (
+          {closeButtonReview ? (
             <div id={s.displayMePlease}>
               <div id={s.review}>
                 <AddReview book={book} />

@@ -24,7 +24,7 @@ function ValidateMP() {
       to={
         status === "approved"
           ? "/checkout/success"
-          : status === "pending"
+          : status === "in_process"
           ? "/checkout/pending"
           : "/checkout/rejected"
       }

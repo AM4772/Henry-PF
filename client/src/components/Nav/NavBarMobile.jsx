@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import NavLinks from "./NavLinks.jsx";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import s from "./Nav.module.sass";
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -8,17 +8,17 @@ import { FaShoppingCart } from "react-icons/fa";
 import { BiLogOut, BiArrowBack } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/reducers/profileSlice.js";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function NavBarMobile() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { logout, user } = useAuth0();
   const history = useHistory();
   const { userProfile, cart } = useSelector((state) => state.profile);
   const { stack } = useSelector((state) => state.history);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  // const [home, setHome] = useState(
-  //   /.+(?=\/home$).+/.test(window.location.href)
-  // );
   function goBack() {
     var lastPath = [];
     for (let i = 0; i < stack.length; i++) {
@@ -30,7 +30,6 @@ export default function NavBarMobile() {
         stack[i] !== "/dashboard" &&
         stack[i] !== "/dashboard/payments" &&
         stack[i] !== "/dashboard/users"
-        // && stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
       }
@@ -51,6 +50,11 @@ export default function NavBarMobile() {
   function handleLogOut() {
     dispatch(logOut());
     setOpen(false);
+    if (user) {
+      setTimeout(() => {
+        logout({ returnTo: `http://localhost:3000` });
+      }, 2100);
+    }
     goBack();
   }
   useEffect(() => {
@@ -149,16 +153,24 @@ export default function NavBarMobile() {
           <GiHamburgerMenu />
         </button>
         <SearchBar input={input} setInput={setInput} />
-        <Link to="/cart">
-          <span className={s.links}>
-            <FaShoppingCart className={s.icon} />
-            {cart.length ? (
-              <p className={s.cartNumber}>
-                {cart.length < 10 && cart.length >= 1 ? cart.length : "9+"}
-              </p>
-            ) : undefined}
-          </span>
-        </Link>
+        {userProfile.ID ? (
+          <Link to="/cart">
+            <span className={s.links}>
+              <FaShoppingCart className={s.icon} />
+              {cart.length ? (
+                <p className={s.cartNumber}>
+                  {cart.length < 10 && cart.length >= 1 ? cart.length : "9+"}
+                </p>
+              ) : undefined}
+            </span>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <span className={s.links}>
+              <FaShoppingCart className={s.icon} />
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,176 @@
+.container0
+  display: flex
+  width: 100%
+  margin-top: 75px
+  position: absolute
+  left: 0
+  right: 0
+  margin-left: auto
+  margin-right: auto
+  justify-content: center
+  flex-direction: column
+  align-items: center
+
+.containerCard
+  // background: var(--color-whiteish)
+  background: rgba(207, 202, 196, 0.96)
+  width: 800px
+  margin-top: 15px
+  display: flex
+  border-radius: 10px
+  height: 100%
+  display: flex
+  flex-direction: column
+
+.containerForm
+  display: flex
+  justify-content: center
+  align-items: center
+  form
+    widht: 300px
+    margin: 10px
+
+.titleAdd
+  color: var(--color-brownish-dd)
+  display: flex
+  justify-content: center
+  width: 100%
+  margin-top: 10px
+
+.containerImageForm
+  display: flex
+  flex-direction: row
+  width: 100%
+
+.containerImage
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 300px
+  max-height: 100%
+  margin-bottom: 10px
+
+.image
+  border-radius: 10px
+  object-fit: contain
+  object-position: center center
+  width: 270px
+  padding: 0px
+  margin: 0px 10px 15px 20px
+  filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.2))
+  // -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2)
+  // box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2)ç
+
+.containerStars
+  display: flex
+  flex-direction: row
+  justify-content: center
+
+.star
+  width: 25px
+  cursor: pointer
+
+.errorMessage
+  color: #f13e3e
+  font-weight: 400
+  font-size: 14.5px
+  height: 20px
+  transition: all ease 0.3s
+  margin: 0px 15px
+  user-select: none
+
+.noErrorMessage
+  height: 0px
+  display: hidden
+  color: #22222200
+  transition: all ease 0.3s
+
+.creationCardDisplay
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: center
+  input, textarea
+    font-family: inherit
+    // border-radious: 5px
+
+.bottomButton
+  display: flex
+  justify-content: center
+  margin-bottom: 5px
+  width: 100%
+
+.input
+  font-family: inherit
+  background: white
+  width: 450px
+  padding: 7px 10px
+  font-size: 14px
+  font-weight: 400
+  box-sizing: border-box
+  font-size: 16px
+  margin: 0px auto 7px auto
+  border-radius: 10px
+  border: none
+  &:focus
+    outline: none
+
+.inline
+  color: var(--color-brownish-dd)
+  width: 100%
+  margin: 0px 10px
+  font-size: 16px
+  font-weight: 500
+  textarea
+    font-family: inherit
+    resize: none
+    width: 450px
+    height: 200px
+    font-weight: 400
+    font-size: 16px
+    padding: 10px 10px 10px 10px
+    border-radius: 15px
+  &:focus
+    outline: none
+
+.danger
+  border: #ff000098 solid 2px
+  width: 450px
+  transition: 0.5s
+  border-radius: 5px
+  margin: 0px 10px
+
+.normal
+  border: #ffffff98 solid 2px
+  transition: 0.5s
+  width: 450px
+  border-radius: 5px
+  margin: 0px 10px
+
+.fillTitle
+  user-select: none
+
+.backButton
+  display: flex
+  justify-content: left
+  width: 35%
+  padding-bottom: 0px
+  // padding-left: 5px
+  margin-bottom: 0px
+
+.buttonBack
+  border-radius: 3px
+  padding: 5px
+  margin: 0px 0px 0px 10px
+  border: none
+  font-size: 13px
+  color: var(--color-brownish-dd)
+  background-color: var(--color-yellowish-d)
+  -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  cursor: pointer
+  transition: 0.7s
+  &:hover
+    color: var(--color-yellowish-d)
+    background-color: var(--color-brownish-d)
+    transition: 0.7s

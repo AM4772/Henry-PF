@@ -66,6 +66,8 @@ function BookDetail(props) {
   }
 
   const [editEnabled, setEditEnabled] = useState(false);
+  const [addReviewEnabled, setAddReviewEnabled] = useState(false);
+
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
   window.scrollTo(0, 0);
@@ -280,7 +282,7 @@ function BookDetail(props) {
                           {userProfile.ID && userProfile.admin ? ( //CAMBIAR por BookPurchased
                             <button
                               className={s.buttonReview}
-                              onClick={() => <AddReview />}
+                              onClick={() => setAddReviewEnabled(true)}
                             >
                               Add a review
                             </button>
@@ -371,6 +373,13 @@ function BookDetail(props) {
             <div id={s.displayMePlease}>
               <div id={s.editor} ref={openEdit}>
                 <EditBook book={book} />
+              </div>
+            </div>
+          ) : undefined}
+          {addReviewEnabled ? (
+            <div id={s.displayMePlease}>
+              <div id={s.review}>
+                <AddReview book={book} />
               </div>
             </div>
           ) : undefined}

@@ -4,6 +4,7 @@ const router = Router();
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
 const { verifyTokenLogin } = require('../utils/verifyLogin/autoLogin');
 const { enabledSuspendedUser } = require('../controllers/UsersControllers');
+const { confirmEmail } = require('../controllers/EmailsControllers');
 
 router.post('/', async (req, res) => {
   try {

@@ -51,28 +51,33 @@ let reviewModel = {
       const filteredReviews = reviews.map(async (r) => {
         var user = await r.getUser();
         var book = await r.getBook();
+        if (user && book) {
+          return {
+            ID: r.ID,
+            title: r.title,
+            review: r.review,
+            rating: r.rating,
+            reports: r.reports,
 
-        return {
-          ID: r.ID,
-          review: r.review,
-          rating: r.rating,
-          reports: r.reports,
-
-          user: {
-            ID: user.ID,
-            username: user.username,
-            email: user.email,
-            profilepic: user.profilepic,
-            name: user.name,
-            surname: user.surname,
-            enabled: user.enabled,
-            banned: user.banned,
-            suspendedTimes: user.suspendedTimes,
-          },
-          book: book.toJSON(),
-        };
+            user: {
+              ID: user.ID,
+              username: user.username,
+              email: user.email,
+              profilepic: user.profilepic,
+              name: user.name,
+              surname: user.surname,
+              enabled: user.enabled,
+              banned: user.banned,
+              suspendedTimes: user.suspendedTimes,
+            },
+            book: book.toJSON(),
+          };
+        } else {
+          return undefined;
+        }
       });
       const result = await Promise.all(filteredReviews);
+
       return result;
     }
     return undefined;

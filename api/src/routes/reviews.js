@@ -14,7 +14,9 @@ const {
 router.get('/', async (req, res) => {
   try {
     let reviews = await getAllReviews();
-    reviews
+    reviews[0] === undefined
+      ? res.status(404).json({ message: 'Cannot get reviews' })
+      : reviews
       ? res.json(reviews)
       : res.status(404).json({ message: 'Cannot get reviews' });
   } catch (err) {

@@ -4,11 +4,8 @@ module.exports = (sequelize) => {
   sequelize.define(
     'payments',
     {
-      ID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       mpID: {
+        primaryKey: true,
         type: DataTypes.STRING,
         allowNull: false,
       },

@@ -1,12 +1,14 @@
 const { Payments } = require('../db');
+
 let paymentsModel = {
-  confirmPayment: async function (mpID, status) {
-    const payment = Payments.findByPk(mpID);
-    if (payment) {
-      if (status === success) {
-        payment.upda;
-      }
-    }
+  createPayment: async function (payment) {
+    const createPayment = Payments.create({
+      mpID: payment.ID,
+      items: payment.items,
+      total: payment.total,
+      userID: payment.userID,
+    });
+    return createPayment;
   },
 };
 

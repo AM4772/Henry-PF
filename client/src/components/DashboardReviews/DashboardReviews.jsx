@@ -27,7 +27,7 @@ function DashboardReviews() {
 						<ReviewCard
 							key={e.ID}
 							id={e.ID}
-							title="Holiwis"
+							title={e.title}
 							review={e.review}
 							rating={e.rating}
 							reports={e.reports}

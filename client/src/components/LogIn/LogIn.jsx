@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import Auth0 from '../Auth/Auth0.jsx';
 import { NavLink } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { asyncLogin } from "../../redux/actions/usersActions";
-import s from "../Register/Register.module.sass";
+import s from "./LogIn.module.sass";
 
 function LogIn({ prev }) {
   const dispatch = useDispatch();
@@ -165,9 +166,8 @@ function LogIn({ prev }) {
               </p>
             </div>
           </div>
-          <div id={s.bottomButton}>
-            <div id={s.forgotPassword}>
-              {/* <a href='/' className={s.caca}>Forgot password?</a> */}
+          <div className="centerMeColumn">
+            <div id={s.rememberMe}>
               <div onClick={() => setRemember((caca) => !caca)}>
                 <input
                   type="checkbox"
@@ -181,7 +181,9 @@ function LogIn({ prev }) {
                 Not registered yet?
               </NavLink>
             </div>
-            <div id="button-handler">{handleButton()}</div>
+            <div className={s.bottomButton}>{handleButton()}</div>
+            <div className={s.bottomButton}><Auth0/></div>
+            <a href="/" id={s.forgor}>Forgot password?</a>
           </div>
         </form>
       </div>

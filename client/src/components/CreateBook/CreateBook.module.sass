@@ -2,8 +2,8 @@
   background: var(--color-whiteish)
   width: 420px
   display: flex
-  border-radius: 10px
-  height: 100%
+  border-top-left-radius: 10px
+  border-bottom-left-radius: 10px
 
 #card2
   background: var(--color-whiteish)
@@ -11,21 +11,30 @@
   display: flex
   align-content: center
   flex-direction: column
-  border-radius: 10px
-  margin-left: 30px
-  padding-bottom: 25px
-  height: 100%
+  border-top-right-radius: 10px
+  border-bottom-right-radius: 10px
 
-.register
+#title
+  color: var(--color-brownish-dd)
+  position: absolute
+  display: flex
+  justify-content: center
+  width: 420px
+
+.hiddenTitle
+  visibility: hidden
   color: var(--color-brownish-dd)
   display: flex
   justify-content: center
   width: 420px
-  margin-bottom: 5px
 
 #toCenter
   display: flex
   justify-content: center
+  margin: 75px 0px 25px
+
+#pleaseWork
+  min-height: calc( 100vh - 125px )
 
 .errorMessage
   color: #f13e3e
@@ -66,7 +75,7 @@
   font-family: var(--font-roboto)
   resize: none
   width: 100%
-  height: 116.7px
+  height: 116px
   font-weight: 400
   font-size: 16px
   padding: 10px 10px 10px 10px
@@ -95,6 +104,14 @@
   font-size: 16px
   font-weight: 500
 
+#arrow
+  position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
+  align-content: center
+  margin-left: -11px
+
 .danger
   border: #ff000098 solid 2px
   transition: 0.3s
@@ -107,12 +124,18 @@
   user-select: none
 
 .buttonBack
+  position: absolute
+  left: 0px
   border-radius: 3px
-  padding: 5px
-  margin: 1px 20px 0px 10px
+  padding: 5px 5px 5px 11px
+  margin: 3px 20px 0px 10px
+  display: flex
+  align-content: center
+  align-items: center
+  flex-direction: row
   height: 23px
   border: none
-  font-weight: 600
+  font-weight: 700
   font-size: 13px
   color: var(--color-brownish-dd)
   background-color: var(--color-yellowish-d)
@@ -136,6 +159,3 @@
   transition: 0s
   &:focus
     outline: none
-
-// *
-//   animation: none

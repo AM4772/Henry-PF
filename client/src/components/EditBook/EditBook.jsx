@@ -134,7 +134,7 @@ export default function CreateBook({ book }) {
       height: '100px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
@@ -162,12 +162,12 @@ export default function CreateBook({ book }) {
       height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
       height: '200px',
-    })
+    }),
   };
   const customStylesCategories = {
     control: () => ({
@@ -188,12 +188,12 @@ export default function CreateBook({ book }) {
       height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
-      overflow: 'hidden'
+      overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
       height: '200px',
-    })
+    }),
   };
   const defaultOptions = [{ value: '', label: 'Loading...', isDisabled: true }];
   const [count, setCount] = useState(countInitialState);
@@ -235,8 +235,6 @@ export default function CreateBook({ book }) {
     else delete isValidCopy.title;
     // Description
     if (!info.description.length) isValidCopy.description = ' ';
-    else if (info.description.length < 16 || info.description.length > 5000)
-      isValidCopy.description = 'Description must contain 16-5000 characters';
     else delete isValidCopy.description;
     // Price
     if (!info.price) isValidCopy.price = ' ';
@@ -345,9 +343,10 @@ export default function CreateBook({ book }) {
   };
   return (
     <div id={s.toCenter}>
+      <h1 id={s.title}>Create book</h1>
       <div id={s.card}>
         <form onSubmit={handleSubmit}>
-          <h1 className={s.register}>Edit Book</h1>
+          <h1 className={s.hiddenTitle}>Edit Book</h1>
           <div className={s.creationCardDisplay}>
             <div className={s.inline}>
               <label className={s.fillTitle}>Title: </label>
@@ -488,7 +487,7 @@ export default function CreateBook({ book }) {
         </form>
       </div>
       <div id={s.card2}>
-        <h1 className={s.register}>Aditional info</h1>
+        <h1 className={s.hiddenTitle}>Aditional info</h1>
         <div className={s.creationCardDisplay}>
           <div className={s.inline}>
             <label className={s.fillTitle}>Description: </label>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Route, useLocation } from "react-router-dom";
 import Home from "./components/Home/Home";
@@ -21,29 +20,31 @@ import { addStack } from "./redux/reducers/historySlice";
 import { asyncAutoLogin } from "./redux/actions/usersActions";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PaymentDetail from "./components/PaymentDetail/PaymentDetail";
-import CreateBook from './components/CreateBook/CreateBook';
+import CreateBook from "./components/CreateBook/CreateBook";
 import Checkout from "./components/Checkout/Checkout";
 import Success from "./components/MercadoPago/SuccessMP";
 import Rejected from "./components/MercadoPago/RejectedMP";
 import Pending from "./components/MercadoPago/PendingMP";
 import Validate from "./components/MercadoPago/ValidateMP";
-
+import Purchases from "./components/Purchases/Purchases";
 
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const { appLoading } = useSelector(state => state.books);
-  const { appLoadingUsers } = useSelector(state => state.users);
-  const { stack } = useSelector(state => state.history);
-  const { firstAuto, appLoadingProfile } = useSelector(state => state.profile);
+  const { appLoading } = useSelector((state) => state.books);
+  const { appLoadingUsers } = useSelector((state) => state.users);
+  const { stack } = useSelector((state) => state.history);
+  const { firstAuto, appLoadingProfile } = useSelector(
+    (state) => state.profile
+  );
   const location = useLocation();
   useEffect(() => {
     if (location.pathname !== stack[0] || stack.length <= 0) {
       dispatch(addStack(location.pathname));
     }
-    var token = localStorage.getItem('ALTKN');
-    var index = document.cookie.lastIndexOf('ALTKNcookie');
-    var cookie = document.cookie.slice(index).split('=');
+    var token = localStorage.getItem("ALTKN");
+    var index = document.cookie.lastIndexOf("ALTKNcookie");
+    var cookie = document.cookie.slice(index).split("=");
     if (token || cookie[1]) {
       if (firstAuto) {
         dispatch(asyncAutoLogin(token ? token : cookie[1]));
@@ -52,10 +53,9 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   function currentPath() {
-    if (location.pathname === '/register') {
+    if (location.pathname === "/register") {
       setLoading(appLoadingUsers);
     } else if (
-
       location.pathname === "/login" ||
       location.pathname.includes("dashboard") ||
       location.pathname.includes("book") ||
@@ -63,17 +63,16 @@ function App() {
       location.pathname.includes("cart") ||
       location.pathname === "/contact" ||
       location.pathname.includes("payment") ||
-      location.pathname.includes("checkout")||
-      location.pathname.includes('purchase')
-
+      location.pathname.includes("checkout") ||
+      location.pathname.includes("purchase")
     ) {
       setTimeout(() => {
         setLoading(false);
       }, 500);
     } else if (
-      location.pathname === '/profile' ||
-      location.pathname === '/favourites' ||
-      location.pathname === '/cart'
+      location.pathname === "/profile" ||
+      location.pathname === "/favourites" ||
+      location.pathname === "/cart"
     ) {
       setLoading(appLoadingProfile);
     } else {
@@ -112,16 +111,16 @@ function App() {
         <Route exact path={"/contact"} component={Contact} />
         <Route exact path={"/favourites"} component={Favourites} />
         <Route exact path={"/cart"} component={Cart} />
-        <Route exact path={'/purchases'} component={Purchases} />
+        <Route exact path={"/purchases"} component={Purchases} />
         <Route exact path={"/dashboard"} component={Dashboard} />
 
         <Route
           exact
-          path={'/dashboard/payment/:ID'}
+          path={"/dashboard/payment/:ID"}
           component={PaymentDetail}
         />
-        <Route exact path={'/createbook'} component={CreateBook} />
-        <Route exact path={'/'} component={Home} />
+        <Route exact path={"/createbook"} component={CreateBook} />
+        <Route exact path={"/"} component={Home} />
         <Footer />
       </div>
     </div>

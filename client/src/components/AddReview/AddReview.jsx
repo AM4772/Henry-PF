@@ -5,6 +5,7 @@ import StarFull from "../../assets/StarFull.png";
 import StarEmpty from "../../assets/StarEmpty.png";
 import { asyncAddReview } from "../../redux/actions/reviewActions";
 import { setCloseButtonReview } from "../../redux/reducers/booksSlice";
+import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 
 export default function AddReview({ book }) {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export default function AddReview({ book }) {
 
     if (!input.title || input.title.length > 20) {
       errors.title = "Title is required, and must not exceed 20 characters";
-    } else if (!/^[a-zA-Z0-9\s,Ññáéíóú]+$/.test(input.title)) {
+    } else if (!/^[a-zA-Z0-9\s,Ññáéíóú¡!]+$/.test(input.title)) {
       errors.title =
         "The title of the review is invalid, no special characters are allowed";
     }
@@ -72,6 +73,7 @@ export default function AddReview({ book }) {
   let handleSubmit = (e) => {
     e.preventDefault();
     dispatch(asyncAddReview(myForm));
+    // dispatch(asyncGetBookDetail(book.ID));
     resetFilters();
     setMyForm({
       title: "",

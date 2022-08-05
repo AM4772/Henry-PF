@@ -76,6 +76,7 @@ let BooksModel = {
                       description: b.volumeInfo.description
                         ? b.volumeInfo.description
                         : 'No description',
+                      bookLink: b.volumeInfo.previewLink,
                       price: b.saleInfo.listPrice
                         ? b.saleInfo.listPrice.amount
                         : (Math.random() * 100).toFixed(2),

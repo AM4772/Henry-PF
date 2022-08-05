@@ -19,6 +19,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING(10000),
         allowNull: false,
       },
+
       price: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -58,6 +59,11 @@ module.exports = (sequelize) => {
       avgReadingTime: {
         type: DataTypes.STRING,
         defaultValue: 'Cannot estimate average reading time',
+      },
+      soldCopies: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: true,
       },
     },
 

@@ -43,7 +43,7 @@ module.exports = (sequelize) => {
         // }
       },
       resetCode: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
       },
       enabled: {
         type: DataTypes.BOOLEAN,

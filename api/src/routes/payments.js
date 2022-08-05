@@ -3,6 +3,7 @@ require('dotenv').config();
 const router = Router();
 const { MP_TOKEN } = process.env;
 const mercadopago = require('mercadopago');
+const { eBookEmail } = require('../controllers/EmailsControllers');
 const { createPayment } = require('../controllers/PaymentsControllers');
 
 mercadopago.configure({
@@ -30,9 +31,18 @@ router.post('/', (req, res) => {
   }
 });
 router.post('/create', async (req, res) => {
+  const { userID, items } = req.body;
   try {
     const payment = createPayment(req.body);
-
+    try {
+      let emails = await eBookEmail(userID, items);
+      emails
+        ? res.json({ message: 'eBook email sent' })
+        : res.status(404).json({ message: 'Cannot send eBook' });
+    } catch (err) {
+      console.log(err);
+      res.status(404).json(err);
+    }
     res.send({ message: 'Payment created succesfully' });
   } catch (err) {
     res.status(404).json(err);

@@ -33,7 +33,7 @@ import heartOn from "../../assets/Heart_on.png";
 import EditBook from "../EditBook/EditBook";
 import AddReview from "../AddReview/AddReview";
 
-import { TESTING_REVIEWS } from "../../testingObjects";
+// import { TESTING_REVIEWS } from "../../testingObjects";
 
 const stars = [Stars0, Stars1, Stars2, Stars3, Stars4, Stars5];
 
@@ -51,13 +51,17 @@ function BookDetail(props) {
 
   let book = useSelector((state) => state.books.bookDetail);
 
-  let reviews = TESTING_REVIEWS;
+  // let reviews = TESTING_REVIEWS;
+  let reviews = book.reviews;
 
-  const ratingTotal = Math.round(
-    reviews.reduce((ac, el) => ({
-      rating: ac.rating + el.rating,
-    })).rating / reviews.length
-  );
+  const ratingTotal =
+    reviews && reviews.length
+      ? Math.round(
+          reviews.reduce((ac, el) => ({
+            rating: ac.rating + el.rating,
+          })).rating / reviews.length
+        )
+      : 0;
 
   const openEdit = useRef();
   document.addEventListener("mousedown", closeList);
@@ -285,7 +289,7 @@ function BookDetail(props) {
                           {""}({reviews.length} reviews){""}
                         </p>
                         <div className={s.reviewButtonCont}>
-                          {userProfile.ID && userProfile.admin ? ( //CAMBIAR por BookPurchased
+                          {userProfile.ID ? ( //CAMBIAR por BookPurchased
                             <button
                               className={s.buttonReview}
                               onClick={() => dispatch(setCloseButtonReview())}
@@ -364,7 +368,7 @@ function BookDetail(props) {
                   <div key={el.reviewID}>
                     <div className={s.starTitle}>
                       <img src={stars[el.rating]} alt={el.reviewID} />
-                      {el.reviewTitle}
+                      {el.title}
                     </div>
                     <span>{el.review}</span>
                     {reviews[reviews.length - 1].reviewID !== el.reviewID ? (

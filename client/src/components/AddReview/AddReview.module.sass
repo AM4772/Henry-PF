@@ -14,7 +14,7 @@
 .containerCard
   // background: var(--color-whiteish)
   background: rgba(207, 202, 196, 0.96)
-  width: 800px
+  width: 850px
   margin-top: 15px
   display: flex
   border-radius: 10px
@@ -90,30 +90,12 @@
   justify-content: center
   flex-direction: column
   align-items: center
-  input, textarea
-    font-family: inherit
-    // border-radious: 5px
 
 .bottomButton
   display: flex
   justify-content: center
   margin-bottom: 5px
   width: 100%
-
-.input
-  font-family: inherit
-  background: white
-  width: 450px
-  padding: 7px 10px
-  font-size: 14px
-  font-weight: 400
-  box-sizing: border-box
-  font-size: 16px
-  margin: 0px auto 7px auto
-  border-radius: 10px
-  border: none
-  &:focus
-    outline: none
 
 .inline
   color: var(--color-brownish-dd)
@@ -124,28 +106,42 @@
   textarea
     font-family: inherit
     resize: none
-    width: 450px
+    width: 500px
     height: 200px
     font-weight: 400
     font-size: 16px
     padding: 10px 10px 10px 10px
-    border-radius: 15px
+    transition: 0.5s
+    border-radius: 5px
+    margin: 0px 10px
   &:focus
     outline: none
 
 .danger
+  font-family: inherit
+  font-size: 16px
+  background: white
   border: #ff000098 solid 2px
-  width: 450px
+  width: 500px
+  margin: 0px 10px
   transition: 0.5s
   border-radius: 5px
   margin: 0px 10px
+  &:focus
+    outline: none
 
 .normal
+  font-family: inherit
+  font-size: 16px
+  background: white
   border: #ffffff98 solid 2px
+  width: 500px
+  margin: 0px 10px
   transition: 0.5s
-  width: 450px
   border-radius: 5px
   margin: 0px 10px
+  &:focus
+    outline: none
 
 .fillTitle
   user-select: none

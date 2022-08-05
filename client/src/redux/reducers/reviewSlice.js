@@ -12,15 +12,6 @@ const reviewSlice = createSlice({
       state.reviews = action.payload;
       state.allReviews = [...action.payload];
     },
-    addReview: (state, action) => {
-      state.review = {
-        title: action.payload.title,
-        review: action.payload.review,
-        rating: action.payload.rating,
-        bookID: action.payload.bookID,
-        userID: action.payload.userID,
-      };
-    },
     editReview: (state, action) => {
       state.review = {
         ID: action.payload.ID,

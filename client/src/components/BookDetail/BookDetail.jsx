@@ -113,6 +113,7 @@ function BookDetail(props) {
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
         stack[i] !== "/favourites" &&
+        stack[i] !== "/createbook" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);

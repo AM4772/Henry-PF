@@ -14,9 +14,14 @@ let paymentsModel = {
   },
 
   getPayments: async function () {
-    const payments = await Payments.findAll({ include: Users });
+    const payments = await Payments.findAll({
+      include: {
+        model: Users,
+        attributes: { exclude: ['password', 'resetCode'] },
+      },
+    });
     if (payments.length) return payments;
-    else return false;
+    else return undefined;
   },
 
   getPaymentByID: async function (ID, token) {
@@ -24,11 +29,14 @@ let paymentsModel = {
     if (userToken) {
       const user = Users.findByPk(userToken.ID);
       if (user) {
-        const payment = await Payments.findByPk(ID, { include: Users });
+        const payment = await Payments.findByPk(ID);
         if (payment) return payment;
       }
+    } else {
+      const payment = await Payments.findByPk(ID, { include: Users });
+      return payment;
     }
-    return false;
+    return undefined;
   },
 };
 

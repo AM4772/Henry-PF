@@ -257,6 +257,7 @@ router.put('/:ID', async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });

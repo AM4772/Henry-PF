@@ -30,9 +30,9 @@ let emailsModel = {
         });
         return true;
       }
-      return false;
+      return undefined;
     }
-    return false;
+    return undefined;
   },
   resetEmail: async function (user) {
     const { username, email, ID } = user;
@@ -47,7 +47,7 @@ let emailsModel = {
       return true;
     } catch (error) {
       console.log(error);
-      return false;
+      return undefined;
     }
   },
   eBookEmail: async function (userID, items) {
@@ -61,7 +61,7 @@ let emailsModel = {
       return true;
     } catch (error) {
       //console.log(error);
-      return false;
+      return undefined;
     }
   },
 };

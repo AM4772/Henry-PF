@@ -23,6 +23,7 @@ const {
   deleteCartItem,
 } = require('../controllers/CartControllers');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
+const { registerEmail } = require('../controllers/EmailsControllers');
 
 const router = Router();
 
@@ -197,10 +198,12 @@ router.get('/:ID', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  const { username } = req.body;
   try {
     const validate = await validateUsersPost(req.body);
     if (!validate) {
       const newUser = await createUser(req.body);
+      await registerEmail(username);
       newUser
         ? res.status(201).json({ message: 'Successfully registered' })
         : res.status(400).json({ message: `Error creating user` });

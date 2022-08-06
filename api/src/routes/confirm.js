@@ -2,11 +2,10 @@ const { Router } = require('express');
 const { confirmEmail } = require('../controllers/EmailsControllers');
 const router = Router();
 
-router.get('/:ID', async (req, res) => {
-  const { ID } = req.params;
+router.get('/', async (req, res) => {
   const { token } = req.query;
   try {
-    let userEmail = await confirmEmail(token, ID);
+    let userEmail = await confirmEmail(token);
     userEmail
       ? res.json({ message: 'Successful confirmation' })
       : res.status(404).json({ message: 'Cannot verify' });

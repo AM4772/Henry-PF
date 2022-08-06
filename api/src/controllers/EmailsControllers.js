@@ -1,31 +1,32 @@
 const { sendMail } = require('./email/nodeMailer');
 const { Users } = require('../db');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 let emailsModel = {
-  registerEmail: async function (user) {
+  registerEmail: async function (username) {
     const emailType = 'register';
-    const { name, username, email, ID } = user;
-    const token = Math.floor(Math.random() * 1000000000000000);
-    const findUser = await Users.findByPk(ID);
-    if (findUser) {
-      findUser.update({
-        resetCode: token,
-      });
-      const emailFunction = sendMail(
-        (data = { emailType, name, token, username, email, ID })
-      );
-      return emailFunction;
-    }
-    return false;
+    const user = await Users.findOne({
+      where: {
+        username,
+      },
+    });
+    const { name, email, ID } = user.toJSON();
+    const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
+
+    const emailFunction = sendMail(
+      (data = { emailType, name, token, username, email, ID })
+    );
+    return emailFunction;
   },
 
-  confirmEmail: async function (token, ID) {
-    const user = await Users.findByPk(ID);
+  confirmEmail: async function (token) {
+    const userToken = jwt.decode(token, process.env.PASS_TOKEN);
+    const user = await Users.findByPk(userToken.ID);
     if (user) {
       const tokenUser = user.toJSON().resetCode;
       if (tokenUser === token) {
         user.update({
           enabled: true,
-          resetCode: null,
         });
         return true;
       }
@@ -52,16 +53,14 @@ let emailsModel = {
   eBookEmail: async function (userID, items) {
     const emailType = 'eBook';
     const user = await Users.findByPk(userID);
+
     const { username, email } = user.toJSON();
     try {
-      const asd = await sendMail(
-        (data = { emailType, username, email, items })
-      );
-      console.log(asd);
+      await sendMail((data = { emailType, username, email, items }));
 
       return true;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       return false;
     }
   },

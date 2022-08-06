@@ -4,7 +4,11 @@ const router = Router();
 const { MP_TOKEN } = process.env;
 const mercadopago = require('mercadopago');
 const { eBookEmail } = require('../controllers/EmailsControllers');
-const { createPayment } = require('../controllers/PaymentsControllers');
+const {
+  createPayment,
+  getPayments,
+  getPaymentByID,
+} = require('../controllers/PaymentsControllers');
 
 mercadopago.configure({
   access_token: MP_TOKEN,
@@ -30,11 +34,38 @@ router.post('/', (req, res) => {
     console.log(error);
   }
 });
+router.get('/', async (req, res) => {
+  try {
+    const payments = await getPayments();
+
+    payments
+      ? res.json({ data: payments, message: 'Success' })
+      : res.status(404).json({ message: 'No payments...' });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json(err);
+  }
+});
+
+router.get('/:ID', async (req, res) => {
+  const { ID } = req.params;
+  const { token } = req.query;
+  try {
+    const payment = await getPaymentByID(ID, token);
+
+    payment
+      ? res.json({ data: payment, message: 'Success' })
+      : res.status(404).json({ message: `No payment with ID ${ID}...` });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json(err);
+  }
+});
 router.post('/create', async (req, res) => {
   const { userID, items } = req.body;
 
   try {
-    const payment = createPayment(req.body);
+    await createPayment(req.body);
     let emails = await eBookEmail(userID, items);
     emails
       ? res.json({ message: 'eBook email sent' })

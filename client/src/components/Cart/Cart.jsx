@@ -6,6 +6,8 @@ import CartCard from "../CartCard/CartCard.jsx";
 import { useDispatch } from "react-redux";
 import { asyncGetItemsCart } from "../../redux/actions/usersActions";
 import s from "./Cart.module.sass";
+import Swal from "sweetalert2";
+import { setCart, setItems } from "../../redux/reducers/checkoutSlice.js";
 
 function Cart() {
   const [loading, setLoading] = useState(true);
@@ -46,6 +48,26 @@ function Cart() {
       history.push("/");
     }
   };
+  function buyCart() {
+    if (!userProfile.ID) {
+      Swal.fire({
+        title: "To buy a book, you have to be logged in",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          history.push("/login");
+        }
+      });
+    } else {
+      dispatch(setItems(cart));
+      dispatch(setCart());
+      history.push("/checkout");
+    }
+  }
   return cart.length ? (
     <div className={s.containerFav0}>
       <div className={s.backButton}>
@@ -70,7 +92,9 @@ function Cart() {
         <NavLink to="/" className={s.buttonsCart}>
           CONTINUE BUYING
         </NavLink>
-        <button className={s.buttonsCart}>BUY</button>
+        <button onClick={() => buyCart()} className={s.buttonsCart}>
+          BUY
+        </button>
       </div>
     </div>
   ) : loading && !cart.length ? (

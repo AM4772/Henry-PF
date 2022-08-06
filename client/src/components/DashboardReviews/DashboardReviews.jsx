@@ -8,7 +8,7 @@ import { asyncGetReviews } from "../../redux/actions/reviewActions";
 function DashboardReviews() {
 	const dispatch = useDispatch();
 	const { reviews } = useSelector((state) => state.reviews);
-
+	console.log(reviews, "Soy reviews");
 	useEffect(() => {
 		dispatch(asyncGetReviews());
 	}, [dispatch]);
@@ -22,23 +22,24 @@ function DashboardReviews() {
 				</span>
 			</div>
 			<div className={s.cardsContainer}>
-				{reviews?.map((e) => {
-					return (
-						<ReviewCard
-							key={e.ID}
-							id={e.ID}
-							title={e.title}
-							review={e.review}
-							rating={e.rating}
-							reports={e.reports}
-							username={e.user.username}
-							userID={e.user.ID}
-							bookTitle={e.book.title}
-							bookID={e.book.ID}
-							img={e.book.image}
-						/>
-					);
-				})}
+				{reviews[0] &&
+					reviews?.map((e) => {
+						return (
+							<ReviewCard
+								key={e.ID}
+								id={e.ID}
+								title={e.title}
+								review={e.review}
+								rating={e.rating}
+								reports={e.reports}
+								username={e.user.username}
+								userID={e.user.ID}
+								bookTitle={e.book.title}
+								bookID={e.book.ID}
+								img={e.book.image}
+							/>
+						);
+					})}
 			</div>
 		</div>
 	);

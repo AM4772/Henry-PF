@@ -43,9 +43,9 @@ export default function AddReview({ book }) {
       errors.title =
         "The title of the review is invalid, no special characters are allowed";
     }
-    if (!input.review || input.review.length > 350) {
+    if (!input.review || input.review.length > 255) {
       errors.review =
-        "Description is required, and must not exceed 350 characters";
+        "Description is required, and must not exceed 255 characters";
     }
     return errors;
   }

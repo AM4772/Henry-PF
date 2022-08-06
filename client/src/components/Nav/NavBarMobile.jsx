@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import NavLinks from "./NavLinks.jsx";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import s from "./Nav.module.sass";
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -12,7 +12,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export default function NavBarMobile() {
   const dispatch = useDispatch();
-  const location = useLocation();
   const { logout, user } = useAuth0();
   const history = useHistory();
   const { userProfile, cart } = useSelector((state) => state.profile);

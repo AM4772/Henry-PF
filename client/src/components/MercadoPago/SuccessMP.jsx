@@ -8,11 +8,12 @@ import {
 import { clearPayment } from "../../redux/reducers/checkoutSlice";
 import s from "./MercadoPago.module.sass";
 import Loading from "../Loading/Loading";
+import { clearCart } from "../../redux/reducers/profileSlice";
 
 function SuccessMP() {
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
-  const { mpID, order } = useSelector((state) => state.checkout);
+  const { mpID, order, cartCH } = useSelector((state) => state.checkout);
   const { stack } = useSelector((state) => state.history);
   const history = useHistory();
   const [front, setOrder] = useState({
@@ -41,6 +42,9 @@ function SuccessMP() {
     }
     if (order.items.length > 0 && userProfile.ID) {
       setLoading(false);
+      if (cartCH) {
+        dispatch(clearCart());
+      }
       dispatch(
         asyncConfirmPayment({ ...order, userID: parseInt(userProfile.ID) })
       );

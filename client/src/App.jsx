@@ -27,6 +27,7 @@ import Rejected from "./components/MercadoPago/RejectedMP";
 import Pending from "./components/MercadoPago/PendingMP";
 import Validate from "./components/MercadoPago/ValidateMP";
 import Purchases from "./components/Purchases/Purchases";
+import ConfirmEmail from "./components/ConfirmEmail/ConfirmEmail";
 
 function App() {
   const dispatch = useDispatch();
@@ -64,7 +65,8 @@ function App() {
       location.pathname === "/contact" ||
       location.pathname.includes("payment") ||
       location.pathname.includes("checkout") ||
-      location.pathname.includes("purchase")
+      location.pathname.includes("purchase") ||
+      location.pathname.includes("confirm")
     ) {
       setTimeout(() => {
         setLoading(false);
@@ -97,6 +99,7 @@ function App() {
       ) : null}
       <div className="App">
         <Nav />
+        <Route exact path={"/confirm"} component={ConfirmEmail} />
         <Route exact path={"/checkout/validate"} component={Validate} />
         <Route exact path={"/checkout/pending"} component={Pending} />
         <Route exact path={"/checkout/rejected"} component={Rejected} />

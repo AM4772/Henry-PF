@@ -22,6 +22,7 @@ function Auth0() {
         })
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   function login() {
     loginWithPopup();

@@ -358,3 +358,13 @@ export function asyncEnableUser(ID) {
     }
   };
 }
+
+export function asyncConfirmEmail(token) {
+  return async function (dispatch) {
+    try {
+      await axios.get(`/confirm?token=${token}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}

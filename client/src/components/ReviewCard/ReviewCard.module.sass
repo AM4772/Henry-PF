@@ -17,21 +17,36 @@
   .frontpage
     height: 100%
     width: auto
-    padding: 0.5rem
     
     .fpImage
+      width: 120px
       height: 100%
       border-radius: 15px
   
-  .info
-    height: auto
-    width: auto
-    padding: 0.5rem
+.info
+  height: auto
+  width: calc( 100% - 120px )
+  padding: 0.5rem
+
 .top
   display: flex
   justify-content: space-between
-  h2
-    font-size: 22px
+  a
+    width: calc( 100% - 190px )
+    display: flex
+    align-items: center
+    justify-content: flex-start
+    h2
+      font-size: 22px
+      text-overflow: ellipsis
+      white-space: nowrap
+      overflow: hidden
+    span
+      display: flex
+      justify-content: center
+      align-items: bottom
+      margin-left: 0.5rem
+      font-size: 14px
   h2 span
     font-weight: 300
     font-size: 14px
@@ -51,9 +66,10 @@ h3 span
   h4 span
     font-weight: 300
     font-size: 14px
+    padding: 0px
   span
     padding-left: 1rem
-    font-size: 16px  
+    font-size: 16px
 .icon
   height: 25px
   width: 100%

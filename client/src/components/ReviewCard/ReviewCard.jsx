@@ -53,9 +53,8 @@ function ReviewCard(props) {
 			<div className={s.info}>
 				<div className={s.top}>
 					<Link to={`/book/${review.bookID}`}>
-						<h2>
-							{review.bookTitle} <span>#{review.bookID}</span>
-						</h2>
+						<h2>{review.bookTitle}</h2>
+						<span>#{review.bookID}</span>
 					</Link>
 					<div className={s.iconTop}>
 						{stars[review.rating - 1]}

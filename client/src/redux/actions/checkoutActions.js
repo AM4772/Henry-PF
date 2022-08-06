@@ -13,16 +13,6 @@ export function asyncConfirmPayment(body) {
   };
 }
 
-export function asyncRejectPayment(mpID) {
-  return async function (dispatch) {
-    try {
-      await axios.delete(`/payments/${mpID}`);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
-
 export function asyncGetMP(mpID) {
   return async function (dispatch) {
     try {

@@ -30,7 +30,7 @@ export default function MercadoPago({ items, setLoading }) {
       }, 1000);
       setTimeout(() => {
         setLoading(false);
-      }, 3000);
+      }, 2000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferenceId]);

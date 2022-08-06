@@ -59,7 +59,6 @@ const profileSlice = createSlice({
         suspendedTimes: action.payload.suspendedTimes,
         payments: action.payload.payments,
         banned: action.payload.banned,
-
       };
       state.favourites = action.payload.books;
       state.appLoadingProfile = false;
@@ -98,6 +97,9 @@ const profileSlice = createSlice({
     removeItemCart: (state, action) => {
       state.cart = action.payload;
     },
+    clearCart: (state) => {
+      state.cart = [];
+    },
   },
 });
 
@@ -113,6 +115,7 @@ export const {
   enableUser,
   removeItemCart,
   enableAndSuspendUser,
+  clearCart,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

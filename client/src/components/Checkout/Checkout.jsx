@@ -26,19 +26,27 @@ function Checkout() {
         <div className={s.contTicket}>
           <h1>Purchase order</h1>
           <div className={s.itemsCont}>
-            {items?.map((i) => (
-              <div className={s.item}>
-                <div>
-                  {/* <img src={i.picture_url} alt={i.title} title={i.title} /> */}
-                  <span>{i.title}</span>
+            {items?.map((i, key) => (
+              <div key={key} className={s.item}>
+                <div className={s.titleCont}>
+                  <div className={s.imageCont}>
+                    <img
+                      className={s.image}
+                      src={i.picture_url}
+                      alt={i.title}
+                      title={i.title}
+                    />
+                  </div>
+                  <h4 className={s.title}>{i.title}</h4>
                 </div>
                 <span>${i.unit_price}</span>
               </div>
             ))}
           </div>
           <div className={s.total}>
-            <h3>Total:</h3>
+            <h3>Total: </h3>
             <span>
+              $
               {items
                 ?.map((item) => item.unit_price)
                 .reduce((prev, curr) => prev + curr, 0)}

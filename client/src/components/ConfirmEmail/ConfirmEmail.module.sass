@@ -1,0 +1,42 @@
+.container
+    min-height: calc(100vh - 50px)
+    display: flex
+    justify-content: center
+    align-items: center
+.cont
+    height: 40vh
+    width: 80vw
+    border-radius: 10px
+    max-width: 500px
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    background: var(--color-whiteish)
+.message
+    font-size: 18px
+    font-weight: 500
+.redirect
+    font-style: italic
+    a
+        font-weight: bold
+.redirect:after 
+  overflow: hidden
+  display: inline-block
+  vertical-align: bottom
+  -webkit-animation: ellipsis steps(4,end) 4000ms infinite      
+  animation: ellipsis steps(4,end) 4000ms infinite
+  content: "\2026"
+  width: 0px
+
+
+@keyframes ellipsis 
+  to 
+    width: 10px    
+  
+
+
+@-webkit-keyframes ellipsis 
+  to 
+    width: 20px    
+  

@@ -3,7 +3,7 @@ require('dotenv').config();
 const router = Router();
 const { MP_TOKEN } = process.env;
 const mercadopago = require('mercadopago');
-const { eBookEmail } = require('../controllers/EmailsControllers');
+const { eBookEmail, orderEmail } = require('../controllers/EmailsControllers');
 const {
   createPayment,
   getPayments,
@@ -62,10 +62,11 @@ router.get('/:ID', async (req, res) => {
   }
 });
 router.post('/create', async (req, res) => {
-  const { userID, items } = req.body;
+  const { userID, items, total, ID } = req.body;
 
   try {
     await createPayment(req.body);
+    await orderEmail(userID, items, total, ID);
     let emails = await eBookEmail(userID, items);
     emails
       ? res.json({ message: 'eBook email sent' })

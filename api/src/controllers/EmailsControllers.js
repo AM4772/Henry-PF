@@ -49,6 +49,21 @@ let emailsModel = {
       return undefined;
     }
   },
+
+  orderEmail: async function (userID, items, total, ID) {
+    const emailType = 'detail';
+    const user = await Users.findByPk(userID);
+
+    const { username, email } = user.toJSON();
+    try {
+      await sendMail((data = { emailType, username, email, items, total, ID }));
+
+      return true;
+    } catch (error) {
+      //console.log(error);
+      return undefined;
+    }
+  },
   eBookEmail: async function (userID, items) {
     const emailType = 'eBook';
     const user = await Users.findByPk(userID);

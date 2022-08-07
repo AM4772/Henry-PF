@@ -28,6 +28,8 @@ import Pending from "./components/MercadoPago/PendingMP";
 import Validate from "./components/MercadoPago/ValidateMP";
 import Purchases from "./components/Purchases/Purchases";
 import ConfirmEmail from "./components/ConfirmEmail/ConfirmEmail";
+import Emails from "./components/Emails/Emails";
+import FileUpload from "./components/Firebase/FileUpload";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,7 +68,9 @@ function App() {
       location.pathname.includes("payment") ||
       location.pathname.includes("checkout") ||
       location.pathname.includes("purchase") ||
-      location.pathname.includes("confirm")
+      location.pathname.includes("confirm") ||
+      location.pathname.includes("emails") ||
+      location.pathname.includes("firebase")
     ) {
       setTimeout(() => {
         setLoading(false);
@@ -124,6 +128,8 @@ function App() {
         />
         <Route exact path={"/createbook"} component={CreateBook} />
         <Route exact path={"/"} component={Home} />
+        <Route exact path={"/emails"} component={Emails} />
+        <Route exact path={"/firebase"} component={FileUpload} />
         <Footer />
       </div>
     </div>

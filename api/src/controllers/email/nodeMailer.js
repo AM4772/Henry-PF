@@ -104,7 +104,7 @@ let emailsModule = {
           })
         );
       }
-      console.log('array', array);
+
       return Promise.all(array);
     } else {
       var mailOptions = {

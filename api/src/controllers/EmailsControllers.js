@@ -12,7 +12,6 @@ let emailsModel = {
     });
     const { name, email, ID } = user.toJSON();
     const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
-    console.log(token);
     const emailFunction = sendMail(
       (data = { emailType, name, token, username, email, ID })
     );
@@ -60,7 +59,7 @@ let emailsModel = {
 
       return true;
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       return undefined;
     }
   },
@@ -74,7 +73,7 @@ let emailsModel = {
 
       return true;
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       return undefined;
     }
   },

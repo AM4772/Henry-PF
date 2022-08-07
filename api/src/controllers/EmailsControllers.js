@@ -12,7 +12,7 @@ let emailsModel = {
     });
     const { name, email, ID } = user.toJSON();
     const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
-
+    console.log(token);
     const emailFunction = sendMail(
       (data = { emailType, name, token, username, email, ID })
     );
@@ -21,10 +21,9 @@ let emailsModel = {
 
   confirmEmail: async function (token) {
     const userToken = jwt.decode(token, process.env.PASS_TOKEN);
-    const user = await Users.findByPk(userToken.ID);
-    if (user) {
-      const tokenUser = user.toJSON().resetCode;
-      if (tokenUser === token) {
+    if (userToken) {
+      const user = await Users.findByPk(userToken.ID);
+      if (user) {
         user.update({
           enabled: true,
         });

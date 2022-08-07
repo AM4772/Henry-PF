@@ -21,8 +21,9 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
+  const { username } = req.body;
   try {
-    let emails = await registerEmail(req.body);
+    let emails = await registerEmail(username);
     emails
       ? res.json({ message: 'Register email sent' })
       : res.status(404).json({ message: 'Cannot send register email' });

@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
       ? res.json({ message: 'Successful confirmation' })
       : res.status(404).json({ message: 'Cannot verify' });
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });

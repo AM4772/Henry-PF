@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import Loading from "../Loading/Loading";
 import PurchaseCard from "../PurchaseCard/PurchaseCard";
 import s from "./Purchases.module.sass";
 
@@ -41,39 +42,42 @@ const Purchases = () => {
   }
   return (
     <div className={s.containerFav0}>
+      {appLoadingProfile ? <Loading /> : null}
       <div className={s.backButton}>
         <button className={s.buttonBack} onClick={goBack}>
           Back
         </button>
       </div>
-      {userProfile.payments.length > 0 ? (
-        userProfile.payments.map((p) => (
-          <div key={p.mpID} className={s.containerFav1}>
-            <PurchaseCard
-              ID={p.mpID}
-              date={p.createdAt}
-              items={p.items}
-              total={p.total}
-            />
-          </div>
-        ))
-      ) : (
-        <div className={s.containerNotFav0}>
-          <div className={s.containerNotFav}>
-            <div className={s.NotFav}>
-              <h4>You have not bought books yet</h4>
-              <p>
-                You can buy books by clicking on the button BUY that appears in
-                the detail of each book
-              </p>
-              <p>
-                Browse the <Link to="/">home</Link> section to buy your
-                favourites books!
-              </p>
+      {userProfile.ID ? (
+        userProfile.payments.length > 0 ? (
+          userProfile.payments.map((p) => (
+            <div key={p.mpID} className={s.containerFav1}>
+              <PurchaseCard
+                ID={p.mpID}
+                date={p.createdAt}
+                items={p.items}
+                total={p.total}
+              />
+            </div>
+          ))
+        ) : (
+          <div className={s.containerNotFav0}>
+            <div className={s.containerNotFav}>
+              <div className={s.NotFav}>
+                <h4>You have not bought books yet</h4>
+                <p>
+                  You can buy books by clicking on the button BUY that appears
+                  in the detail of each book
+                </p>
+                <p>
+                  Browse the <Link to="/">home</Link> section to buy your
+                  favourites books!
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      ) : null}
     </div>
   );
 };

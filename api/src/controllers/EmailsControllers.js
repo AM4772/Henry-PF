@@ -10,12 +10,15 @@ let emailsModel = {
         username,
       },
     });
-    const { name, email, ID } = user.toJSON();
-    const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
-    const emailFunction = sendMail(
-      (data = { emailType, name, token, username, email, ID })
-    );
-    return emailFunction;
+    const userEnabled = user.toJSON().enabled;
+    if (!userEnabled) {
+      const { name, email, ID } = user.toJSON();
+      const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
+      const emailFunction = sendMail(
+        (data = { emailType, name, token, username, email, ID })
+      );
+      return emailFunction;
+    } else return 1;
   },
 
   confirmEmail: async function (token) {
@@ -37,16 +40,19 @@ let emailsModel = {
     const emailType = 'reset';
     const token = Math.floor(Math.random() * 100000000);
     const findUser = await Users.findByPk(ID);
-    findUser.update({
-      resetCode: token,
-    });
-    try {
-      await sendMail((data = { emailType, token, username, email, ID }));
-      return true;
-    } catch (error) {
-      console.log(error);
-      return undefined;
+    if (findUser) {
+      try {
+        findUser.update({
+          resetCode: token,
+        });
+        await sendMail((data = { emailType, token, username, email, ID }));
+        return true;
+      } catch (error) {
+        console.log(error);
+        return undefined;
+      }
     }
+    return undefined;
   },
 
   orderEmail: async function (userID, items, total, ID) {

@@ -24,6 +24,9 @@ router.post('/register', async (req, res) => {
   const { username } = req.body;
   try {
     let emails = await registerEmail(username);
+    if (emails === 1) {
+      return res.status(400).json({ message: `User already enabled` });
+    }
     emails
       ? res.json({ message: 'Register email sent' })
       : res.status(404).json({ message: 'Cannot send register email' });

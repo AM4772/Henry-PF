@@ -203,7 +203,10 @@ router.post('/', async (req, res) => {
     const validate = await validateUsersPost(req.body);
     if (!validate) {
       const newUser = await createUser(req.body);
-      await registerEmail(username);
+      const register = await registerEmail(username);
+      if (register === 1) {
+        return res.status(400).json({ message: `User already enabled` });
+      }
       newUser
         ? res.status(201).json({ message: 'Successfully registered' })
         : res.status(400).json({ message: `Error creating user` });

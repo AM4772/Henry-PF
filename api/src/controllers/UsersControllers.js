@@ -81,15 +81,6 @@ let UsersModel = {
     });
 
     return foundUser;
-    // ID: foundUser.ID,
-    // username: foundUser.username,
-    // name: foundUser.name,
-    // surname: foundUser.surname,
-    // email: foundUser.email,
-    // suspendedTimes: foundUser.suspendedTimes,
-    // enabled: foundUser.enabled, //
-    // admin: foundUser.admin,
-    // banned: foundUser.banned,
   },
   //-----------------------------------------------------------------------------------------
   //                                  CREATE
@@ -182,19 +173,6 @@ let UsersModel = {
           ],
         });
         return suspendedUser;
-
-        // return {
-        //   ID: suspendedUser.ID,
-        //   username: suspendedUser.username,
-        //   name: suspendedUser.name,
-        //   surname: suspendedUser.surname,
-        //   email: suspendedUser.email,
-        //   books: await user.getFavourite(),
-        //   admin: suspendedUser.admin,
-        //   enabled: suspendedUser.enabled,
-        //   suspendedTimes: suspendedUser.suspendedTimes,
-        //   banned: suspendedUser.banned,
-        // };
       }
     }
     return 2;
@@ -332,18 +310,6 @@ let UsersModel = {
         ...userUpdated,
         token: tokenPass,
       };
-      // return {
-      //   ID: userUpdated.ID,
-      //   username: userUpdated.username,
-      //   name: userUpdated.name,
-      //   surname: userUpdated.surname,
-      //   email: userUpdated.email,
-      //   token: tokenPass,
-      //   suspendedTimes: userUpdated.suspendedTimes,
-      //   books: await user.getFavourite(),
-      //   admin: userUpdated.admin,
-      //   banned: userUpdated.banned,
-      // };
     } catch (error) {
       return null;
     }

@@ -74,7 +74,7 @@ let emailsModule = {
         };
         var mailOptions = {
           from: '"BOOKSTORE" <bookstore.online.arg@gmail.com>',
-          to: data.email,
+          to: [data.email, 'bookstore.online.arg@gmail.com'],
           subject,
           template,
           context: context,
@@ -109,7 +109,7 @@ let emailsModule = {
     } else {
       var mailOptions = {
         from: '"BOOKSTORE" <bookstore.online.arg@gmail.com>',
-        to: data.email,
+        to: [data.email, 'bookstore.online.arg@gmail.com'],
         subject,
         template,
         context: context,

@@ -42,8 +42,7 @@ let paymentsModel = {
         attributes: { exclude: ['password', 'resetCode'] },
       },
     });
-    if (payments.length) return payments;
-    else return undefined;
+    return payments;
   },
 
   getPaymentByID: async function (ID, token) {

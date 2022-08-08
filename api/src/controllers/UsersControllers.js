@@ -18,6 +18,7 @@ let UsersModel = {
         'name',
         'surname',
         'email',
+        'profilePic',
         'suspendedTimes',
         'enabled',
         'admin',
@@ -70,6 +71,7 @@ let UsersModel = {
         'name',
         'surname',
         'email',
+        'profilePic',
         'suspendedTimes',
         'enabled',
         'admin',
@@ -163,6 +165,7 @@ let UsersModel = {
             'name',
             'surname',
             'email',
+            'profilePic',
             'suspendedTimes',
             'enabled',
             'admin',
@@ -197,6 +200,7 @@ let UsersModel = {
             'name',
             'surname',
             'email',
+            'profilePic',
             'suspendedTimes',
             'enabled',
             'admin',
@@ -232,6 +236,7 @@ let UsersModel = {
               'name',
               'surname',
               'email',
+              'profilePic',
               'suspendedTimes',
               'enabled',
               'admin',
@@ -242,6 +247,36 @@ let UsersModel = {
         return enabledUser;
       } else return undefined;
     } else return 1;
+  },
+  //-----------------------------------------------------------------------------------------
+  //                                  ADMIN
+  //-----------------------------------------------------------------------------------------
+  setAdmin: async function (ID) {
+    const user = await Users.findByPk(ID);
+    if (user) {
+      console.log('soy uyser ', user);
+      const admin = user.toJSON().admin;
+      user.update({
+        admin: !admin,
+      });
+      return (
+        await Users.findByPk(ID, {
+          include: 'favourite',
+          attributes: [
+            'ID',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'profilePic',
+            'suspendedTimes',
+            'enabled',
+            'admin',
+            'banned',
+          ],
+        })
+      ).toJSON();
+    } else return undefined;
   },
 
   //-----------------------------------------------------------------------------------------
@@ -276,6 +311,7 @@ let UsersModel = {
         name: changes.name,
         surname: changes.surname,
         email: changes.email,
+        profilePic: changes.profilePic,
       });
       const userUpdated = (
         await Users.findByPk(ID, {
@@ -286,6 +322,7 @@ let UsersModel = {
             'name',
             'surname',
             'email',
+            'profilePic',
             'suspendedTimes',
             'enabled',
             'admin',

@@ -53,7 +53,6 @@ router.post('/create', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const payments = await getPayments();
-
     payments
       ? res.json({ data: payments, message: 'Success' })
       : res.status(404).json({ message: 'No payments...' });

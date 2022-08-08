@@ -14,12 +14,16 @@ const {
 router.get('/', async (req, res) => {
   try {
     let reviews = await getAllReviews();
-    reviews[0] === undefined
-      ? res.status(404).json({ message: 'Cannot get reviews' })
-      : reviews
-      ? res.json(reviews)
-      : res.status(404).json({ message: 'Cannot get reviews' });
+    if (reviews) {
+      return reviews[0] === undefined
+        ? res.status(200).json({ message: 'Cannot get reviews' })
+        : reviews
+        ? res.json(reviews)
+        : res.status(200).json({ message: 'Cannot get reviews' });
+    }
+    return res.status(200).json({ message: 'Cannot get reviews' });
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });
@@ -35,6 +39,7 @@ router.get('/book/:ID', async (req, res) => {
       ? res.json(reviewBook)
       : res.status(404).json({ message: 'Review not found with id ' + ID });
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });
@@ -50,6 +55,7 @@ router.get('/user/:ID', async (req, res) => {
       ? res.json(reviewUser)
       : res.status(404).json({ message: 'Review not found with id ' + ID });
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });
@@ -66,6 +72,7 @@ router.post('/', async (req, res) => {
       res.status(400).json(validate);
     }
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });
@@ -86,6 +93,7 @@ router.put('/:ID', async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });
@@ -103,6 +111,7 @@ router.delete('/:ID', async (req, res) => {
           .status(400)
           .json({ message: `Error deleting review with id ${ID}` });
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });

@@ -8,6 +8,7 @@ const {
   deleteUser,
   suspendUser,
   manualEnabled,
+  setAdmin,
 } = require('../controllers/UsersControllers');
 
 const { validateUsersPost } = require('../utils/validations/userValidations');
@@ -92,6 +93,7 @@ router.delete('/:ID/favourites', async (req, res) => {
         res.json(cartItem);
       }
     } catch (err) {
+      console.log(err);
       res.status(400).json('DATABASE ERROR');
     }
   });
@@ -111,6 +113,7 @@ router.post('/:ID/cart', async (req, res) => {
           .json({ message: 'Item added successfully', data: itemAdded })
       : res.status(400).json({ message: `Failed to add item` });
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -138,9 +141,10 @@ router.delete('/:ID/cart', async (req, res) => {
         ? res
             .status(201)
             .json({ data: newUser, message: 'Successfully registered' })
-        : res.status(400).json({ message: `Error creating user` });
+        : res.status(200).json({ message: `Error creating user` });
     } catch (err) {
       console.log(err);
+
       res.status(400).json('DATABASE ERROR');
     }
   });
@@ -148,6 +152,7 @@ router.delete('/:ID/cart', async (req, res) => {
 router.post('/auth0/login', async (req, res) => {
   try {
     const newUser = await verifyLogin(req.body);
+    console.log(newUser);
     newUser
       ? res
           .status(201)
@@ -155,6 +160,7 @@ router.post('/auth0/login', async (req, res) => {
       : res.status(400).json({ message: `Error creating user` });
   } catch (err) {
     console.log(err);
+
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -222,7 +228,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
-  const { suspended, enabled } = req.query;
+  const { suspended, enabled, admin } = req.query;
 
   try {
     if (ID) {
@@ -246,12 +252,18 @@ router.put('/:ID', async (req, res) => {
           : res.status(404).send({
               message: 'User not found',
             });
+      } else if (admin) {
+        const admin = await setAdmin(ID);
+        console.log('hola');
+        return admin
+          ? res.status(200).send(admin)
+          : res.status(404).send({
+              message: 'User not found',
+            });
       }
-
       const validate = await validateUsersPost(req.body);
       if (!validate) {
         const modified = await modifyUsers(req.body, ID);
-
         modified
           ? res
               .status(200)

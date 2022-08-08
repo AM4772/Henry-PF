@@ -46,41 +46,14 @@ let reviewModel = {
     return undefined;
   },
   getAllReviews: async function () {
-    const reviews = await Reviews.findAll();
-    if (reviews.length) {
-      const filteredReviews = reviews.map(async (r) => {
-        var user = await r.getUser();
-        var book = await r.getBook();
-        if (user && book) {
-          return {
-            ID: r.ID,
-            title: r.title,
-            review: r.review,
-            rating: r.rating,
-            reports: r.reports,
-
-            user: {
-              ID: user.ID,
-              username: user.username,
-              email: user.email,
-              profilepic: user.profilepic,
-              name: user.name,
-              surname: user.surname,
-              enabled: user.enabled,
-              banned: user.banned,
-              suspendedTimes: user.suspendedTimes,
-            },
-            book: book.toJSON(),
-          };
-        } else {
-          return undefined;
-        }
-      });
-      const result = await Promise.all(filteredReviews);
-
-      return result;
-    }
-    return undefined;
+    const reviews = await Reviews.findAll({
+      include: [
+        Books,
+        { model: Users, attributes: { exclude: ['password', 'resetCode'] } },
+      ],
+      attributes: { exclude: ['bookID', 'userID'] },
+    });
+    return reviews;
   },
   getReviewUser: async function (ID) {
     const user = await Users.findOne({

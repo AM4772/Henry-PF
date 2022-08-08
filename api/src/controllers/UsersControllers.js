@@ -12,23 +12,20 @@ let UsersModel = {
   getUsers: async function () {
     const foundUsers = await Users.findAll({
       include: Payments,
+      attributes: [
+        'ID',
+        'username',
+        'name',
+        'surname',
+        'email',
+        'suspendedTimes',
+        'enabled',
+        'admin',
+        'banned',
+      ],
     });
     if (foundUsers.length > 0) {
-      const userJSON = foundUsers.map((u) => u.toJSON());
-      return userJSON.map((u) => {
-        return {
-          ID: u.ID,
-          username: u.username,
-          name: u.name,
-          surname: u.surname,
-          email: u.email,
-          suspendedTimes: u.suspendedTimes,
-          enabled: u.enabled, //
-          admin: u.admin,
-          banned: u.banned,
-          payments: u.payments,
-        };
-      });
+      return foundUsers;
     } else {
       return undefined;
     }

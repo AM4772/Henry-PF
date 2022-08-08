@@ -64,6 +64,8 @@ function App() {
       location.pathname.includes("book") ||
       location.pathname.includes("user") ||
       location.pathname === "/contact" ||
+      location.pathname.includes("emails") ||
+      location.pathname.includes("firebase")
     ) {
       setTimeout(() => {
         setLoading(false);

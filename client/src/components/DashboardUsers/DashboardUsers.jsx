@@ -244,7 +244,13 @@ function DashboardUsers() {
                         : s.spanSuspended
                     }`}
                   >
-                    {u.banned ? "banned" : u.enabled ? "active" : "suspended"}
+                    {u.banned
+                      ? "banned"
+                      : !u.enabled && u.suspendedTimes === 0
+                      ? "unverified"
+                      : u.enabled
+                      ? "active"
+                      : "suspended"}
                   </td>
                   <td className={s.td}>{u.suspendedTimes}</td>
                 </tr>

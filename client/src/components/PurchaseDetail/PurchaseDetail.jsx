@@ -32,15 +32,16 @@ function PurchaseDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile, appLoadingProfile]);
   useEffect(() => {
-    if (!appLoadingProfile) {
-      if (userProfile.ID && paymentDetail) {
+    if (paymentDetail.userID) {
+      if (userProfile.ID) {
         if (paymentDetail.userID !== userProfile.ID) {
           history.push("/");
         }
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentDetail]);
+  }, [paymentDetail, userProfile]);
   function goBack() {
     var lastPath = [];
     for (let i = 1; i < stack.length; i++) {

@@ -28,8 +28,7 @@ const Purchases = () => {
         stack[i] !== "/register" &&
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
-        stack[i] !== "/purchases" &&
-        stack[i] !== stack[0]
+        stack[i] !== "/purchases"
       ) {
         lastPath.push(stack[i]);
       }

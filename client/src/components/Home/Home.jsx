@@ -24,11 +24,12 @@ export function Home(props) {
   var slidesBS = [];
   var slidesNR = [];
   useEffect(() => {
+    dispatch(asyncGetHomeBooks());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(setCurrentPage(1));
-    if (!mostPopular || !bestSellers || !newReleases) {
-      dispatch(asyncGetHomeBooks());
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mostPopular, bestSellers, newReleases]);
   slidesMP = mostPopular?.map((slide) => (

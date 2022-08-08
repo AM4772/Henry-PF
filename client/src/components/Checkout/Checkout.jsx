@@ -49,7 +49,8 @@ function Checkout() {
               $
               {items
                 ?.map((item) => item.unit_price)
-                .reduce((prev, curr) => prev + curr, 0)}
+                .reduce((prev, curr) => prev + curr, 0)
+                .toFixed(2)}
             </span>
           </div>
           <div className={s.MPbutton}>

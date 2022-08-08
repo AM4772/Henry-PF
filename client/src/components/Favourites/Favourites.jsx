@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import FavouriteCard from "../FavouriteCard/FavouriteCard";
 import s from "./Favourites.module.sass";
 
@@ -66,7 +66,7 @@ const Favourites = () => {
             the detail of each book
           </p>
           <p>
-            Browse the <a href="/">home</a> section to find your favourites
+            Browse the <Link to="/">home</Link> section to find your favourites
             books!
           </p>
         </div>

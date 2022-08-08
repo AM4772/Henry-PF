@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import s from "./Cards.module.sass";
 import BookCard from "../BookCard/BookCard";
 import Loading from "../Loading/Loading";
+import { Link } from "react-router-dom";
 
 function Cards() {
   const { books, filterCard, loading } = useSelector((state) => state.books);
@@ -47,7 +48,7 @@ function Cards() {
             <p>Check the spelling of the word</p>
             <p>Use more generic words or fewer words</p>
             <p>
-              Browse the <a href="/">home</a> section to find a similar book
+              Browse the <Link to="/">home</Link> section to find a similar book
             </p>
           </div>
         )}

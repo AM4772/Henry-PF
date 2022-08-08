@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Auth0 from '../Auth/Auth0.jsx';
-import { NavLink } from "react-router-dom";
+import Auth0 from "../Auth/Auth0.jsx";
+import { Link, NavLink } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -182,8 +182,12 @@ function LogIn({ prev }) {
               </NavLink>
             </div>
             <div className={s.bottomButton}>{handleButton()}</div>
-            <div className={s.bottomButton}><Auth0/></div>
-            <a href="/" id={s.forgor}>Forgot password?</a>
+            <div className={s.bottomButton}>
+              <Auth0 />
+            </div>
+            <Link to="/" id={s.forgor}>
+              Forgot password?
+            </Link>
           </div>
         </form>
       </div>

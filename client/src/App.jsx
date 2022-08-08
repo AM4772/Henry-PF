@@ -27,6 +27,7 @@ import Rejected from "./components/MercadoPago/RejectedMP";
 import Pending from "./components/MercadoPago/PendingMP";
 import Validate from "./components/MercadoPago/ValidateMP";
 import Purchases from "./components/Purchases/Purchases";
+import PurchaseDetail from "./components/PurchaseDetail/PurchaseDetail";
 import ConfirmEmail from "./components/ConfirmEmail/ConfirmEmail";
 import Emails from "./components/Emails/Emails";
 import FileUpload from "./components/Firebase/FileUpload";
@@ -60,17 +61,9 @@ function App() {
       setLoading(appLoadingUsers);
     } else if (
       location.pathname === "/login" ||
-      location.pathname.includes("dashboard") ||
       location.pathname.includes("book") ||
       location.pathname.includes("user") ||
-      location.pathname.includes("cart") ||
       location.pathname === "/contact" ||
-      location.pathname.includes("payment") ||
-      location.pathname.includes("checkout") ||
-      location.pathname.includes("purchase") ||
-      location.pathname.includes("confirm") ||
-      location.pathname.includes("emails") ||
-      location.pathname.includes("firebase")
     ) {
       setTimeout(() => {
         setLoading(false);
@@ -78,7 +71,11 @@ function App() {
     } else if (
       location.pathname === "/profile" ||
       location.pathname === "/favourites" ||
-      location.pathname === "/cart"
+      location.pathname === "/cart" ||
+      location.pathname.includes("dashboard") ||
+      location.pathname.includes("payment") ||
+      location.pathname.includes("checkout") ||
+      location.pathname.includes("purchase")
     ) {
       setLoading(appLoadingProfile);
     } else {
@@ -118,9 +115,9 @@ function App() {
         <Route exact path={"/contact"} component={Contact} />
         <Route exact path={"/favourites"} component={Favourites} />
         <Route exact path={"/cart"} component={Cart} />
+        <Route exact path={"/purchases/:ID"} component={PurchaseDetail} />
         <Route exact path={"/purchases"} component={Purchases} />
         <Route exact path={"/dashboard"} component={Dashboard} />
-
         <Route
           exact
           path={"/dashboard/payment/:ID"}

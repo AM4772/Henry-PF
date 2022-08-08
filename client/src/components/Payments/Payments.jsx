@@ -1,38 +1,57 @@
-// import { useEffect } from "react";
-// import { useSelector } from "react-redux";
-// import { useHistory } from "react-router-dom";
-// import PaymentCard from "../PaymentCard/PaymentCard";
+import React, { useEffect, useState } from "react";
 import s from "./Payments.module.sass";
-import { TESTING_PAYMENTS } from "../../TESTING_PAYMENTS";
 import SearchBarPayments from "./SearchBarPayments";
-import { useEffect, useState } from "react";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncGetPayments } from "../../redux/actions/paymentsActions";
+import { AiOutlineReload } from "react-icons/ai";
 
 const Payments = () => {
-  // const history = useHistory();
-  // const { favourites } = useSelector((state) => state.profile);
-  // const { stack } = useSelector((state) => state.history);
-  // useEffect(() => {}, []);
-  let payment = TESTING_PAYMENTS;
+  const { payments } = useSelector((state) => state.payments);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [payments]);
+  useEffect(() => {
+    dispatch(asyncGetPayments());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  let payment = payments;
   const [search, setSearch] = useState("");
-  const [filterPayment, setPaymentFilter] = useState(TESTING_PAYMENTS);
+  const [filterPayment, setPaymentFilter] = useState(payments);
   const [sorting, setSortName] = useState({
-    ID: false,
+    mpID: false,
     purchasedBooks: false,
     userID: false,
     username: false,
     purchaseDate: false,
+    total: false,
   });
 
   function handleChange(e) {
     e.preventDefault();
     setSearch(e.target.value);
   }
+  function reload() {
+    dispatch(asyncGetPayments());
+  }
   function filterPay() {
-    var paymentFilter = TESTING_PAYMENTS.filter(
+    var paymentFilter = payments.filter(
       (p) =>
-        p.userInfo.userID
+        p.user.ID.toString()
+          .replace(/^\s+|\s+$/g, "")
+          .replace(/\./g, "")
+          .replace(/\s+/g, "")
+          .toLowerCase()
+          .includes(
+            search
+              .replace(/^\s+|\s+$/g, "")
+              .replace(/\./g, "")
+              .replace(/\s+/g, "")
+              .toLowerCase()
+          ) ||
+        p.user.username
           .toString()
           .replace(/^\s+|\s+$/g, "")
           .replace(/\./g, "")
@@ -45,34 +64,7 @@ const Payments = () => {
               .replace(/\s+/g, "")
               .toLowerCase()
           ) ||
-        p.userInfo.username
-          .toString()
-          .replace(/^\s+|\s+$/g, "")
-          .replace(/\./g, "")
-          .replace(/\s+/g, "")
-          .toLowerCase()
-          .includes(
-            search
-              .replace(/^\s+|\s+$/g, "")
-              .replace(/\./g, "")
-              .replace(/\s+/g, "")
-              .toLowerCase()
-          ) ||
-        p.ID.toString()
-          .replace(/^\s+|\s+$/g, "")
-          .replace(/\./g, "")
-          .replace(/\s+/g, "")
-          .replace(/\//g, "")
-          .toLowerCase()
-          .includes(
-            search
-              .replace(/^\s+|\s+$/g, "")
-              .replace(/\./g, "")
-              .replace(/\s+/g, "")
-              .replace(/\//g, "")
-              .toLowerCase()
-          ) ||
-        p.purchasedBooks.length
+        p.mpID
           .toString()
           .replace(/^\s+|\s+$/g, "")
           .replace(/\./g, "")
@@ -87,7 +79,22 @@ const Payments = () => {
               .replace(/\//g, "")
               .toLowerCase()
           ) ||
-        new Date(p.purchaseDate)
+        p.items.length
+          .toString()
+          .replace(/^\s+|\s+$/g, "")
+          .replace(/\./g, "")
+          .replace(/\s+/g, "")
+          .replace(/\//g, "")
+          .toLowerCase()
+          .includes(
+            search
+              .replace(/^\s+|\s+$/g, "")
+              .replace(/\./g, "")
+              .replace(/\s+/g, "")
+              .replace(/\//g, "")
+              .toLowerCase()
+          ) ||
+        new Date(p.createdAt)
           .toLocaleDateString()
           .replace(/^\s+|\s+$/g, "")
           .replace(/\./g, "")
@@ -100,6 +107,21 @@ const Payments = () => {
               .replace(/\./g, "")
               .replace(/\//g, "")
               .replace(/\s+/g, "")
+              .toLowerCase()
+          ) ||
+        p.total
+          .toString()
+          .replace(/^\s+|\s+$/g, "")
+          .replace(/\./g, "")
+          .replace(/\s+/g, "")
+          .replace(/\//g, "")
+          .toLowerCase()
+          .includes(
+            search
+              .replace(/^\s+|\s+$/g, "")
+              .replace(/\./g, "")
+              .replace(/\s+/g, "")
+              .replace(/\//g, "")
               .toLowerCase()
           )
     );
@@ -114,10 +136,10 @@ const Payments = () => {
       if (sorting.userID) {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
-            if (a.userInfo.userID < b.userInfo.userID) {
+            if (a.userID < b.userID) {
               return -1;
             }
-            if (a.userInfo.userID > b.userInfo.userID) {
+            if (a.userID > b.userID) {
               return 1;
             }
             return 0;
@@ -126,10 +148,10 @@ const Payments = () => {
       } else {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
-            if (a.userInfo.userID > b.userInfo.userID) {
+            if (a.userID > b.userID) {
               return -1;
             }
-            if (a.userInfo.userID < b.userInfo.userID) {
+            if (a.userID < b.userID) {
               return 1;
             }
             return 0;
@@ -140,10 +162,10 @@ const Payments = () => {
       if (sorting.username) {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
-            if (a.userInfo.username < b.userInfo.username) {
+            if (a.user.username < b.user.username) {
               return -1;
             }
-            if (a.userInfo.username > b.userInfo.username) {
+            if (a.user.username > b.user.username) {
               return 1;
             }
             return 0;
@@ -152,10 +174,10 @@ const Payments = () => {
       } else {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
-            if (a.userInfo.username > b.userInfo.username) {
+            if (a.user.username > b.user.username) {
               return -1;
             }
-            if (a.userInfo.username < b.userInfo.username) {
+            if (a.user.username < b.user.username) {
               return 1;
             }
             return 0;
@@ -166,10 +188,10 @@ const Payments = () => {
       if (sorting.purchasedBooks) {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
-            if (a.purchasedBooks.length < b.purchasedBooks.length) {
+            if (a.items.length < b.items.length) {
               return -1;
             }
-            if (a.purchasedBooks.length > b.purchasedBooks.length) {
+            if (a.items.length > b.items.length) {
               return 1;
             }
             return 0;
@@ -178,10 +200,10 @@ const Payments = () => {
       } else {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
-            if (a.purchasedBooks.length > b.purchasedBooks.length) {
+            if (a.items.length > b.items.length) {
               return -1;
             }
-            if (a.purchasedBooks.length < b.purchasedBooks.length) {
+            if (a.items.length < b.items.length) {
               return 1;
             }
             return 0;
@@ -193,14 +215,12 @@ const Payments = () => {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
             if (
-              new Date(a.purchaseDate).getTime() <
-              new Date(b.purchaseDate).getTime()
+              new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
             ) {
               return -1;
             }
             if (
-              new Date(a.purchaseDate).getTime() >
-              new Date(b.purchaseDate).getTime()
+              new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
             ) {
               return 1;
             }
@@ -211,14 +231,12 @@ const Payments = () => {
         setPaymentFilter([
           ...filterPayment.sort((a, b) => {
             if (
-              new Date(a.purchaseDate).getTime() >
-              new Date(b.purchaseDate).getTime()
+              new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime()
             ) {
               return -1;
             }
             if (
-              new Date(a.purchaseDate).getTime() <
-              new Date(b.purchaseDate).getTime()
+              new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime()
             ) {
               return 1;
             }
@@ -260,21 +278,23 @@ const Payments = () => {
   }, [filterPayment]);
   return payment.length > 0 ? (
     <div className={s.containerPay0}>
-      {/* <div className={s.backButton}>
-        <button className={s.buttonBack}>Back</button>
-      </div> */}
       <div className={s.top}>
         <h1>Payments</h1>
-        <SearchBarPayments value={search} onChange={handleChange} />
+        <div className={s.reloadCont}>
+          <AiOutlineReload className={s.reload} onClick={() => reload()} />
+        </div>
+        <span>
+          <SearchBarPayments value={search} onChange={handleChange} />
+        </span>
       </div>
       <div className={s.tableContainer}>
         <table>
           <thead>
             <tr className={s.sticky}>
-              <th className={s.sort} onClick={() => sort("ID")}>
+              <th className={s.sort} onClick={() => sort("mpID")}>
                 ID Payment
                 <span>
-                  {sorting.ID ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
+                  {sorting.mpID ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
                 </span>
               </th>
               <th className={s.sort} onClick={() => sort("purchasedBooks")}>
@@ -303,41 +323,32 @@ const Payments = () => {
                   <RiArrowDownSFill />
                 )}
               </th>
-              <th className={s.sort}>Price</th>
+              <th className={s.sort} onClick={() => sort("total")}>
+                Price
+                {sorting.total ? <RiArrowDownSFill /> : <RiArrowUpSFill />}
+              </th>
             </tr>
           </thead>
           <tbody>
             {filterPayment.map((b) => (
-              <tr key={b.ID}>
+              <tr key={b.mpID}>
                 <td className={s.td}>
-                  <Link to={`/dashboard/payment/${b.ID}`}>{b.ID}</Link>
+                  <Link to={`/dashboard/payment/${b.mpID}`}>{b.mpID}</Link>
                 </td>
                 <td className={s.td}>
-                  <Link to={`/dashboard/payment/${b.ID}`}>
-                    {b.purchasedBooks.length}
+                  <Link to={`/dashboard/payment/${b.mpID}`}>
+                    {b.items.length}
                   </Link>
                 </td>
-                <td className={s.td}>{b.userInfo.userID}</td>
+                <td className={s.td}>{b.userID}</td>
                 <td className={s.td}>
-                  <Link to={`/user/${b.userInfo.userID}`}>
-                    {b.userInfo.username}
-                  </Link>
+                  <Link to={`/user/${b.userID}`}>{b.user.username}</Link>
                 </td>
                 <td className={s.td}>
-                  {new Date(b.purchaseDate).toLocaleDateString("es-ES")}
+                  {new Date(b.createdAt).toLocaleDateString("es-ES")}
                 </td>
                 <td className={s.td}>
-                  <Link to={`/dashboard/payment/${b.ID}`}>
-                    $
-                    {new Intl.NumberFormat("es-ES", {
-                      maximumFractionDigits: 2,
-                      minimumFractionDigits: 2,
-                    }).format(
-                      b.purchasedBooks.reduce((ac, el) => ({
-                        price: ac.price + el.price,
-                      })).price
-                    )}
-                  </Link>
+                  <Link to={`/dashboard/payment/${b.mpID}`}>${b.total}</Link>
                 </td>
               </tr>
             ))}

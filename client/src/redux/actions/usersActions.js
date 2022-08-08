@@ -320,6 +320,7 @@ export function asyncRegisterAuth0(body) {
       localStorage.setItem('ALTKN', response.data.token);
       dispatch(loginUser(response.data));
     } catch (error) {
+      console.log(error);
       dispatch(asyncLoginAuth0(body));
     }
   };

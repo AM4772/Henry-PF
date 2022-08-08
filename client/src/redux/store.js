@@ -7,6 +7,7 @@ import historySlice from "./reducers/historySlice";
 import dashboardSlice from "./reducers/dashboardSlice";
 import checkoutSlice from "./reducers/checkoutSlice";
 import reviewSlice from "./reducers/reviewSlice";
+import paymentsSlice from "./reducers/paymentsSlice";
 export const store = configureStore({
   reducer: {
     books: booksReducer,
@@ -17,5 +18,6 @@ export const store = configureStore({
     dashboard: dashboardSlice,
     checkout: checkoutSlice,
     reviews: reviewSlice,
+    payments: paymentsSlice,
   },
 });

@@ -1,23 +1,60 @@
-import React from "react";
-// import { useState } from "react";
+import React, { useEffect } from "react";
 import s from "./PurchaseDetail.module.sass";
 import Loading from "../Loading/Loading";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { TESTING_PAYMENTS } from "../../TESTING_PAYMENTS";
+import { useHistory, useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncUserGetPaymentsByID } from "../../redux/actions/paymentsActions";
 
 function PurchaseDetail() {
-  const test = TESTING_PAYMENTS[0];
   const history = useHistory();
-
+  const { userProfile, appLoadingProfile, paymentDetail } = useSelector(
+    (state) => state.profile
+  );
+  const { stack } = useSelector((state) => state.history);
+  const { ID } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!appLoadingProfile) {
+      if (!userProfile.ID) {
+        history.push("/");
+      } else {
+        dispatch(asyncUserGetPaymentsByID(ID));
+      }
+    }
+    return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userProfile, appLoadingProfile]);
+  useEffect(() => {
+    if (paymentDetail) {
+      if (paymentDetail.userID !== userProfile.ID) {
+        history.push("/");
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paymentDetail]);
   function goBack() {
-    history.goBack();
+    var lastPath = [];
+    for (let i = 1; i < stack.length; i++) {
+      if (
+        stack[i] !== "/register" &&
+        stack[i] !== "/login" &&
+        stack[i] !== "/profile" &&
+        stack[i] !== "/favourites" &&
+        stack[i] !== "/createbook" &&
+        stack[i] !== stack[0]
+      ) {
+        lastPath.push(stack[i]);
+      }
+    }
+    if (lastPath.length > 0) {
+      history.push(lastPath[0]);
+    } else {
+      history.push("/");
+    }
   }
-  var tot = 0;
-
   return (
     <div className={s.paymentDetail}>
-      {test.ID ? (
+      {paymentDetail.mpID ? (
         <div className={s.container}>
           <div className={s.backButton}>
             <button className={s.buttonBack} onClick={goBack}>
@@ -27,57 +64,42 @@ function PurchaseDetail() {
           <div className={s.card}>
             <div>
               <h4>
-                Purchase ID:{"    "} <b>{test.ID}</b>
+                Purchase ID:<b>{paymentDetail.mpID}</b>
               </h4>
               <div className={s.userList}>
                 <p>Purchase Date:</p>
-                <p>{test.purchaseDate}</p>
+                <p>
+                  {new Date(paymentDetail.createdAt).toLocaleDateString(
+                    "es-ES"
+                  )}
+                </p>
               </div>
               <div className={s.line}></div>
             </div>
             <div className={s.purchase}>
-              {test.purchasedBooks.map((book, i) => {
-                tot += book.price;
+              {paymentDetail.items.map((book, i) => {
                 return (
                   <div key={i} className={s.info}>
                     <div className={s.contain}>
                       <div>
                         <Link to={`/book/${book.ID}`}>
-                          <img src={book.image} alt="" className={s.image} />
+                          <img
+                            src={book.image}
+                            alt={book.title}
+                            title={book.title}
+                            className={s.image}
+                          />
                         </Link>
                       </div>
                       <div className={s.bookInfo}>
-                        <p>
-                          Book:<b> {book.title.toUpperCase()}</b>
-                        </p>
-                        <p>ID: {book.ID}</p>
-                        <div className={s.list}>
-                          <p>Authors:</p>
-                          {book.authors.map((au, i) => {
-                            return (
-                              <div key={i} className={s.item}>
-                                <b> {au}</b>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <div className={s.list}>
-                          <p>Categories:</p>
-                          {book.categories.map((cat, i) => {
-                            return (
-                              <div key={i} className={s.item}>
-                                {cat}
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <p className={s.price}>
-                          $
-                          {new Intl.NumberFormat("es-ES", {
-                            maximumFractionDigits: 2,
-                            minimumFractionDigits: 2,
-                          }).format(book.price)}
-                        </p>
+                        <Link to={`/book/${book.ID}`}>
+                          <p className={s.bookTitle}>
+                            Book:
+                            <b> {book.title}</b>
+                          </p>
+                          <p>ID: {book.ID}</p>
+                        </Link>
+                        <p className={s.price}>${book.price}</p>
                       </div>
                     </div>
                     <div className={s.line}></div>
@@ -86,14 +108,8 @@ function PurchaseDetail() {
               })}
             </div>
             <div className={s.final}>
-              <p className={s.titulo}>Total:</p>
-              <p className={s.total}>
-                ${" "}
-                {new Intl.NumberFormat("es-ES", {
-                  maximumFractionDigits: 2,
-                  minimumFractionDigits: 2,
-                }).format(tot)}
-              </p>
+              <p className={s.titulo}>Total: </p>
+              <p className={s.total}> ${paymentDetail.total}</p>
             </div>
           </div>
         </div>

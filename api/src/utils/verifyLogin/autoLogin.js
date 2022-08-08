@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { Users } = require('../../db.js');
+const { Users, Payments } = require('../../db.js');
 
 let autoLogin = {
   verifyTokenLogin: async function (token) {
@@ -9,26 +9,28 @@ let autoLogin = {
       where: {
         username: user.username.toLowerCase(),
       },
+      include: ['favourite', Payments],
+      attributes: [
+        'ID',
+        'username',
+        'name',
+        'surname',
+        'email',
+        'suspendedTimes',
+        'enabled',
+        'admin',
+        'banned',
+        'dateSuspended',
+        'resetCode',
+      ],
     });
-    const paymentsByUser = await userExists.getPayments();
 
     const userJSON = userExists.toJSON();
     if (userJSON.banned) {
       return 5;
     }
-    return {
-      ID: userJSON.ID,
-      username: userJSON.username,
-      name: userJSON.name,
-      surname: userJSON.surname,
-      email: userJSON.email,
-      books: await userExists.getFavourite(),
-      admin: userJSON.admin,
-      enabled: userJSON.enabled,
-      dateSuspended: userJSON.dateSuspended,
-      suspendedTimes: userJSON.suspendedTimes,
-      payments: paymentsByUser.map((p) => p.toJSON()),
-    };
+
+    return userJSON;
   },
 };
 

@@ -1,68 +1,86 @@
 const { sendMail } = require('./email/nodeMailer');
 const { Users } = require('../db');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 let emailsModel = {
-  registerEmail: async function (user) {
+  registerEmail: async function (username) {
     const emailType = 'register';
-    const { name, username, email, ID } = user;
-    const token = Math.floor(Math.random() * 1000000000000000);
-    const findUser = await Users.findByPk(ID);
-    if (findUser) {
-      findUser.update({
-        resetCode: token,
-      });
+    const user = await Users.findOne({
+      where: {
+        username,
+      },
+    });
+    const userEnabled = user.toJSON().enabled;
+    if (!userEnabled) {
+      const { name, email, ID } = user.toJSON();
+      const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
       const emailFunction = sendMail(
         (data = { emailType, name, token, username, email, ID })
       );
       return emailFunction;
-    }
-    return false;
+    } else return 1;
   },
 
-  confirmEmail: async function (token, ID) {
-    const user = await Users.findByPk(ID);
-    if (user) {
-      const tokenUser = user.toJSON().resetCode;
-      if (tokenUser === token) {
+  confirmEmail: async function (token) {
+    const userToken = jwt.decode(token, process.env.PASS_TOKEN);
+    if (userToken) {
+      const user = await Users.findByPk(userToken.ID);
+      if (user) {
         user.update({
           enabled: true,
-          resetCode: null,
         });
         return true;
       }
-      return false;
+      return undefined;
     }
-    return false;
+    return undefined;
   },
   resetEmail: async function (user) {
     const { username, email, ID } = user;
     const emailType = 'reset';
     const token = Math.floor(Math.random() * 100000000);
     const findUser = await Users.findByPk(ID);
-    findUser.update({
-      resetCode: token,
-    });
+    if (findUser) {
+      try {
+        findUser.update({
+          resetCode: token,
+        });
+        await sendMail((data = { emailType, token, username, email, ID }));
+        return true;
+      } catch (error) {
+        console.log(error);
+        return undefined;
+      }
+    }
+    return undefined;
+  },
+
+  orderEmail: async function (userID, items, total, ID) {
+    const emailType = 'detail';
+    const user = await Users.findByPk(userID);
+
+    const { username, email } = user.toJSON();
     try {
-      await sendMail((data = { emailType, token, username, email, ID }));
+      await sendMail((data = { emailType, username, email, items, total, ID }));
+
       return true;
     } catch (error) {
       console.log(error);
-      return false;
+      return undefined;
     }
   },
   eBookEmail: async function (userID, items) {
     const emailType = 'eBook';
     const user = await Users.findByPk(userID);
+
     const { username, email } = user.toJSON();
     try {
-      const asd = await sendMail(
-        (data = { emailType, username, email, items })
-      );
-      console.log(asd);
+      await sendMail((data = { emailType, username, email, items }));
 
       return true;
     } catch (error) {
       console.log(error);
-      return false;
+      return undefined;
     }
   },
 };

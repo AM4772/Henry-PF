@@ -37,6 +37,15 @@ let cartModel = {
       return null;
     }
   },
+
+  deleteCart: async function (userID) {
+    const user = await Users.findByPk(userID, { include: 'cart' });
+    if (user) {
+      await user.setCart([]);
+      return true;
+    }
+    return false;
+  },
 };
 
 module.exports = cartModel;

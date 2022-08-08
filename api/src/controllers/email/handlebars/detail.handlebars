@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>REGISTER</title>
+    <title>PURCHASE</title>
     <style>
       .containerEmail { margin: 10px; background-image:
       url("https://i.postimg.cc/pVyfxJt2/BKG-Book-Store.png"); background-size:
@@ -51,22 +51,22 @@
       </div>
       <p class="thanks">
         Hi
-        <b>{{name}}</b>, many thanks for registering in BookStore!
+        <b>{{username}}</b>, many thanks for buying in BookStore!
       </p>
-      <p class="thanks">Your username is <b>{{username}}</b></p>
-      <p class="yourbook">
-        Please click on the button bellow to confirm your account:
+      <p class="thanks">
+        In the attachhed PDF file you will find your
+        <b>purchase invoice</b>.
       </p>
-      <p class="containerButtonReset">
-        <button class="buttonReset">
-          <a
-            class="aReset"
-            href="http://localhost:3001/confirm?token={{token}}"
-          >CONFIRM ACCOUNT</a>
-        </button>
-      </p>
+      <p class="yourbook">Total items purchased: </p>
+      <div class="containerCode0">
+        <div class="containerCode1"><p>{{items}} books</p></div>
+      </div>
+      <p class="yourbook">Total amount:</p>
+      <div class="containerCode0">
+        <div class="containerCode1"><p>${{total}}</p></div>
+      </div>
       <p class="comeback">
-        We look forward to seeing you in
+        We hope you enjoy the book, and keep visiting us at
         <a
           target="_blank"
           rel="noreferrer"

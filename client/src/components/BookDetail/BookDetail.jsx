@@ -78,7 +78,6 @@ function BookDetail(props) {
   }
 
   const [editEnabled, setEditEnabled] = useState(false);
-
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
   window.scrollTo(0, 0);
@@ -294,7 +293,8 @@ function BookDetail(props) {
                           {""}({reviews.length} reviews){""}
                         </p>
                         <div className={s.reviewButtonCont}>
-                          {userProfile.ID ? ( //CAMBIAR por BookPurchased
+                          {(userProfile.ID && userProfile.ID.admin) ||
+                          userProfile.ID ? ( // >>>>>>>>>> CAMBIAR por BookPurchased
                             <button
                               className={s.buttonReview}
                               onClick={() => dispatch(setCloseButtonReview())}

@@ -1,4 +1,4 @@
-const { Users, Payments } = require('../db');
+const { Users, Payments, Books } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
@@ -64,20 +64,23 @@ let UsersModel = {
 
     return foundUser;
   },
-  getUserById: async function (ID) {
-    const foundUser = await Users.findByPk(ID);
 
-    return {
-      ID: foundUser.ID,
-      username: foundUser.username,
-      name: foundUser.name,
-      surname: foundUser.surname,
-      email: foundUser.email,
-      suspendedTimes: foundUser.suspendedTimes,
-      enabled: foundUser.enabled, //
-      admin: foundUser.admin,
-      banned: foundUser.banned,
-    };
+  getUserById: async function (ID) {
+    const foundUser = await Users.findByPk(ID, {
+      attributes: [
+        'ID',
+        'username',
+        'name',
+        'surname',
+        'email',
+        'suspendedTimes',
+        'enabled',
+        'admin',
+        'banned',
+      ],
+    });
+
+    return foundUser;
   },
   //-----------------------------------------------------------------------------------------
   //                                  CREATE
@@ -155,19 +158,21 @@ let UsersModel = {
             where: { ID },
           }
         );
-        const suspendedUser = await Users.findByPk(ID);
-        return {
-          ID: suspendedUser.ID,
-          username: suspendedUser.username,
-          name: suspendedUser.name,
-          surname: suspendedUser.surname,
-          email: suspendedUser.email,
-          books: await user.getFavourite(),
-          admin: suspendedUser.admin,
-          enabled: suspendedUser.enabled,
-          suspendedTimes: suspendedUser.suspendedTimes,
-          banned: suspendedUser.banned,
-        };
+        const suspendedUser = await Users.findByPk(ID, {
+          include: 'favourite',
+          attributes: [
+            'ID',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'suspendedTimes',
+            'enabled',
+            'admin',
+            'banned',
+          ],
+        });
+        return suspendedUser;
       }
     }
     return 2;
@@ -186,19 +191,23 @@ let UsersModel = {
           where: { ID },
         }
       );
-      const enabledUser = (await Users.findByPk(ID)).toJSON();
-      return {
-        ID: enabledUser.ID,
-        username: enabledUser.username,
-        name: enabledUser.name,
-        surname: enabledUser.surname,
-        email: enabledUser.email,
-        books: await user.getFavourite(),
-        admin: enabledUser.admin,
-        enabled: enabledUser.enabled,
-        suspendedTimes: enabledUser.suspendedTimes,
-        banned: enabledUser.banned,
-      };
+      const enabledUser = (
+        await Users.findByPk(ID, {
+          include: 'favourite',
+          attributes: [
+            'ID',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'suspendedTimes',
+            'enabled',
+            'admin',
+            'banned',
+          ],
+        })
+      ).toJSON();
+      return enabledUser;
     } else return undefined;
   },
 
@@ -217,20 +226,24 @@ let UsersModel = {
             where: { ID },
           }
         );
-        const enabledUser = (await Users.findByPk(ID)).toJSON();
-        return {
-          ID: enabledUser.ID,
-          username: enabledUser.username,
-          name: enabledUser.name,
-          surname: enabledUser.surname,
-          email: enabledUser.email,
-          books: await user.getFavourite(),
-          admin: enabledUser.admin,
-          enabled: enabledUser.enabled,
-          suspendedTimes: enabledUser.suspendedTimes,
-          banned: enabledUser.banned,
-        };
-      } else return null;
+        const enabledUser = (
+          await Users.findByPk(ID, {
+            include: 'favourite',
+            attributes: [
+              'ID',
+              'username',
+              'name',
+              'surname',
+              'email',
+              'suspendedTimes',
+              'enabled',
+              'admin',
+              'banned',
+            ],
+          })
+        ).toJSON();
+        return enabledUser;
+      } else return undefined;
     } else return 1;
   },
 
@@ -267,7 +280,22 @@ let UsersModel = {
         surname: changes.surname,
         email: changes.email,
       });
-      const userUpdated = (await Users.findByPk(ID)).toJSON();
+      const userUpdated = (
+        await Users.findByPk(ID, {
+          include: 'favourite',
+          attributes: [
+            'ID',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'suspendedTimes',
+            'enabled',
+            'admin',
+            'banned',
+          ],
+        })
+      ).toJSON();
       const tokenPass = jwt.sign(
         {
           ID: userUpdated.ID,
@@ -279,16 +307,8 @@ let UsersModel = {
         process.env.PASS_TOKEN
       );
       return {
-        ID: userUpdated.ID,
-        username: userUpdated.username,
-        name: userUpdated.name,
-        surname: userUpdated.surname,
-        email: userUpdated.email,
+        ...userUpdated,
         token: tokenPass,
-        suspendedTimes: userUpdated.suspendedTimes,
-        books: await user.getFavourite(),
-        admin: userUpdated.admin,
-        banned: userUpdated.banned,
       };
     } catch (error) {
       return null;

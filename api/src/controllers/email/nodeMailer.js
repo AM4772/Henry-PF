@@ -1,7 +1,7 @@
 const hbs = require('nodemailer-express-handlebars');
 const nodemailer = require('nodemailer');
 const path = require('path');
-const { createPDF } = require('./createPDF');
+const { createPDForder, createPDFebook } = require('./createPDF');
 const { Books } = require('../../db');
 
 var transporter = nodemailer.createTransport({
@@ -41,19 +41,32 @@ let emailsModule = {
       subject = 'Reset Code';
       template = 'reset';
       context = {
-        ID: data.ID,
         username: data.username,
         token: data.token,
       };
     }
+
+    if (data.emailType === 'detail') {
+      subject = 'Purchase Detail #' + data.ID;
+      template = 'detail';
+      let pdfOutput = await createPDForder(
+        (orderDetails = { items: data.items.length, total: data.total })
+      );
+      attachments = [{ path: pdfOutput }];
+      context = {
+        username: data.username,
+        items: data.items.length,
+        total: data.total,
+      };
+    }
     if (data.emailType === 'eBook') {
       for (let i = 0; i < data.items.length; i++) {
-        subject = 'ebook';
-        template = 'ebook';
         const book = await Books.findByPk(data.items[i].ID);
         const booksJSON = book.toJSON();
-        let pdfOutput = await createPDF(data.items[i].ID);
+        let pdfOutput = await createPDFebook(data.items[i].ID);
         attachments = [{ path: pdfOutput }];
+        subject = 'ebook: ' + booksJSON.title;
+        template = 'ebook';
         context = {
           username: data.username,
           title: booksJSON.title,
@@ -61,7 +74,7 @@ let emailsModule = {
         };
         var mailOptions = {
           from: '"BOOKSTORE" <bookstore.online.arg@gmail.com>',
-          to: data.email,
+          to: [data.email, 'bookstore.online.arg@gmail.com'],
           subject,
           template,
           context: context,
@@ -91,12 +104,12 @@ let emailsModule = {
           })
         );
       }
-      console.log('array', array);
+
       return Promise.all(array);
     } else {
       var mailOptions = {
         from: '"BOOKSTORE" <bookstore.online.arg@gmail.com>',
-        to: data.email,
+        to: [data.email, 'bookstore.online.arg@gmail.com'],
         subject,
         template,
         context: context,

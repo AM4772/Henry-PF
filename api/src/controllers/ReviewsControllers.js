@@ -43,7 +43,7 @@ let reviewModel = {
     if (errors.length) {
       return errors;
     }
-    return false;
+    return undefined;
   },
   getAllReviews: async function () {
     const reviews = await Reviews.findAll();
@@ -89,7 +89,7 @@ let reviewModel = {
       },
       include: Reviews,
     });
-    return user
+    return user;
   },
   getReviewBook: async function (ID) {
     const book = await Books.findOne({
@@ -98,7 +98,7 @@ let reviewModel = {
       },
       include: Reviews,
     });
-    return book
+    return book;
   },
   createReview: async function (newReview) {
     const createdReview = await Reviews.create({
@@ -147,7 +147,7 @@ let reviewModel = {
       await reviewModel.calculateRating(book.toJSON().ID);
       return true;
     }
-    return false;
+    return undefined;
   },
 };
 

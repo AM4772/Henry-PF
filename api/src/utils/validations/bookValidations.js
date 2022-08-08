@@ -11,7 +11,6 @@ let validationModel = {
       errors.push('Invalid title');
     }
     if (book.description) {
-      
       if (book.description == '' || book.description.length > 10000)
         errors.push('Invalid description');
     } else {
@@ -61,7 +60,7 @@ let validationModel = {
     if (errors.length) {
       return errors;
     }
-    return false;
+    return undefined;
   },
 };
 module.exports = validationModel;

@@ -20,6 +20,7 @@ router.post('/', async (req, res) => {
       ? res.json(validateLogin)
       : res.status(400).json({ message: 'Wrong username or password' });
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });
@@ -34,6 +35,7 @@ router.post('/autoLogin', async (req, res) => {
       ? res.json(validateToken)
       : res.status(400).json({ message: 'Sign in error' });
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });
@@ -51,6 +53,7 @@ router.post('/enable/:ID', async (req, res) => {
       ? res.json(enabledUser)
       : res.status(400).json({ message: 'Cannot enable user' });
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });

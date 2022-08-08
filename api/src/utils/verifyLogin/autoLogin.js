@@ -5,6 +5,7 @@ const { Users, Payments } = require('../../db.js');
 let autoLogin = {
   verifyTokenLogin: async function (token) {
     const user = jwt.decode(token, process.env.PASS_TOKEN);
+
     const userExists = await Users.findOne({
       where: {
         username: user.username.toLowerCase(),
@@ -24,13 +25,13 @@ let autoLogin = {
         'resetCode',
       ],
     });
-
-    const userJSON = userExists.toJSON();
-    if (userJSON.banned) {
-      return 5;
-    }
-
-    return userJSON;
+    if (userExists) {
+      const userJSON = userExists.toJSON();
+      if (userJSON.banned) {
+        return 5;
+      }
+      return userJSON;
+    } else return undefined;
   },
 };
 

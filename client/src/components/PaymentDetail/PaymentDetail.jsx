@@ -5,6 +5,7 @@ import Loading from "../Loading/Loading";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncGetPaymentsByID } from "../../redux/actions/paymentsActions";
+import { clearPaymentDetailAdmin } from "../../redux/reducers/paymentsSlice";
 
 function PaymentDetail() {
   const history = useHistory();
@@ -15,6 +16,12 @@ function PaymentDetail() {
   const { stack } = useSelector((state) => state.history);
   const { ID } = useParams();
   const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(clearPaymentDetailAdmin());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (!appLoadingProfile) {
       if (!userProfile.admin) {

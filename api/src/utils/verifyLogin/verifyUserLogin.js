@@ -21,6 +21,7 @@ let verifyLoginModel = {
         'name',
         'surname',
         'email',
+        "profilePic",
         'suspendedTimes',
         'enabled',
         'admin',

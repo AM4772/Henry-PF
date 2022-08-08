@@ -1,4 +1,4 @@
-const { Users, Payments, Books } = require('../db');
+const { Users, Payments } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');

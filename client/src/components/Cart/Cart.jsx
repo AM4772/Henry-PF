@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import Loading from "../Loading/Loading.jsx";
 import CartCard from "../CartCard/CartCard.jsx";
 import { useDispatch } from "react-redux";
@@ -114,7 +114,7 @@ function Cart() {
             button that appears in the detail of each book.
           </p>
           <p>
-            Browse the <a href="/">home</a> section to look for books 🤠!
+            Browse the <Link to="/">home</Link> section to look for books!
           </p>
         </div>
       </div>

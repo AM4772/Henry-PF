@@ -7,6 +7,7 @@ const initialState = {
   cart: [],
   appLoadingProfile: true,
   firstAuto: true,
+  paymentDetail: {},
 };
 
 const satisfaction = Swal.mixin({
@@ -60,7 +61,7 @@ const profileSlice = createSlice({
         payments: action.payload.payments,
         banned: action.payload.banned,
       };
-      state.favourites = action.payload.books;
+      state.favourites = action.payload.favourite;
       state.appLoadingProfile = false;
     },
 
@@ -100,6 +101,12 @@ const profileSlice = createSlice({
     clearCart: (state) => {
       state.cart = [];
     },
+    setPaymentDetail: (state, action) => {
+      state.paymentDetail = action.payload;
+    },
+    clearPaymentDetail: (state) => {
+      state.paymentDetail = {};
+    },
   },
 });
 
@@ -116,6 +123,8 @@ export const {
   removeItemCart,
   enableAndSuspendUser,
   clearCart,
+  setPaymentDetail,
+  clearPaymentDetail,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

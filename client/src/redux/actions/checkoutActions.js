@@ -27,9 +27,9 @@ export function asyncGetMP(mpID) {
         return {
           ID: i.id,
           quantity: 1,
-          image: "",
+          image: i.picture_url,
           title: i.title,
-          price: i.unit_price,
+          price: parseFloat(i.unit_price).toFixed(2),
         };
       });
       dispatch(

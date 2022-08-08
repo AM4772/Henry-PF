@@ -24,8 +24,43 @@
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1)
 
 .containerImage
-  width: 90px
+  
+  max-width: 70%
   height: 90px
+  .contImg
+    display: flex
+    justify-content: flex-end
+    flex-direction: row-reverse
+    max-height: 100%
+    height: 100%
+    width: 100%
+    .image
+      &:last-child
+        margin: 0
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      object-fit: contain
+      object-position: center center
+      border-radius: 5px
+      filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.56))
+      max-height: 100%
+      width: 90px
+      margin-left: -50px
+    .imagePlus
+      color: var(--color-brownish-dd)
+      display: flex
+      justify-content: flex-end
+      padding: 10px
+      align-items: center
+      border-radius: 3px
+      background: #fdfdfdad
+      border: 2px #fdfdfdad solid
+      box-shadow: inset 0px 0px 0px 1px var(--color-brownish-dd)
+      filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.295))
+      width: 65px
+      min-height: 100%
+      margin-left: -30px
 
 .containerBookName
   display: flex
@@ -35,18 +70,14 @@
   flex-direction: column
   width: 80%
 
-.image
-  object-fit: contain
-  object-position: center center
-  border-radius: 5px
-  filter: drop-shadow(2px 4px 2px rgba(17, 17, 17, 0.56))
-  max-height: 100%
-  width: 90px
+
 
 .navLink
   display: flex
   flex-direction: row
-  width: 100%
+  min-width: 50%
+  min-height: 95px
+  overflow: hidden
 
 .navLink, .navLink:link, .navLink:visited, .navLink:focus, .navLink:active
   text-decoration: none
@@ -129,6 +160,7 @@
   width: 100%
   // padding: 0px 45px
   justify-content: center
+  align-items: center
 
 .containerDate2
   width: 100%
@@ -173,3 +205,8 @@
     justify-content: center
     padding: 0px 10px
     width: 100%
+.totalItems
+  font-size: 15px
+  color: var(--color-brownish-dd)
+  span
+    font-weight: bold

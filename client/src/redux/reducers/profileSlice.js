@@ -60,6 +60,7 @@ const profileSlice = createSlice({
 				suspendedTimes: action.payload.suspendedTimes,
 				payments: action.payload.payments,
 				banned: action.payload.banned,
+				profilePic: action.payload.profilePic,
 			};
 			state.favourites = action.payload.favourite;
 			state.appLoadingProfile = false;
@@ -106,12 +107,6 @@ const profileSlice = createSlice({
 		},
 		clearPaymentDetail: (state) => {
 			state.paymentDetail = {};
-		},
-		setImage: (state, action) => {
-			state.userProfile = {
-				...state.userProfile,
-				profilePic: action.payload.image,
-			};
 		},
 	},
 });

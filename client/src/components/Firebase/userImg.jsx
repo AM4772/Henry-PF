@@ -6,31 +6,41 @@ import { uploadFile } from "../Firebase/config";
 import s from "./userImg.module.sass";
 
 function UserImg({ ID }) {
-	const [file, setFile] = useState(null);
 	const [img, setImg] = useState();
 	const dispatch = useDispatch();
 	const { userProfile } = useSelector((state) => state.profile);
-	console.log("soy file", file);
 
-	async function handleSubmit(e) {
+	async function onChange(e) {
 		e.preventDefault();
 		try {
-			const result = await uploadFile(file, ID);
-			console.log(result);
+			const result = await uploadFile(e.target.files[0], ID);
+
 			setImg(result);
-			dispatch(asyncSetImage(result));
+			dispatch(asyncSetImage(ID, { ...userProfile, profilePic: result }));
+			console.log("soy data", ID, result);
 		} catch (error) {
 			console.log(error);
 		}
 	}
 	useEffect(() => {
 		console.log("hola soy img", img);
-	}, [img]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userProfile]);
 	return (
 		<>
 			<div className={s.imgContainer}>
-				{img ? (
-					<img src={img} alt="ProfileImg" />
+				{userProfile.profilePic ? (
+					<div className={s.testIMG}>
+						<input
+							type="file"
+							name=""
+							id=""
+							onChange={(e) => onChange(e)}
+							className={s.formContainer}
+						/>
+
+						<img src={userProfile.profilePic} alt="ProfileImg" />
+					</div>
 				) : (
 					<div className={s.testIMG}>
 						<h1 className={s.noImg}>
@@ -41,15 +51,6 @@ function UserImg({ ID }) {
 						</h1>
 					</div>
 				)}
-				<form onSubmit={handleSubmit} className={s.formContainer}>
-					<input
-						type="file"
-						name=""
-						id=""
-						onChange={(e) => setFile(e.target.files[0])}
-					/>
-					<button>Upload</button>
-				</form>
 			</div>
 		</>
 	);

@@ -371,11 +371,12 @@ export function asyncConfirmEmail(token) {
 	};
 }
 
-export function asyncSetImage(ID, body) {
+export function asyncSetImage(ID, result) {
+	console.log(result);
 	return async function (dispatch) {
 		try {
-			const response = (await axios.put(`/users/${ID}`, body)).data;
-			dispatch(setImage(response.data));
+			const response = (await axios.put(`/users/${ID}`, result)).data;
+			dispatch(loginUser(response.data));
 		} catch (error) {
 			console.log(error);
 		}

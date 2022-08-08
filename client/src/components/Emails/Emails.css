@@ -1,15 +1,15 @@
 .containerEmail {
   border: 3px solid black;
   margin: 65px 10px 10px 10px;
-  background-image: url("../../assets/BKG_BookStore.png");
+  background-image: url("https://i.postimg.cc/pVyfxJt2/BKG-Book-Store.png");
   background-size: contain;
   background-repeat: repeat;
 }
 .headerEmail {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start; */
   margin-bottom: 20px;
   padding: 5px 0px;
   width: 100%;
@@ -23,26 +23,14 @@
 }
 
 .logoEmail {
-  display: flex;
-  width: 50px;
   height: 50px;
   margin-left: 10px;
 }
-
 .logoFooter {
-  display: flex;
+  /* display: flex; */
   width: 30px;
   height: 30px;
   margin-left: 10px;
-}
-
-.bookStore p {
-  font-size: 20px;
-  margin-left: 5px;
-  padding: 0px;
-}
-.bookStore p:last-child {
-  margin-top: -5px;
 }
 
 .thanks {
@@ -50,6 +38,7 @@
   margin-left: 30px;
   margin-bottom: 15px;
   color: #322118;
+  font-family: "Verdana";
 }
 
 .comeback,
@@ -58,19 +47,22 @@
   margin-left: 30px;
   padding: 0px 15px 15px 15px;
   font-style: italic;
+  font-family: "Verdana";
 }
 
 .containerBookDet0 {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   margin: 15px 0px;
 }
 .containerBookDet {
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
+  /* display: flex;
+  flex-direction: column; */
+  /* justify-items: center;
+  align-items: center; */
   background-color: rgba(207, 202, 196, 0.5);
+  margin-left: 300px;
+  margin-bottom: 25px;
   width: 300px;
   padding: 15px;
   border-radius: 5px;
@@ -82,25 +74,32 @@
 }
 .containerBookDet img {
   border-radius: 5px;
+  width: 80%;
+  max-width: 380px;
+  margin-left: 28px;
 }
 
 .containerCode0 {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0px;
+  /* display: flex;
+  justify-content: center; */
+  margin: 15px 0px 25px 0px;
 }
 .containerCode1 {
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-items: center;
+  align-items: center; */
   background-color: rgba(207, 202, 196, 0.5);
-  width: 300px;
+  width: 400px;
+  margin-left: 300px;
   padding: 10px;
   border-radius: 5px;
 }
 .containerCode1 p {
   font-size: 28px;
+  margin: 0px;
+  padding: 5px;
+  font-family: "Verdana";
   font-weight: 700;
   text-align: center;
 }
@@ -119,9 +118,9 @@
 }
 
 .containerButtonReset {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0px 25px 0px;
+  /* display: flex;
+  justify-content: center; */
+  margin: 15px 0px 25px 300px;
 }
 .buttonReset {
   border-radius: 5px;
@@ -132,6 +131,7 @@
   font-weight: 600;
   width: 400px;
   color: #1e110b;
+  text-decoration: none;
   background-color: #ddb577;
   -webkit-box-shadow: 0px 0.3px 2px 0px rgba(0, 0, 0, 0.6);
   box-shadow: 0px 0.3px 2px 0px rgba(0, 0, 0, 0.6);

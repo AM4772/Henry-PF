@@ -1,6 +1,6 @@
 import React from "react";
 import "./Emails.css";
-import logo from "../../assets/Book_Logo.png";
+import logo from "../../assets/Book_Logo_Text.png";
 
 const Email1 = () => {
   const username = "peurman";
@@ -12,12 +12,6 @@ const Email1 = () => {
     <div className="containerEmail">
       <div className="headerEmail">
         <img src={logo} className="logoEmail" alt=""></img>
-        <div>
-          <span className="bookStore">
-            <p>Book</p>
-            <p>Store</p>
-          </span>
-        </div>
       </div>
       <p className="thanks">
         Hi <b>{username}</b>, many thanks for buying in BookStore!
@@ -125,8 +119,42 @@ const Email1 = () => {
         !
       </p>
       {/* =================================================== */}
-      <div className="footer">
-        <img src={logo} className="logoFooter" alt=""></img>
+      <p class="thanks">
+        Hi <b>peurman</b>, many thanks for buying in BookStore!
+      </p>
+      <p class="thanks">
+        In the attachhed PDF file you will find your <b>purchase invoice</b>.
+      </p>
+      <p class="yourbook">Total items purchased:</p>
+      <div className="containerCode0">
+        <div className="containerCode1">
+          <p>3 ebooks</p>
+        </div>
+      </div>
+      <p class="yourbook">Total amount: </p>
+      <div className="containerCode0">
+        <div className="containerCode1">
+          <p>$250,00</p>
+        </div>
+      </div>
+      <p class="comeback">
+        Thanks for your purchase, and keep visiting us at
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://bookstore-rose.vercel.app/"
+        >
+          <b>BookStore</b>
+        </a>
+        !
+      </p>
+      {/* =================================================== */}
+      <div class="footer">
+        <img
+          src="https://i.postimg.cc/k56kSt0K/Book-Logo.png"
+          class="logoFooter"
+          alt=""
+        />
       </div>
     </div>
   );

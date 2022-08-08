@@ -89,7 +89,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appLoading, appLoadingUsers, appLoadingProfile, location]);
   useEffect(() => {}, [loading]);
-
   return (
     <div>
       {loading ? (

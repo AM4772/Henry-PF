@@ -8,6 +8,7 @@ export default function MercadoPago({ items, setLoading }) {
     axios
       .post("/payments", {
         items,
+        base_url: process.env.REACT_APP_BASE_URL,
       })
       .then((order) => {
         setPreferenceId(order.data.preferenceId);

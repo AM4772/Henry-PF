@@ -104,7 +104,13 @@ function Dashboard() {
                                   u.enabled ? s.spanActive : s.spanSuspended
                                 }`}
                               >
-                                {u.enabled ? "active" : "suspended"}
+                                {u.banned
+                                  ? "banned"
+                                  : !u.enabled && u.suspendedTimes === 0
+                                  ? "unverified"
+                                  : u.enabled
+                                  ? "active"
+                                  : "suspended"}
                               </td>
                             </tr>
                           );

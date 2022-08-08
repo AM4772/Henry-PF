@@ -112,8 +112,9 @@ let UsersModel = {
             surname: user.surname.toLowerCase(),
             username: user.username.toLowerCase(),
             email: user.email.toLowerCase(),
-            enabled: user.enabled, //
+            enabled: true, //
             authzero: true,
+            profilePic: user.image,
           })
         ).toJSON();
         return { ...authzeroUser, token: tokenPass };

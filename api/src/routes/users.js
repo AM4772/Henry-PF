@@ -206,12 +206,12 @@ router.get('/:ID', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { username } = req.body;
+  const { username, BASE_URL } = req.body;
   try {
     const validate = await validateUsersPost(req.body);
     if (!validate) {
       const newUser = await createUser(req.body);
-      const register = await registerEmail(username);
+      const register = await registerEmail(username, BASE_URL);
       if (register === 1) {
         return res.status(400).json({ message: `User already enabled` });
       }

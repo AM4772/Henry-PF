@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
       : res.status(404).json({ message: 'Cannot verify' });
   } catch (err) {
     console.log(err);
-    res.status(404).json(err);
+    res.status(404).json({ message: 'ERROR: Cannot verify' });
   }
 });
 

@@ -140,6 +140,7 @@ router.delete('/:ID/cart', async (req, res) => {
             .json({ data: newUser, message: 'Successfully registered' })
         : res.status(400).json({ message: `Error creating user` });
     } catch (err) {
+      console.log(err);
       res.status(400).json('DATABASE ERROR');
     }
   });
@@ -153,6 +154,7 @@ router.post('/auth0/login', async (req, res) => {
           .json({ data: newUser, message: 'Successfully registered' })
       : res.status(400).json({ message: `Error creating user` });
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });

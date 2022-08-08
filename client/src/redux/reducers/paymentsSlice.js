@@ -15,12 +15,13 @@ const paymentsSlice = createSlice({
     getPaymentID: (state, action) => {
       state.payment = action.payload;
     },
-    clearPayment: (state) => {
+    clearPaymentDetailAdmin: (state) => {
       state.payment = {};
     },
   },
 });
 
-export const { getPayments, getPaymentID } = paymentsSlice.actions;
+export const { getPayments, getPaymentID, clearPaymentDetailAdmin } =
+  paymentsSlice.actions;
 
 export default paymentsSlice.reducer;

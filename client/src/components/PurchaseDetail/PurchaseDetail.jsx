@@ -4,6 +4,7 @@ import Loading from "../Loading/Loading";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncUserGetPaymentsByID } from "../../redux/actions/paymentsActions";
+import { clearPaymentDetail } from "../../redux/reducers/profileSlice";
 
 function PurchaseDetail() {
   const history = useHistory();
@@ -14,6 +15,12 @@ function PurchaseDetail() {
   const { ID } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
+    return () => {
+      dispatch(clearPaymentDetail());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
     if (!appLoadingProfile) {
       if (!userProfile.ID) {
         history.push("/");
@@ -21,13 +28,15 @@ function PurchaseDetail() {
         dispatch(asyncUserGetPaymentsByID(ID));
       }
     }
-    return;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile, appLoadingProfile]);
   useEffect(() => {
-    if (paymentDetail) {
-      if (paymentDetail.userID !== userProfile.ID) {
-        history.push("/");
+    if (!appLoadingProfile) {
+      if (userProfile.ID && paymentDetail) {
+        if (paymentDetail.userID !== userProfile.ID) {
+          history.push("/");
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

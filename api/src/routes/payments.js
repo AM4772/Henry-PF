@@ -39,12 +39,12 @@ router.post('/create', async (req, res) => {
   const { userID, items, total, ID } = req.body;
   try {
     await createPayment(req.body);
-    // await orderEmail(userID, items, total, ID);
-    // let emails = await eBookEmail(userID, items);
-    // await deleteCart(userID);
-    // emails
-    //   ? res.json({ message: 'eBook email sent' })
-    //   : res.status(404).json({ message: 'Cannot send eBook' });
+    await orderEmail(userID, items, total, ID);
+    let emails = await eBookEmail(userID, items);
+    await deleteCart(userID);
+    emails
+      ? res.json({ message: 'eBook email sent' })
+      : res.status(404).json({ message: 'Cannot send eBook' });
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: 'Cannot create payment' });

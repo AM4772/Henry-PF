@@ -1,5 +1,6 @@
-const { Payments, Users } = require('../db');
+const { Payments, Users, Books, Categories } = require('../db');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 require('dotenv').config();
 
 let paymentsModel = {
@@ -10,8 +11,27 @@ let paymentsModel = {
       total: payment.total,
       userID: payment.userID,
     });
-    console.log(createPayment.toJSON().items);
+    const categoriesArray = await createPayment.toJSON().items;
+    for (let i = 0; i < categoriesArray.length; i++) {
+      const ID = await createPayment.toJSON().items[i].ID;
+      const book = await Books.findByPk(ID);
+      const bookJSON = book.toJSON();
 
+      await book.update({
+        soldCopies: bookJSON.soldCopies + 1,
+      });
+
+      const cat = await Categories.findOne({
+        where: {
+          category: { [Op.iLike]: bookJSON.categories[0] },
+        },
+      });
+
+      const soldCopy = cat.toJSON().soldCopies;
+      await cat.update({
+        soldCopies: soldCopy + 1,
+      });
+    }
     return createPayment;
   },
 

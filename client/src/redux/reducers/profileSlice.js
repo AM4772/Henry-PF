@@ -7,6 +7,7 @@ const initialState = {
   cart: [],
   appLoadingProfile: true,
   firstAuto: true,
+  paymentDetail: {},
 };
 
 const satisfaction = Swal.mixin({
@@ -57,15 +58,17 @@ const profileSlice = createSlice({
         admin: action.payload.admin,
         enabled: action.payload.enabled,
         suspendedTimes: action.payload.suspendedTimes,
+        payments: action.payload.payments,
         banned: action.payload.banned,
       };
-      state.favourites = action.payload.books;
+      state.favourites = action.payload.favourite;
       state.appLoadingProfile = false;
     },
 
     logOut: (state) => {
       state.userProfile = {};
       state.favourites = [];
+      state.cart = [];
       var index = document.cookie.lastIndexOf("ALTKNcookie");
       var cookie = document.cookie.slice(index).split("=");
       document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
@@ -95,6 +98,15 @@ const profileSlice = createSlice({
     removeItemCart: (state, action) => {
       state.cart = action.payload;
     },
+    clearCart: (state) => {
+      state.cart = [];
+    },
+    setPaymentDetail: (state, action) => {
+      state.paymentDetail = action.payload;
+    },
+    clearPaymentDetail: (state) => {
+      state.paymentDetail = {};
+    },
   },
 });
 
@@ -110,6 +122,9 @@ export const {
   enableUser,
   removeItemCart,
   enableAndSuspendUser,
+  clearCart,
+  setPaymentDetail,
+  clearPaymentDetail,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

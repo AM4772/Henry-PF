@@ -1,7 +1,7 @@
 const axios = require('axios');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { Books, Apibooks, Authors, Categories } = require('../db');
+const { Books, Apibooks, Authors, Categories, Reviews } = require('../db');
 const { imageRegex } = require('../utils/validations/regex');
 
 const maxResults = 40;
@@ -76,6 +76,7 @@ let BooksModel = {
                       description: b.volumeInfo.description
                         ? b.volumeInfo.description
                         : 'No description',
+                      bookLink: b.volumeInfo.previewLink,
                       price: b.saleInfo.listPrice
                         ? b.saleInfo.listPrice.amount
                         : (Math.random() * 100).toFixed(2),
@@ -113,7 +114,9 @@ let BooksModel = {
   //                                  GETS
   //-----------------------------------------------------------------------------------------
   getBooks: async function () {
-    const foundBooks = await Books.findAll();
+    const foundBooks = await Books.findAll({
+      include: Reviews,
+    });
     const foundBooksJSON = foundBooks.map((b) => b.toJSON());
     const alphBooks = foundBooksJSON.sort((a, b) =>
       a.title.localeCompare(b.title)
@@ -143,7 +146,9 @@ let BooksModel = {
   },
 
   getBookById: async function (ID) {
-    const bookFound = await Books.findByPk(ID);
+    const bookFound = await Books.findByPk(ID, {
+      include: Reviews,
+    });
     bookFound ? bookFound : undefined;
     return bookFound;
   },

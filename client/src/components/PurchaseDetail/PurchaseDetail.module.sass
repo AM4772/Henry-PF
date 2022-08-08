@@ -72,6 +72,8 @@
   align-self: left
   padding: 0px 5px 0px 5px
   text-align: left
+  a
+    color: var(--color-brownish-dd)
 
 .userList p:last-child
   font-weight: bold
@@ -84,7 +86,7 @@
   // justify-content: flex-end
   // margin-left: 385px
   text-align: right
-  font-size: 25px
+  font-size: 20px
 
 .contain
   display: flex
@@ -94,6 +96,14 @@
 .bookInfo
   margin-left: 20px
   width: 100%
+  a
+    width: 100%
+    color: var(--color-brownish-dd)
+  .bookTitle
+    width: 70%
+    text-overflow: ellipsis
+    white-space: nowrap
+    overflow: hidden
 
 .list
   display: flex
@@ -102,7 +112,9 @@
   margin-left: 10px
 
 .image
-  height: 150px
+  max-height: 150px
+  overflow: hidden
+  max-width: 80px
 
 .line
   border: 1px solid rgba(141, 141, 141, 0.66)
@@ -113,8 +125,8 @@
 
 .final
   display: flex
-  justify-content: space-between
-  align-items: flex-end
+  justify-content: flex-end
+  align-items: center
   p:first-child
     font-weight: 500
   p:last-child
@@ -122,6 +134,7 @@
 
 .titulo
   font-size: 25px
+  margin-right: 20px
 
 .total
   font-size: 35px

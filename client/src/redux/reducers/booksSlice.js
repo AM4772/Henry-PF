@@ -15,6 +15,8 @@ const initialState = {
   filterBooksByCategory: [],
   filterCard: "books",
   orderBooksBy: "A-Z",
+  closeButtonReview: false,
+  closeButtonEdit: false,
 };
 
 const booksSlice = createSlice({
@@ -163,6 +165,12 @@ const booksSlice = createSlice({
         state.books.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating));
       }
     },
+    setCloseButtonReview: (state) => {
+      state.closeButtonReview = !state.closeButtonReview;
+    },
+    setCloseButtonEdit: (state) => {
+      state.closeButtonEdit = !state.closeButtonEdit;
+    },
   },
 });
 
@@ -181,6 +189,8 @@ export const {
   clearAllBooks,
   setSortBook,
   applyBookSort,
+  setCloseButtonReview,
+  setCloseButtonEdit,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

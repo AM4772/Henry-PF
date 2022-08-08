@@ -22,7 +22,7 @@ let validationModel = {
     if (errors.length) {
       return errors;
     }
-    return false;
+    return undefined;
   },
 };
 module.exports = validationModel;

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { Op } = require('sequelize');
-const { Users } = require('../../db');
+const { Users, Payments } = require('../../db');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -13,13 +13,28 @@ let verifyLoginModel = {
           { email: username.toLowerCase() },
         ],
       },
+      include: ['favourite', Payments],
+      attributes: [
+        'ID',
+        'username',
+        'name',
+        'surname',
+        'email',
+        'suspendedTimes',
+        'enabled',
+        'admin',
+        'banned',
+        'dateSuspended',
+        'resetCode',
+        'password',
+      ],
     });
-
     if (user) {
       if (user.banned) {
         return 5;
       }
       const authUserJSON = user.toJSON();
+      //AUTH0
       if (authUserJSON.authzero) {
         const tokenPass = jwt.sign(
           {
@@ -37,18 +52,10 @@ let verifyLoginModel = {
         );
         return {
           message: `Welcome ${names.join(' ')}`,
-          ID: authUserJSON.ID,
-          username: authUserJSON.username,
-          name: authUserJSON.name,
-          surname: authUserJSON.surname,
-          email: authUserJSON.email,
+          ...authUserJSON,
           token: tokenPass,
-          books: await user.getFavourite(),
-          admin: authUserJSON.admin,
-          enabled: authUserJSON.enabled,
-          dateSuspended: authUserJSON.dateSuspended,
-          suspendedTimes: authUserJSON.suspendedTimes,
         };
+        //LOGIN NORMAL
       } else {
         const userJSON = user.toJSON();
         const hashedPassword = userJSON.password;
@@ -68,19 +75,11 @@ let verifyLoginModel = {
             },
             process.env.PASS_TOKEN
           );
+
           return {
             message: `Welcome ${names.join(' ')}`,
-            ID: userJSON.ID,
-            username: userJSON.username,
-            name: userJSON.name,
-            surname: userJSON.surname,
-            email: userJSON.email,
+            ...userJSON,
             token: tokenPass,
-            books: await user.getFavourite(),
-            admin: userJSON.admin,
-            enabled: userJSON.enabled,
-            dateSuspended: userJSON.dateSuspended,
-            suspendedTimes: userJSON.suspendedTimes,
           };
         }
         return undefined;

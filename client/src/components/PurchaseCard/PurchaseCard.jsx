@@ -1,114 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
-import { asyncDeleteFavourite } from "../../redux/actions/usersActions";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import Loading from "../Loading/Loading";
+import { FaBookMedical } from "react-icons/fa";
 import s from "./PurchaseCard.module.sass";
-import heartOn from "../../assets/Heart_on.png";
-import { BsFillCartPlusFill, BsFillCartDashFill } from "react-icons/bs";
-import {
-  asyncAddItemCart,
-  asyncRemoveItemCart,
-} from "../../redux/actions/usersActions";
 
-function FavouriteCard(props) {
-  let book = props;
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const { userProfile } = useSelector((state) => state.profile);
-  const { cart } = useSelector((state) => state.profile);
-  const [addedCart, setAddedCart] = useState(false);
+function PurchaseCard(props) {
+  let payment = props;
 
-  useEffect(() => {
-    if (cart.length) {
-      let result = cart.find((el) => el.ID === parseInt(book.ID));
-      if (result) setAddedCart(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
-
-  const handleCart = () => {
-    if (!addedCart) {
-      if (!userProfile.ID) history.push("/login");
-      dispatch(asyncAddItemCart(userProfile.ID, book.ID));
-      setAddedCart(true);
-    } else {
-      dispatch(asyncRemoveItemCart(userProfile.ID, book.ID));
-      setAddedCart(false);
-    }
-  };
-
-  function deletingFav() {
-    dispatch(asyncDeleteFavourite(userProfile.ID, book.ID));
-  }
   return (
     <div className={s.cards}>
-      {book.title ? (
+      {payment.ID ? (
         <div className={s.container0}>
           <div className={s.container1}>
-            <NavLink className={s.navLink} to={`/book/${book.ID}`}>
+            <NavLink className={s.navLink} to={`/purchases/${payment.ID}`}>
               <div className={s.containerImage}>
-                <img
-                  className={s.image}
-                  title={book.title}
-                  alt={book.ID}
-                  src={`${book.image}`}
-                />
-              </div>
-              <div className={s.containerBookName}>
-                <p id={s.bookTitle}>
-                  {book.title.length < 60
-                    ? book.title.toUpperCase()
-                    : book.title.toUpperCase().slice(0, 60) + "..."}
-                </p>
-                <p id={s.author}>
-                  {book.authors[0] && book.authors[0].length > 27
-                    ? book.authors[0].slice(0, 27) + "..."
-                    : book.authors[0]}
-                </p>
-              </div>
-            </NavLink>
-            <div className={s.containerBlock2}>
-              <div className={s.containerCartHeart}>
-                <div className={s.containerEmpty}></div>
-                <div className={s.containerCartHeart2}>
-                  <button onClick={handleCart}>
-                    {addedCart ? (
-                      <BsFillCartDashFill
-                        title="Remove from cart"
-                        className={s.icon2}
-                      />
-                    ) : (
-                      <BsFillCartPlusFill
-                        title="Add to Cart"
-                        className={s.icon}
-                      />
-                    )}
-                  </button>
-                  <img
-                    className={s.imgHeart}
-                    alt="heart"
-                    title="Delete Favourite"
-                    src={heartOn}
-                    onClick={deletingFav}
-                  />
+                <div className={s.contImg}>
+                  {payment.items.length >= 5 ? (
+                    <div className={s.imagePlus}>
+                      <span>{payment.items.length - 4}</span>
+                      <FaBookMedical />
+                    </div>
+                  ) : null}
+                  {payment.items.map((i, index) => {
+                    if (index < 4) {
+                      return (
+                        <img
+                          key={i.ID}
+                          className={s.image}
+                          title={i.title}
+                          alt={i.ID}
+                          src={`${i.image}`}
+                        />
+                      );
+                    }
+                    return null;
+                  })}
                 </div>
               </div>
+            </NavLink>
+            <p className={s.totalItems}>
+              Total items: <span>{payment.items.length}</span>
+            </p>
+            <div className={s.containerBlock2}>
               <div className={s.containerBlock3}>
                 <div className={s.containerDate1}>
                   <div className={s.containerDate2}>
-                    <p>Added on</p>
-                    <p>{new Date(book.date).toLocaleDateString("es-ES")}</p>
+                    <p>Bought on</p>
+                    <p>{new Date(payment.date).toLocaleDateString("es-ES")}</p>
                   </div>
                 </div>
                 <div className={s.price}>
-                  <p>
-                    $
-                    {new Intl.NumberFormat("es-ES", {
-                      maximumFractionDigits: 2,
-                      minimumFractionDigits: 2,
-                    }).format(book.price)}
-                  </p>
+                  <p>Total: ${payment.total}</p>
                 </div>
               </div>
             </div>
@@ -121,4 +63,4 @@ function FavouriteCard(props) {
   );
 }
 
-export default FavouriteCard;
+export default PurchaseCard;

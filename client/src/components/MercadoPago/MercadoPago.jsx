@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 const FORM_ID = "payment-form";
 
-export default function MercadoPago({ productID, title, items }) {
+export default function MercadoPago({ items, setLoading }) {
   const [preferenceId, setPreferenceId] = useState(null);
-  const { userProfile } = useSelector((state) => state.profile);
   useEffect(() => {
-    if (false) {
-      axios
-        .post("/payment", {
-          productID,
-          items,
-          userID: userProfile.ID,
-        })
-        .then((order) => {
-          setPreferenceId(order.data.preferenceId);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productID, title]);
+    axios
+      .post("/payments", {
+        items,
+      })
+      .then((order) => {
+        setPreferenceId(order.data.preferenceId);
+      });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (preferenceId) {
       const script = document.createElement("script");
@@ -30,7 +24,15 @@ export default function MercadoPago({ productID, title, items }) {
       script.setAttribute("data-preference-id", preferenceId);
       const form = document.getElementById(FORM_ID);
       form.appendChild(script);
+      setTimeout(() => {
+        const button = document.querySelector(".mercadopago-button");
+        button.innerHTML = "Buy (Mercado Pago)";
+      }, 1000);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preferenceId]);
   return <form id={FORM_ID} method="GET" />;
 }

@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./AddReview.module.sass";
 import StarFull from "../../assets/StarFull.png";
 import StarEmpty from "../../assets/StarEmpty.png";
 import { asyncAddReview } from "../../redux/actions/reviewActions";
+import { setCloseButtonReview } from "../../redux/reducers/booksSlice";
+// import { asyncGetBookDetail } from "../../redux/actions/booksActions";
 
 export default function AddReview({ book }) {
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
-
+  const { closeButtonReview } = useSelector((state) => state.books);
   const [errors, setErrors] = React.useState({});
   const [countStars, setCountStars] = useState(0);
   const [myForm, setMyForm] = useState({
@@ -19,18 +21,31 @@ export default function AddReview({ book }) {
     userID: userProfile.ID,
   });
 
+  const openReview = useRef();
+  document.addEventListener("mousedown", closeListReview);
+
+  function closeListReview(e) {
+    if (
+      openReview.current &&
+      closeButtonReview &&
+      !openReview.current.contains(e.target)
+    ) {
+      dispatch(setCloseButtonReview());
+    }
+  }
+
   function validate(input) {
     let errors = {};
 
     if (!input.title || input.title.length > 20) {
       errors.title = "Title is required, and must not exceed 20 characters";
-    } else if (!/^[a-zA-Z0-9\s,Ññáéíóú]+$/.test(input.title)) {
+    } else if (!/^[a-zA-Z0-9\s,Ññáéíóú¡!]+$/.test(input.title)) {
       errors.title =
         "The title of the review is invalid, no special characters are allowed";
     }
-    if (input.review.length > 350 || input.review.length > 350) {
+    if (!input.review || input.review.length > 255) {
       errors.review =
-        "Descriptionis required, and must not exceed 350 characters";
+        "Description is required, and must not exceed 255 characters";
     }
     return errors;
   }
@@ -57,15 +72,24 @@ export default function AddReview({ book }) {
 
   let handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(asyncAddReview(myForm));
-    resetFilters();
-    setMyForm({
-      title: "",
-      review: "",
-      rating: 0,
-      bookID: "",
-      userID: "",
-    });
+    if (
+      myForm.title.length &&
+      myForm.review.length &&
+      !errors.title &&
+      !errors.review &&
+      myForm.rating
+    ) {
+      dispatch(asyncAddReview(myForm));
+      // dispatch(asyncGetBookDetail(book.ID));
+      resetFilters();
+      setMyForm({
+        title: "",
+        review: "",
+        rating: 0,
+        bookID: book.ID,
+        userID: userProfile.ID,
+      });
+    }
   };
 
   function resetFilters() {
@@ -74,10 +98,18 @@ export default function AddReview({ book }) {
     document.getElementById("descriptionID").selectedIndex = "";
   }
 
-  function goBack() {}
+  function goBack() {
+    dispatch(setCloseButtonReview());
+  }
 
   function handleButton() {
-    if (myForm.title.length && myForm.review.length && myForm.rating)
+    if (
+      myForm.title.length &&
+      myForm.review.length &&
+      !errors.title &&
+      !errors.review &&
+      myForm.rating
+    )
       return (
         <button id={s.active} className={`buttons`}>
           CREATE REVIEW
@@ -98,7 +130,7 @@ export default function AddReview({ book }) {
           Back
         </button>
       </div>
-      <div className={s.containerCard}>
+      <div className={s.containerCard} ref={openReview}>
         <h1 className={s.titleAdd}>Add Review</h1>
         <div className={s.containerImageForm}>
           <div className={s.containerImage}>
@@ -113,8 +145,8 @@ export default function AddReview({ book }) {
             <form onSubmit={handleSubmit}>
               <div className={s.creationCardDisplay}>
                 <div className={s.inline}>
-                  <div className={s.inline}>
-                    <label className={s.fillTitle}>Select Stars:</label>
+                  <div className={s.inline2}>
+                    <label className={s.fillTitle}>Rate the book:</label>
                     <div className={s.containerStars}>
                       <img
                         className={s.star}
@@ -149,7 +181,7 @@ export default function AddReview({ book }) {
                     </div>
                   </div>
                   <div className={s.inline}>
-                    <label className={s.fillTitle}>Title: </label>
+                    <label className={s.fillTitle}>Title of the review: </label>
                   </div>
                   <input
                     className={!errors.title ? s.normal : s.danger}

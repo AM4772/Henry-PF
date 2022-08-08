@@ -1,11 +1,11 @@
 import React from "react";
 import NavBar from "./NavBar";
-// import NavBarMobile from "./NavBarMobile";
+import NavBarMobile from "./NavBarMobile";
 
 export default function Nav() {
   return (
     <div>
-      {/* <NavBarMobile /> */}
+      <NavBarMobile />
       <NavBar />
     </div>
   );

@@ -10,7 +10,11 @@ import {
   asyncGetBookDetail,
   asyncDeleteBook,
 } from "../../redux/actions/booksActions";
-import { clearBookDetail } from "../../redux/reducers/booksSlice";
+import {
+  clearBookDetail,
+  setCloseButtonReview,
+  setCloseButtonEdit,
+} from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
   asyncDeleteFavourite,
@@ -28,8 +32,9 @@ import heartOff from "../../assets/Heart_off.png";
 import heartOn from "../../assets/Heart_on.png";
 import EditBook from "../EditBook/EditBook";
 import AddReview from "../AddReview/AddReview";
+import { setItems } from "../../redux/reducers/checkoutSlice";
 
-import { TESTING_REVIEWS } from "../../testingObjects";
+// import { TESTING_REVIEWS } from "../../testingObjects";
 
 const stars = [Stars0, Stars1, Stars2, Stars3, Stars4, Stars5];
 
@@ -40,17 +45,24 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
+  const { closeButtonReview, closeButtonEdit } = useSelector(
+    (state) => state.books
+  );
   const { favourites, cart } = useSelector((state) => state.profile);
 
   let book = useSelector((state) => state.books.bookDetail);
 
-  let reviews = TESTING_REVIEWS;
+  // let reviews = TESTING_REVIEWS;
+  let reviews = book.reviews;
 
-  const ratingTotal = Math.round(
-    reviews.reduce((ac, el) => ({
-      rating: ac.rating + el.rating,
-    })).rating / reviews.length
-  );
+  const ratingTotal =
+    reviews && reviews.length
+      ? Math.round(
+          reviews.reduce((ac, el) => ({
+            rating: ac.rating + el.rating,
+          })).rating / reviews.length
+        )
+      : 0;
 
   const openEdit = useRef();
   document.addEventListener("mousedown", closeList);
@@ -66,8 +78,6 @@ function BookDetail(props) {
   }
 
   const [editEnabled, setEditEnabled] = useState(false);
-  const [addReviewEnabled, setAddReviewEnabled] = useState(false);
-
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
   window.scrollTo(0, 0);
@@ -102,6 +112,7 @@ function BookDetail(props) {
         stack[i] !== "/login" &&
         stack[i] !== "/profile" &&
         stack[i] !== "/favourites" &&
+        stack[i] !== "/createbook" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -178,6 +189,9 @@ function BookDetail(props) {
           history.push("/login");
         }
       });
+    } else {
+      dispatch(setItems([book]));
+      history.push("/checkout");
     }
     // dispatch(asyncBuyBook(userProfile.ID, ID));
   }
@@ -279,10 +293,11 @@ function BookDetail(props) {
                           {""}({reviews.length} reviews){""}
                         </p>
                         <div className={s.reviewButtonCont}>
-                          {userProfile.ID && userProfile.admin ? ( //CAMBIAR por BookPurchased
+                          {(userProfile.ID && userProfile.ID.admin) ||
+                          userProfile.ID ? ( // >>>>>>>>>> CAMBIAR por BookPurchased
                             <button
                               className={s.buttonReview}
-                              onClick={() => setAddReviewEnabled(true)}
+                              onClick={() => dispatch(setCloseButtonReview())}
                             >
                               Add a review
                             </button>
@@ -355,13 +370,13 @@ function BookDetail(props) {
             <div className={s.container6}>
               <div className={s.textReviews} id="reviewsMark">
                 {reviews.map((el) => (
-                  <div key={el.reviewID}>
+                  <div key={el.ID}>
                     <div className={s.starTitle}>
-                      <img src={stars[el.rating]} alt={el.reviewID} />
-                      {el.reviewTitle}
+                      <img src={stars[el.rating]} alt={el.ID} />
+                      {el.title}
                     </div>
                     <span>{el.review}</span>
-                    {reviews[reviews.length - 1].reviewID !== el.reviewID ? (
+                    {reviews[reviews.length - 1].ID !== el.ID ? (
                       <p className={s.divisor}></p>
                     ) : null}
                   </div>
@@ -376,7 +391,7 @@ function BookDetail(props) {
               </div>
             </div>
           ) : undefined}
-          {addReviewEnabled ? (
+          {closeButtonReview ? (
             <div id={s.displayMePlease}>
               <div id={s.review}>
                 <AddReview book={book} />

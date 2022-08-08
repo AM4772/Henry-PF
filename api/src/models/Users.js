@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       profilepic: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       password: {
         type: DataTypes.STRING,
@@ -43,11 +43,11 @@ module.exports = (sequelize) => {
         // }
       },
       resetCode: {
-        type: DataTypes.INTEGER        
+        type: DataTypes.BIGINT,
       },
       enabled: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
         allowNull: false,
       },
       banned: {

@@ -17,6 +17,7 @@ let verifyLoginModel = {
       attributes: [
         'ID',
         'username',
+        'authzero',
         'name',
         'surname',
         'email',

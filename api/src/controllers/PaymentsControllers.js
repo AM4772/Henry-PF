@@ -4,12 +4,14 @@ require('dotenv').config();
 
 let paymentsModel = {
   createPayment: async function (payment) {
-    const createPayment = Payments.create({
+    const createPayment = await Payments.create({
       mpID: payment.ID,
       items: payment.items,
       total: payment.total,
       userID: payment.userID,
     });
+    console.log(createPayment.toJSON().items);
+
     return createPayment;
   },
 

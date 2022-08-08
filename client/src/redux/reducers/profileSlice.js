@@ -110,7 +110,7 @@ const profileSlice = createSlice({
 		setImage: (state, action) => {
 			state.userProfile = {
 				...state.userProfile,
-				image: action.payload.image,
+				profilePic: action.payload.image,
 			};
 		},
 	},

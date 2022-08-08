@@ -376,6 +376,8 @@ export function asyncSetImage(ID, body) {
 		try {
 			const response = (await axios.put(`/users/${ID}`, body)).data;
 			dispatch(setImage(response.data));
-		} catch (error) {}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 }

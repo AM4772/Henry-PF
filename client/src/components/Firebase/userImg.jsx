@@ -6,7 +6,7 @@ import { TiCamera } from "react-icons/ti";
 import s from "./userImg.module.sass";
 
 function UserImg({ ID }) {
-  const [img, setImg] = useState();
+  const [, setImg] = useState();
   const dispatch = useDispatch();
   const { userProfile } = useSelector((state) => state.profile);
 

@@ -141,3 +141,51 @@
   transition: 0s
   &:focus
     outline: none
+  
+#formContainer
+  position: absolute
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+#testIMG
+  height: 134.5px
+  width: 90px
+  color: var(--color-brownish-dd)
+  display: flex
+  justify-content: center
+  align-items: center
+  background: white
+  user-select: none
+  overflow: hidden
+  margin: auto
+  h1
+    font-size: 45px
+  img
+    object-fit: contain
+    min-width: 100%
+    min-height: 100%
+    margin: 0
+  #customFileUpload
+    display: inline-block
+    padding: 6px 12px
+    height: 134.5px
+    width: 90px
+    cursor: pointer
+    position: absolute
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    transition: all ease .3s
+    &:hover
+      background: #00000067
+      #camera
+        visibility: visible
+  input[type="file"]
+    display: none
+  #camera
+    // visibility: hidden
+    font-size: 25px
+    color: #bdbdbd

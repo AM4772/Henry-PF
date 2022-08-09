@@ -9,64 +9,64 @@ const initialState = {
   firstAuto: true,
   paymentDetail: {},
   confirmMail: false,
-
+  IDreset: "",
 };
 
 const satisfaction = Swal.mixin({
-	background: "#DED7CF",
-	backdrop: false,
-	toast: true,
-	heightAuto: false,
-	position: "bottom-end",
-	showConfirmButton: false,
-	iconColor: "#1E110B",
-	timer: 2000,
-	timerProgressBar: true,
-	didOpen: (toast) => {
-		toast.addEventListener("mouseenter", Swal.stopTimer);
-		toast.addEventListener("mouseleave", Swal.resumeTimer);
-	},
+  background: "#DED7CF",
+  backdrop: false,
+  toast: true,
+  heightAuto: false,
+  position: "bottom-end",
+  showConfirmButton: false,
+  iconColor: "#1E110B",
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
 });
 
 const profileSlice = createSlice({
-	name: "profile",
-	initialState,
-	reducers: {
-		getProfile: (state, action) => {
-			state.userProfile = action.payload;
-		},
-		enableAndSuspendUser: (state, action) => {
-			state.userProfile = {
-				...state.userProfile,
-				enabled: action.payload.enabled,
-				suspendedTimes: action.payload.suspendedTimes,
-			};
-			state.appLoadingProfile = false;
-		},
-		enableUser: (state, action) => {
-			state.userProfile = {
-				...state.userProfile,
-				enabled: action.payload.enabled,
-			};
-			state.appLoadingProfile = false;
-		},
-		loginUser: (state, action) => {
-			state.userProfile = {
-				ID: action.payload.ID,
-				name: action.payload.name,
-				surname: action.payload.surname,
-				username: action.payload.username,
-				email: action.payload.email,
-				admin: action.payload.admin,
-				enabled: action.payload.enabled,
-				suspendedTimes: action.payload.suspendedTimes,
-				payments: action.payload.payments,
-				banned: action.payload.banned,
-				profilePic: action.payload.profilePic,
-			};
-			state.favourites = action.payload.favourite;
-			state.appLoadingProfile = false;
-		},
+  name: "profile",
+  initialState,
+  reducers: {
+    getProfile: (state, action) => {
+      state.userProfile = action.payload;
+    },
+    enableAndSuspendUser: (state, action) => {
+      state.userProfile = {
+        ...state.userProfile,
+        enabled: action.payload.enabled,
+        suspendedTimes: action.payload.suspendedTimes,
+      };
+      state.appLoadingProfile = false;
+    },
+    enableUser: (state, action) => {
+      state.userProfile = {
+        ...state.userProfile,
+        enabled: action.payload.enabled,
+      };
+      state.appLoadingProfile = false;
+    },
+    loginUser: (state, action) => {
+      state.userProfile = {
+        ID: action.payload.ID,
+        name: action.payload.name,
+        surname: action.payload.surname,
+        username: action.payload.username,
+        email: action.payload.email,
+        admin: action.payload.admin,
+        enabled: action.payload.enabled,
+        suspendedTimes: action.payload.suspendedTimes,
+        payments: action.payload.payments,
+        banned: action.payload.banned,
+        profilePic: action.payload.profilePic,
+      };
+      state.favourites = action.payload.favourite;
+      state.appLoadingProfile = false;
+    },
     logOut: (state) => {
       state.userProfile = {};
       state.favourites = [];
@@ -112,6 +112,12 @@ const profileSlice = createSlice({
     setConfirmMail: (state, action) => {
       state.confirmMail = action.payload;
     },
+    setResetID: (state, action) => {
+      state.IDreset = action.payload;
+    },
+    clearResetID: (state) => {
+      state.IDreset = "";
+    },
   },
 });
 
@@ -131,6 +137,8 @@ export const {
   setPaymentDetail,
   clearPaymentDetail,
   setConfirmMail,
+  setResetID,
+  clearResetID,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

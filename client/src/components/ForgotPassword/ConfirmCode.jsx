@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import s from "./ForgotPassword.module.sass";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { asyncConfirmCode } from "../../redux/actions/usersActions";
 
 function ConfirmCode() {
   const dispatch = useDispatch();
@@ -10,6 +11,8 @@ function ConfirmCode() {
   const isValidInitialState = {
     code: "",
   };
+
+  const { IDreset } = useSelector((state) => state.profile);
 
   const [code, setCode] = useState("");
   const [isValid, setIsvalid] = useState(isValidInitialState);
@@ -37,11 +40,9 @@ function ConfirmCode() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsPending(true);
-    ////////////////DISPATCH
-    dispatch(code).then((res) => {
+    dispatch(asyncConfirmCode(IDreset, code)).then((res) => {
       if (res) {
-        /////////////////////RUTA
-        history.push("/RP");
+        history.push("/confirm/reset/password");
         setCode("");
         setIsvalid(isValidInitialState);
         setIsAllowed(false);

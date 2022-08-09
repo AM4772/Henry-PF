@@ -73,9 +73,9 @@ function UserMenu() {
     setLogged(false);
     setOpen(!open);
     if (user) {
-      setTimeout(() => {
-        logout({ returnTo: `http://localhost:3000` });
-      }, 2100);
+      logout({
+        returnTo: process.env.REACT_APP_BASE_URL,
+      });
     }
     goBack();
   }

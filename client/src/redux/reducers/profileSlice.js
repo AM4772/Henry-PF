@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 
 const initialState = {
-	userProfile: {},
-	favourites: [],
-	cart: [],
-	appLoadingProfile: true,
-	firstAuto: true,
-	paymentDetail: {},
+  userProfile: {},
+  favourites: [],
+  cart: [],
+  appLoadingProfile: true,
+  firstAuto: true,
+  paymentDetail: {},
+  confirmMail: false,
+
 };
 
 const satisfaction = Swal.mixin({
@@ -65,68 +67,70 @@ const profileSlice = createSlice({
 			state.favourites = action.payload.favourite;
 			state.appLoadingProfile = false;
 		},
-
-		logOut: (state) => {
-			state.userProfile = {};
-			state.favourites = [];
-			state.cart = [];
-			var index = document.cookie.lastIndexOf("ALTKNcookie");
-			var cookie = document.cookie.slice(index).split("=");
-			document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
-			localStorage.removeItem("ALTKN");
-			satisfaction.fire({
-				icon: "info",
-				title: "Logged out!",
-				html: "You have successfully <b>logged out</b>",
-			});
-		},
-		firstAutoLogin: (state) => {
-			state.firstAuto = false;
-			state.appLoadingProfile = false;
-		},
-		addFavourite: (state, action) => {
-			state.favourites = action.payload;
-		},
-		deleteFavourite: (state, action) => {
-			state.favourites = action.payload;
-		},
-		getItemsCart: (state, action) => {
-			state.cart = action.payload;
-		},
-		addItemCart: (state, action) => {
-			state.cart = action.payload;
-		},
-		removeItemCart: (state, action) => {
-			state.cart = action.payload;
-		},
-		clearCart: (state) => {
-			state.cart = [];
-		},
-		setPaymentDetail: (state, action) => {
-			state.paymentDetail = action.payload;
-		},
-		clearPaymentDetail: (state) => {
-			state.paymentDetail = {};
-		},
-	},
+    logOut: (state) => {
+      state.userProfile = {};
+      state.favourites = [];
+      state.cart = [];
+      var index = document.cookie.lastIndexOf("ALTKNcookie");
+      var cookie = document.cookie.slice(index).split("=");
+      document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
+      localStorage.removeItem("ALTKN");
+      satisfaction.fire({
+        icon: "info",
+        title: "Logged out!",
+        html: "You have successfully <b>logged out</b>",
+      });
+    },
+    firstAutoLogin: (state) => {
+      state.firstAuto = false;
+      state.appLoadingProfile = false;
+    },
+    addFavourite: (state, action) => {
+      state.favourites = action.payload;
+    },
+    deleteFavourite: (state, action) => {
+      state.favourites = action.payload;
+    },
+    getItemsCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    addItemCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    removeItemCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    clearCart: (state) => {
+      state.cart = [];
+    },
+    setPaymentDetail: (state, action) => {
+      state.paymentDetail = action.payload;
+    },
+    clearPaymentDetail: (state) => {
+      state.paymentDetail = {};
+    },
+    setConfirmMail: (state, action) => {
+      state.confirmMail = action.payload;
+    },
+  },
 });
 
 export const {
-	getProfile,
-	loginUser,
-	logOut,
-	firstAutoLogin,
-	addFavourite,
-	deleteFavourite,
-	getItemsCart,
-	addItemCart,
-	enableUser,
-	removeItemCart,
-	enableAndSuspendUser,
-	clearCart,
-	setPaymentDetail,
-	clearPaymentDetail,
-	setImage,
+  getProfile,
+  loginUser,
+  logOut,
+  firstAutoLogin,
+  addFavourite,
+  deleteFavourite,
+  getItemsCart,
+  addItemCart,
+  enableUser,
+  removeItemCart,
+  enableAndSuspendUser,
+  clearCart,
+  setPaymentDetail,
+  clearPaymentDetail,
+  setConfirmMail,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

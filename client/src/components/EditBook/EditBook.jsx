@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import DatePicker from 'react-datepicker';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import chroma from 'chroma-js';
-import { languageOptions, CustomInput } from './data.jsx';
+import { languageOptions } from './data.jsx';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import s from './EditBook.module.sass';
@@ -13,9 +15,25 @@ import {
   asyncEditBook,
 } from '../../redux/actions/booksActions';
 
+import { makeStyles } from '@material-ui/core';
+
+const useInputStyles = makeStyles({
+  root: {
+    width: '370px',
+    height: '40px',
+    padding: '2px',
+    color: props => (props.color ? props.color : 'inherit'),
+    verticalAlign: 'middle',
+    fontSize: '16px',
+    background: 'white',
+    borderRadius: '10px',
+  },
+});
+
 export default function CreateBook({ book }) {
   const dispatch = useDispatch();
   const isValidInitialState = {};
+  const inputClasses = useInputStyles();
   const publishedDateCopy = book.publishedDate.split('-');
   let publishedDateCaca = '';
   if (publishedDateCopy.length === 3)
@@ -131,14 +149,14 @@ export default function CreateBook({ book }) {
     }),
     menu: (provided, state) => ({
       ...provided,
-      height: '100px',
+      height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
       overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
-      height: '100px',
+      height: '200px',
     }),
     placeholder: styles => ({ ...styles, ...dot('#ccc') }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
@@ -314,8 +332,7 @@ export default function CreateBook({ book }) {
           info.publishedDate.getMonth() + 1
         )
           .toString()
-          .padStart(2, '0')}-${info.publishedDate
-          .getDate()
+          .padStart(2, '0')}-${(info.publishedDate.getDate() + 1)
           .toString()
           .padStart(2, '0')}`,
       })
@@ -565,16 +582,30 @@ export default function CreateBook({ book }) {
           </div>
           <div className={s.inline}>
             <label className={s.fillTitle}>Published date: </label>
-            <DatePicker
-              selected={info.publishedDate}
-              dateFormat="dd-MM-yyyy"
-              defaultValue={info.publishedDate}
-              customInput={<CustomInput />}
-              onChange={date =>
-                setInfo({ ...info, publishedDate: date }) ||
-                setCount({ ...count, publishedDate: 1 })
-              }
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                autoOk
+                clearable
+                // orientation="landscape"
+                border="none"
+                id={s.customInput}
+                ampm={false}
+                InputProps={{ disableUnderline: true, classes: inputClasses }}
+                className="dateTimeModalPicker"
+                placeholder="DD/MM/AAAA"
+                invalidDateMessage=""
+                format="dd/MM/yyyy"
+                // disableFuture
+                keyboardIcon={false} 
+                minDate={new Date('1000-01-01')}
+                // maxDate={new Date()}
+                value={info.publishedDate}
+                onChange={date =>
+                  setInfo({ ...info, publishedDate: date }) ||
+                  setCount({ ...count, publishedDate: 1 })
+                }
+              />
+            </MuiPickersUtilsProvider>
             <p
               className={
                 isValid.publishedDate && isValid.publishedDate !== ' '

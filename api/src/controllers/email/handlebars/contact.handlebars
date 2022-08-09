@@ -50,22 +50,13 @@
         />
       </div>
       <p class='thanks'>
-        Hi
-        <b>{{name}}</b>, many thanks for registering in BookStore!
+        EMAIL SUBJECT:
+        <b>{{title}}</b>
       </p>
-      <p class='thanks'>Your username is <b>{{username}}</b></p>
-      <p class='yourbook'>
-        Please click on the button bellow to confirm your account:
-      </p>
-      <p class='containerButtonReset'>
-        <a
-          class='aReset buttonReset'
-          href='{{BASE_URL}}/confirm?token={{token}}'
-        >CONFIRM ACCOUNT</a>
+      <p class='thanks'>Email from <b>{{sender}}</b></p>
 
-      </p>
       <p class='comeback'>
-        We look forward to seeing you in
+        {{message}}
         <a
           target='_blank'
           rel='noreferrer'

@@ -266,7 +266,10 @@ router.put('/:ID', async (req, res) => {
       const validate = await validateUsersPost(req.body);
       if (!validate) {
         const modified = await modifyUsers(req.body, ID);
-        modified
+
+        modified === 1
+          ? res.status(400).json({ message: `Check your actual password` })
+          : modified
           ? res
               .status(200)
               .json({ message: 'User modified successfully', data: modified })

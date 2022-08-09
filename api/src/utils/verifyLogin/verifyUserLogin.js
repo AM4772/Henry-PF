@@ -35,6 +35,10 @@ let verifyLoginModel = {
       if (user.banned) {
         return 5;
       }
+      if (!user.enabled && user.suspendedTimes === 0) {
+        console.log(user.enabled);
+        return 10;
+      }
       const authUserJSON = user.toJSON();
       //AUTH0
       if (authUserJSON.authzero) {

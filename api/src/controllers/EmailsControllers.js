@@ -66,6 +66,19 @@ let emailsModel = {
     } else return undefined;
   },
 
+  contactEmail: async function ({ title, sender, message }) {
+    const emailType = 'contact';
+    const email = 'bookstore.online.arg@gmail.com';
+    try {
+      await sendMail((data = { emailType, title, message, sender, email }));
+
+      return true;
+    } catch (error) {
+      console.log(error);
+      return undefined;
+    }
+  },
+
   resetEmail: async function ({ user }) {
     const emailType = 'reset';
     const token = Math.floor(Math.random() * 100000000);

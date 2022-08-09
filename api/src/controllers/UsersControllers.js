@@ -135,6 +135,16 @@ let UsersModel = {
   //-----------------------------------------------------------------------------------------
   //                                  SUSPEND
   //-----------------------------------------------------------------------------------------
+  isSuspended: async function (ID) {
+    const user = await Users.findByPk(parseInt(ID));
+    if (user) {
+      if (user.toJSON().enabled) {
+        return true;
+      }
+      return false;
+    }
+    return 1;
+  },
   suspendUser: async function (ID) {
     const user = await Users.findByPk(ID);
     if (user) {
@@ -297,13 +307,13 @@ let UsersModel = {
           username: user.username,
           password: changes.password,
         });
-
+        console.log(verifyPasswords);
         if (verifyPasswords) {
           await user.update({
             password: await hashPassword(changes.newPassword),
           });
         } else {
-          return null;
+          return 1;
         }
       }
       await user.update({

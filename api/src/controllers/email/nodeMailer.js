@@ -27,6 +27,7 @@ let emailsModule = {
     let subject = '';
     let template = '';
     let attachments = [];
+
     if (data.emailType === 'register') {
       subject = 'Register';
       template = 'register';
@@ -44,6 +45,15 @@ let emailsModule = {
       context = {
         username: data.username,
         token: data.token,
+      };
+    }
+    if (data.emailType === 'contact') {
+      subject = 'Conctat us EMAIL';
+      template = 'contact';
+      context = {
+        sender: data.sender,
+        title: data.title,
+        message: data.message,
       };
     }
 
@@ -110,7 +120,7 @@ let emailsModule = {
     } else {
       var mailOptions = {
         from: '"BOOKSTORE" <bookstore.online.arg@gmail.com>',
-        to: [data.email, 'bookstore.online.arg@gmail.com'],
+        to: [data.email],
         subject,
         template,
         context: context,

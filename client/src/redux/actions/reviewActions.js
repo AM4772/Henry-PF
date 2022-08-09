@@ -1,6 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getReviews, editReview } from "../reducers/reviewSlice";
+import { setCloseButtonReview } from "../reducers/booksSlice";
 
 const heroku = `https://db-proyecto-final.herokuapp.com/`;
 axios.defaults.baseURL = heroku;
@@ -41,6 +42,9 @@ export function asyncAddReview(body) {
         showConfirmButton: false,
         timer: 2000,
       });
+      setTimeout(() => {
+        dispatch(setCloseButtonReview());
+      }, 2000);
     } catch (error) {
       Swal.fire({
         icon: "error",

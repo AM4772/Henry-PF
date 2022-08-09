@@ -41,6 +41,7 @@ router.get('/:ID/favourites', async (req, res) => {
       res.json(favourites);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -60,6 +61,7 @@ router.post('/:ID/favourites', async (req, res) => {
           .json({ data: favourites, message: 'Favorite added successfully' })
       : res.status(400).json({ message: `Failed to add favorite` });
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -144,7 +146,6 @@ router.delete('/:ID/cart', async (req, res) => {
         : res.status(200).json({ message: `Error creating user` });
     } catch (err) {
       console.log(err);
-
       res.status(400).json('DATABASE ERROR');
     }
   });
@@ -159,7 +160,6 @@ router.post('/auth0/login', async (req, res) => {
       : res.status(400).json({ message: `Error creating user` });
   } catch (err) {
     console.log(err);
-
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -183,6 +183,7 @@ router.get('/', async (req, res) => {
         : res.status(404).json({ message: 'No users found' });
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -200,6 +201,7 @@ router.get('/:ID', async (req, res) => {
         : res.status(404).json({ message: `User with ID ${ID} not found` });
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -218,9 +220,11 @@ router.post('/', async (req, res) => {
         ? res.status(201).json({ message: 'Successfully registered' })
         : res.status(400).json({ message: `Error creating user` });
     } else {
+      console.log(validate);
       res.status(400).json(validate);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });

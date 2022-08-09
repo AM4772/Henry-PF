@@ -85,49 +85,52 @@ export function asyncGetHomeBooks() {
 }
 
 export function asyncCreateBook(book) {
-	return async function (dispatch) {
-		try {
-			const response = (await axios.post("/books", book)).data;
-			Swal.fire({
-				icon: "success",
-				text: response.data,
-				title: response.message,
-				showConfirmButton: false,
-				timer: 2000,
-			}).then(() => {
-				dispatch(asyncGetSearch());
-			});
-		} catch (error) {
-			Swal.fire({
-				icon: "error",
-				title: "Oops...",
-				text: `${error.response.data}`,
-			});
-		}
-	};
+
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post('/books', book)).data;
+      Swal.fire({
+        icon: 'success',
+        text: response.data,
+        title: response.message,
+        showConfirmButton: false,
+        timer: 2000,
+      }).then(() => {
+        dispatch(asyncGetSearch());
+      });
+    } catch (error) {
+      console.log(error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
+      });
+    }
+  };
 }
 
 export function asyncEditBook(ID, book) {
-	return async function (dispatch) {
-		try {
-			const response = (await axios.put(`/books/${ID}`, book)).data;
-			Swal.fire({
-				icon: "success",
-				text: response.data,
-				title: response.message,
-				showConfirmButton: false,
-				timer: 2000,
-			}).then(() => {
-				window.location.reload(false);
-			});
-		} catch (error) {
-			Swal.fire({
-				icon: "error",
-				title: "Oops...",
-				text: `${error.response.data}`,
-			});
-		}
-	};
+  console.log(book)
+  return async function (dispatch) {
+    try {
+      const response = (await axios.put(`/books/${ID}`, book)).data;
+      Swal.fire({
+        icon: 'success',
+        text: response.data,
+        title: response.message,
+        showConfirmButton: false,
+        timer: 2000,
+      }).then(() => {
+        window.location.reload(false);
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${error.response.data}`,
+      });
+    }
+  };
 }
 
 export function asyncDeleteBook(book, title) {

@@ -211,15 +211,6 @@ let BooksModel = {
       }
     }
 
-    if (!imageRegex.test(book.image)) {
-      book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
-    }
-    const imgVerify = imgVerify(book.image);
-    book.image =
-      imgVerify.width <= 1
-        ? 'https://edit.org/images/cat/book-covers-big-2019101610.jpg'
-        : book.image;
-
     try {
       let hours;
       let minutes;
@@ -279,10 +270,6 @@ let BooksModel = {
       }
     }
 
-    if (!imageRegex.test(changes.image)) {
-      changes.image =
-        'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
-    }
     try {
       const book = await Books.findByPk(ID);
       if (book === null) {
@@ -295,6 +282,7 @@ let BooksModel = {
         hours = Math.trunc(avgRT);
         minutes = Math.round((avgRT - Math.trunc(avgRT)) * 60);
       }
+      console.log(changes);
       await book.update({
         title: changes.title.toLowerCase(),
         description: changes.description.toLowerCase(),

@@ -5,6 +5,8 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { uploadFileBookImage } from '../Firebase/config.js'
+import { TiCamera } from "react-icons/ti";
 import chroma from 'chroma-js';
 import { languageOptions } from './data.jsx';
 import Select from 'react-select';
@@ -211,7 +213,15 @@ export default function CreateBook() {
   const [isValid, setIsValid] = useState(isValidInitialState);
   const [isAllowed, setIsAllowed] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [random, setRandom] = useState()
+  const uuidv4 = () => {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      // eslint-disable-next-line no-mixed-operators
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
   useMemo(() => {
+    setRandom(uuidv4())
     if (!authorsOptions || !caterogiesOptions) {
       let authorsCopy = [],
         categoriesCopy = [];
@@ -233,7 +243,6 @@ export default function CreateBook() {
   }, [authors, categories]);
 
   useEffect(() => {
-    var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
     const isValidCopy = { ...isValid };
     // Title
     if (!info.title.length) isValidCopy.title = ' ';
@@ -252,8 +261,6 @@ export default function CreateBook() {
     else delete isValidCopy.price;
     // Image
     if (!info.image.length) isValidCopy.image = ' ';
-    else if (!imageCheck.test(info.image))
-      isValidCopy.image = 'Image url is unvalid';
     else delete isValidCopy.image;
     // Authors
     if (!info.authors.length) isValidCopy.authors = ' ';
@@ -366,6 +373,11 @@ export default function CreateBook() {
         </p>
       );
   };
+  const handleImage = async (e) => {
+    e.preventDefault()
+    const result = await uploadFileBookImage(e.target.files[0], random);
+    setInfo({...info, image: result})
+  }
   return (
     <div id={s.pleaseWork}>
       <div id={s.toCenter}>
@@ -431,30 +443,14 @@ export default function CreateBook() {
                 </p>
               </div>
               <div className={s.inline}>
-                <label className={s.fillTitle}>Image: </label>
-                <input
-                  type="text"
-                  placeholder="Image"
-                  value={info.image}
-                  className={`${s.input} ${
-                    isValid.image && isValid.image.length && count.image
-                      ? s.danger
-                      : s.nejDanger
-                  }`}
-                  onChange={e =>
-                    setInfo({ ...info, image: e.target.value }) ||
-                    setCount({ ...count, image: 1 })
-                  }
-                ></input>
-                <p
-                  className={
-                    isValid.image && isValid.image !== ' '
-                      ? s.errorMessage
-                      : s.noErrorMessage
-                  }
-                >
-                  {isValid.image}
-                </p>
+                <label className={s.fillTitle}>Book cover: </label>
+                <div id={s.testIMG}>
+                <label id={s.customFileUpload}>
+                      <TiCamera id={s.camera}/>
+                    <input type='file' id={s.formContainer} onChange={handleImage}></input>
+                  </label>
+                  <img src={info.image} alt=''/>
+                </div>
               </div>
               <div className={s.inline}>
                 <label className={s.fillTitle}>Publisher: </label>

@@ -2,25 +2,31 @@ const { sendMail } = require('./email/nodeMailer');
 const { Users } = require('../db');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const { hashPassword } = require('../utils/hash/hashPasswords');
 
 require('dotenv').config();
 let emailsModel = {
   registerEmail: async function (username, BASE_URL) {
+    console.log('username', username);
     const emailType = 'register';
     const user = await Users.findOne({
       where: {
-        username,
+        username: username.toLowerCase(),
       },
     });
-    const userEnabled = user.toJSON().enabled;
-    if (!userEnabled) {
-      const { name, email, ID } = user.toJSON();
-      const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
-      const emailFunction = sendMail(
-        (data = { emailType, name, token, username, email, ID, BASE_URL })
-      );
-      return emailFunction;
-    } else return 1;
+    console.log('user', user);
+    if (user) {
+      const userEnabled = user.toJSON().enabled;
+      if (!userEnabled) {
+        const { name, email, ID } = user.toJSON();
+        const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
+        const emailFunction = sendMail(
+          (data = { emailType, name, token, username, email, ID, BASE_URL })
+        );
+        return emailFunction;
+      } else return 1;
+    }
+    return undefined;
   },
 
   confirmEmail: async function (token) {
@@ -50,6 +56,14 @@ let emailsModel = {
       } else return 1;
     }
     return undefined;
+  },
+  comparePasswordsReset: async function (ID, password, rPassword) {
+    const user = await Users.findByPk(ID);
+    if (password === rPassword) {
+      return await user.update({
+        password: await hashPassword(password),
+      });
+    } else return undefined;
   },
 
   resetEmail: async function ({ user }) {

@@ -76,24 +76,22 @@ export default function NavBarMobile() {
               to={"/profile"}
             >
               <li className={s.profile}>
-                {userProfile.image ? (
-                  <img
-                    src={userProfile.image}
-                    alt={userProfile.username}
-                    title={userProfile.username}
-                  />
-                ) : (
-                  <div>
-                    <div className={s.imageCont}>
-                      <div title={userProfile.username} className={s.noIMG}>
-                        {userProfile.name
-                          ? userProfile.name.charAt(0).toUpperCase() +
-                            userProfile.surname.charAt(0).toUpperCase()
-                          : null}
-                      </div>
+                <div className={s.imageCont}>
+                  {userProfile.profilePic ? (
+                    <img
+                      src={userProfile.profilePic}
+                      alt={userProfile.username}
+                      title={userProfile.username}
+                    />
+                  ) : (
+                    <div className={s.noIMG}>
+                      {userProfile.name
+                        ? userProfile.name.charAt(0).toUpperCase() +
+                          userProfile.surname.charAt(0).toUpperCase()
+                        : null}
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
                 <span>{userProfile.username}</span>
               </li>
             </Link>

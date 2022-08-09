@@ -369,7 +369,7 @@ export function asyncEnableUser(ID) {
 export function asyncSetAdmin(ID) {
   return async function (dispatch) {
     try {
-      const response = (await axios.put(`/users/${ID}?admin=true`)).data;
+      await axios.put(`/users/${ID}?admin=true`);
       dispatch(clearUserDetail());
     } catch (error) {
       console.error(error);
@@ -389,7 +389,6 @@ export function asyncConfirmEmail(token) {
 }
 
 export function asyncSetImage(ID, result) {
-  console.log(result);
   return async function (dispatch) {
     try {
       const response = (await axios.put(`/users/${ID}`, result)).data;

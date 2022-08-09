@@ -54,15 +54,6 @@ function BookDetail(props) {
   // let reviews = TESTING_REVIEWS;
   let reviews = book.reviews;
 
-  const ratingTotal =
-    reviews && reviews.length
-      ? Math.round(
-          reviews.reduce((ac, el) => ({
-            rating: ac.rating + el.rating,
-          })).rating / reviews.length
-        )
-      : 0;
-
   const openEdit = useRef();
   document.addEventListener("mousedown", closeList);
 
@@ -117,6 +108,7 @@ function BookDetail(props) {
         stack[i] !== "/profile" &&
         stack[i] !== "/favourites" &&
         stack[i] !== "/createbook" &&
+        stack[i] !== "/checkout" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -311,7 +303,7 @@ function BookDetail(props) {
                           className={s.reviews}
                           onClick={() => scrollSmoothTo("reviewsMark")}
                           alt="5stars"
-                          src={stars[ratingTotal]}
+                          src={stars[Math.round(book.rating)]}
                         />
                         <p onClick={() => scrollSmoothTo("reviewsMark")}>
                           {""}({reviews.length} reviews){""}

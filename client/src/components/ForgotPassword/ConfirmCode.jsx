@@ -21,6 +21,11 @@ function ConfirmCode() {
   const [isAllowed, setIsAllowed] = useState(false);
 
   useEffect(() => {
+    if (!userIDreset) history.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const isValidCopy = { ...isValid };
     if (!code.length) isValidCopy.code = " ";
     else if (code.length > 8) {

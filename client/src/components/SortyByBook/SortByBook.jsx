@@ -38,12 +38,12 @@ function SortByBook() {
         <option className={s.optionSort} value="O-N">
           Older
         </option>
-        {/* <option className={s.optionSort} value="H-L-rating">
+        <option className={s.optionSort} value="H-L-rating">
           Higher rating
         </option>
         <option className={s.optionSort} value="L-H-rating">
           Lower rating
-        </option> */}
+        </option>
       </select>
     </div>
   );

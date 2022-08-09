@@ -110,7 +110,6 @@ export function asyncCreateBook(book) {
 }
 
 export function asyncEditBook(ID, book) {
-  console.log(book)
   return async function (dispatch) {
     try {
       const response = (await axios.put(`/books/${ID}`, book)).data;

@@ -71,7 +71,7 @@ function Checkout() {
           <div className={s.total}>
             <h3>Total: </h3>
             <span>
-              $
+              ARS $
               {items
                 ?.map((item) => item.unit_price)
                 .reduce((prev, curr) => prev + curr, 0)

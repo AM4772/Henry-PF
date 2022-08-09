@@ -51,7 +51,7 @@ function ForgotPassword() {
     ////////////////DISPATCH
     dispatch(emailOrUsername).then(() => {
       //////////////////////RUTA
-      history.push("/confirmCode");
+      history.push("/CC");
       setIsPending(false);
     });
   }
@@ -60,19 +60,19 @@ function ForgotPassword() {
     if (!isPending && isAllowed && refresh !== 1)
       return (
         <button className={`buttons ${s.login}`} id={s.active}>
-          Log In
+          Send reset code
         </button>
       );
     else if (isPending)
       return (
         <p className="buttons" id={s.waiting}>
-          Logging In...
+          Sending code...
         </p>
       );
     else
       return (
         <p className="buttons" id={s.waiting}>
-          Log In
+          Send reset code
         </p>
       );
   };

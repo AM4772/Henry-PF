@@ -211,15 +211,6 @@ let BooksModel = {
       }
     }
 
-    if (!imageRegex.test(book.image)) {
-      book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
-    }
-    const imgVerify = imgVerify(book.image);
-    book.image =
-      imgVerify.width <= 1
-        ? 'https://edit.org/images/cat/book-covers-big-2019101610.jpg'
-        : book.image;
-
     try {
       let hours;
       let minutes;

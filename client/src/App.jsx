@@ -31,6 +31,9 @@ import PurchaseDetail from "./components/PurchaseDetail/PurchaseDetail";
 import ConfirmEmail from "./components/ConfirmEmail/ConfirmEmail";
 import Emails from "./components/Emails/Emails";
 import FileUpload from "./components/Firebase/FileUpload";
+import ConfirmCode from "./components/ForgotPassword/ConfirmCode";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/ForgotPassword/ResetPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +64,7 @@ function App() {
       setLoading(appLoadingUsers);
     } else if (
       location.pathname === "/login" ||
+      location.pathname === "/forgot" ||
       location.pathname.includes("book") ||
       location.pathname.includes("user") ||
       location.pathname === "/contact" ||
@@ -103,6 +107,13 @@ function App() {
       <div className="App">
         <Nav />
         <Route exact path={"/confirm"} component={ConfirmEmail} />
+        <Route exact path={"/confirm/reset"} component={ConfirmCode} />
+        <Route
+          exact
+          path={"/confirm/reset/password"}
+          component={ResetPassword}
+        />
+        <Route exact path={"/forgot"} component={ForgotPassword} />
         <Route exact path={"/checkout/validate"} component={Validate} />
         <Route exact path={"/checkout/pending"} component={Pending} />
         <Route exact path={"/checkout/rejected"} component={Rejected} />

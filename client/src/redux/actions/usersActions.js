@@ -12,6 +12,8 @@ import {
   enableUser,
   setConfirmMail,
   setImage,
+  setResetID,
+  clearResetID,
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -393,6 +395,29 @@ export function asyncSetImage(ID, result) {
     try {
       const response = (await axios.put(`/users/${ID}`, result)).data;
       dispatch(loginUser(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function asyncResetCode(user) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post(`/emails/reset`, { user })).data;
+      return dispatch(setResetID(response.data.ID));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function asyncConfirmCode(ID, resetCode) {
+  return async function (dispatch) {
+    try {
+      const response = (await axios.post(`/confirm/reset`, { ID, resetCode }))
+        .data;
+      return dispatch(clearResetID());
     } catch (error) {
       console.log(error);
     }

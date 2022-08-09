@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { Books, Apibooks, Authors, Categories, Reviews } = require('../db');
 const { imageRegex } = require('../utils/validations/regex');
+const { imgVerify } = require('./BooksWithLargeImage');
 
 const maxResults = 40;
 const term = [
@@ -160,8 +161,11 @@ let BooksModel = {
     const books = await Books.findAll();
     if (books) {
       const booksJSON = books.map((b) => b.toJSON());
+
+      bestSellers = booksJSON
+        .sort((a, b) => b.soldCopies - a.soldCopies)
+        .slice(0, 30);
       mostPopular = booksJSON.sort((a, b) => b.rating - a.rating).slice(0, 30);
-      bestSellers = booksJSON.slice(random, random + 15);
       newReleases = booksJSON
         .sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate))
         .slice(0, 15);
@@ -210,6 +214,12 @@ let BooksModel = {
     if (!imageRegex.test(book.image)) {
       book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
     }
+    const imgVerify = imgVerify(book.image);
+    book.image =
+      imgVerify.width <= 1
+        ? 'https://edit.org/images/cat/book-covers-big-2019101610.jpg'
+        : book.image;
+
     try {
       let hours;
       let minutes;
@@ -229,6 +239,7 @@ let BooksModel = {
         publisher: book.publisher,
         pageCount: book.pageCount,
         language: book.language,
+        rating: 0,
         avgReadingTime:
           book.pageCount === 0
             ? 'Cannot estimate reading time'

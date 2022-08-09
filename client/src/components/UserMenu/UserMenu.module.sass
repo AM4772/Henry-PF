@@ -1,123 +1,131 @@
 .container
-    display: flex
+  display: flex
 %Links
-    height: 40px
-    width: 200px
+  height: 40px
+  width: 200px
 
-    display: flex
-    align-content: center
-    justify-content: center
+  display: flex
+  align-content: center
+  justify-content: center
 
-    box-sizing: border-box
+  box-sizing: border-box
     /* border: solid var(--color-brownish-d) 2px */
-    border-radius: 5px
+  border-radius: 5px
 .userLinks
-    @extend %Links
-    display: flex
-    max-width: 220px
-    justify-content: space-around
+  @extend %Links
+  display: flex
+  max-width: 220px
+  justify-content: space-around
     // padding: 0px 30px
-    align-items: center
+  align-items: center
 
 #cartNumber
-    width: 23px
-    height: 23px
-    display: flex
-    justify-content: center
-    align-items: center
-    border-radius: 50px
-    color: black
-    font-weight: 500
-    position: absolute
-    margin: 23px 0px 0px 23px
-    background: #cca12b
+  width: 23px
+  height: 23px
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: 50px
+  color: black
+  font-weight: 500
+  position: absolute
+  margin: 23px 0px 0px 23px
+  background: #cca12b
 
 .visitLinks
-    @extend %Links
-    max-width: 220px
+  @extend %Links
+  max-width: 220px
 
-    display: flex
-    justify-content: space-around
-    align-items: center
-        
+  display: flex
+  justify-content: space-around
+  align-items: center
+
 .visitText
-    color: #1E110B
-    width: 70px
-    display: flex
-    justify-content: center
-    align-items: center
+  color: #1E110B
+  width: 70px
+  display: flex
+  justify-content: center
+  align-items: center
 
 .icon
-    color: var(--color-brownish-dd)
-    font-size: 32px
-    cursor: pointer
+  color: var(--color-brownish-dd)
+  font-size: 32px
+  cursor: pointer
 
 .profMenu
-    overflow: hidden
+  overflow: hidden
 
-    height: auto
-    width: 250px
+  height: auto
+  width: 250px
 
-    position: absolute
-    top: 55px
+  position: absolute
+  top: 55px
 
-    border-radius: 0px 0px 15px 15px
+  border-radius: 0px 0px 15px 15px
 
-    background: var(--color-yellowish-l)
-    ul
-        display: flex
-        flex-direction: column
-        li
-            width: 250px
-            font-size: 16px
+  background: var(--color-yellowish-l)
+  ul
+    display: flex
+    flex-direction: column
+    li
+      width: 250px
+      font-size: 16px
 
-            display: flex
-            justify-content: space-between
+      display: flex
+      justify-content: space-between
 
-            cursor: pointer
-            &:hover
-                background-color: #f0dcb3
-                
+      cursor: pointer
+      &:hover
+        background-color: #f0dcb3
+
 .ico
-    font-size: 22px
+  font-size: 22px
 
-.esta 
-    width: 200px
-    text-decoration: px
+.esta
+  width: 200px
+  text-decoration: px
 
 .links
-    width: 70px
+  width: 70px
 
-    height: 100%
-    display: flex
-    justify-content: center
-    align-items: center
+  height: 100%
+  display: flex
+  justify-content: center
+  align-items: center
 
 .divisor
-    height: 75%
-    border-radius: 5px
-    background: var(--color-brownish-dd)
-    border: solid 1.7px var(--color-brownish-dd)
+  height: 75%
+  border-radius: 5px
+  background: var(--color-brownish-dd)
+  border: solid 1.7px var(--color-brownish-dd)
 
 .noIMG
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 2px 5px
-    border-radius: 50%
-    width: 100%
-    user-select: none
-    height: 100%
-    color: var(--color-brownish-dd)
-    font-weight: bold
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 2px 5px
+  border-radius: 50%
+  width: 100%
+  user-select: none
+  height: 100%
+  color: var(--color-brownish-dd)
+  font-weight: bold
 .imageCont
-    width: 35px 
-    height: 35px
-    display: flex
-    justify-content: center
-    align-items: center
-    cursor: pointer
-    border-radius: 50%
-    background-color: rgba(241, 166, 53, 0.596)
-    border: var(--color-brownish-dd) 1.5px solid
-    overflow: hidden
+  width: 35px
+  height: 35px
+  display: flex
+  justify-content: center
+  align-items: center
+  cursor: pointer
+  border-radius: 50%
+  background-color: rgba(87, 244, 166, 0.901)
+  // border: var(--color-brownish-dd) 1px solid
+
+  box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.9)
+  overflow: hidden
+  padding: 0px
+  img
+    object-fit: cover
+    min-width: 100%
+    min-height: 100%
+    margin: auto

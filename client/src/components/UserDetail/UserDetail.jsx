@@ -5,6 +5,7 @@ import {
   asyncDisableUser,
   asyncEnableUser,
   asyncGetUserDetail,
+  asyncSetAdmin,
 } from "../../redux/actions/usersActions";
 import { clearUserDetail } from "../../redux/reducers/usersSlice";
 import Loading from "../Loading/Loading";
@@ -15,27 +16,56 @@ function UserDetail(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { ID } = useParams();
-  const user = useSelector((state) => state.users.userDetail);
-  const { userProfile } = useSelector((state) => state.profile);
+  const { stack } = useSelector((state) => state.history);
+  const { userDetail } = useSelector((state) => state.users);
+  const { userProfile, appLoadingProfile } = useSelector(
+    (state) => state.profile
+  );
 
   useEffect(() => {
-    dispatch(asyncGetUserDetail(ID));
-    if (!userProfile.admin) history.push("/");
+    if (!appLoadingProfile) {
+      dispatch(asyncGetUserDetail(ID));
+      if (!userProfile.admin) history.push("/");
+    }
     return () => dispatch(clearUserDetail());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, appLoadingProfile]);
 
   useEffect(() => {
+    if (!userDetail.ID) {
+      dispatch(asyncGetUserDetail(ID));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [userDetail, dispatch]);
   function goBack() {
-    history.goBack();
+    if (stack.length <= 1) {
+      history.push("/dashboard");
+    } else {
+      var lastPath = [];
+      for (let i = 1; i < stack.length; i++) {
+        if (
+          stack[i] !== "/register" &&
+          stack[i] !== "/login" &&
+          stack[i] !== "/profile" &&
+          stack[i] !== "/favourites" &&
+          stack[i] !== "/createbook" &&
+          stack[i] !== stack[0]
+        ) {
+          lastPath.push(stack[i]);
+        }
+      }
+      if (lastPath.length > 0) {
+        history.push(lastPath[0]);
+      } else {
+        history.push("/");
+      }
+    }
   }
 
   function handleClick() {
     if (userProfile.admin) {
-      if (user.enabled) {
-        if (user.suspendedTimes < 3) {
+      if (userDetail.enabled) {
+        if (userDetail.suspendedTimes < 3) {
           Swal.fire({
             title: "Are you sure?",
             icon: "warning",
@@ -46,7 +76,7 @@ function UserDetail(props) {
           }).then((result) => {
             if (result.isConfirmed) {
               Swal.fire("Disabled!", "The user has been disabled.", "success");
-              dispatch(asyncDisableUser(user.ID));
+              dispatch(asyncDisableUser(userDetail.ID));
             }
           });
         } else {
@@ -64,7 +94,7 @@ function UserDetail(props) {
                 "The user has been banned.",
                 "success"
               );
-              dispatch(asyncDisableUser(user.ID));
+              dispatch(asyncDisableUser(userDetail.ID));
               history.goBack();
             }
           });
@@ -80,7 +110,49 @@ function UserDetail(props) {
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire("Enabled!", "The user has been enabled.", "success");
-            dispatch(asyncEnableUser(user.ID));
+            dispatch(asyncEnableUser(userDetail.ID));
+          }
+        });
+      }
+    }
+  }
+
+  function handleAdmin() {
+    if (userProfile.admin) {
+      if (userDetail.admin) {
+        Swal.fire({
+          title: "Are you sure?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, disable administrator permissions",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              "Permissions disabled.",
+              "Disabled administrator permissions.",
+              "success"
+            );
+            dispatch(asyncSetAdmin(userDetail.ID));
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Are you sure?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, enable administrator permissions.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              "Permissions enabled.",
+              "Enable administrator permissions.",
+              "success"
+            );
+            dispatch(asyncSetAdmin(userDetail.ID));
           }
         });
       }
@@ -89,7 +161,7 @@ function UserDetail(props) {
 
   return (
     <div className={s.userDetail}>
-      {user.name ? (
+      {userDetail.name ? (
         <div className={s.container}>
           <div className={s.backButton}>
             <button className={s.buttonBack} onClick={goBack}>
@@ -105,50 +177,65 @@ function UserDetail(props) {
 								}} */
               >
                 <h1 className={s.noImg}>
-                  {user.name && user.surname
-                    ? user.name.charAt(0).toUpperCase() +
-                      user.surname.charAt(0).toUpperCase()
+                  {userDetail.name && userDetail.surname
+                    ? userDetail.name.charAt(0).toUpperCase() +
+                      userDetail.surname.charAt(0).toUpperCase()
                     : null}
                 </h1>
               </div>
             </div>
             <div className={s.data}>
-              <h1 className={s.title}>{user.username}</h1>
+              <h1 className={s.title}>{userDetail.username}</h1>
               <div className={s.item}>
                 <p>Name: </p>
-                <p>{user.name}</p>
+                <p>{userDetail.name}</p>
               </div>
               <div className={s.item}>
                 <p>Surname: </p>
-                <p>{user.surname}</p>
+                <p>{userDetail.surname}</p>
               </div>
               <div className={s.item}>
                 <p>ID: </p>
-                <p>{user.ID}</p>
+                <p>{userDetail.ID}</p>
               </div>
               <div className={s.item}>
                 <p>Email: </p>
-                <p>{user.email}</p>
+                <p>{userDetail.email}</p>
               </div>
               {/* <div className={s.item}>
                 <p>Suspended times: </p>
                 <p>{user.suspendedTimes}</p>
               </div> */}
+              {!userDetail.admin ? (
+                <div className={s.item}>
+                  {/* <p>{user.enabled === "true" ? "true" : "false"}</p> */}
+                  <p>Enabled: </p>
+                  {!userDetail.enable ? (
+                    <div className={s.switch}>
+                      <span
+                        onClick={(e) => handleClick(e)}
+                        className={
+                          userDetail.enabled === true
+                            ? `${s.sliderEnabled} ${s.slider}`
+                            : `${s.sliderDisabled} ${s.slider}`
+                        }
+                      ></span>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
               <div className={s.item}>
-                {!user.admin ? <p>Enabled: </p> : null}
-                {/* <p>{user.enabled === "true" ? "true" : "false"}</p> */}
-                {!user.admin ? (
-                  <div className={s.switch}>
-                    <span
-                      onClick={(e) => handleClick(e)}
-                      className={
-                        user.enabled === true
-                          ? `${s.sliderEnabled} ${s.slider}`
-                          : `${s.sliderDisabled} ${s.slider}`
-                      }
-                    ></span>
-                  </div>
-                ) : null}
+                <p>Type: </p>
+                <div className={s.switch}>
+                  <span
+                    onClick={(e) => handleAdmin(e)}
+                    className={
+                      userDetail.admin
+                        ? `${s.sliderAdmin} ${s.slider}`
+                        : `${s.sliderNoAdmin} ${s.slider}`
+                    }
+                  ></span>
+                </div>
               </div>
             </div>
           </div>

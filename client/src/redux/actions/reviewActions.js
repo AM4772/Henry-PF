@@ -1,6 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { getReviews, editReview } from "../reducers/reviewSlice";
+import { setCloseButtonReview } from "../reducers/booksSlice";
 
 const heroku = `https://db-proyecto-final.herokuapp.com/`;
 axios.defaults.baseURL = heroku;
@@ -34,16 +35,21 @@ export function asyncAddReview(body) {
   return async function (dispatch) {
     try {
       await axios.post("/reviews", body);
-      satisfaction.fire({
+      Swal.fire({
         icon: "success",
+        text: "You have correctly added the review to this book",
         title: "Added!",
-        html: "You have correctly <b>added the review</b> to this book",
+        showConfirmButton: false,
+        timer: 2000,
       });
+      setTimeout(() => {
+        dispatch(setCloseButtonReview());
+      }, 2000);
     } catch (error) {
-      satisfaction.fire({
+      Swal.fire({
         icon: "error",
         title: "Oops...",
-        html: "Sorry, we were unable to <b>add the review</b> to this book",
+        text: `${error.response.data.message}`,
       });
       console.error(error);
     }

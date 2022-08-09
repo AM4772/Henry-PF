@@ -61,7 +61,7 @@
   /* justify-items: center;
   align-items: center; */
   background-color: rgba(207, 202, 196, 0.5);
-  margin-left: 300px;
+  margin-left: 190px;
   margin-bottom: 25px;
   width: 300px;
   padding: 15px;
@@ -91,7 +91,7 @@
   align-items: center; */
   background-color: rgba(207, 202, 196, 0.5);
   width: 400px;
-  margin-left: 300px;
+  margin-left: 190px;
   padding: 10px;
   border-radius: 5px;
 }
@@ -120,7 +120,7 @@
 .containerButtonReset {
   /* display: flex;
   justify-content: center; */
-  margin: 15px 0px 25px 300px;
+  margin: 15px 0px 25px 190px;
 }
 .buttonReset {
   border-radius: 5px;
@@ -131,7 +131,7 @@
   font-weight: 600;
   width: 400px;
   color: #1e110b;
-  text-decoration: none;
+  text-decoration: inherit;
   background-color: #ddb577;
   -webkit-box-shadow: 0px 0.3px 2px 0px rgba(0, 0, 0, 0.6);
   box-shadow: 0px 0.3px 2px 0px rgba(0, 0, 0, 0.6);
@@ -140,6 +140,7 @@
 }
 .buttonReset:hover {
   color: #ddb577;
+  text-decoration: inherit;
   background-color: #674533e6;
   transition: 0.7s;
 }

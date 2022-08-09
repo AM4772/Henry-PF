@@ -51,7 +51,6 @@ function BookDetail(props) {
   const { favourites, cart } = useSelector((state) => state.profile);
 
   let book = useSelector((state) => state.books.bookDetail);
-
   // let reviews = TESTING_REVIEWS;
   let reviews = book.reviews;
 
@@ -80,9 +79,9 @@ function BookDetail(props) {
   const [editEnabled, setEditEnabled] = useState(false);
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
-  window.scrollTo(0, 0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     // if (!counter) window.scrollTo(0, 0);
     // setCounter((count) => count++);
     if (favourites.length) {
@@ -103,6 +102,11 @@ function BookDetail(props) {
     return () => dispatch(clearBookDetail());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ID]);
+
+  useEffect(() => {
+    dispatch(asyncGetBookDetail(ID));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeButtonReview]);
 
   function goBack() {
     var lastPath = [];
@@ -209,6 +213,22 @@ function BookDetail(props) {
       behavior: "smooth",
     });
   }
+  function validateReviewButton() {
+    if (userProfile.ID && userProfile.admin) return "add";
+    let flag = "none";
+    if (userProfile.payments?.length) {
+      for (let el of userProfile.payments) {
+        if (el.ID === book.ID) flag = "add";
+      }
+    }
+    if (book.reviews?.length) {
+      for (let el of book.reviews) {
+        if (el.userID === userProfile.ID) flag = "edit";
+      }
+    }
+    return flag;
+  }
+
   return (
     <div>
       {book.title ? (
@@ -293,13 +313,19 @@ function BookDetail(props) {
                           {""}({reviews.length} reviews){""}
                         </p>
                         <div className={s.reviewButtonCont}>
-                          {(userProfile.ID && userProfile.ID.admin) ||
-                          userProfile.ID ? ( // >>>>>>>>>> CAMBIAR por BookPurchased
+                          {validateReviewButton() === "add" ? (
                             <button
                               className={s.buttonReview}
                               onClick={() => dispatch(setCloseButtonReview())}
                             >
-                              Add a review
+                              Add REVIEW
+                            </button>
+                          ) : validateReviewButton() === "edit" ? (
+                            <button
+                              className={s.buttonReview}
+                              onClick={() => dispatch(setCloseButtonReview())}
+                            >
+                              Edit REVIEW
                             </button>
                           ) : null}
                         </div>
@@ -311,7 +337,6 @@ function BookDetail(props) {
                       {book.categories[0] ? (
                         <p>{book.categories[0]}</p>
                       ) : (
-                        // book.categories.map((el) => <p key={el}>{el}</p>)
                         <p>No Categories</p>
                       )}
                     </div>
@@ -331,12 +356,10 @@ function BookDetail(props) {
                       <p>Publisher:</p>
                       <p>{book.publisher}</p>
                     </div>
-                    {/* <div className={s.containerDetails1}>
-                      <div className={s.text}>
-                        <p>Language</p>
-                        <p>{book.language}</p>
-                      </div>
-                    </div> */}
+                    <div className={s.text}>
+                      <p>Average Reading Time:</p>
+                      <p id={s.avgReading}>{book.avgReadingTime}</p>
+                    </div>
                     <div className={s.price}>
                       <p>
                         $

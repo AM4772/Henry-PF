@@ -73,9 +73,9 @@ function UserMenu() {
     setLogged(false);
     setOpen(!open);
     if (user) {
-      setTimeout(() => {
-        logout({ returnTo: `http://localhost:3000` });
-      }, 2100);
+      logout({
+        returnTo: process.env.REACT_APP_BASE_URL,
+      });
     }
     goBack();
   }
@@ -86,9 +86,9 @@ function UserMenu() {
           <div className={s.userLinks}>
             <span className={s.links} onClick={() => setOpen(!open)}>
               <div className={s.imageCont}>
-                {userProfile.image ? (
+                {userProfile.profilePic ? (
                   <img
-                    src={userProfile.image}
+                    src={userProfile.profilePic}
                     alt={userProfile.username}
                     title={userProfile.username}
                   />

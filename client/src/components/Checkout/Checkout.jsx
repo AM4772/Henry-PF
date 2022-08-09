@@ -9,6 +9,7 @@ function Checkout() {
   const [loading, setLoading] = useState(true);
   const { items } = useSelector((state) => state.checkout);
   const { stack } = useSelector((state) => state.history);
+  const { userProfile } = useSelector((state) => state.profile);
   const history = useHistory();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -79,7 +80,11 @@ function Checkout() {
           </div>
           <div className={s.MPbutton}>
             {items.length > 0 ? (
-              <MercadoPago setLoading={setLoading} items={items} />
+              <MercadoPago
+                userID={userProfile.ID}
+                setLoading={setLoading}
+                items={items}
+              />
             ) : null}
           </div>
         </div>

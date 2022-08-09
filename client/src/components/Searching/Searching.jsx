@@ -22,14 +22,16 @@ function Searching(props) {
 
   return (
     <div className={s.container}>
-      <div className={`${s.filterCont} ${openFilters ? s.filtersOpen : ""}`}>
-        {openFilters ? (
-          <div className={s.closeButton}>
-            <GrClose onClick={() => setOpenFilters(false)} />
-          </div>
-        ) : null}
-        <Filters />
-      </div>
+      {books[0] ? (
+        <div className={`${s.filterCont} ${openFilters ? s.filtersOpen : ""}`}>
+          {openFilters ? (
+            <div className={s.closeButton}>
+              <GrClose onClick={() => setOpenFilters(false)} />
+            </div>
+          ) : null}
+          <Filters />
+        </div>
+      ) : null}
       <div className={s.cardsCont}>
         {books[0] ? <Pagination /> : null}
         {books[0] ? (

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 const FORM_ID = "payment-form";
 
-export default function MercadoPago({ items, setLoading }) {
+export default function MercadoPago({ items, setLoading, userID }) {
   const [preferenceId, setPreferenceId] = useState(null);
   useEffect(() => {
     axios
       .post("/payments", {
         items,
         base_url: process.env.REACT_APP_BASE_URL,
+        ID: userID,
       })
       .then((order) => {
         setPreferenceId(order.data.preferenceId);

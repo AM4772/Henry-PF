@@ -2,6 +2,7 @@ const { sendMail } = require('./email/nodeMailer');
 const { Users } = require('../db');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
+const { hashPassword } = require('../utils/hash/hashPasswords');
 
 require('dotenv').config();
 let emailsModel = {
@@ -55,6 +56,14 @@ let emailsModel = {
       } else return 1;
     }
     return undefined;
+  },
+  comparePasswordsReset: async function (ID, password, rPassword) {
+    const user = await Users.findByPk(ID);
+    if (password === rPassword) {
+      return await user.update({
+        password: await hashPassword(password),
+      });
+    } else return undefined;
   },
 
   resetEmail: async function ({ user }) {

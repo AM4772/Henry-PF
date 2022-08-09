@@ -51,21 +51,10 @@ const Email1 = () => {
           <p>34FSHDFH45YK</p>
         </div>
       </div>
-      <p className="yourbook">
-        Please click on the button bellow to reset your password:
-      </p>{" "}
-      <p className="containerButtonReset">
-        <button className="buttonReset">
-          <a
-            target="_blank"
-            rel="noreferrer"
-            className="aReset"
-            href="https://bookstore-rose.vercel.app/"
-          >
-            GO ENTER CODE TO RESET PASSWORD
-          </a>
-        </button>
-        {/* "http://localhost:3001/confirm/{{ ID }}?token={{ token }}" */}
+      <p class="yourbook">
+        Please go back to the{" "}
+        <b>Booktore's tab in your browser to enter this code</b> and reset your
+        password.
       </p>
       <p className="comeback">
         If you did not request a new password, please let us know immediatly by

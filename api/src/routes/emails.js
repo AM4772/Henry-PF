@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
 router.post('/reset', async (req, res) => {
   try {
     let resetUser = await resetEmail(req.body);
-    console.log(resetUser);
+
     resetUser
       ? res.json({ data: resetUser, message: 'Reset email sent' })
       : res.status(404).json({ message: 'Cannot send reset email' });

@@ -152,7 +152,6 @@ router.delete('/:ID/cart', async (req, res) => {
 router.post('/auth0/login', async (req, res) => {
   try {
     const newUser = await verifyLogin(req.body);
-    console.log(newUser);
     newUser
       ? res
           .status(201)
@@ -254,7 +253,6 @@ router.put('/:ID', async (req, res) => {
             });
       } else if (admin) {
         const admin = await setAdmin(ID);
-        console.log('hola');
         return admin
           ? res.status(200).send(admin)
           : res.status(404).send({

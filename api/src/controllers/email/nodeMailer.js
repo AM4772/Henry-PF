@@ -88,7 +88,7 @@ let emailsModule = {
                 console.log(error);
                 reject();
               }
-              console.log(info);
+              console.log('Message sent: ', info.response);
               resolve(info);
               return info;
             });
@@ -123,7 +123,7 @@ let emailsModule = {
             reject(error);
           }
           if (info) {
-            console.log(info);
+            console.log('Message sent: ', info.response);
             resolve('Message sent: ', info.response);
           }
         });

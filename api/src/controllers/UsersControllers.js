@@ -255,7 +255,6 @@ let UsersModel = {
   setAdmin: async function (ID) {
     const user = await Users.findByPk(ID);
     if (user) {
-      console.log('soy uyser ', user);
       const admin = user.toJSON().admin;
       user.update({
         admin: !admin,

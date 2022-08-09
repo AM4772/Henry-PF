@@ -1,6 +1,3 @@
-import React from 'react';
-import s from './CreateBook.module.sass';
-
 export const languageOptions = [
   { value: 'en', label: 'en', color: '#00B8D9' },
   { value: 'es', label: 'es', color: '#0052CC' },
@@ -19,16 +16,3 @@ export const groupedOptions = [
     options: languageOptions,
   },
 ];
-
-export const CustomInput = React.forwardRef(
-  ({ onChange, placeholder, value, onClick }, ref) => (
-    <input
-      onChange={onChange}
-      id={s.customInput}
-      placeholder={placeholder}
-      value={value}
-      onClick={onClick}
-      ref={ref}
-    />
-  )
-);

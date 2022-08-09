@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import chroma from 'chroma-js';
-import { languageOptions, CustomInput } from './data.jsx';
+import { languageOptions } from './data.jsx';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -15,9 +17,25 @@ import {
   asyncCreateBook,
 } from '../../redux/actions/booksActions';
 
+import { makeStyles } from '@material-ui/core';
+
+const useInputStyles = makeStyles({
+  root: {
+    width: '370px',
+    height: '40px',
+    padding: '2px',
+    color: props => (props.color ? props.color : 'inherit'),
+    verticalAlign: 'middle',
+    fontSize: '16px',
+    background: 'white',
+    borderRadius: '10px',
+  },
+});
+
 export default function CreateBook() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const inputClasses = useInputStyles();
   const isValidInitialState = {
     title: '',
     description: '',
@@ -119,14 +137,14 @@ export default function CreateBook() {
     }),
     menu: (provided, state) => ({
       ...provided,
-      height: '100px',
+      height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
       overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
-      height: '100px',
+      height: '200px',
     }),
     placeholder: styles => ({ ...styles, ...dot('#ccc') }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
@@ -578,16 +596,29 @@ export default function CreateBook() {
             </div>
             <div className={s.inline}>
               <label className={s.fillTitle}>Published date: </label>
-              <DatePicker
-                selected={info.publishedDate}
-                value={info.publishedDate}
-                dateFormat="dd-MM-yyyy"
-                customInput={<CustomInput />}
-                onChange={date =>
-                  setInfo({ ...info, publishedDate: date }) ||
-                  setCount({ ...count, publishedDate: 1 })
-                }
-              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  autoOk
+                  clearable
+                  // orientation="landscape"
+                  border="none"
+                  id={s.customInput}
+                  ampm={false}
+                  InputProps={{ disableUnderline: true, classes: inputClasses }}
+                  className="dateTimeModalPicker"
+                  placeholder="DD/MM/AAAA"
+                  invalidDateMessage=""
+                  format="dd/MM/yyyy"
+                  minDate={new Date('1000-01-01')}
+                  maxDate={new Date()}
+                  disableFuture
+                  value={info.publishedDate}
+                  onChange={date =>
+                    setInfo({ ...info, publishedDate: date }) ||
+                    setCount({ ...count, publishedDate: 1 })
+                  }
+                />
+              </MuiPickersUtilsProvider>
               <p
                 className={
                   isValid.publishedDate && isValid.publishedDate !== ' '

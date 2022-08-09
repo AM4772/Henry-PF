@@ -35,6 +35,7 @@ let emailsModule = {
         name: data.name,
         username: data.username,
         token: data.token,
+        BASE_URL: data.BASE_URL,
       };
     }
     if (data.emailType === 'reset') {

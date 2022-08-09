@@ -17,6 +17,7 @@ let autoLogin = {
         'name',
         'surname',
         'email',
+        "profilePic",
         'suspendedTimes',
         'enabled',
         'admin',

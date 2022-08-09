@@ -3,7 +3,7 @@ const { Users } = require('../db');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 let emailsModel = {
-  registerEmail: async function (username) {
+  registerEmail: async function (username, BASE_URL) {
     const emailType = 'register';
     const user = await Users.findOne({
       where: {
@@ -15,7 +15,7 @@ let emailsModel = {
       const { name, email, ID } = user.toJSON();
       const token = jwt.sign(user.toJSON(), process.env.PASS_TOKEN);
       const emailFunction = sendMail(
-        (data = { emailType, name, token, username, email, ID })
+        (data = { emailType, name, token, username, email, ID, BASE_URL })
       );
       return emailFunction;
     } else return 1;

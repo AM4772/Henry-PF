@@ -1,4 +1,4 @@
-const { Users, Payments, Books } = require('../db');
+const { Users, Payments } = require('../db');
 const { Op } = require('sequelize');
 const { hashPassword } = require('../utils/hash/hashPasswords');
 const { verifyLogin } = require('../utils/verifyLogin/verifyUserLogin');
@@ -12,23 +12,21 @@ let UsersModel = {
   getUsers: async function () {
     const foundUsers = await Users.findAll({
       include: Payments,
+      attributes: [
+        'ID',
+        'username',
+        'name',
+        'surname',
+        'email',
+        'profilePic',
+        'suspendedTimes',
+        'enabled',
+        'admin',
+        'banned',
+      ],
     });
     if (foundUsers.length > 0) {
-      const userJSON = foundUsers.map((u) => u.toJSON());
-      return userJSON.map((u) => {
-        return {
-          ID: u.ID,
-          username: u.username,
-          name: u.name,
-          surname: u.surname,
-          email: u.email,
-          suspendedTimes: u.suspendedTimes,
-          enabled: u.enabled, //
-          admin: u.admin,
-          banned: u.banned,
-          payments: u.payments,
-        };
-      });
+      return foundUsers;
     } else {
       return undefined;
     }
@@ -73,6 +71,7 @@ let UsersModel = {
         'name',
         'surname',
         'email',
+        'profilePic',
         'suspendedTimes',
         'enabled',
         'admin',
@@ -113,8 +112,9 @@ let UsersModel = {
             surname: user.surname.toLowerCase(),
             username: user.username.toLowerCase(),
             email: user.email.toLowerCase(),
-            enabled: user.enabled, //
+            enabled: true, //
             authzero: true,
+            profilePic: user.image,
           })
         ).toJSON();
         return { ...authzeroUser, token: tokenPass };
@@ -166,6 +166,7 @@ let UsersModel = {
             'name',
             'surname',
             'email',
+            'profilePic',
             'suspendedTimes',
             'enabled',
             'admin',
@@ -200,6 +201,7 @@ let UsersModel = {
             'name',
             'surname',
             'email',
+            'profilePic',
             'suspendedTimes',
             'enabled',
             'admin',
@@ -235,6 +237,7 @@ let UsersModel = {
               'name',
               'surname',
               'email',
+              'profilePic',
               'suspendedTimes',
               'enabled',
               'admin',
@@ -245,6 +248,36 @@ let UsersModel = {
         return enabledUser;
       } else return undefined;
     } else return 1;
+  },
+  //-----------------------------------------------------------------------------------------
+  //                                  ADMIN
+  //-----------------------------------------------------------------------------------------
+  setAdmin: async function (ID) {
+    const user = await Users.findByPk(ID);
+    if (user) {
+      console.log('soy uyser ', user);
+      const admin = user.toJSON().admin;
+      user.update({
+        admin: !admin,
+      });
+      return (
+        await Users.findByPk(ID, {
+          include: 'favourite',
+          attributes: [
+            'ID',
+            'username',
+            'name',
+            'surname',
+            'email',
+            'profilePic',
+            'suspendedTimes',
+            'enabled',
+            'admin',
+            'banned',
+          ],
+        })
+      ).toJSON();
+    } else return undefined;
   },
 
   //-----------------------------------------------------------------------------------------
@@ -279,6 +312,7 @@ let UsersModel = {
         name: changes.name,
         surname: changes.surname,
         email: changes.email,
+        profilePic: changes.profilePic,
       });
       const userUpdated = (
         await Users.findByPk(ID, {
@@ -289,6 +323,7 @@ let UsersModel = {
             'name',
             'surname',
             'email',
+            'profilePic',
             'suspendedTimes',
             'enabled',
             'admin',

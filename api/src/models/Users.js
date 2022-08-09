@@ -29,18 +29,11 @@ module.exports = (sequelize) => {
         unique: true,
         allowNull: false,
       },
-      profilepic: {
+      profilePic: {
         type: DataTypes.STRING,
       },
       password: {
         type: DataTypes.STRING,
-        // validate:{
-        //   isAuth0(value){
-        //     if(!this.authzero){
-        //       if(!value)throw new Error("Password cannot be null")
-        //     }
-        //   }
-        // }
       },
       resetCode: {
         type: DataTypes.BIGINT,

@@ -21,6 +21,7 @@ let verifyLoginModel = {
         'name',
         'surname',
         'email',
+        'profilePic',
         'suspendedTimes',
         'enabled',
         'admin',
@@ -47,6 +48,9 @@ let verifyLoginModel = {
           },
           process.env.PASS_TOKEN
         );
+        user.update({
+          enabled: true,
+        });
         const nameSplitted = authUserJSON.name.split(' ');
         const names = nameSplitted.map(
           (n) => n.charAt(0).toUpperCase() + n.slice(1)

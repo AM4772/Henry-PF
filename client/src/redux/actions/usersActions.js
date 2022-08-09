@@ -11,6 +11,7 @@ import {
   enableAndSuspendUser,
   enableUser,
   setConfirmMail,
+  setImage
 } from "../reducers/profileSlice";
 import {
   getUsers,
@@ -19,6 +20,7 @@ import {
   setEmails,
   setUsernames,
   clearUserDetail,
+
 } from "../reducers/usersSlice";
 
 // const localhost = 'http://localhost:3001';
@@ -86,17 +88,18 @@ export function asyncRegisterUser(info) {
       });
     }
   };
+
 }
 
 export function asyncEnable(ID) {
-  return async function (dispatch) {
-    try {
-      const response = (await axios.post(`/login/enable/${ID}`)).data;
-      dispatch(enableAndSuspendUser(response));
-    } catch (error) {
-      dispatch(enableUser({ enabled: false }));
-    }
-  };
+	return async function (dispatch) {
+		try {
+			const response = (await axios.post(`/login/enable/${ID}`)).data;
+			dispatch(enableAndSuspendUser(response));
+		} catch (error) {
+			dispatch(enableUser({ enabled: false }));
+		}
+	};
 }
 
 export function asyncLogin(body, remember) {
@@ -238,17 +241,18 @@ export function asyncDeleteFavourite(userID, bookID) {
       console.error(error);
     }
   };
+
 }
 
 export function asyncGetItemsCart(userID) {
-  return async function (dispatch) {
-    try {
-      const response = (await axios(`/users/${userID}/cart`)).data;
-      dispatch(getItemsCart(response));
-    } catch (error) {
-      console.error(error);
-    }
-  };
+	return async function (dispatch) {
+		try {
+			const response = (await axios(`/users/${userID}/cart`)).data;
+			dispatch(getItemsCart(response));
+		} catch (error) {
+			console.error(error);
+		}
+	};
 }
 
 export function asyncAddItemCart(userID, bookID) {
@@ -344,25 +348,25 @@ export function asyncLoginAuth0(body) {
 }
 
 export function asyncDisableUser(ID) {
-  return async function (dispatch) {
-    try {
-      const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
-      dispatch(getUserDetail(response));
-    } catch (error) {
-      console.error(error);
-    }
-  };
+	return async function (dispatch) {
+		try {
+			const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
+			dispatch(getUserDetail(response));
+		} catch (error) {
+			console.error(error);
+		}
+	};
 }
 
 export function asyncEnableUser(ID) {
-  return async function (dispatch) {
-    try {
-      const response = (await axios.put(`/users/${ID}?enabled=true`)).data;
-      dispatch(getUserDetail(response));
-    } catch (error) {
-      console.error(error);
-    }
-  };
+	return async function (dispatch) {
+		try {
+			const response = (await axios.put(`/users/${ID}?enabled=true`)).data;
+			dispatch(getUserDetail(response));
+		} catch (error) {
+			console.error(error);
+		}
+	};
 }
 
 export function asyncSetAdmin(ID) {
@@ -385,4 +389,16 @@ export function asyncConfirmEmail(token) {
       dispatch(setConfirmMail(false));
     }
   };
+
+
+export function asyncSetImage(ID, result) {
+	console.log(result);
+	return async function (dispatch) {
+		try {
+			const response = (await axios.put(`/users/${ID}`, result)).data;
+			dispatch(loginUser(response.data));
+		} catch (error) {
+			console.log(error);
+		}
+	};
 }

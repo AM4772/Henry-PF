@@ -3,6 +3,7 @@ import s from "./ForgotPassword.module.sass";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
+  asyncResetCode,
   asyncSetEmails,
   asyncSetUsernames,
 } from "../../redux/actions/usersActions";
@@ -34,7 +35,7 @@ function ForgotPassword() {
       !emails.includes(emailOrUsername) &&
       !usernames.includes(emailOrUsername)
     ) {
-      isValidCopy.emailOrUsername = "Email or username is invalid";
+      isValidCopy.emailOrUsername = "Email or username doesn't exists";
     } else delete isValidCopy.emailOrUsername;
     setIsvalid(isValidCopy);
     let counter = 0;
@@ -47,13 +48,13 @@ function ForgotPassword() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsPending(true);
-    ////////////////DISPATCH
-    dispatch(emailOrUsername).then(() => {
-      //////////////////////RUTA
-      history.push("/CC");
-      setIsPending(false);
-    });
+    if (isAllowed) {
+      setIsPending(true);
+      dispatch(asyncResetCode(emailOrUsername)).then(() => {
+        history.push("/confirm/reset");
+        setIsPending(false);
+      });
+    }
   }
 
   const handleButton = () => {

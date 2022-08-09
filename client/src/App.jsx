@@ -65,7 +65,8 @@ function App() {
       location.pathname.includes("user") ||
       location.pathname === "/contact" ||
       location.pathname.includes("emails") ||
-      location.pathname.includes("firebase")
+      location.pathname.includes("firebase") ||
+      location.pathname.includes("confirm")
     ) {
       setTimeout(() => {
         setLoading(false);

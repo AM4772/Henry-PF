@@ -8,6 +8,7 @@ const initialState = {
   appLoadingProfile: true,
   firstAuto: true,
   paymentDetail: {},
+  confirmMail: false,
 };
 
 const satisfaction = Swal.mixin({
@@ -107,6 +108,9 @@ const profileSlice = createSlice({
     clearPaymentDetail: (state) => {
       state.paymentDetail = {};
     },
+    setConfirmMail: (state, action) => {
+      state.confirmMail = action.payload;
+    },
   },
 });
 
@@ -125,6 +129,7 @@ export const {
   clearCart,
   setPaymentDetail,
   clearPaymentDetail,
+  setConfirmMail,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

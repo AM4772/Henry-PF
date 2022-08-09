@@ -75,27 +75,27 @@ function Register(props) {
       // Name
       if (!name.length) isValidCopy.name = " ";
       else if (name.includes("-"))
-        isValidCopy.name = "Name can't contain symbols, numbers nor spaces at the end of the input";
+        isValidCopy.name =
+          "Name can't contain symbols, numbers nor spaces at the end of the input";
       else if (name.length < 1 || name.length > 50)
         isValidCopy.name = "Name contain between 1-50 characters";
       else if (!regex.symbols.test(name))
-        isValidCopy.name = "Name can't contain symbols, numbers nor spaces at the end of the input";
+        isValidCopy.name =
+          "Name can't contain symbols, numbers nor spaces at the end of the input";
       else delete isValidCopy.name;
       // Surname
       if (!surname.length) isValidCopy.surname = " ";
       else if (surname.length < 1 || surname.length > 50)
         isValidCopy.surname = "Surname needs to be between 1-50 characters";
       else if (!regex.symbols.test(surname))
-        isValidCopy.surname =
-          "Surname can't contain symbols nor numbers";
+        isValidCopy.surname = "Surname can't contain symbols nor numbers";
       else delete isValidCopy.surname;
       // Username
       if (!username.length) isValidCopy.username = " ";
       else if (username.length < 3 || username.length > 20)
         isValidCopy.username = "Username contain between 3-20 characters";
-      else if (username.includes(' '))
-        isValidCopy.username =
-          "Username can't contain spaces";
+      else if (username.includes(" "))
+        isValidCopy.username = "Username can't contain spaces";
       else if (usernames.includes(username))
         isValidCopy.username = "Username is already taken";
       else delete isValidCopy.username;
@@ -142,7 +142,14 @@ function Register(props) {
   ]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const info = { name, surname, username, email, password };
+    const info = {
+      name,
+      surname,
+      username,
+      email,
+      password,
+      BASE_URL: process.env.REACT_APP_BASE_URL,
+    };
     setisPending(true);
     dispatch(asyncRegisterUser(info)).then((res) => {
       if (res) {
@@ -168,7 +175,12 @@ function Register(props) {
           Registering...
         </p>
       );
-    else if (isAllowed) return <button id={s.active} className={`buttons`}>Register</button>;
+    else if (isAllowed)
+      return (
+        <button id={s.active} className={`buttons`}>
+          Register
+        </button>
+      );
     else
       return (
         <p id={s.waiting} className="buttons">
@@ -348,10 +360,14 @@ function Register(props) {
             </div>
           </div>
           <div id={s.perroAustraliano}>
-            <NavLink to="/login" id={s.linker}>Already registered?</NavLink>
+            <NavLink to="/login" id={s.linker}>
+              Already registered?
+            </NavLink>
           </div>
           <div className={s.bottomButton}>{handleButton()}</div>
-          <div className={s.buttomButton} id={s.auth0}><Auth0/></div>
+          <div className={s.buttomButton} id={s.auth0}>
+            <Auth0 />
+          </div>
         </form>
       </div>
     </div>

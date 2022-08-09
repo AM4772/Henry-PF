@@ -68,13 +68,10 @@ export function asyncGetUserDetail(ID) {
 export function asyncRegisterUser(info) {
 	return async function (dispatch) {
 		try {
-			const response = (await axios.post("/users", info)).data;
+			await axios.post("/users", info)
 			return await Swal.fire({
 				icon: "success",
 				title: "Your account has been created, check your email",
-				text: `${response.message}`,
-				showConfirmButton: false,
-				timer: 2000,
 			}).then(() => {
 				return true;
 			});
@@ -306,14 +303,22 @@ export function asyncRemoveItemCart(userID, bookID) {
 export function asyncModifyUser(ID, body) {
 	return async function (dispatch) {
 		try {
+			console.log(body);
 			const response = (await axios.put(`/users/${ID}`, body)).data;
 			dispatch(loginUser(response.data));
 			localStorage.setItem("ALTKN", response.data.token);
-			return true;
+			return satisfaction.fire({
+				icon: "success",
+				title: "Modified!",
+				html: `You have <b>modified</b> the user ${ID}`,
+			}).then(() => {return true})
 		} catch (error) {
 			console.error(error);
-			return undefined;
-		}
+			return satisfaction.fire({
+				icon: "error",
+				title: "Oops...",
+				html: `There was an error`,
+			}).then(() => {return undefined;})}
 	};
 }
 
@@ -350,8 +355,18 @@ export function asyncDisableUser(ID) {
 		try {
 			const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
 			dispatch(getUserDetail(response));
+			satisfaction.fire({
+				icon: "success",
+				title: "Success!",
+				html: `You have <b>successfully</b> the user ${ID} has been disabled successfully`,
+			})
 		} catch (error) {
 			console.error(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -361,8 +376,18 @@ export function asyncEnableUser(ID) {
 		try {
 			const response = (await axios.put(`/users/${ID}?enabled=true`)).data;
 			dispatch(getUserDetail(response));
+			satisfaction.fire({
+				icon: "error",
+				title: "Success!",
+				html: `You have <b>successfully</b> the user ${ID} has been enabled successfully`,
+			})
 		} catch (error) {
 			console.error(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -372,8 +397,18 @@ export function asyncSetAdmin(ID) {
 		try {
 			await axios.put(`/users/${ID}?admin=true`);
 			dispatch(clearUserDetail());
+			satisfaction.fire({
+				icon: "Success",
+				title: "Success!",
+				html: `The user ${ID} is now an admin`,
+			})
 		} catch (error) {
 			console.error(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -383,8 +418,18 @@ export function asyncConfirmEmail(token) {
 		try {
 			await axios.get(`/confirm?token=${token}`);
 			dispatch(setConfirmMail(true));
+			satisfaction.fire({
+				icon: "Success",
+				title: "Success!",
+				html: `Your email has been confirmed`,
+			})
 		} catch (error) {
 			dispatch(setConfirmMail(false));
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -394,8 +439,18 @@ export function asyncSetImage(ID, result) {
 		try {
 			const response = (await axios.put(`/users/${ID}`, result)).data;
 			dispatch(loginUser(response.data));
+			satisfaction.fire({
+				icon: "Success",
+				title: "Success!",
+				html: `Image has edited set sucessfully`,
+			})
 		} catch (error) {
 			console.log(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -404,9 +459,19 @@ export function asyncResetCode(user) {
 	return async function (dispatch) {
 		try {
 			const response = (await axios.post(`/emails/reset`, { user })).data;
+			satisfaction.fire({
+				icon: "Success",
+				title: "Success!",
+				html: `The code has been reset successfully`,
+			})
 			return dispatch(setResetID(response.data.ID));
 		} catch (error) {
 			console.log(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -415,9 +480,20 @@ export function asyncConfirmCode(ID, resetCode) {
 	return async function (dispatch) {
 		try {
 			await axios.post(`/confirm/reset`, { ID, resetCode });
-			return true;
+			satisfaction.fire({
+				icon: "Success",
+				title: "Success!",
+				html: `The code has been confirmed`,
+			}).then(() => {
+				return true;
+			})
 		} catch (error) {
 			console.log(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }
@@ -430,9 +506,19 @@ export function asyncNewPassword(ID, password, rPassword) {
 				password,
 				rPassword,
 			});
+			satisfaction.fire({
+				icon: "Success",
+				title: "Success!",
+				html: `New password has been set successfully`,
+			})
 			return dispatch(clearResetID());
 		} catch (error) {
 			console.log(error);
+			satisfaction.fire({
+				icon: "error",
+				title: "Oops!",
+				html: `There was an error`,
+			})
 		}
 	};
 }

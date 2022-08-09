@@ -451,7 +451,7 @@ export function asyncSetImage(ID, result) {
       satisfaction.fire({
         icon: "Success",
         title: "Success!",
-        html: `Image has edited set sucessfully`,
+        html: `Image has set sucessfully`,
       });
     } catch (error) {
       console.log(error);
@@ -471,7 +471,8 @@ export function asyncResetCode(user) {
       satisfaction.fire({
         icon: "Success",
         title: "Success!",
-        html: `The code has been reset successfully`,
+        html: `The code has been sent successfully, check your email`,
+        timer: 2000,
       });
       return dispatch(setResetID(response.data.ID));
     } catch (error) {
@@ -494,6 +495,7 @@ export function asyncConfirmCode(ID, resetCode) {
           icon: "Success",
           title: "Success!",
           html: `The code has been confirmed`,
+          timer: 2000,
         })
         .then(() => {
           return true;

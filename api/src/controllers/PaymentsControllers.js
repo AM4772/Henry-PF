@@ -10,6 +10,7 @@ let paymentsModel = {
       items: payment.items,
       total: payment.total,
       userID: payment.userID,
+      status: payment.status,
     });
     const categoriesArray = await createPayment.toJSON().items;
     for (let i = 0; i < categoriesArray.length; i++) {

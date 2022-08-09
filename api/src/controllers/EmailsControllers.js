@@ -1,6 +1,8 @@
 const { sendMail } = require('./email/nodeMailer');
 const { Users } = require('../db');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
+
 require('dotenv').config();
 let emailsModel = {
   registerEmail: async function (username, BASE_URL) {
@@ -35,18 +37,46 @@ let emailsModel = {
     }
     return undefined;
   },
-  resetEmail: async function (user) {
-    const { username, email, ID } = user;
+
+  confirmReset: async function (user) {
+    const { ID, resetCode } = user;
+    const findUser = await Users.findByPk(parseInt(ID));
+    if (findUser) {
+      if (parseInt(findUser.toJSON().resetCode) === parseInt(resetCode)) {
+        findUser.update({
+          resetCode: null,
+        });
+        return findUser.toJSON();
+      } else return 1;
+    }
+    return undefined;
+  },
+
+  resetEmail: async function ({ user }) {
     const emailType = 'reset';
     const token = Math.floor(Math.random() * 100000000);
-    const findUser = await Users.findByPk(ID);
+    const findUser = await Users.findOne({
+      where: {
+        [Op.or]: [
+          { username: user.toLowerCase() },
+          { email: user.toLowerCase() },
+        ],
+      },
+    });
     if (findUser) {
       try {
         findUser.update({
           resetCode: token,
         });
-        await sendMail((data = { emailType, token, username, email, ID }));
-        return true;
+        await sendMail(
+          (data = {
+            emailType,
+            token,
+            username: findUser.toJSON().username,
+            email: findUser.toJSON().email,
+          })
+        );
+        return findUser;
       } catch (error) {
         console.log(error);
         return undefined;

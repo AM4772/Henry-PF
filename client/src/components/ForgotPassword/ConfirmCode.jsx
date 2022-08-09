@@ -11,8 +11,6 @@ function ConfirmCode() {
     code: "",
   };
 
-  /////////////STATE???
-
   const [code, setCode] = useState("");
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [isPending, setIsPending] = useState(false);
@@ -22,8 +20,10 @@ function ConfirmCode() {
   useEffect(() => {
     const isValidCopy = { ...isValid };
     if (!code.length) isValidCopy.code = " ";
-    else if (code) {
-      isValidCopy.code = "Reset code is invalid";
+    else if (code.length > 8) {
+      isValidCopy.code = "The code must be 8 characters long";
+    } else if (isNaN(code)) {
+      isValidCopy.code = "The code only has to be  numbers";
     } else delete isValidCopy.code;
     setIsvalid(isValidCopy);
     let counter = 0;
@@ -41,7 +41,7 @@ function ConfirmCode() {
     dispatch(code).then((res) => {
       if (res) {
         /////////////////////RUTA
-        history.push("/resetPassword");
+        history.push("/RP");
         setCode("");
         setIsvalid(isValidInitialState);
         setIsAllowed(false);
@@ -84,7 +84,16 @@ function ConfirmCode() {
               value={code}
               placeholder="Confirmation code"
               onChange={(e) => setCode(e.target.value)}
-            />
+            />{" "}
+            <p
+              className={
+                isValid.code && isValid.code !== " "
+                  ? s.errorMessage
+                  : s.noErrorMessage
+              }
+            >
+              {isValid.code}
+            </p>
             <div id="button-handler">{handleButton()}</div>
           </div>
         </form>

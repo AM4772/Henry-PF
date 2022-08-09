@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import s from "./SearchBar.module.sass";
 import { FiSearch } from "react-icons/fi";
-import { BiArrowBack } from "react-icons/bi";
+import { AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import {
   asyncGetBooks,
@@ -84,7 +84,7 @@ function SearchBar({ input, setInput }) {
     <div className={s.container}>
       <form className={s.formSearch} onSubmit={(e) => handleSubmit(e)}>
         <div className={s.searchDiv}>
-          <BiArrowBack
+          <AiOutlineClose
             onClick={() => setInput("")}
             className={`${s.back} ${input.length > 0 ? s.allowBack : ""}`}
           />
@@ -92,7 +92,7 @@ function SearchBar({ input, setInput }) {
             onChange={(e) => handleChange(e)}
             value={input}
             type="text"
-            placeholder="Search"
+            placeholder="Enter book title..."
             autoComplete="off"
           />
           <FiSearch

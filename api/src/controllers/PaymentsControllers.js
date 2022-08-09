@@ -5,6 +5,7 @@ require('dotenv').config();
 
 let paymentsModel = {
   createPayment: async function (payment) {
+    console.log(payment);
     const createPayment = await Payments.create({
       mpID: payment.ID,
       items: payment.items,

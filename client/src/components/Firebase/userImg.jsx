@@ -37,6 +37,7 @@ function UserImg({ ID }) {
                 id=""
                 onChange={(e) => onChange(e)}
                 className={s.formContainer}
+                title="Upload photo"
               />
             </label>
 
@@ -52,6 +53,7 @@ function UserImg({ ID }) {
                 id=""
                 onChange={(e) => onChange(e)}
                 className={s.formContainer}
+                title="Upload photo"
               />
             </label>
             <h1 className={s.noImg}>

@@ -51,7 +51,6 @@ function BookDetail(props) {
   const { favourites, cart } = useSelector((state) => state.profile);
 
   let book = useSelector((state) => state.books.bookDetail);
-
   // let reviews = TESTING_REVIEWS;
   let reviews = book.reviews;
 
@@ -106,7 +105,8 @@ function BookDetail(props) {
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
-  }, [reviews]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeButtonReview]);
 
   function goBack() {
     var lastPath = [];
@@ -213,18 +213,22 @@ function BookDetail(props) {
       behavior: "smooth",
     });
   }
-  function validate() {
-    let aux = [];
-    if (userProfile.payments?.length)
-      aux = userProfile.payments.map((e) =>
-        e.items.find((el) => el.ID === book.ID)
-      );
-    if (aux.length) {
-      return true;
-    } else {
-      return false;
+  function validateReviewButton() {
+    if (userProfile.ID && userProfile.admin) return "add";
+    let flag = "none";
+    if (userProfile.payments?.length) {
+      for (let el of userProfile.payments) {
+        if (el.ID === book.ID) flag = "add";
+      }
     }
+    if (book.reviews?.length) {
+      for (let el of book.reviews) {
+        if (el.userID === userProfile.ID) flag = "edit";
+      }
+    }
+    return flag;
   }
+
   return (
     <div>
       {book.title ? (
@@ -309,13 +313,19 @@ function BookDetail(props) {
                           {""}({reviews.length} reviews){""}
                         </p>
                         <div className={s.reviewButtonCont}>
-                          {(userProfile.ID && userProfile.ID.admin) ||
-                          validate() ? ( // >>>>>>>>>> CAMBIAR por BookPurchased
+                          {validateReviewButton() === "add" ? (
                             <button
                               className={s.buttonReview}
                               onClick={() => dispatch(setCloseButtonReview())}
                             >
-                              Add a review
+                              Add REVIEW
+                            </button>
+                          ) : validateReviewButton() === "edit" ? (
+                            <button
+                              className={s.buttonReview}
+                              onClick={() => dispatch(setCloseButtonReview())}
+                            >
+                              Edit REVIEW
                             </button>
                           ) : null}
                         </div>

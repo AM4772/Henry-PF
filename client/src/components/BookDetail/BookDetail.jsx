@@ -214,11 +214,15 @@ function BookDetail(props) {
     });
   }
   function validateReviewButton() {
-    if (userProfile.ID && userProfile.admin) return "add";
+    if (userProfile.ID && userProfile.admin) return true;
     let flag = "none";
     if (userProfile.payments?.length) {
-      for (let el of userProfile.payments) {
-        if (el.ID === book.ID) flag = "add";
+      for (let i = 0; i < userProfile.payments.length; i++) {
+        if (userProfile.payments[i].items?.length) {
+          for (let j = 0; j < userProfile.payments[i].items.length; j++) {
+            if (userProfile.payments[i].items[j].ID == book.ID) flag = "add";
+          }
+        }
       }
     }
     if (book.reviews?.length) {

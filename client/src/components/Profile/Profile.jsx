@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import s from "./Profile.module.sass";
-import { MdOutlinePrivacyTip } from "react-icons/md";
-import { FaUserCircle, FaWallet, FaUserEdit } from "react-icons/fa";
+// import { MdOutlinePrivacyTip } from "react-icons/md";
+import { FaUserCircle, FaUserEdit } from "react-icons/fa";
 import ProfileEdit from "../ProfileEdit/ProfileEdit";
 import UserImg from "../Firebase/userImg";
 function Profile(props) {

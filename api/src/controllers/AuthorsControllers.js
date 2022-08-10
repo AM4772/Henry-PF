@@ -18,6 +18,7 @@ let authorModel = {
 
     authorsArray.map((a) => Authors.create({ name: a }));
   },
+
   getAuthors: async function () {
     const authors = await Authors.findAll();
 

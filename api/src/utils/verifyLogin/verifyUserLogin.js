@@ -17,7 +17,6 @@ let verifyLoginModel = {
       attributes: [
         'ID',
         'username',
-        'authzero',
         'name',
         'surname',
         'email',
@@ -29,11 +28,16 @@ let verifyLoginModel = {
         'dateSuspended',
         'resetCode',
         'password',
+        'authzero',
       ],
     });
     if (user) {
       if (user.banned) {
         return 5;
+      }
+      if (!user.enabled && user.suspendedTimes === 0) {
+        console.log(user.enabled);
+        return 10;
       }
       const authUserJSON = user.toJSON();
       //AUTH0

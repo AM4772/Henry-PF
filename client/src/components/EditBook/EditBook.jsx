@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import DatePicker from 'react-datepicker';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { uploadFileBookImage } from '../Firebase/config.js'
+import { TiCamera } from "react-icons/ti";
 import chroma from 'chroma-js';
-import { languageOptions, CustomInput } from './data.jsx';
+import { languageOptions } from './data.jsx';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import s from './EditBook.module.sass';
@@ -13,9 +17,25 @@ import {
   asyncEditBook,
 } from '../../redux/actions/booksActions';
 
+import { makeStyles } from '@material-ui/core';
+
+const useInputStyles = makeStyles({
+  root: {
+    width: '370px',
+    height: '40px',
+    padding: '2px',
+    color: props => (props.color ? props.color : 'inherit'),
+    verticalAlign: 'middle',
+    fontSize: '16px',
+    background: 'white',
+    borderRadius: '10px',
+  },
+});
+
 export default function CreateBook({ book }) {
   const dispatch = useDispatch();
   const isValidInitialState = {};
+  const inputClasses = useInputStyles();
   const publishedDateCopy = book.publishedDate.split('-');
   let publishedDateCaca = '';
   if (publishedDateCopy.length === 3)
@@ -131,14 +151,14 @@ export default function CreateBook({ book }) {
     }),
     menu: (provided, state) => ({
       ...provided,
-      height: '100px',
+      height: '200px',
       borderBottom: '1px dotted pink',
       color: state.selectProps.menuColor,
       overflow: 'hidden',
     }),
     menuList: (provided, state) => ({
       ...provided,
-      height: '100px',
+      height: '200px',
     }),
     placeholder: styles => ({ ...styles, ...dot('#ccc') }),
     singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
@@ -205,7 +225,15 @@ export default function CreateBook({ book }) {
   const [isAllowed, setIsAllowed] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [isPending, setIsPending] = useState(false);
+  const [random, setRandom] = useState()
+  const uuidv4 = () => {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      // eslint-disable-next-line no-mixed-operators
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+  }
   useMemo(() => {
+    setRandom(uuidv4())
     if (!authorsOptions || !caterogiesOptions) {
       let authorsCopy = [],
         categoriesCopy = [];
@@ -226,7 +254,6 @@ export default function CreateBook({ book }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authors, categories]);
   useEffect(() => {
-    var imageCheck = new RegExp(/(https?:\/\/.*\.(?:png|jpg|svg))/);
     const isValidCopy = { ...isValid };
     // Title
     if (!info.title.length) isValidCopy.title = ' ';
@@ -245,8 +272,6 @@ export default function CreateBook({ book }) {
     else delete isValidCopy.price;
     // Image
     if (!info.image.length) isValidCopy.image = ' ';
-    else if (!imageCheck.test(info.image))
-      isValidCopy.image = 'Image url is unvalid';
     else delete isValidCopy.image;
     // Authors
     if (!info.authors.length) isValidCopy.authors = ' ';
@@ -314,8 +339,7 @@ export default function CreateBook({ book }) {
           info.publishedDate.getMonth() + 1
         )
           .toString()
-          .padStart(2, '0')}-${info.publishedDate
-          .getDate()
+          .padStart(2, '0')}-${(info.publishedDate.getDate() + 1)
           .toString()
           .padStart(2, '0')}`,
       })
@@ -341,6 +365,11 @@ export default function CreateBook({ book }) {
         </p>
       );
   };
+  const handleImage = async (e) => {
+    e.preventDefault()
+    const result = await uploadFileBookImage(e.target.files[0], random);
+    setInfo({...info, image: result})
+  }
   return (
     <div id={s.toCenter}>
       <h1 id={s.title}>Create book</h1>
@@ -401,31 +430,15 @@ export default function CreateBook({ book }) {
               </p>
             </div>
             <div className={s.inline}>
-              <label className={s.fillTitle}>Image: </label>
-              <input
-                type="text"
-                placeholder="Image"
-                value={info.image}
-                className={`${s.input} ${
-                  isValid.image && isValid.image.length && count.image
-                    ? s.danger
-                    : s.nejDanger
-                }`}
-                onChange={e =>
-                  setInfo({ ...info, image: e.target.value }) ||
-                  setCount({ ...count, image: 1 })
-                }
-              ></input>
-              <p
-                className={
-                  isValid.image && isValid.image !== ' '
-                    ? s.errorMessage
-                    : s.noErrorMessage
-                }
-              >
-                {isValid.image}
-              </p>
-            </div>
+                <label className={s.fillTitle}>Book cover: </label>
+                <div id={s.testIMG}>
+                <label id={s.customFileUpload}>
+                      <TiCamera id={s.camera}/>
+                    <input type='file' id={s.formContainer} onChange={handleImage}></input>
+                  </label>
+                  <img src={info.image} alt=''/>
+                </div>
+              </div>
             <div className={s.inline}>
               <label className={s.fillTitle}>Publisher: </label>
               <input
@@ -565,16 +578,30 @@ export default function CreateBook({ book }) {
           </div>
           <div className={s.inline}>
             <label className={s.fillTitle}>Published date: </label>
-            <DatePicker
-              selected={info.publishedDate}
-              dateFormat="dd-MM-yyyy"
-              defaultValue={info.publishedDate}
-              customInput={<CustomInput />}
-              onChange={date =>
-                setInfo({ ...info, publishedDate: date }) ||
-                setCount({ ...count, publishedDate: 1 })
-              }
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                autoOk
+                clearable
+                // orientation="landscape"
+                border="none"
+                id={s.customInput}
+                ampm={false}
+                InputProps={{ disableUnderline: true, classes: inputClasses }}
+                className="dateTimeModalPicker"
+                placeholder="DD/MM/AAAA"
+                invalidDateMessage=""
+                format="dd/MM/yyyy"
+                // disableFuture
+                keyboardIcon={false} 
+                minDate={new Date('1000-01-01')}
+                // maxDate={new Date()}
+                value={info.publishedDate}
+                onChange={date =>
+                  setInfo({ ...info, publishedDate: date }) ||
+                  setCount({ ...count, publishedDate: 1 })
+                }
+              />
+            </MuiPickersUtilsProvider>
             <p
               className={
                 isValid.publishedDate && isValid.publishedDate !== ' '

@@ -8,16 +8,16 @@ import {
 import { clearPayment } from "../../redux/reducers/checkoutSlice";
 import s from "./MercadoPago.module.sass";
 import Loading from "../Loading/Loading";
-import { clearCart } from "../../redux/reducers/profileSlice";
+import { asyncGetItemsCart } from "../../redux/actions/usersActions";
 
 function SuccessMP() {
   const dispatch = useDispatch();
-  const { userProfile } = useSelector((state) => state.profile);
-  const { mpID, order, cartCH } = useSelector((state) => state.checkout);
+  const { userProfile, cart } = useSelector((state) => state.profile);
+  const { mpID, order } = useSelector((state) => state.checkout);
   const { stack } = useSelector((state) => state.history);
   const history = useHistory();
   const [front, setOrder] = useState({
-    ID: order.order,
+    ID: mpID,
     items: order.items,
     status: order.status,
     status_detail: order.status_detail,
@@ -32,6 +32,13 @@ function SuccessMP() {
     }
     return () => {
       dispatch(clearPayment());
+      setOrder({
+        ID: "",
+        items: [],
+        status: "",
+        status_detail: "",
+        total: 0,
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -41,18 +48,24 @@ function SuccessMP() {
       setOrder({ ...order });
     }
     if (order.items.length > 0 && userProfile.ID) {
-      setLoading(false);
-      if (cartCH) {
-        dispatch(clearCart());
-      }
-      dispatch(
-        asyncConfirmPayment({ ...order, userID: parseInt(userProfile.ID) })
-      );
+      let obj = { ...order };
       dispatch(clearPayment());
+      dispatch(
+        asyncConfirmPayment({ ...obj, userID: parseInt(userProfile.ID) })
+      ).then((res) => {
+        if (res) {
+          dispatch(asyncGetItemsCart(userProfile.ID)).then((res2) => {
+            if (res2) {
+              setLoading(false);
+            }
+          });
+        }
+      });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [order, userProfile]);
-  useEffect(() => {}, [front]);
+  }, [userProfile]);
+  useEffect(() => {}, [front, cart]);
   function goBack() {
     var lastPath = [];
     for (let i = 1; i < stack.length; i++) {

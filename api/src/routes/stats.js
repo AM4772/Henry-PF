@@ -1,18 +1,28 @@
-const { Router } = require("express");
+const { Router } = require('express');
 const router = Router();
 
 const {
   categoriesStats,
   bookStats,
-} = require("../controllers/StatsController");
+  userStats,
+  paymentsStats,
+} = require('../controllers/StatsControllers');
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const catStats = categoriesStats();
-    const bStats = bookStats();
-    if (catStats && bStats) res.json({ books: bStats, categories: catStats });
+    const catStats = await categoriesStats();
+    const bStats = await bookStats();
+    const userStat = await userStats();
+    const payStat = await paymentsStats();
+    if (catStats && bStats)
+      res.json({
+        books: bStats,
+        categories: catStats,
+        users: userStat,
+        payments: payStat,
+      });
     else {
-      res.status(404).json("Cannot get Stats");
+      res.status(404).json('Cannot get Stats');
     }
   } catch (err) {
     console.log(err);

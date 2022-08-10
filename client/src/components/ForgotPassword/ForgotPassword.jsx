@@ -3,6 +3,7 @@ import s from "./ForgotPassword.module.sass";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
+  asyncResetCode,
   asyncSetEmails,
   asyncSetUsernames,
 } from "../../redux/actions/usersActions";
@@ -18,7 +19,7 @@ function ForgotPassword() {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [isPending, setIsPending] = useState(false);
-  const [refresh, setRefresh] = useState(0);
+  const [refresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function ForgotPassword() {
       !emails.includes(emailOrUsername) &&
       !usernames.includes(emailOrUsername)
     ) {
-      isValidCopy.emailOrUsername = "Email or username is invalid";
+      isValidCopy.emailOrUsername = "Email or username doesn't exists";
     } else delete isValidCopy.emailOrUsername;
     setIsvalid(isValidCopy);
     let counter = 0;
@@ -43,44 +44,57 @@ function ForgotPassword() {
     }
     if (!counter) setIsAllowed(true);
     else if (counter) setIsAllowed(false);
+    return () => {
+      setIsAllowed(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailOrUsername]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsPending(true);
-    ////////////////DISPATCH
-    dispatch(emailOrUsername).then(() => {
-      //////////////////////RUTA
-      history.push("/confirmCode");
-      setIsPending(false);
-    });
+    if (isAllowed) {
+      setIsPending(true);
+      dispatch(asyncResetCode(emailOrUsername)).then(() => {
+        history.push("/confirm/reset");
+        setIsPending(false);
+      });
+    }
   }
 
   const handleButton = () => {
     if (!isPending && isAllowed && refresh !== 1)
       return (
         <button className={`buttons ${s.login}`} id={s.active}>
-          Log In
+          Send reset code
         </button>
       );
     else if (isPending)
       return (
         <p className="buttons" id={s.waiting}>
-          Logging In...
+          Sending code...
         </p>
       );
     else
       return (
         <p className="buttons" id={s.waiting}>
-          Log In
+          Send reset code
         </p>
       );
   };
 
+  function goBack() {
+    history.goBack();
+  }
+
   return (
     <div className={s.forgotPsw}>
       <div className={s.card}>
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <div className={s.backButton}>
+          <button className={s.buttonBack} onClick={goBack}>
+            Back
+          </button>
+        </div>
+        <form className={s.form} onSubmit={(e) => handleSubmit(e)}>
           <h1 className={s.title}>Recover your password</h1>
           <div className={s.info}>
             <label className={s.mail}>Email/Username:</label>

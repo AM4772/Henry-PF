@@ -87,7 +87,10 @@ let UsersModel = {
   createUser: async function (user) {
     const verifyUser = await Users.findAll({
       where: {
-        username: user.username.toLowerCase(),
+        [Op.or]: [
+          { username: user.username.toLowerCase() },
+          { email: user.email.toLowerCase() },
+        ],
       },
     });
     if (verifyUser.length > 0) return undefined;
@@ -135,6 +138,16 @@ let UsersModel = {
   //-----------------------------------------------------------------------------------------
   //                                  SUSPEND
   //-----------------------------------------------------------------------------------------
+  isSuspended: async function (ID) {
+    const user = await Users.findByPk(parseInt(ID));
+    if (user) {
+      if (user.toJSON().enabled) {
+        return true;
+      }
+      return false;
+    }
+    return 1;
+  },
   suspendUser: async function (ID) {
     const user = await Users.findByPk(ID);
     if (user) {
@@ -187,6 +200,7 @@ let UsersModel = {
       await Users.update(
         {
           enabled: true,
+          banned: false,
         },
         {
           where: { ID },
@@ -223,6 +237,7 @@ let UsersModel = {
         await Users.update(
           {
             enabled: true,
+            banned: false,
           },
           {
             where: { ID },
@@ -255,7 +270,6 @@ let UsersModel = {
   setAdmin: async function (ID) {
     const user = await Users.findByPk(ID);
     if (user) {
-      console.log('soy uyser ', user);
       const admin = user.toJSON().admin;
       user.update({
         admin: !admin,
@@ -298,13 +312,13 @@ let UsersModel = {
           username: user.username,
           password: changes.password,
         });
-
+        console.log(verifyPasswords);
         if (verifyPasswords) {
           await user.update({
             password: await hashPassword(changes.newPassword),
           });
         } else {
-          return null;
+          return 1;
         }
       }
       await user.update({

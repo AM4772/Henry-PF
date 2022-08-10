@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import s from "./ForgotPassword.module.sass";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { asyncConfirmCode } from "../../redux/actions/usersActions";
 
 function ConfirmCode() {
   const dispatch = useDispatch();
@@ -11,19 +12,26 @@ function ConfirmCode() {
     code: "",
   };
 
-  /////////////STATE???
+  const { userIDreset } = useSelector((state) => state.profile);
 
   const [code, setCode] = useState("");
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [isPending, setIsPending] = useState(false);
-  const [refresh, setRefresh] = useState(0);
+  const [refresh] = useState(0);
   const [isAllowed, setIsAllowed] = useState(false);
+
+  useEffect(() => {
+    if (!userIDreset) history.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const isValidCopy = { ...isValid };
     if (!code.length) isValidCopy.code = " ";
-    else if (code) {
-      isValidCopy.code = "Reset code is invalid";
+    else if (code.length > 8) {
+      isValidCopy.code = "The code must be 8 characters long";
+    } else if (isNaN(code)) {
+      isValidCopy.code = "The code only has to be  numbers";
     } else delete isValidCopy.code;
     setIsvalid(isValidCopy);
     let counter = 0;
@@ -32,16 +40,18 @@ function ConfirmCode() {
     }
     if (!counter) setIsAllowed(true);
     else if (counter) setIsAllowed(false);
+    return () => {
+      setIsAllowed(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsPending(true);
-    ////////////////DISPATCH
-    dispatch(code).then((res) => {
+    dispatch(asyncConfirmCode(userIDreset, code)).then((res) => {
       if (res) {
-        /////////////////////RUTA
-        history.push("/resetPassword");
+        history.push("/confirm/reset/password");
         setCode("");
         setIsvalid(isValidInitialState);
         setIsAllowed(false);
@@ -77,14 +87,25 @@ function ConfirmCode() {
         <form onSubmit={handleSubmit}>
           <h1 className={s.title}>Confirm your code</h1>
           <div className={s.info}>
-            <label className={s.mail}>Confirmation code:</label>
+            <label className={s.mail}>
+              Check your email for confirmation code
+            </label>
             <input
               className={s.input}
               type="text"
               value={code}
               placeholder="Confirmation code"
               onChange={(e) => setCode(e.target.value)}
-            />
+            />{" "}
+            <p
+              className={
+                isValid.code && isValid.code !== " "
+                  ? s.errorMessage
+                  : s.noErrorMessage
+              }
+            >
+              {isValid.code}
+            </p>
             <div id="button-handler">{handleButton()}</div>
           </div>
         </form>

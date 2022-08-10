@@ -19,4 +19,11 @@ export async function uploadFile(file, ID) {
 	await uploadBytes(storageRef, file);
 	const url = getDownloadURL(storageRef);
 	return url;
+
+}
+export async function uploadFileBookImage(file, bookTitle) {
+	const storageRef = ref(storage, `bookImages/${bookTitle}`);
+	await uploadBytes(storageRef, file);
+	const url = getDownloadURL(storageRef);
+	return url;
 }

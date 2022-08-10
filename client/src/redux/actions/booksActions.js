@@ -77,7 +77,7 @@ export function asyncGetHomeBooks() {
   return async function (dispatch) {
     try {
       const response = (await axios.get('/books/homeBooks')).data;
-      dispatch(getHomeBooks(response));
+      return dispatch(getHomeBooks(response));
     } catch (error) {
       console.error(error);
     }
@@ -87,9 +87,9 @@ export function asyncGetHomeBooks() {
 export function asyncCreateBook(book) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post('/books', book)).data;
+      const response = (await axios.post("/books", book)).data;
       Swal.fire({
-        icon: 'success',
+        icon: "success",
         text: response.data,
         title: response.message,
         showConfirmButton: false,
@@ -98,9 +98,10 @@ export function asyncCreateBook(book) {
         dispatch(asyncGetSearch());
       });
     } catch (error) {
+      console.log(error);
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data}`,
       });
     }
@@ -112,7 +113,7 @@ export function asyncEditBook(ID, book) {
     try {
       const response = (await axios.put(`/books/${ID}`, book)).data;
       Swal.fire({
-        icon: 'success',
+        icon: "success",
         text: response.data,
         title: response.message,
         showConfirmButton: false,
@@ -122,8 +123,8 @@ export function asyncEditBook(ID, book) {
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data}`,
       });
     }
@@ -140,7 +141,7 @@ export function asyncDeleteBook(book, title) {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete book!',
-    }).then(async (result) => {
+    }).then(async result => {
       try {
         if (result.isConfirmed) {
           await axios.delete(`/books/${book}`);

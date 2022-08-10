@@ -41,6 +41,7 @@ router.get('/:ID/favourites', async (req, res) => {
       res.json(favourites);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -60,6 +61,7 @@ router.post('/:ID/favourites', async (req, res) => {
           .json({ data: favourites, message: 'Favorite added successfully' })
       : res.status(400).json({ message: `Failed to add favorite` });
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -141,10 +143,11 @@ router.delete('/:ID/cart', async (req, res) => {
         ? res
             .status(201)
             .json({ data: newUser, message: 'Successfully registered' })
-        : res.status(200).json({ message: `Error creating user` });
+        : res.status(400).json({
+            message: `Email is already registered in our database, try to log in with your Bookstore's user and password`,
+          });
     } catch (err) {
       console.log(err);
-
       res.status(400).json('DATABASE ERROR');
     }
   });
@@ -152,7 +155,6 @@ router.delete('/:ID/cart', async (req, res) => {
 router.post('/auth0/login', async (req, res) => {
   try {
     const newUser = await verifyLogin(req.body);
-    console.log(newUser);
     newUser
       ? res
           .status(201)
@@ -160,7 +162,6 @@ router.post('/auth0/login', async (req, res) => {
       : res.status(400).json({ message: `Error creating user` });
   } catch (err) {
     console.log(err);
-
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -184,6 +185,7 @@ router.get('/', async (req, res) => {
         : res.status(404).json({ message: 'No users found' });
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -201,6 +203,7 @@ router.get('/:ID', async (req, res) => {
         : res.status(404).json({ message: `User with ID ${ID} not found` });
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -219,9 +222,11 @@ router.post('/', async (req, res) => {
         ? res.status(201).json({ message: 'Successfully registered' })
         : res.status(400).json({ message: `Error creating user` });
     } else {
+      console.log(validate);
       res.status(400).json(validate);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json('DATABASE ERROR');
   }
 });
@@ -254,7 +259,6 @@ router.put('/:ID', async (req, res) => {
             });
       } else if (admin) {
         const admin = await setAdmin(ID);
-        console.log('hola');
         return admin
           ? res.status(200).send(admin)
           : res.status(404).send({
@@ -264,7 +268,10 @@ router.put('/:ID', async (req, res) => {
       const validate = await validateUsersPost(req.body);
       if (!validate) {
         const modified = await modifyUsers(req.body, ID);
-        modified
+
+        modified === 1
+          ? res.status(400).json({ message: `Check your actual password` })
+          : modified
           ? res
               .status(200)
               .json({ message: 'User modified successfully', data: modified })

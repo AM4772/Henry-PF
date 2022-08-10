@@ -11,6 +11,9 @@ router.post('/', async (req, res) => {
     if (validateLogin === 5) {
       return res.status(401).json({ message: 'User has been banned' });
     }
+    if (validateLogin === 10) {
+      return res.status(404).json({ message: 'Please check your email' });
+    }
     if (validateLogin === 1) {
       return res
         .status(404)
@@ -33,7 +36,7 @@ router.post('/autoLogin', async (req, res) => {
     }
     validateToken
       ? res.json(validateToken)
-      : res.status(400).json({ message: 'Sign in error' });
+      : res.status(200).json({ message: 'Sign in error' });
   } catch (err) {
     console.log(err);
     res.status(400).json(err.message);

@@ -28,6 +28,7 @@ router.get('/', async (req, res) => {
         : res.status(404).json({ message: 'No books found' });
     }
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });
@@ -51,6 +52,7 @@ router.get('/:ID', async (req, res) => {
       ? res.json(book)
       : res.status(404).json({ message: 'Book not found with id ' + ID });
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });
@@ -67,6 +69,7 @@ router.post('/', async (req, res) => {
       res.status(400).json(validate);
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });
@@ -86,6 +89,7 @@ router.put('/:ID', async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });
@@ -98,9 +102,12 @@ router.delete('/:ID', async (req, res) => {
     }
     const deletedBook = await deleteBook(ID);
     deletedBook
-      ? res.status(201).json({ message: 'Book deleted successfully' })
+      ? res
+          .status(201)
+          .json({ message: `Book with id ${ID} deleted successfully` })
       : res.status(400).json({ message: `Error deleting book with id ${ID}` });
   } catch (err) {
+    console.log(err);
     res.status(400).json(err.message);
   }
 });

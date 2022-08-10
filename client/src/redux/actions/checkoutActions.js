@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setOrder } from "../reducers/checkoutSlice";
+import { clearPayment, setOrder } from "../reducers/checkoutSlice";
 const heroku = `https://db-proyecto-final.herokuapp.com`;
 axios.defaults.baseURL = heroku;
 
@@ -7,6 +7,8 @@ export function asyncConfirmPayment(body) {
   return async function (dispatch) {
     try {
       await axios.post(`/payments/create`, body);
+      dispatch(clearPayment());
+      return true;
     } catch (error) {
       console.log(error);
     }

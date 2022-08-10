@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import s from "./ForgotPassword.module.sass";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { asyncNewPassword } from "../../redux/actions/usersActions";
+import { FaEye } from "react-icons/fa";
 
 function ResetPassword() {
   const dispatch = useDispatch();
@@ -17,6 +19,15 @@ function ResetPassword() {
   const [isValid, setIsvalid] = useState(isValidInitialState);
   const [isPending, setIsPending] = useState(false);
   const [isAllowed, setIsAllowed] = useState(false);
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [rpasswordShown, setRPasswordShown] = useState(false);
+
+  const { userIDreset } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    if (!userIDreset) history.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const isValidCopy = { ...isValid };
@@ -36,13 +47,17 @@ function ResetPassword() {
     }
     if (!counter) setIsAllowed(true);
     else if (counter) setIsAllowed(false);
+    return () => {
+      setIsAllowed(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password, rpassword]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsPending(true);
     ////////////////////DISPATCH!!!!!!!!!!!!!!!!!!!!
-    dispatch(password).then((res) => {
+    dispatch(asyncNewPassword(userIDreset, password, rpassword)).then((res) => {
       if (res) {
         history.push("/login");
         setPassword("");
@@ -85,11 +100,15 @@ function ResetPassword() {
               <label className={s.mail}>New password:</label>
               <input
                 className={s.input}
-                type="text"
+                type={passwordShown ? "text" : "password"}
                 value={password}
                 placeholder="New password"
                 onChange={(e) => setPassword(e.target.value)}
               />{" "}
+              <FaEye
+                className={s.fatEye}
+                onClick={() => setPasswordShown(!passwordShown)}
+              />
               <p
                 className={
                   isValid.password && isValid.password !== " "
@@ -104,11 +123,15 @@ function ResetPassword() {
               <label className={s.mail}>Repeat password:</label>
               <input
                 className={s.input}
-                type="text"
+                type={rpasswordShown ? "text" : "password"}
                 value={rpassword}
                 placeholder="Repeat password"
                 onChange={(e) => setRpassword(e.target.value)}
               />{" "}
+              <FaEye
+                className={s.fatEye}
+                onClick={() => setRPasswordShown(!rpasswordShown)}
+              />
               <p
                 className={
                   isValid.rpassword && isValid.rpassword !== " "

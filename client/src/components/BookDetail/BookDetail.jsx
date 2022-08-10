@@ -12,8 +12,7 @@ import {
 } from "../../redux/actions/booksActions";
 import {
   clearBookDetail,
-  setCloseButtonReview,
-  setCloseButtonEdit,
+  setCloseButtonReview
 } from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
@@ -34,8 +33,6 @@ import EditBook from "../EditBook/EditBook";
 import AddReview from "../AddReview/AddReview";
 import { setItems } from "../../redux/reducers/checkoutSlice";
 
-// import { TESTING_REVIEWS } from "../../testingObjects";
-
 const stars = [Stars0, Stars1, Stars2, Stars3, Stars4, Stars5];
 
 function BookDetail(props) {
@@ -45,7 +42,7 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
-  const { closeButtonReview, closeButtonEdit } = useSelector(
+  const { closeButtonReview } = useSelector(
     (state) => state.books
   );
   const { favourites, cart } = useSelector((state) => state.profile);
@@ -53,15 +50,6 @@ function BookDetail(props) {
   let book = useSelector((state) => state.books.bookDetail);
   // let reviews = TESTING_REVIEWS;
   let reviews = book.reviews;
-
-  const ratingTotal =
-    reviews && reviews.length
-      ? Math.round(
-          reviews.reduce((ac, el) => ({
-            rating: ac.rating + el.rating,
-          })).rating / reviews.length
-        )
-      : 0;
 
   const openEdit = useRef();
   document.addEventListener("mousedown", closeList);
@@ -117,6 +105,7 @@ function BookDetail(props) {
         stack[i] !== "/profile" &&
         stack[i] !== "/favourites" &&
         stack[i] !== "/createbook" &&
+        stack[i] !== "/checkout" &&
         stack[i] !== stack[0]
       ) {
         lastPath.push(stack[i]);
@@ -220,14 +209,18 @@ function BookDetail(props) {
       for (let i = 0; i < userProfile.payments.length; i++) {
         if (userProfile.payments[i].items?.length) {
           for (let j = 0; j < userProfile.payments[i].items.length; j++) {
-            if (userProfile.payments[i].items[j].ID == book.ID) flag = "add";
+            if (
+              parseInt(userProfile.payments[i].items[j].ID) ===
+              parseInt(book.ID)
+            )
+              flag = "add";
           }
         }
       }
     }
     if (book.reviews?.length) {
       for (let el of book.reviews) {
-        if (el.userID === userProfile.ID) flag = "edit";
+        if (el.userID === userProfile.ID) flag = "view";
       }
     }
     return flag;
@@ -311,7 +304,7 @@ function BookDetail(props) {
                           className={s.reviews}
                           onClick={() => scrollSmoothTo("reviewsMark")}
                           alt="5stars"
-                          src={stars[ratingTotal]}
+                          src={stars[Math.round(book.rating)]}
                         />
                         <p onClick={() => scrollSmoothTo("reviewsMark")}>
                           {""}({reviews.length} reviews){""}
@@ -324,12 +317,12 @@ function BookDetail(props) {
                             >
                               Add REVIEW
                             </button>
-                          ) : validateReviewButton() === "edit" ? (
+                          ) : validateReviewButton() === "view" ? (
                             <button
                               className={s.buttonReview}
                               onClick={() => dispatch(setCloseButtonReview())}
                             >
-                              Edit REVIEW
+                              View REVIEW
                             </button>
                           ) : null}
                         </div>

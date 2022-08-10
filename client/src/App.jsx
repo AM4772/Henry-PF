@@ -30,109 +30,118 @@ import Purchases from "./components/Purchases/Purchases";
 import PurchaseDetail from "./components/PurchaseDetail/PurchaseDetail";
 import ConfirmEmail from "./components/ConfirmEmail/ConfirmEmail";
 import Emails from "./components/Emails/Emails";
-import FileUpload from "./components/Firebase/FileUpload";
+import ConfirmCode from "./components/ForgotPassword/ConfirmCode";
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ResetPassword from "./components/ForgotPassword/ResetPassword";
 
 function App() {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const { appLoading } = useSelector((state) => state.books);
-  const { appLoadingUsers } = useSelector((state) => state.users);
-  const { stack } = useSelector((state) => state.history);
-  const { firstAuto, appLoadingProfile } = useSelector(
-    (state) => state.profile
-  );
-  const location = useLocation();
-  useEffect(() => {
-    if (location.pathname !== stack[0] || stack.length <= 0) {
-      dispatch(addStack(location.pathname));
-    }
-    var token = localStorage.getItem("ALTKN");
-    var index = document.cookie.lastIndexOf("ALTKNcookie");
-    var cookie = document.cookie.slice(index).split("=");
-    if (token || cookie[1]) {
-      if (firstAuto) {
-        dispatch(asyncAutoLogin(token ? token : cookie[1]));
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
-  function currentPath() {
-    if (location.pathname === "/register") {
-      setLoading(appLoadingUsers);
-    } else if (
-      location.pathname === "/login" ||
-      location.pathname.includes("book") ||
-      location.pathname.includes("user") ||
-      location.pathname === "/contact" ||
-      location.pathname.includes("emails") ||
-      location.pathname.includes("firebase") ||
-      location.pathname.includes("confirm")
-    ) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
-    } else if (
-      location.pathname === "/profile" ||
-      location.pathname === "/favourites" ||
-      location.pathname === "/cart" ||
-      location.pathname.includes("dashboard") ||
-      location.pathname.includes("payment") ||
-      location.pathname.includes("checkout") ||
-      location.pathname.includes("purchase")
-    ) {
-      setLoading(appLoadingProfile);
-    } else {
-      setLoading(appLoading);
-    }
-  }
-  useEffect(() => {
-    currentPath();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appLoading, appLoadingUsers, appLoadingProfile, location]);
-  useEffect(() => {}, [loading]);
-  return (
-    <div>
-      {loading ? (
-        <div className={s.loadingCont}>
-          <div className={s.circleLoad}>
-            <div className={s.cosito}></div>
-            <img className={s.logoAnim} src={logo} alt="Book Store" />
-          </div>
-        </div>
-      ) : null}
-      <div className="App">
-        <Nav />
-        <Route exact path={"/confirm"} component={ConfirmEmail} />
-        <Route exact path={"/checkout/validate"} component={Validate} />
-        <Route exact path={"/checkout/pending"} component={Pending} />
-        <Route exact path={"/checkout/rejected"} component={Rejected} />
-        <Route exact path={"/checkout/success"} component={Success} />
-        <Route exact path={"/checkout"} component={Checkout} />
-        <Route exact path={"/book/:ID"} component={BookDetail} />
-        <Route exact path={"/user/:ID"} component={UserDetail} />
-        <Route exact path={"/search"} component={Searching} />
-        <Route exact path={"/register"} component={Register} />
-        <Route exact path={"/login"} component={LogIn} />
-        <Route exact path={"/profile"} component={Profile} />
-        <Route exact path={"/contact"} component={Contact} />
-        <Route exact path={"/favourites"} component={Favourites} />
-        <Route exact path={"/cart"} component={Cart} />
-        <Route exact path={"/purchases/:ID"} component={PurchaseDetail} />
-        <Route exact path={"/purchases"} component={Purchases} />
-        <Route exact path={"/dashboard"} component={Dashboard} />
-        <Route
-          exact
-          path={"/dashboard/payment/:ID"}
-          component={PaymentDetail}
-        />
-        <Route exact path={"/createbook"} component={CreateBook} />
-        <Route exact path={"/"} component={Home} />
-        <Route exact path={"/emails"} component={Emails} />
-        <Route exact path={"/firebase"} component={FileUpload} />
-        <Footer />
-      </div>
-    </div>
-  );
+	const dispatch = useDispatch();
+	const [loading, setLoading] = useState(true);
+	const { appLoading } = useSelector((state) => state.books);
+	const { appLoadingUsers } = useSelector((state) => state.users);
+	const { stack } = useSelector((state) => state.history);
+	const { firstAuto, appLoadingProfile } = useSelector(
+		(state) => state.profile
+	);
+	const location = useLocation();
+	useEffect(() => {
+		if (location.pathname !== stack[0] || stack.length <= 0) {
+			dispatch(addStack(location.pathname));
+		}
+		var token = localStorage.getItem("ALTKN");
+		var index = document.cookie.lastIndexOf("ALTKNcookie");
+		var cookie = document.cookie.slice(index).split("=");
+		if (token || cookie[1]) {
+			if (firstAuto) {
+				dispatch(asyncAutoLogin(token ? token : cookie[1]));
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [location]);
+	function currentPath() {
+		if (location.pathname === "/register") {
+			setLoading(appLoadingUsers);
+		} else if (
+			location.pathname === "/login" ||
+			location.pathname === "/forgot" ||
+			location.pathname.includes("book") ||
+			location.pathname.includes("user") ||
+			location.pathname === "/contact" ||
+			location.pathname.includes("emails") ||
+			location.pathname.includes("firebase") ||
+			location.pathname.includes("confirm")
+		) {
+			setTimeout(() => {
+				setLoading(false);
+			}, 500);
+		} else if (
+			location.pathname === "/profile" ||
+			location.pathname === "/favourites" ||
+			location.pathname === "/cart" ||
+			location.pathname.includes("dashboard") ||
+			location.pathname.includes("payment") ||
+			location.pathname.includes("checkout") ||
+			location.pathname.includes("purchase")
+		) {
+			setLoading(appLoadingProfile);
+		} else {
+			setLoading(appLoading);
+		}
+	}
+	useEffect(() => {
+		currentPath();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [appLoading, appLoadingUsers, appLoadingProfile, location]);
+	useEffect(() => {}, [loading]);
+	return (
+		<div>
+			{loading ? (
+				<div className={s.loadingCont}>
+					<div className={s.circleLoad}>
+						<div className={s.cosito}></div>
+						<img className={s.logoAnim} src={logo} alt="Book Store" />
+					</div>
+				</div>
+			) : null}
+			<div className="App">
+				<Nav />
+				<Route exact path={"/confirm"} component={ConfirmEmail} />
+				<Route exact path={"/confirm/reset"} component={ConfirmCode} />
+				<Route
+					exact
+					path={"/confirm/reset/password"}
+					component={ResetPassword}
+				/>
+				<Route exact path={"/forgot"} component={ForgotPassword} />
+				<Route exact path={"/checkout/validate"} component={Validate} />
+				<Route exact path={"/checkout/pending"} component={Pending} />
+				<Route exact path={"/checkout/rejected"} component={Rejected} />
+				<Route exact path={"/checkout/success"} component={Success} />
+				<Route exact path={"/checkout"} component={Checkout} />
+				<Route exact path={"/book/:ID"} component={BookDetail} />
+				<Route exact path={"/user/:ID"} component={UserDetail} />
+				<Route exact path={"/search"} component={Searching} />
+				<Route exact path={"/register"} component={Register} />
+				<Route exact path={"/login"} component={LogIn} />
+				<Route exact path={"/profile"} component={Profile} />
+				<Route exact path={"/contact"} component={Contact} />
+				<Route exact path={"/favourites"} component={Favourites} />
+				<Route exact path={"/cart"} component={Cart} />
+				<Route exact path={"/purchases/:ID"} component={PurchaseDetail} />
+				<Route exact path={"/purchases"} component={Purchases} />
+				<Route exact path={"/dashboard"} component={Dashboard} />
+				<Route
+					exact
+					path={"/dashboard/payment/:ID"}
+					component={PaymentDetail}
+				/>
+				<Route exact path={"/createbook"} component={CreateBook} />
+				<Route exact path={"/"} component={Home} />
+				<Route exact path={"/emails"} component={Emails} />
+				<Footer />
+			</div>
+		</div>
+	);
 }
 
 export default App;

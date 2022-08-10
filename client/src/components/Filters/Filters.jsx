@@ -30,8 +30,8 @@ function Filters() {
     category: "",
   });
   const [select, setSelect] = useState({
-    authors: books.map((b) => authors.filter((a) => b.authors.includes(a))[0]),
-    categories: categories,
+    authors: [...authors],
+    categories: [...categories],
   });
   const [generalFilter] = useState(filterCard);
   const [booksFilters, setBooksFilters] = useState({
@@ -79,34 +79,37 @@ function Filters() {
   }, [books]);
   useEffect(() => {
     dispatch(setFilterCard("books"));
-    var auth = [];
-    books.map(
-      (b) =>
-        authors.filter((a) => {
-          if (b.authors.includes(a)) {
-            if (!auth.includes(a)) {
-              auth.push(a);
+    if (books[0]) {
+      var auth = [];
+      books.map(
+        (b) =>
+          authors.filter((a) => {
+            if (b.authors.includes(a)) {
+              if (!auth.includes(a)) {
+                auth.push(a);
+              }
             }
-          }
-          return "";
-        })[0]
-    );
-    var cat = [];
-    books.map(
-      (b) =>
-        categories.filter((c) => {
-          if (b.categories.includes(c)) {
-            if (!cat.includes(c)) {
-              cat.push(c);
+            return "";
+          })[0]
+      );
+      var cat = [];
+      books.map(
+        (b) =>
+          categories.filter((c) => {
+            if (b.categories.includes(c)) {
+              if (!cat.includes(c)) {
+                cat.push(c);
+              }
             }
-          }
-          return "";
-        })[0]
-    );
-    setSelect({
-      authors: auth,
-      categories: cat,
-    });
+            return "";
+          })[0]
+      );
+      setSelect({
+        authors: auth,
+        categories: cat,
+      });
+    }
+
     if (authors.length <= 0 || categories.length <= 0) {
       dispatch(asyncGetAuthors());
       dispatch(asyncGetCategories());
@@ -118,7 +121,14 @@ function Filters() {
       dispatch(applyBookSort());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, filterBooksByAuthor, generalFilter, booksFilters]);
+  }, [
+    dispatch,
+    filterBooksByAuthor,
+    generalFilter,
+    booksFilters,
+    authors,
+    categories,
+  ]);
 
   function handleChange(e) {
     setInputs({ ...inputs, [e.target.name]: e.target.value });

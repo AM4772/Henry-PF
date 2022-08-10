@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
       ? res.json(authors)
       : res.status(404).json({ message: 'Cannot get authors' });
   } catch (err) {
+    console.log(err);
     res.status(404).json(err);
   }
 });

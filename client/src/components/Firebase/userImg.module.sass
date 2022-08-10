@@ -25,12 +25,34 @@
   overflow: hidden
   h1
     font-size: 45px
-  input
-    background: transparent
   img
     object-fit: cover
+    
     // border: solid 1.5px var(--color-brownish-dd)
     min-width: 100%
     min-height: 100%
     // border-radius: 50%
-    margin: auto
+    margin: 0
+  .customFileUpload
+    display: inline-block
+    padding: 6px 12px
+    width: 170px
+    height: 170px
+    border-radius: 50%
+    cursor: pointer
+    position: absolute
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    transition: all ease .3s
+    &:hover
+      background: #11111148
+      .camera
+        visibility: visible
+  input[type="file"]
+    display: none
+  .camera
+    visibility: hidden
+    font-size: 60px
+    color: rgb(207, 202, 196)

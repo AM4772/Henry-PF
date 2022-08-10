@@ -157,11 +157,10 @@ let BooksModel = {
     let bestSellers = [];
     let mostPopular = [];
     let newReleases = [];
-    const random = Math.floor(Math.random() * 400) + 1;
+
     const books = await Books.findAll();
     if (books) {
       const booksJSON = books.map((b) => b.toJSON());
-
       bestSellers = booksJSON
         .sort((a, b) => b.soldCopies - a.soldCopies)
         .slice(0, 30);
@@ -210,15 +209,6 @@ let BooksModel = {
         });
       }
     }
-
-    if (!imageRegex.test(book.image)) {
-      book.image = 'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
-    }
-    const imgVerify = imgVerify(book.image);
-    book.image =
-      imgVerify.width <= 1
-        ? 'https://edit.org/images/cat/book-covers-big-2019101610.jpg'
-        : book.image;
 
     try {
       let hours;
@@ -279,10 +269,6 @@ let BooksModel = {
       }
     }
 
-    if (!imageRegex.test(changes.image)) {
-      changes.image =
-        'https://edit.org/images/cat/book-covers-big-2019101610.jpg';
-    }
     try {
       const book = await Books.findByPk(ID);
       if (book === null) {
@@ -295,6 +281,7 @@ let BooksModel = {
         hours = Math.trunc(avgRT);
         minutes = Math.round((avgRT - Math.trunc(avgRT)) * 60);
       }
+      console.log(changes);
       await book.update({
         title: changes.title.toLowerCase(),
         description: changes.description.toLowerCase(),
@@ -321,16 +308,24 @@ let BooksModel = {
   //                                  DELETE
   //-----------------------------------------------------------------------------------------
   deleteBook: async function (ID) {
-    try {
-      const book = await Books.findByPk(ID);
-      if (book === null) {
-        return null;
-      }
+    const book = await Books.findByPk(ID, {
+      include: Reviews,
+    });
+    if (book) {
+      const reviews = await Reviews.findAll({
+        where: {
+          bookID: ID,
+        },
+      });
+      book.update({
+        reviews: [],
+      });
+
+      if (reviews) reviews.map((r) => r.destroy());
       await book.destroy();
-      return book;
-    } catch (error) {
-      return null;
+      return true;
     }
+    return undefined;
   },
 };
 module.exports = BooksModel;

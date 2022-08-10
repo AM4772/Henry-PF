@@ -168,9 +168,6 @@ const booksSlice = createSlice({
     setCloseButtonReview: (state) => {
       state.closeButtonReview = !state.closeButtonReview;
     },
-    setCloseButtonEdit: (state) => {
-      state.closeButtonEdit = !state.closeButtonEdit;
-    },
   },
 });
 

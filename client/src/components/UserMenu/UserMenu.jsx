@@ -67,7 +67,7 @@ function UserMenu() {
       setLogged(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile]);
+  }, [userProfile, cart]);
   function handleLogOut() {
     dispatch(logOut());
     setLogged(false);
@@ -133,7 +133,12 @@ function UserMenu() {
                 ) : null}
                 <Link onClick={() => setOpen(!open)} to="/profile">
                   <li>
-                    <span>Profile</span>
+                    <span className={s.profile}>
+                      <span>Profile </span>
+                      {!userProfile.enabled ? (
+                        <span className={s.suspended}>suspended</span>
+                      ) : null}
+                    </span>
                   </li>
                 </Link>
                 <Link onClick={() => setOpen(!open)} to="/favourites">

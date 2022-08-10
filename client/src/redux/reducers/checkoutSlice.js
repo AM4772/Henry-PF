@@ -10,7 +10,6 @@ const initialState = {
     total: 0,
   },
   items: [],
-  cartCH: false,
 };
 
 const checkoutSlice = createSlice({
@@ -30,13 +29,9 @@ const checkoutSlice = createSlice({
         total: 0,
       };
       state.items = [];
-      state.cartCH = false;
     },
     setOrder: (state, action) => {
       state.order = action.payload;
-    },
-    setCart: (state) => {
-      state.cartCH = true;
     },
     setItems: (state, action) => {
       state.items = action.payload.map((i) => {
@@ -52,7 +47,7 @@ const checkoutSlice = createSlice({
   },
 });
 
-export const { setPayment, clearPayment, setOrder, setItems, setCart } =
+export const { setPayment, clearPayment, setOrder, setItems } =
   checkoutSlice.actions;
 
 export default checkoutSlice.reducer;

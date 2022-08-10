@@ -87,7 +87,10 @@ let UsersModel = {
   createUser: async function (user) {
     const verifyUser = await Users.findAll({
       where: {
-        username: user.username.toLowerCase(),
+        [Op.or]: [
+          { username: user.username.toLowerCase() },
+          { email: user.email.toLowerCase() },
+        ],
       },
     });
     if (verifyUser.length > 0) return undefined;

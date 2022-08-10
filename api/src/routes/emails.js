@@ -54,7 +54,7 @@ router.post('/contact', async (req, res) => {
   try {
     let resetUser = await contactEmail(req.body);
     resetUser
-      ? res.json({ data: resetUser, message: 'Reset email sent' })
+      ? res.json({ message: 'Thanks for contact us!' })
       : res.status(404).json({ message: 'Cannot send reset email' });
   } catch (err) {
     console.log(err);

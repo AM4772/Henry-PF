@@ -5,8 +5,8 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { uploadFileBookImage } from '../Firebase/config.js'
-import { TiCamera } from "react-icons/ti";
+import { uploadFileBookImage } from '../Firebase/config.js';
+import { TiCamera } from 'react-icons/ti';
 import chroma from 'chroma-js';
 import { languageOptions } from './data.jsx';
 import Select from 'react-select';
@@ -213,15 +213,18 @@ export default function CreateBook() {
   const [isValid, setIsValid] = useState(isValidInitialState);
   const [isAllowed, setIsAllowed] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const [random, setRandom] = useState()
+  const [random, setRandom] = useState();
   const uuidv4 = () => {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
       // eslint-disable-next-line no-mixed-operators
-      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      (
+        c ^
+        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+      ).toString(16)
     );
-  }
+  };
   useMemo(() => {
-    setRandom(uuidv4())
+    setRandom(uuidv4());
     if (!authorsOptions || !caterogiesOptions) {
       let authorsCopy = [],
         categoriesCopy = [];
@@ -373,11 +376,11 @@ export default function CreateBook() {
         </p>
       );
   };
-  const handleImage = async (e) => {
-    e.preventDefault()
+  const handleImage = async e => {
+    e.preventDefault();
     const result = await uploadFileBookImage(e.target.files[0], random);
-    setInfo({...info, image: result})
-  }
+    setInfo({ ...info, image: result });
+  };
   return (
     <div id={s.pleaseWork}>
       <div id={s.toCenter}>
@@ -444,12 +447,19 @@ export default function CreateBook() {
               </div>
               <div className={s.inline}>
                 <label className={s.fillTitle}>Book cover: </label>
-                <div id={s.testIMG}>
-                <label id={s.customFileUpload}>
-                      <TiCamera id={s.camera}/>
-                    <input type='file' id={s.formContainer} onChange={handleImage}></input>
+                <div id={s.testIMG} title='Upload Image'>
+                  <label id={s.customFileUpload}>
+                    <TiCamera id={s.camera} />
+                    <input
+                      type="file"
+                      id={s.formContainer}
+                      onChange={handleImage}
+                    />
                   </label>
-                  <img src={info.image} alt=''/>
+                  <img src={info.image} id={s.styleMeNow} alt=""/>
+                  <div id={!info.image.length ? s.enterSomething : s.doNotDisplayme}>
+                    <p>Enter an image</p>
+                  </div>
                 </div>
               </div>
               <div className={s.inline}>

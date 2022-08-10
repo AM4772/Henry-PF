@@ -12,7 +12,7 @@ import {
 } from "../../redux/actions/booksActions";
 import {
   clearBookDetail,
-  setCloseButtonReview
+  setCloseButtonReview,
 } from "../../redux/reducers/booksSlice";
 import {
   asyncAddFavourite,
@@ -20,6 +20,7 @@ import {
   asyncAddItemCart,
   asyncRemoveItemCart,
 } from "../../redux/actions/usersActions";
+import { asyncreportReview } from "../../redux/actions/reviewActions";
 
 import Stars0 from "../../assets/Stars0.png";
 import Stars1 from "../../assets/Stars1.png";
@@ -42,9 +43,7 @@ function BookDetail(props) {
 
   const { stack } = useSelector((state) => state.history);
   const { userProfile } = useSelector((state) => state.profile);
-  const { closeButtonReview } = useSelector(
-    (state) => state.books
-  );
+  const { closeButtonReview } = useSelector((state) => state.books);
   const { favourites, cart } = useSelector((state) => state.profile);
 
   let book = useSelector((state) => state.books.bookDetail);
@@ -67,6 +66,7 @@ function BookDetail(props) {
   const [editEnabled, setEditEnabled] = useState(false);
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
+  const [reviewReported, setReviewReported] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -93,6 +93,7 @@ function BookDetail(props) {
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
+    console.log("SE REPITE????");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeButtonReview]);
 
@@ -224,6 +225,10 @@ function BookDetail(props) {
       }
     }
     return flag;
+  }
+  function report(reviewId, userID) {
+    dispatch(asyncreportReview(reviewId, userID, ID));
+    // setReviewReported(true);
   }
 
   return (
@@ -391,11 +396,32 @@ function BookDetail(props) {
               <div className={s.textReviews} id="reviewsMark">
                 {reviews.map((el) => (
                   <div key={el.ID}>
-                    <div className={s.starTitle}>
-                      <img src={stars[el.rating]} alt={el.ID} />
-                      {el.title}
+                    <div className={s.containerFirstLine}>
+                      <div className={s.starTitle}>
+                        <img src={stars[el.rating]} alt={el.ID} />
+                        {el.title}{" "}
+                      </div>
+                      <div className={s.containerReportButton}>
+                        {userProfile.ID &&
+                        userProfile.ID !== el.userID &&
+                        !el.reports.includes(userProfile.ID) ? (
+                          <button
+                            className={s.buttonReport}
+                            onClick={() => report(el.ID, userProfile.ID)}
+                          >
+                            Report
+                          </button>
+                        ) : el.reports.includes(userProfile.ID) &&
+                          userProfile.ID !== el.userID ? (
+                          <span className={s.reported}>Reported</span>
+                        ) : userProfile.ID === el.userID ? (
+                          <span className={s.yourReview}>Your Review</span>
+                        ) : null}
+                      </div>
                     </div>
-                    <span>{el.review}</span>
+                    <span className={s.containerReviewContent}>
+                      {el.review}
+                    </span>
                     {reviews[reviews.length - 1].ID !== el.ID ? (
                       <p className={s.divisor}></p>
                     ) : null}

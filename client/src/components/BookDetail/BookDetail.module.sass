@@ -265,9 +265,12 @@
     font-size: 14px
     font-style: oblique
     font-weight: bold
-  div span
-    font-size: 12px
-    font-style: oblique
+  // div span
+  //   font-size: 12px
+  //   font-style: oblique
+  //   width: 100%
+  //   text-align: right
+  //   justify-content: right
 
 .starTitle
   display: flex
@@ -415,3 +418,50 @@
   color: var(--color-brownish-d)
   background-color: var(--color-yellowish-d)
   transition: 0.7s
+
+.containerReviewContent
+  font-size: 12px
+  font-style: oblique
+  width: 100%
+  display: flex
+  text-align: left
+  margin-left: 20px
+
+.containerFirstLine
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+
+.containerReportButton
+  display: flex
+  justify-content: right
+  width: 35%
+  padding-bottom: 0px
+  // padding-left: 5px
+  margin-bottom: 0px
+
+.buttonReport
+  border-radius: 3px
+  padding: 5px
+  margin: 0px 0px 0px 10px
+  border: none
+  font-size: 13px
+  color: #f1eaea
+  background-color: #f81616e0
+  -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
+  cursor: pointer
+  transition: 0.7s
+
+.buttonReport:hover
+  color: #f81616e0
+  background-color: #f1eaea
+  transition: 0.7s
+
+.reported
+  color: #f81616e0
+  margin-right: 10px
+
+.yourReview
+  color: #1b8831f3
+  margin-right: 10px

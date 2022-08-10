@@ -5,6 +5,7 @@ const {
   registerEmail,
   resetEmail,
   eBookEmail,
+  contactEmail,
 } = require('../controllers/EmailsControllers.js');
 const { getEmails } = require('../controllers/UsersControllers.js');
 
@@ -40,6 +41,18 @@ router.post('/reset', async (req, res) => {
   try {
     let resetUser = await resetEmail(req.body);
 
+    resetUser
+      ? res.json({ data: resetUser, message: 'Reset email sent' })
+      : res.status(404).json({ message: 'Cannot send reset email' });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json(err);
+  }
+});
+
+router.post('/contact', async (req, res) => {
+  try {
+    let resetUser = await contactEmail(req.body);
     resetUser
       ? res.json({ data: resetUser, message: 'Reset email sent' })
       : res.status(404).json({ message: 'Cannot send reset email' });

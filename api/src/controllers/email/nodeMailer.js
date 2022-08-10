@@ -27,8 +27,9 @@ let emailsModule = {
     let subject = '';
     let template = '';
     let attachments = [];
+
     if (data.emailType === 'register') {
-      subject = 'Register';
+      subject = 'Validate your account';
       template = 'register';
       context = {
         ID: data.ID,
@@ -39,11 +40,20 @@ let emailsModule = {
       };
     }
     if (data.emailType === 'reset') {
-      subject = 'Reset Code';
+      subject = 'Password reset code';
       template = 'reset';
       context = {
         username: data.username,
         token: data.token,
+      };
+    }
+    if (data.emailType === 'contact') {
+      subject = 'Conctat us EMAIL';
+      template = 'contact';
+      context = {
+        sender: data.sender,
+        title: data.title,
+        message: data.message,
       };
     }
 
@@ -66,7 +76,7 @@ let emailsModule = {
         const booksJSON = book.toJSON();
         let pdfOutput = await createPDFebook(data.items[i].ID);
         attachments = [{ path: pdfOutput }];
-        subject = 'ebook: ' + booksJSON.title;
+        subject = "Here's your ebook: " + booksJSON.title;
         template = 'ebook';
         context = {
           username: data.username,
@@ -110,7 +120,7 @@ let emailsModule = {
     } else {
       var mailOptions = {
         from: '"BOOKSTORE" <bookstore.online.arg@gmail.com>',
-        to: [data.email, 'bookstore.online.arg@gmail.com'],
+        to: [data.email],
         subject,
         template,
         context: context,

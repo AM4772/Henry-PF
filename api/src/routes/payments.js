@@ -13,26 +13,33 @@ const {
   getPayments,
   getPaymentByID,
 } = require('../controllers/PaymentsControllers');
+const { isSuspended } = require('../controllers/UsersControllers');
 
-router.post('/', (req, res) => {
-  const { base_url } = req.body;
-  try {
-    mercadopago.preferences
-      .create({
-        items: req.body.items,
-        back_urls: {
-          success: `${base_url}/checkout/validate`,
-          failure: `${base_url}/checkout/validate`,
-          pending: `${base_url}/checkout/validate`,
-        },
-        //auto_return: 'all',
-      })
-      .then((preference) => {
-        res.json({ preferenceId: preference.body.id });
-      })
-      .catch((error) => console.log(error));
-  } catch (error) {
-    console.log(error);
+router.post('/', async (req, res) => {
+  const { base_url, ID } = req.body;
+  const verifyEnabledUser = await isSuspended(ID);
+  if (verifyEnabledUser) {
+    try {
+      mercadopago.preferences
+        .create({
+          items: req.body.items,
+          back_urls: {
+            success: `${base_url}/checkout/validate`,
+            failure: `${base_url}/checkout/validate`,
+            pending: `${base_url}/checkout/validate`,
+          },
+        })
+        .then((preference) => {
+          res.json({ preferenceId: preference.body.id });
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (verifyEnabledUser === 1) {
+    return res.status(400).json({ message: 'User does not exist...' });
+  } else {
+    return res.status(400).json({ message: 'User is suspended...' });
   }
 });
 router.post('/create', async (req, res) => {

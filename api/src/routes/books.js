@@ -102,7 +102,9 @@ router.delete('/:ID', async (req, res) => {
     }
     const deletedBook = await deleteBook(ID);
     deletedBook
-      ? res.status(201).json({ message: 'Book deleted successfully' })
+      ? res
+          .status(201)
+          .json({ message: `Book with id ${ID} deleted successfully` })
       : res.status(400).json({ message: `Error deleting book with id ${ID}` });
   } catch (err) {
     console.log(err);

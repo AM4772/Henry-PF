@@ -17,13 +17,14 @@ let autoLogin = {
         'name',
         'surname',
         'email',
-        "profilePic",
+        'profilePic',
         'suspendedTimes',
         'enabled',
         'admin',
         'banned',
         'dateSuspended',
         'resetCode',
+        'authzero',
       ],
     });
     if (userExists) {

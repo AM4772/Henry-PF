@@ -84,7 +84,7 @@ function BookCard(props) {
                     ? book.authors[0].slice(0, 27) + "..."
                     : book.authors[0]}
                 </p>
-                {/* <p id={s.author}>{book.authors}</p> */}
+                <p id={s.publishDate}>Published Date: {book.publishDate}</p>
               </div>
             </NavLink>
             <div className={s.containerHeartPrice}>

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { asyncGetItemsCart } from "../../redux/actions/usersActions";
 import s from "./Cart.module.sass";
 import Swal from "sweetalert2";
-import { setCart, setItems } from "../../redux/reducers/checkoutSlice.js";
+import { setItems } from "../../redux/reducers/checkoutSlice.js";
 
 function Cart() {
   const [loading, setLoading] = useState(true);
@@ -17,7 +17,7 @@ function Cart() {
   const { stack } = useSelector((state) => state.history);
 
   useEffect(() => {
-    if (!cart.length && userProfile.ID) {
+    if (userProfile.ID) {
       setLoading(true);
       dispatch(asyncGetItemsCart(parseInt(userProfile.ID)))
         .then(() => {
@@ -65,7 +65,6 @@ function Cart() {
       });
     } else {
       dispatch(setItems(cart));
-      dispatch(setCart());
       history.push("/checkout");
     }
   }

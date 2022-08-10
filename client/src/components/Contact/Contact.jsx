@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import s from './Contact.module.sass';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { asyncSendContactEmail } from "../../redux/actions/contactActions";
+import s from "./Contact.module.sass";
+import Swal from "sweetalert2";
 
 export default function Contact() {
+  const dispatch = useDispatch();
   const isValidInitialState = {
-    email: '',
-    message: '',
+    sender: "",
+    message: "",
   };
   const infoInitialState = {
-    email: '',
-    message: '',
+    title: "Feedback",
+    sender: "",
+    message: "",
   };
   const [info, setInfo] = useState(infoInitialState);
   const [isValid, setIsValid] = useState(isValidInitialState);
@@ -21,16 +26,16 @@ export default function Contact() {
     );
     const isValidCopy = { ...isValid };
     // Email
-    if (!info.email.length) isValidCopy.email = ' ';
-    else if (!emailCheck.test(info.email))
-      isValidCopy.email = 'Email is unvalid';
-    else if (info.email.length < 3 || info.email.length > 50)
-      isValidCopy.email = 'Email is invalid';
-    else delete isValidCopy.email;
+    if (!info.sender.length) isValidCopy.sender = " ";
+    else if (!emailCheck.test(info.sender))
+      isValidCopy.sender = "Email is unvalid";
+    else if (info.sender.length < 3 || info.sender.length > 50)
+      isValidCopy.sender = "Email is invalid";
+    else delete isValidCopy.sender;
     // Message
-    if (!info.message.length) isValidCopy.message = ' ';
+    if (!info.message.length) isValidCopy.message = " ";
     else if (info.message.length < 16 || info.message.length > 120)
-      isValidCopy.message = 'Message must contain between 16-120 characters';
+      isValidCopy.message = "Message must contain between 16-120 characters";
     else delete isValidCopy.message;
     setIsValid(isValidCopy);
     // Check if its valid
@@ -39,8 +44,26 @@ export default function Contact() {
     else if (size) setIsAllowed(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [info]);
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isAllowed) {
+      Swal.fire({
+        title: "You're going to send us an email, are you sure?",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Send email",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(asyncSendContactEmail(info)).then((res) => {
+            if (res) {
+              setInfo(infoInitialState);
+            }
+          });
+        }
+      });
+    }
   };
   const handleButton = () => {
     if (isPending)
@@ -64,26 +87,40 @@ export default function Contact() {
           <h1 id={s.register}>Contact us</h1>
           <div id={s.creationCardDisplay}>
             <div className={s.inline}>
+              <select
+                value={info.title}
+                onChange={(e) => setInfo({ ...info, title: e.target.value })}
+                className={s.selectList}
+                id=""
+              >
+                <option value="Feedback">Feedback</option>
+                <option value="Claim">Claim</option>
+                <option value="Book request">Book request</option>
+                <option value="Account issues">Account issues</option>
+                <option value="Payments issues">Payments issues</option>
+              </select>
+            </div>
+            <div className={s.inline}>
               <label className={s.fillTitle}>Email: </label>
               <input
                 type="text"
                 placeholder="Email"
-                value={info.email}
+                value={info.sender}
                 className={`${s.input} ${
-                  isValid.email && isValid.email.length && info.email
+                  isValid.sender && isValid.sender.length && info.sender
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, email: e.target.value })}
+                onChange={(e) => setInfo({ ...info, sender: e.target.value })}
               ></input>
               <p
                 className={
-                  isValid.email && isValid.email !== ' '
+                  isValid.sender && isValid.sender !== " "
                     ? s.errorMessage
                     : s.noErrorMessage
                 }
               >
-                {isValid.email}
+                {isValid.sender}
               </p>
             </div>
             <div className={s.inline}>
@@ -97,11 +134,11 @@ export default function Contact() {
                     ? s.danger
                     : null
                 }`}
-                onChange={e => setInfo({ ...info, message: e.target.value })}
+                onChange={(e) => setInfo({ ...info, message: e.target.value })}
               ></textarea>
               <p
                 className={
-                  isValid.message && isValid.message !== ' '
+                  isValid.message && isValid.message !== " "
                     ? s.errorMessage
                     : s.noErrorMessage
                 }

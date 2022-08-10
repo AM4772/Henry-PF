@@ -17,7 +17,6 @@ let verifyLoginModel = {
       attributes: [
         'ID',
         'username',
-        'authzero',
         'name',
         'surname',
         'email',
@@ -29,6 +28,7 @@ let verifyLoginModel = {
         'dateSuspended',
         'resetCode',
         'password',
+        'authzero',
       ],
     });
     if (user) {

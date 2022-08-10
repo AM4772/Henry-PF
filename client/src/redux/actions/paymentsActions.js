@@ -1,6 +1,6 @@
-import axios from "axios";
-import { getPaymentID, getPayments } from "../reducers/paymentsSlice";
-import { setPaymentDetail } from "../reducers/profileSlice";
+import axios from 'axios';
+import { getPaymentID, getPayments } from '../reducers/paymentsSlice';
+import { setPaymentDetail } from '../reducers/profileSlice';
 const heroku = `https://db-proyecto-final.herokuapp.com`;
 axios.defaults.baseURL = heroku;
 export function asyncGetPayments() {
@@ -24,7 +24,7 @@ export function asyncGetPaymentsByID(ID) {
 export function asyncUserGetPaymentsByID(ID) {
   return async function (dispatch) {
     try {
-      const token = localStorage.getItem("ALTKN");
+      const token = localStorage.getItem('ALTKN');
       const response = (await axios.get(`/payments/${ID}?token=${token}`)).data
         .data;
       dispatch(setPaymentDetail(response));

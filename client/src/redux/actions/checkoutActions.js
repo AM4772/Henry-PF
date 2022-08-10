@@ -1,5 +1,5 @@
-import axios from "axios";
-import { setOrder } from "../reducers/checkoutSlice";
+import axios from 'axios';
+import { setOrder } from '../reducers/checkoutSlice';
 const heroku = `https://db-proyecto-final.herokuapp.com`;
 axios.defaults.baseURL = heroku;
 
@@ -23,7 +23,7 @@ export function asyncGetMP(mpID) {
           },
         })
       ).data;
-      var items = response.additional_info.items.map((i) => {
+      var items = response.additional_info.items.map(i => {
         return {
           ID: i.id,
           quantity: 1,

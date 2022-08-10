@@ -200,6 +200,7 @@ let UsersModel = {
       await Users.update(
         {
           enabled: true,
+          banned: false,
         },
         {
           where: { ID },
@@ -236,6 +237,7 @@ let UsersModel = {
         await Users.update(
           {
             enabled: true,
+            banned: false,
           },
           {
             where: { ID },

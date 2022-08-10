@@ -2,9 +2,15 @@ import React from "react";
 import s from "./ReviewCard.module.sass";
 import { MdOutlineReport, MdDelete, MdStar } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { asyncdeleteReview } from "../../redux/actions/reviewActions";
 function ReviewCard(props) {
+	const dispatch = useDispatch();
 	const review = props;
-	/* const img = [uno, dos, tres, cuatro, cinco]; */
+
+	function deleteReview() {
+		dispatch(asyncdeleteReview(review.ID));
+	}
 
 	const stars = [
 		<div className={s.stars}>
@@ -58,7 +64,11 @@ function ReviewCard(props) {
 					</Link>
 					<div className={s.iconTop}>
 						{stars[review.rating - 1]}
-						<MdDelete title="Delete review" className={s.delete} />
+						<MdDelete
+							title="Delete review"
+							className={s.delete}
+							onClick={(e) => deleteReview(e)}
+						/>
 					</div>
 				</div>
 				<Link to={`/user/${review.userID}`}>
@@ -68,7 +78,7 @@ function ReviewCard(props) {
 				</Link>
 				<div className={s.reviewBox}>
 					<h4>
-						{review.title} <span>{"#" + review.id}</span>
+						{review.title} <span>{"#" + review.ID}</span>
 					</h4>
 					<span>{review.review}</span>
 				</div>

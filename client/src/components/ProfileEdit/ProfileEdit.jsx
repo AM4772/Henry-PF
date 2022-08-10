@@ -133,6 +133,32 @@ function ProfileEdit() {
       value: "",
     },
   ]);
+  const [inputAuth0, setInputAuth0] = useState([
+    {
+      pos: 0,
+      type: "text",
+      name: "username",
+      placeholder: "Username",
+      label: "Username:",
+      value: userProfile.username,
+    },
+    {
+      pos: 1,
+      type: "text",
+      name: "name",
+      placeholder: "Name",
+      label: "Name:",
+      value: nameCapitalize.join(" "),
+    },
+    {
+      pos: 2,
+      type: "text",
+      name: "surname",
+      placeholder: "surname",
+      label: "surname:",
+      value: surnameCapitalize.join(" "),
+    },
+  ]);
   const [passError, setPassError] = useState({
     password: "",
     newPassword: "",
@@ -181,24 +207,52 @@ function ProfileEdit() {
     }
   }
   useEffect(() => {
-    validatePassword();
+    if (!userProfile.authzero) {
+      validatePassword();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input]);
   function onSubmit(data) {
     var request;
-    if (input[4].value !== "") {
-      validatePassword();
-      if (passError.password === "" && passError.newPassword === "") {
+    if (!userProfile.authzero) {
+      if (input[4].value !== "") {
+        validatePassword();
+        if (passError.password === "" && passError.newPassword === "") {
+          request = {
+            username: input[0].value,
+            name: input[1].value,
+            surname: input[2].value,
+            email: input[3].value,
+            password: input[4].value,
+            newPassword: input[5].value,
+            editPassword: true,
+          };
+        }
+      } else {
         request = {
           username: input[0].value,
           name: input[1].value,
           surname: input[2].value,
           email: input[3].value,
-          password: input[4].value,
-          newPassword: input[5].value,
-          editPassword: true,
+          password: "",
+          newPassword: "",
+          editPassword: false,
         };
       }
+      dispatch(asyncModifyUser(userProfile.ID, request)).then((r) => {
+        if (r) {
+          Swal.fire({
+            icon: "success",
+            title: "Changes were successfully saved",
+            // text: "You can see the changes in the profile section",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1300);
+        }
+      });
     } else {
       request = {
         username: input[0].value,
@@ -209,21 +263,21 @@ function ProfileEdit() {
         newPassword: "",
         editPassword: false,
       };
+      dispatch(asyncModifyUser(userProfile.ID, request)).then((r) => {
+        if (r) {
+          Swal.fire({
+            icon: "success",
+            title: "Changes were successfully saved",
+            // text: "You can see the changes in the profile section",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1300);
+        }
+      });
     }
-    dispatch(asyncModifyUser(userProfile.ID, request)).then((r) => {
-      if (r) {
-        Swal.fire({
-          icon: "success",
-          title: "Changes were successfully saved",
-          // text: "You can see the changes in the profile section",
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 1300);
-      }
-    });
   }
   function handleChangeType(e, id) {
     e.preventDefault();
@@ -236,101 +290,160 @@ function ProfileEdit() {
   function handleChange(e, id, name) {
     e.preventDefault();
     const { onChange } = register(name);
-    onChange(e);
-    setInput([...input, (input[id].value = e.target.value)]);
+    if (!userProfile.authzero) {
+      onChange(e);
+      setInput([...input, (input[id].value = e.target.value)]);
+    } else {
+      onChange(e);
+      setInputAuth0([...inputAuth0, (inputAuth0[id].value = e.target.value)]);
+    }
   }
   return (
-    <>
-      <div className={s.data}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {input.map((inp, key) =>
-            inp.name ? (
-              <div className={s.section} key={key}>
-                <span>
-                  {inp.label} <FaQuestionCircle />
-                </span>
-                <div>
-                  <input
-                    type={inp.type}
-                    value={inp.value}
-                    className={`${s.input} ${
-                      errors[inp.name]?.message
-                        ? errors[inp.name]?.message === ""
-                          ? ""
-                          : s.inputError
-                        : ""
-                    } ${
-                      inp.name === "password"
-                        ? passError.password === ""
-                          ? ""
-                          : s.inputError
-                        : ""
-                    } ${
-                      inp.name === "newPassword"
-                        ? passError.newPassword === ""
-                          ? ""
-                          : s.inputError
-                        : ""
-                    }`}
-                    {...register(inp.name, { required: true })}
-                    onChange={(e) => handleChange(e, inp.pos, inp.name)}
-                  />
-                  {inp.name === "password" ? (
-                    <FaEye
-                      className={s.eye}
-                      onClick={(e) => handleChangeType(e, inp.pos)}
-                    />
-                  ) : inp.name === "newPassword" ? (
-                    <FaEye
-                      className={s.eye}
-                      onClick={(e) => handleChangeType(e, inp.pos)}
-                    />
-                  ) : null}
-                </div>
-                {inp.name === "password" ? (
-                  <p
-                    className={`${s.errors} ${
-                      passError.password === "" ? s.errorsDisable : null
-                    }`}
-                  >
-                    {passError.password}
-                  </p>
-                ) : null}
-                {inp.name === "newPassword" && passError !== " " ? (
-                  <p
-                    className={`${s.errors} ${
-                      passError.newPassword.length <= 1 ? s.errorsDisable : null
-                    }`}
-                  >
-                    {inp.name === "newPassword"
-                      ? passError.newPassword !== " "
-                        ? passError.newPassword
-                        : ""
-                      : ""}
-                  </p>
-                ) : null}
-                <p
-                  className={`${s.errors} ${
-                    errors[inp.name]?.message
-                      ? errors[inp.name]?.message === ""
-                        ? s.errorsDisable
-                        : null
-                      : s.errorsDisable
-                  }`}
-                >
-                  {errors[inp.name]?.message
-                    ? errors[inp.name]?.message.length > 0
-                      ? errors[inp.name]?.message
-                      : null
-                    : null}
-                </p>
-              </div>
-            ) : null
-          )}
-          <button className="buttons">Save changes</button>
-        </form>
-      </div>
-    </>
+    <div className={s.data}>
+      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.sections}>
+          {userProfile.authzero
+            ? inputAuth0.map((inp, key) =>
+                inp.name ? (
+                  <div className={s.section} key={key}>
+                    <span>
+                      {inp.label} <FaQuestionCircle />
+                    </span>
+                    <div>
+                      <input
+                        type={inp.type}
+                        value={inp.value}
+                        className={`${s.input} ${
+                          errors[inp.name]?.message
+                            ? errors[inp.name]?.message === ""
+                              ? ""
+                              : s.inputError
+                            : ""
+                        } ${
+                          inp.name === "password"
+                            ? passError.password === ""
+                              ? ""
+                              : s.inputError
+                            : ""
+                        } ${
+                          inp.name === "newPassword"
+                            ? passError.newPassword === ""
+                              ? ""
+                              : s.inputError
+                            : ""
+                        }`}
+                        {...register(inp.name, { required: true })}
+                        onChange={(e) => handleChange(e, inp.pos, inp.name)}
+                      />
+                    </div>
+                    <p
+                      className={`${s.errors} ${
+                        errors[inp.name]?.message
+                          ? errors[inp.name]?.message === ""
+                            ? s.errorsDisable
+                            : null
+                          : s.errorsDisable
+                      }`}
+                    >
+                      {errors[inp.name]?.message
+                        ? errors[inp.name]?.message.length > 0
+                          ? errors[inp.name]?.message
+                          : null
+                        : null}
+                    </p>
+                  </div>
+                ) : null
+              )
+            : input.map((inp, key) =>
+                inp.name ? (
+                  <div className={s.section} key={key}>
+                    <span>
+                      {inp.label} <FaQuestionCircle />
+                    </span>
+                    <div>
+                      <input
+                        type={inp.type}
+                        value={inp.value}
+                        className={`${s.input} ${
+                          errors[inp.name]?.message
+                            ? errors[inp.name]?.message === ""
+                              ? ""
+                              : s.inputError
+                            : ""
+                        } ${
+                          inp.name === "password"
+                            ? passError.password === ""
+                              ? ""
+                              : s.inputError
+                            : ""
+                        } ${
+                          inp.name === "newPassword"
+                            ? passError.newPassword === ""
+                              ? ""
+                              : s.inputError
+                            : ""
+                        }`}
+                        {...register(inp.name, { required: true })}
+                        onChange={(e) => handleChange(e, inp.pos, inp.name)}
+                      />
+                      {inp.name === "password" ? (
+                        <FaEye
+                          className={s.eye}
+                          onClick={(e) => handleChangeType(e, inp.pos)}
+                        />
+                      ) : inp.name === "newPassword" ? (
+                        <FaEye
+                          className={s.eye}
+                          onClick={(e) => handleChangeType(e, inp.pos)}
+                        />
+                      ) : null}
+                    </div>
+                    {inp.name === "password" ? (
+                      <p
+                        className={`${s.errors} ${
+                          passError.password === "" ? s.errorsDisable : null
+                        }`}
+                      >
+                        {passError.password}
+                      </p>
+                    ) : null}
+                    {inp.name === "newPassword" && passError !== " " ? (
+                      <p
+                        className={`${s.errors} ${
+                          passError.newPassword.length <= 1
+                            ? s.errorsDisable
+                            : null
+                        }`}
+                      >
+                        {inp.name === "newPassword"
+                          ? passError.newPassword !== " "
+                            ? passError.newPassword
+                            : ""
+                          : ""}
+                      </p>
+                    ) : null}
+                    <p
+                      className={`${s.errors} ${
+                        errors[inp.name]?.message
+                          ? errors[inp.name]?.message === ""
+                            ? s.errorsDisable
+                            : null
+                          : s.errorsDisable
+                      }`}
+                    >
+                      {errors[inp.name]?.message
+                        ? errors[inp.name]?.message.length > 0
+                          ? errors[inp.name]?.message
+                          : null
+                        : null}
+                    </p>
+                  </div>
+                ) : null
+              )}
+        </div>
+        <button className="buttons">Save changes</button>
+      </form>
+    </div>
   );
 }
 

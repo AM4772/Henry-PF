@@ -125,6 +125,10 @@ export function asyncLogin(body, remember) {
         }
       });
     } catch (error) {
+      var index = document.cookie.lastIndexOf("ALTKNcookie");
+      var cookie = document.cookie.slice(index).split("=");
+      document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
+      localStorage.removeItem("ALTKN");
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -150,6 +154,10 @@ export function asyncAutoLogin(token) {
         }
       }
     } catch (error) {
+      var index = document.cookie.lastIndexOf("ALTKNcookie");
+      var cookie = document.cookie.slice(index).split("=");
+      document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
+      localStorage.removeItem("ALTKN");
       dispatch(firstAutoLogin());
     }
   };
@@ -244,6 +252,7 @@ export function asyncGetItemsCart(userID) {
     try {
       const response = (await axios(`/users/${userID}/cart`)).data;
       dispatch(getItemsCart(response));
+      return true;
     } catch (error) {
       console.error(error);
     }

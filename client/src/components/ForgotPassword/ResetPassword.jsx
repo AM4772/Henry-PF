@@ -25,6 +25,11 @@ function ResetPassword() {
   const { userIDreset } = useSelector((state) => state.profile);
 
   useEffect(() => {
+    if (!userIDreset) history.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const isValidCopy = { ...isValid };
     if (!password.length) isValidCopy.password = " ";
     else if (password.length < 8 || password.length > 50)

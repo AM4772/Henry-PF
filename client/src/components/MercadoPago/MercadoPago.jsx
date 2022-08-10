@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useHistory } from "react-router-dom";
 const FORM_ID = "payment-form";
 
 export default function MercadoPago({ items, setLoading, userID }) {
   const [preferenceId, setPreferenceId] = useState(null);
+  const history = useHistory();
   useEffect(() => {
     axios
       .post("/payments", {
@@ -13,6 +16,15 @@ export default function MercadoPago({ items, setLoading, userID }) {
       })
       .then((order) => {
         setPreferenceId(order.data.preferenceId);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        }).then(() => {
+          history.push("/");
+        });
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,7 +40,7 @@ export default function MercadoPago({ items, setLoading, userID }) {
       form.appendChild(script);
       setTimeout(() => {
         const button = document.querySelector(".mercadopago-button");
-        button.innerHTML = "Buy (Mercado Pago)";
+        button.innerHTML = "Pay (Mercado Pago)";
       }, 1000);
       setTimeout(() => {
         setLoading(false);

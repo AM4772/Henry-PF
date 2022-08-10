@@ -1,15 +1,18 @@
 .data
   min-height: 90%
-    // background: var(--color-yellowish-l)
   background: rgba(117, 91, 72, 0.298)
   margin: 0px 10px 0px 10px
   padding: 5px 0 5px 0
   border-radius: 15px
-  form
+  justify-content: space-between
+  flex-direction: column
+  display: flex
+  .form
     display: flex
     align-items: center
-    justify-content: center
+    justify-content: space-between
     flex-direction: column
+    height: 100%
     button
       width: 50%
 
@@ -33,7 +36,13 @@
     display: flex
     justify-content: flex-start
     align-items: center
-
+.sections
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: center
+  width: 100%
+  margin-bottom: 65%
 .input
   height: 28px
   font-size: 16px

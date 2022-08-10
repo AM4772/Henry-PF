@@ -66,7 +66,7 @@ function DashboardReviews() {
 		setFilterReview(reviewFilter.sort((a, b) => a.ID - b.ID));
 	}
 	useEffect(() => {
-		if (filterReview.length > 0) filterReviews();
+		if (reviews.length > 0) filterReviews();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [search, reviews]);
 	function sort(from) {

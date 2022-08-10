@@ -74,7 +74,7 @@ function PurchaseDetail() {
           <div className={s.card}>
             <div>
               <h4>
-                Purchase ID:<b>{paymentDetail.mpID}</b>
+                Purchase ID: <b>{paymentDetail.mpID}</b>
               </h4>
               <div className={s.userList}>
                 <p>Purchase Date:</p>

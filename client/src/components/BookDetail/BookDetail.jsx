@@ -212,7 +212,11 @@ function BookDetail(props) {
       for (let i = 0; i < userProfile.payments.length; i++) {
         if (userProfile.payments[i].items?.length) {
           for (let j = 0; j < userProfile.payments[i].items.length; j++) {
-            if (userProfile.payments[i].items[j].ID == book.ID) flag = "add";
+            if (
+              parseInt(userProfile.payments[i].items[j].ID) ===
+              parseInt(book.ID)
+            )
+              flag = "add";
           }
         }
       }

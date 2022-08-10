@@ -12,6 +12,12 @@ import {
 } from "../../redux/actions/usersActions";
 import heartOff from "../../assets/Heart_off.png";
 import heartOn from "../../assets/Heart_on.png";
+import Stars0 from "../../assets/Stars0.png";
+import Stars1 from "../../assets/Stars1.png";
+import Stars2 from "../../assets/Stars2.png";
+import Stars3 from "../../assets/Stars3.png";
+import Stars4 from "../../assets/Stars4.png";
+import Stars5 from "../../assets/Stars5.png";
 
 function BookCard(props) {
   let book = props;
@@ -20,6 +26,8 @@ function BookCard(props) {
   const { favourites } = useSelector((state) => state.profile);
   const { userProfile } = useSelector((state) => state.profile);
   const [addedBook, setAddedBook] = useState(false);
+
+  const stars = [Stars0, Stars1, Stars2, Stars3, Stars4, Stars5];
 
   useEffect(() => {
     if (favourites.length) {
@@ -79,11 +87,16 @@ function BookCard(props) {
                     {el.length > 27 ? el.slice(0, 27) + "..." : el}
                   </p>
                 ))} */}
-                <p id={s.author}>
-                  {book.authors[0] && book.authors[0].length > 27
-                    ? book.authors[0].slice(0, 27) + "..."
-                    : book.authors[0]}
-                </p>
+                <div className={s.authorAndReviews}>
+                  <p id={s.author}>
+                    {book.authors[0] && book.authors[0].length > 27
+                      ? book.authors[0].slice(0, 27) + "..."
+                      : book.authors[0]}
+                  </p>
+                  <div className={s.starReviews}>
+                    <img src={stars[book.rating]} alt={book.ID} />
+                  </div>
+                </div>
                 <p id={s.publishDate}>Published Date: {book.publishDate}</p>
               </div>
             </NavLink>

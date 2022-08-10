@@ -54,10 +54,10 @@ function Profile(props) {
               {" "}
               <FaWallet /> Purchases
             </span> */}
-            <span>
+            {/* <span >
               <MdOutlinePrivacyTip />
               Privacy
-            </span>
+            </span> */}
             <span onClick={() => setEdit(false)}>
               <FaUserEdit /> Edit
             </span>

@@ -83,6 +83,8 @@ router.put('/:ID', async (req, res) => {
   try {
     if (ID) {
       if (report) {
+        if (isNaN(user))
+          return res.status(400).json({ message: `User id must be a number` });
         const modified = await modifyReview(req.body, ID, report, user);
         return modified
           ? res.status(200).json({ message: 'Review modified successfully' })

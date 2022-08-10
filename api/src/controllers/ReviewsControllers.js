@@ -93,7 +93,7 @@ let reviewModel = {
     if (reviewModify) {
       if (report) {
         reviewModify.update({
-          reports: reviewModify.toJSON().reports.push(user),
+          reports: [...reviewModify.toJSON().reports, parseInt(user)],
         });
         return true;
       } else {

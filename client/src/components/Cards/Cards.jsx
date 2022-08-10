@@ -36,6 +36,7 @@ function Cards() {
                   authors={b.authors}
                   price={b.price}
                   publishDate={b.publishedDate}
+                  rating={b.rating}
                 />
               );
             }

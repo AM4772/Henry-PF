@@ -301,7 +301,11 @@ function ProfileEdit() {
   return (
     <div className={s.data}>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={s.sections}>
+        <div
+          className={`${s.sections} ${
+            userProfile.authzero ? s.sectionAuth0 : ""
+          }`}
+        >
           {userProfile.authzero
             ? inputAuth0.map((inp, key) =>
                 inp.name ? (

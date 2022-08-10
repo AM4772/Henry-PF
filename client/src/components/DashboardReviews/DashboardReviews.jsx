@@ -181,7 +181,7 @@ function DashboardReviews() {
 						return (
 							<ReviewCard
 								key={e.ID}
-								id={e.ID}
+								ID={e.ID}
 								title={e.title}
 								review={e.review}
 								rating={e.rating}

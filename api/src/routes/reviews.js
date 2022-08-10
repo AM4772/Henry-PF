@@ -79,9 +79,17 @@ router.post('/', async (req, res) => {
 
 router.put('/:ID', async (req, res) => {
   const { ID } = req.params;
-  const { report } = req.query;
+  const { report, user } = req.query;
   try {
     if (ID) {
+      if (report) {
+        if (isNaN(user))
+          return res.status(400).json({ message: `User id must be a number` });
+        const modified = await modifyReview(req.body, ID, report, user);
+        return modified
+          ? res.status(200).json({ message: 'Review modified successfully' })
+          : res.status(400).json({ message: `Error modifying review` });
+      }
       const validate = await validateReview(req.body);
       if (!validate) {
         const modified = await modifyReview(req.body, ID, report);

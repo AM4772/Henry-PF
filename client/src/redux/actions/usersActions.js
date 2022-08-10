@@ -342,7 +342,12 @@ export function asyncRegisterAuth0(body) {
         dispatch(asyncLoginAuth0(body));
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data.message}`,
+      });
     }
   };
 }

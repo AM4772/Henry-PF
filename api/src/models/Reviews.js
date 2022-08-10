@@ -22,8 +22,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       reports: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
+        type: DataTypes.ARRAY(DataTypes.INTEGER)
       },
     },
     {

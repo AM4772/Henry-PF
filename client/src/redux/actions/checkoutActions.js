@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { setOrder } from '../reducers/checkoutSlice';
+import axios from "axios";
+import { clearPayment, setOrder } from "../reducers/checkoutSlice";
 const heroku = `https://db-proyecto-final.herokuapp.com`;
 axios.defaults.baseURL = heroku;
 
@@ -7,6 +7,8 @@ export function asyncConfirmPayment(body) {
   return async function (dispatch) {
     try {
       await axios.post(`/payments/create`, body);
+      dispatch(clearPayment());
+      return true;
     } catch (error) {
       console.log(error);
     }
@@ -23,7 +25,7 @@ export function asyncGetMP(mpID) {
           },
         })
       ).data;
-      var items = response.additional_info.items.map(i => {
+      var items = response.additional_info.items.map((i) => {
         return {
           ID: i.id,
           quantity: 1,

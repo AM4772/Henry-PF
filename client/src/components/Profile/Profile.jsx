@@ -50,9 +50,9 @@ function Profile(props) {
               {" "}
               <FaUserCircle /> User
             </span>
-            <span>
+            <span onClick={() => history.push("/purchases")}>
               {" "}
-              <FaWallet /> Orders
+              <FaWallet /> Purchases
             </span>
             <span>
               <MdOutlinePrivacyTip />

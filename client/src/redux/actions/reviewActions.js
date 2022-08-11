@@ -87,6 +87,7 @@ export function asyncdeleteReview(ID) {
             `<b>Review ${ID}</b> has been deleted.`,
             "success"
           ).then(() => {
+            dispatch(asyncGetReviews());
             return true;
           });
         }

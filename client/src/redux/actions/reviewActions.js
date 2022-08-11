@@ -71,7 +71,7 @@ export function asyncEditReview(ID, body) {
 export function asyncdeleteReview(ID) {
   return async function (dispatch) {
     return await Swal.fire({
-      title: "Are you sure you want to delete this review?",
+      title: "Are you sure you want to delete your review?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -84,7 +84,7 @@ export function asyncdeleteReview(ID) {
           await axios.delete(`/reviews/${ID}`);
           return await Swal.fire(
             "Deleted!",
-            `<b>Review ${ID}</b> has been deleted.`,
+            `<b>Your review</b> has been deleted.`,
             "success"
           ).then(() => {
             dispatch(asyncGetReviews());

@@ -87,7 +87,10 @@ let UsersModel = {
   createUser: async function (user) {
     const verifyUser = await Users.findAll({
       where: {
-        username: user.username.toLowerCase(),
+        [Op.or]: [
+          { username: user.username.toLowerCase() },
+          { email: user.email.toLowerCase() },
+        ],
       },
     });
     if (verifyUser.length > 0) return undefined;
@@ -197,6 +200,7 @@ let UsersModel = {
       await Users.update(
         {
           enabled: true,
+          banned: false,
         },
         {
           where: { ID },
@@ -233,6 +237,7 @@ let UsersModel = {
         await Users.update(
           {
             enabled: true,
+            banned: false,
           },
           {
             where: { ID },
@@ -307,7 +312,7 @@ let UsersModel = {
           username: user.username,
           password: changes.password,
         });
-        console.log(verifyPasswords);
+
         if (verifyPasswords) {
           await user.update({
             password: await hashPassword(changes.newPassword),

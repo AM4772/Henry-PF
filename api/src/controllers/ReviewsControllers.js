@@ -85,39 +85,34 @@ let reviewModel = {
     return createdReview;
   },
 
-  modifyReview: async function (changes, ID, report) {
-    const reviewModify = await Reviews.findByPk(ID);
+  modifyReview: async function (changes, ID, report, user) {
+    const reviewModify = await Reviews.findByPk(ID, {
+      include: Books,
+    });
+
     if (reviewModify) {
       if (report) {
         reviewModify.update({
-          reports: reviewModify.toJSON().reports + 1,
+          reports: [...reviewModify.toJSON().reports, parseInt(user)],
         });
         return true;
       } else {
         reviewModify.update({
           ...changes,
         });
-        const bookID = await reviewModify.getBook();
-
-        const book = await Books.findByPk(bookID.toJSON().ID, {
-          include: Reviews,
-        });
-
-        await reviewModel.calculateRating(book.toJSON().ID);
+        await reviewModel.calculateRating(reviewModify.toJSON().book.ID);
         return true;
       }
     }
     return undefined;
   },
   deleteReview: async function (ID) {
-    const deletedReview = await Reviews.findByPk(ID);
+    const deletedReview = await Reviews.findByPk(ID, {
+      include: Books,
+    });
     if (deletedReview) {
-      const bookID = await deletedReview.getBook();
-      const book = await Books.findByPk(bookID.toJSON().ID, {
-        include: Reviews,
-      });
       await deletedReview.destroy();
-      await reviewModel.calculateRating(book.toJSON().ID);
+      await reviewModel.calculateRating(deletedReview.toJSON().book.ID);
       return true;
     }
     return undefined;

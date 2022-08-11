@@ -5,7 +5,6 @@ require('dotenv').config();
 
 let paymentsModel = {
   createPayment: async function (payment) {
-    console.log(payment);
     const createPayment = await Payments.create({
       mpID: payment.ID,
       items: payment.items,
@@ -29,10 +28,13 @@ let paymentsModel = {
         },
       });
 
-      const soldCopy = cat.toJSON().soldCopies;
-      await cat.update({
-        soldCopies: soldCopy + 1,
-      });
+      let soldCopy = 0;
+      if (cat) {
+        soldCopy = cat.toJSON().soldCopies;
+        await cat.update({
+          soldCopies: soldCopy + 1,
+        });
+      }
     }
     return createPayment;
   },

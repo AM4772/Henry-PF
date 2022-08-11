@@ -67,7 +67,7 @@ function UserMenu() {
       setLogged(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile]);
+  }, [userProfile, cart]);
   function handleLogOut() {
     dispatch(logOut());
     setLogged(false);

@@ -10,45 +10,46 @@
   justify-content: space-between
   align-items: center
 
-table
-  height: 100%
-  width: 100%
 
-  border-spacing: 0
-  border: solid 1px #ccc
-  border-radius: 0.5rem
-  font-weight: bold
-  background: #e9e9e9
-  thead tr
-    background: #333
-    color: #ffffff
-  tr:nth-child(2n)
-    background: #ddcca8
-  th, td
-    border-right: 1px solid #ccc
-    &:last-child
-      border-right: none
-  th:first-child
-    border-top-left-radius: 0.5rem
-  th:last-child
-    border-top-right-radius: 0.5rem
-  tr td
-    height: 2rem
-    border-bottom: 1px solid #ccc
-
-tr:last-child td
-  border-bottom: 1px solid #ccc
-  &:first-child
-    border-bottom-left-radius: 0.5rem
-  &:last-child
-    border-bottom-right-radius: 0.5rem
 
 .tableContainer
   max-height: 90%
   overflow-y: scroll
+  tr:last-child td
+    border-bottom: 1px solid #ccc
+    &:first-child
+      border-bottom-left-radius: 0.5rem
+    &:last-child
+      border-bottom-right-radius: 0.5rem
   .sticky
     position: sticky
     top: 0
+  table
+    height: 100%
+    width: 100%
+
+    border-spacing: 0
+    border: solid 1px #ccc
+    border-radius: 0.5rem
+    font-weight: bold
+    background: #e9e9e9
+    thead tr
+      background: #333
+      color: #ffffff
+    tr:nth-child(2n)
+      background: #ddcca8
+    th, td
+      border-right: 1px solid #ccc
+      &:last-child
+        border-right: none
+    th:first-child
+      border-top-left-radius: 0.5rem
+    th:last-child
+      border-top-right-radius: 0.5rem
+    tr td
+      height: 2rem
+      border-bottom: 1px solid #ccc
+
 .searchDiv
   width: 100%
 .searchInput

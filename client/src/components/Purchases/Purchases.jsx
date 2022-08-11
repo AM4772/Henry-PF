@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Loading from "../Loading/Loading";
@@ -10,12 +11,103 @@ const Purchases = () => {
   const { userProfile, appLoadingProfile } = useSelector(
     (state) => state.profile
   );
+  const [filterPayments, setFilterPayments] = useState(userProfile.payments);
+  const [sorting, setSortName] = useState({
+    createdAt: false,
+    total: false,
+    items: false,
+  });
   const { stack } = useSelector((state) => state.history);
+  function sort(from) {
+    if (from === "items") {
+      if (sorting[from]) {
+        setFilterPayments([
+          ...filterPayments.sort((a, b) => {
+            if (a.items.length < b.items.length) {
+              return -1;
+            }
+            if (a.items.length > b.items.length) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      } else {
+        setFilterPayments([
+          ...filterPayments.sort((a, b) => {
+            if (a.items.length > b.items.length) {
+              return -1;
+            }
+            if (a.items.length < b.items.length) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      }
+    } else if (from === "createdAt") {
+      if (sorting[from]) {
+        setFilterPayments([
+          ...filterPayments.sort((a, b) => {
+            if (new Date(a[from]) < new Date(b[from])) {
+              return -1;
+            }
+            if (new Date(a[from]) > new Date(b[from])) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      } else {
+        setFilterPayments([
+          ...filterPayments.sort((a, b) => {
+            if (new Date(a[from]) > new Date(b[from])) {
+              return -1;
+            }
+            if (new Date(a[from]) < new Date(b[from])) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      }
+    } else {
+      if (sorting[from]) {
+        setFilterPayments([
+          ...filterPayments.sort((a, b) => {
+            if (a[from] < b[from]) {
+              return -1;
+            }
+            if (a[from] > b[from]) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      } else {
+        setFilterPayments([
+          ...filterPayments.sort((a, b) => {
+            if (a[from] > b[from]) {
+              return -1;
+            }
+            if (a[from] < b[from]) {
+              return 1;
+            }
+            return 0;
+          }),
+        ]);
+      }
+    }
+    setSortName({ ...sorting, [from]: !sorting[from] });
+  }
 
   useEffect(() => {
     if (!appLoadingProfile) {
       if (!userProfile.ID) {
         history.push("/");
+      } else {
+        let array = [...userProfile.payments];
+        setFilterPayments([...array]);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,19 +138,49 @@ const Purchases = () => {
         <button className={s.buttonBack} onClick={goBack}>
           Back
         </button>
+        <table>
+          <thead>
+            <tr>
+              <th className={s.sorter} onClick={() => sort("items")}>
+                items
+                <span>
+                  {!sorting.items ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
+                </span>
+              </th>
+              <th className={s.sorter} onClick={() => sort("total")}>
+                Price
+                <span>
+                  {!sorting.total ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
+                </span>
+              </th>
+              <th className={s.sorter} onClick={() => sort("createdAt")}>
+                Date
+                <span>
+                  {!sorting.createdAt ? (
+                    <RiArrowUpSFill />
+                  ) : (
+                    <RiArrowDownSFill />
+                  )}
+                </span>
+              </th>
+            </tr>
+          </thead>
+        </table>
       </div>
       {userProfile.ID ? (
         userProfile.payments.length > 0 ? (
-          userProfile.payments.map((p) => (
-            <div key={p.mpID} className={s.containerFav1}>
+          <div className={s.purchaseCont}>
+            {filterPayments?.map((p) => (
               <PurchaseCard
+                className={s.containerFav1}
+                key={p.mpID}
                 ID={p.mpID}
                 date={p.createdAt}
                 items={p.items}
                 total={p.total}
               />
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <div className={s.containerNotFav0}>
             <div className={s.containerNotFav}>

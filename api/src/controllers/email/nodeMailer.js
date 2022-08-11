@@ -48,7 +48,7 @@ let emailsModule = {
       };
     }
     if (data.emailType === 'contact') {
-      subject = 'Conctat us EMAIL';
+      subject = data.title.toUpperCase();
       template = 'contact';
       context = {
         sender: data.sender,

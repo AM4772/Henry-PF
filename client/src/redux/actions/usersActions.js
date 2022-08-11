@@ -1,5 +1,5 @@
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import Swal from "sweetalert2";
 import {
   firstAutoLogin,
   loginUser,
@@ -13,7 +13,7 @@ import {
   setConfirmMail,
   setResetID,
   clearResetID,
-} from '../reducers/profileSlice';
+} from "../reducers/profileSlice";
 import {
   getUsers,
   getUserDetail,
@@ -21,7 +21,7 @@ import {
   setEmails,
   setUsernames,
   clearUserDetail,
-} from '../reducers/usersSlice';
+} from "../reducers/usersSlice";
 
 // const localhost = 'http://localhost:3001';
 const heroku = `https://db-proyecto-final.herokuapp.com`;
@@ -31,7 +31,7 @@ export function asyncGetUsers(username) {
   return async function (dispatch) {
     try {
       if (!username) {
-        const response = (await axios('/users')).data;
+        const response = (await axios("/users")).data;
         dispatch(getUsers(response));
       } else {
         const response = (await axios(`/users?username=${username}`)).data;
@@ -46,7 +46,7 @@ export function asyncGetUsers(username) {
 export function asyncGetSearchUser() {
   return async function (dispatch) {
     try {
-      const response = (await axios('/users')).data;
+      const response = (await axios("/users")).data;
       dispatch(getSearchUser(response));
     } catch (error) {
       dispatch(getSearchUser([]));
@@ -57,7 +57,7 @@ export function asyncGetSearchUser() {
 export function asyncGetUserDetail(ID) {
   return async function (dispatch) {
     try {
-      const response = (await axios('/users/' + ID)).data;
+      const response = (await axios("/users/" + ID)).data;
       dispatch(getUserDetail(response));
     } catch (error) {
       console.error(error);
@@ -68,18 +68,18 @@ export function asyncGetUserDetail(ID) {
 export function asyncRegisterUser(info) {
   return async function (dispatch) {
     try {
-      await axios.post('/users', info);
+      await axios.post("/users", info);
       return await Swal.fire({
-        icon: 'success',
-        title: 'Your account has been created, check your email',
+        icon: "success",
+        title: "Your account has been created, check your email",
       }).then(() => {
         return true;
       });
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Sorry, we were unable to register you, please try again later',
+        icon: "error",
+        title: "Oops...",
+        text: "Sorry, we were unable to register you, please try again later",
       }).then(() => {
         return undefined;
       });
@@ -101,17 +101,17 @@ export function asyncEnable(ID) {
 export function asyncLogin(body, remember) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post('/login', body)).data;
+      const response = (await axios.post("/login", body)).data;
       Swal.fire({
-        icon: 'success',
-        text: 'You have logged in successfully',
+        icon: "success",
+        text: "You have logged in successfully",
         title: `${response.message}`,
         showConfirmButton: false,
         timer: 2000,
       }).then(() => {
         dispatch(loginUser(response));
         var today = Date.now();
-        if (remember) localStorage.setItem('ALTKN', response.token);
+        if (remember) localStorage.setItem("ALTKN", response.token);
         else
           document.cookie = `ALTKNcookie=${response.token}; max-age=86400; path=/;`;
         if (!response.enabled) {
@@ -125,9 +125,13 @@ export function asyncLogin(body, remember) {
         }
       });
     } catch (error) {
+      var index = document.cookie.lastIndexOf("ALTKNcookie");
+      var cookie = document.cookie.slice(index).split("=");
+      document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
+      localStorage.removeItem("ALTKN");
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data.message}`,
       });
     }
@@ -137,7 +141,7 @@ export function asyncLogin(body, remember) {
 export function asyncAutoLogin(token) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post('/login/autoLogin', { token })).data;
+      const response = (await axios.post("/login/autoLogin", { token })).data;
       var today = Date.now();
       dispatch(loginUser(response));
       if (!response.enabled) {
@@ -150,6 +154,10 @@ export function asyncAutoLogin(token) {
         }
       }
     } catch (error) {
+      var index = document.cookie.lastIndexOf("ALTKNcookie");
+      var cookie = document.cookie.slice(index).split("=");
+      document.cookie = `ALTKNcookie=${cookie[1]}; max-age=-10; path=/;`;
+      localStorage.removeItem("ALTKN");
       dispatch(firstAutoLogin());
     }
   };
@@ -158,12 +166,12 @@ export function asyncAutoLogin(token) {
 export function asyncSetEmails() {
   return async function (dispatch) {
     try {
-      const response = (await axios('/emails')).data;
+      const response = (await axios("/emails")).data;
       dispatch(setEmails(response));
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data}`,
       });
     }
@@ -173,12 +181,12 @@ export function asyncSetEmails() {
 export function asyncSetUsernames() {
   return async function (dispatch) {
     try {
-      const response = (await axios('/usernames')).data;
+      const response = (await axios("/usernames")).data;
       dispatch(setUsernames(response));
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
+        icon: "error",
+        title: "Oops...",
         text: `${error.response.data}`,
       });
     }
@@ -186,16 +194,16 @@ export function asyncSetUsernames() {
 }
 
 const satisfaction = Swal.mixin({
-  background: '#DED7CF',
+  background: "#DED7CF",
   toast: true,
-  position: 'bottom-end',
+  position: "bottom-end",
   showConfirmButton: false,
-  iconColor: '#1E110B',
+  iconColor: "#1E110B",
   timer: 2000,
   timerProgressBar: true,
-  didOpen: toast => {
-    toast.addEventListener('mouseenter', Swal.stopTimer);
-    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
 
@@ -206,9 +214,9 @@ export function asyncAddFavourite(userID, bookID) {
         await axios.post(`/users/${userID}/favourites`, { ID: bookID })
       ).data.data;
       satisfaction.fire({
-        icon: 'success',
-        title: 'Added!',
-        html: 'You have <b>added</b> this book to your favourites',
+        icon: "success",
+        title: "Added!",
+        html: "You have <b>added</b> this book to your favourites",
       });
       dispatch(addFavourite(response));
     } catch (error) {
@@ -228,9 +236,9 @@ export function asyncDeleteFavourite(userID, bookID) {
         })
       ).data.data;
       satisfaction.fire({
-        icon: 'error',
-        title: 'Removed!',
-        html: 'You have <b>removed</b> this book from your favourites',
+        icon: "error",
+        title: "Removed!",
+        html: "You have <b>removed</b> this book from your favourites",
       });
       dispatch(deleteFavourite(response));
     } catch (error) {
@@ -244,6 +252,7 @@ export function asyncGetItemsCart(userID) {
     try {
       const response = (await axios(`/users/${userID}/cart`)).data;
       dispatch(getItemsCart(response));
+      return true;
     } catch (error) {
       console.error(error);
     }
@@ -257,16 +266,16 @@ export function asyncAddItemCart(userID, bookID) {
         await axios.post(`/users/${userID}/cart`, { ID: bookID })
       ).data.data;
       satisfaction.fire({
-        icon: 'success',
-        title: 'Added!',
-        html: 'You have <b>added</b> this item to your cart',
+        icon: "success",
+        title: "Added!",
+        html: "You have <b>added</b> this item to your cart",
       });
       dispatch(addItemCart(response));
     } catch (error) {
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops...',
-        html: 'Sorry, we were unable to <b>add</b> the book to your cart',
+        icon: "error",
+        title: "Oops...",
+        html: "Sorry, we were unable to <b>add</b> the book to your cart",
       });
       console.error(error);
     }
@@ -284,16 +293,16 @@ export function asyncRemoveItemCart(userID, bookID) {
         })
       ).data.data;
       satisfaction.fire({
-        icon: 'error',
-        title: 'Removed!',
-        html: 'You have <b>removed</b> this book from your cart',
+        icon: "error",
+        title: "Removed!",
+        html: "You have <b>removed</b> this book from your cart",
       });
       dispatch(removeItemCart(response));
     } catch (error) {
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops...',
-        html: 'Sorry, we were unable to <b>remove</b> the book from your cart',
+        icon: "error",
+        title: "Oops...",
+        html: "Sorry, we were unable to <b>remove</b> the book from your cart",
       });
       console.error(error);
     }
@@ -306,14 +315,22 @@ export function asyncModifyUser(ID, body) {
       console.log(body);
       const response = (await axios.put(`/users/${ID}`, body)).data;
       dispatch(loginUser(response.data));
-      localStorage.setItem('ALTKN', response.data.token);
-      return true
+      localStorage.setItem("ALTKN", response.data.token);
+      return satisfaction
+        .fire({
+          icon: "success",
+          title: "Modified!",
+          html: `You have <b>modified</b> the user ${ID}`,
+        })
+        .then(() => {
+          return true;
+        });
     } catch (error) {
       console.error(error);
       return satisfaction
         .fire({
-          icon: 'error',
-          title: 'Oops...',
+          icon: "error",
+          title: "Oops...",
           html: `There was an error`,
         })
         .then(() => {
@@ -326,15 +343,20 @@ export function asyncModifyUser(ID, body) {
 export function asyncRegisterAuth0(body) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post('/users/auth0', body)).data;
+      const response = (await axios.post("/users/auth0", body)).data;
       if (response.data) {
-        localStorage.setItem('ALTKN', response.data.token);
+        localStorage.setItem("ALTKN", response.data.token);
         dispatch(loginUser(response.data));
       } else {
         dispatch(asyncLoginAuth0(body));
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error.response.data.message}`,
+      });
     }
   };
 }
@@ -342,8 +364,8 @@ export function asyncRegisterAuth0(body) {
 export function asyncLoginAuth0(body) {
   return async function (dispatch) {
     try {
-      const response = (await axios.post('/users/auth0/login', body)).data;
-      localStorage.setItem('ALTKN', response.data.token);
+      const response = (await axios.post("/users/auth0/login", body)).data;
+      localStorage.setItem("ALTKN", response.data.token);
       dispatch(loginUser(response.data));
     } catch (error) {
       console.log(error);
@@ -357,15 +379,15 @@ export function asyncDisableUser(ID) {
       const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
       dispatch(getUserDetail(response));
       satisfaction.fire({
-        icon: 'success',
-        title: 'Success!',
+        icon: "success",
+        title: "Success!",
         html: `You have <b>successfully</b> the user ${ID} has been disabled successfully`,
       });
     } catch (error) {
       console.error(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -378,15 +400,15 @@ export function asyncEnableUser(ID) {
       const response = (await axios.put(`/users/${ID}?enabled=true`)).data;
       dispatch(getUserDetail(response));
       satisfaction.fire({
-        icon: 'error',
-        title: 'Success!',
+        icon: "error",
+        title: "Success!",
         html: `You have <b>successfully</b> the user ${ID} has been enabled successfully`,
       });
     } catch (error) {
       console.error(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -406,8 +428,8 @@ export function asyncSetAdmin(ID) {
     } catch (error) {
       console.error(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -427,8 +449,8 @@ export function asyncConfirmEmail(token) {
     } catch (error) {
       dispatch(setConfirmMail(false));
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -448,8 +470,8 @@ export function asyncSetImage(ID, result) {
     } catch (error) {
       console.log(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -469,8 +491,8 @@ export function asyncResetCode(user) {
     } catch (error) {
       console.log(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -481,7 +503,7 @@ export function asyncConfirmCode(ID, resetCode) {
   return async function (dispatch) {
     try {
       await axios.post(`/confirm/reset`, { ID, resetCode });
-      satisfaction
+      return satisfaction
         .fire({
           icon: 'success',
           title: 'Success!',
@@ -493,8 +515,8 @@ export function asyncConfirmCode(ID, resetCode) {
     } catch (error) {
       console.log(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }
@@ -518,8 +540,8 @@ export function asyncNewPassword(ID, password, rPassword) {
     } catch (error) {
       console.log(error);
       satisfaction.fire({
-        icon: 'error',
-        title: 'Oops!',
+        icon: "error",
+        title: "Oops!",
         html: `There was an error`,
       });
     }

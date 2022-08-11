@@ -48,7 +48,7 @@ router.post('/create', async (req, res) => {
     await createPayment(req.body);
     await orderEmail(userID, items, total, ID);
     let emails = await eBookEmail(userID, items);
-    await deleteCart(userID);
+    items.length > 1 ? await deleteCart(userID) : null;
     emails
       ? res.json({ message: 'eBook email sent' })
       : res.status(404).json({ message: 'Cannot send eBook' });

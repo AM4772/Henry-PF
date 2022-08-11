@@ -36,7 +36,7 @@ router.post('/autoLogin', async (req, res) => {
     }
     validateToken
       ? res.json(validateToken)
-      : res.status(400).json({ message: 'Sign in error' });
+      : res.status(200).json({ message: 'Sign in error' });
   } catch (err) {
     console.log(err);
     res.status(400).json(err.message);

@@ -423,7 +423,11 @@ function BookDetail(props) {
                             <MdDelete
                               title={`Delete review ${el.ID}`}
                               className={s.delete}
-                              onClick={() => dispatch(asyncdeleteReview(el.ID))}
+                              onClick={() =>
+                                dispatch(asyncdeleteReview(el.ID)).then((res) =>
+                                  res ? dispatch(asyncGetBookDetail(ID)) : null
+                                )
+                              }
                             />
                           </>
                         ) : null}

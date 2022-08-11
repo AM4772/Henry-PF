@@ -312,21 +312,10 @@ export function asyncRemoveItemCart(userID, bookID) {
 export function asyncModifyUser(ID, body) {
   return async function (dispatch) {
     try {
-      console.log(body);
       const response = (await axios.put(`/users/${ID}`, body)).data;
       dispatch(loginUser(response.data));
       localStorage.setItem("ALTKN", response.data.token);
       return true;
-      // return satisfaction
-      //   .fire({
-      //     icon: "success",
-      //     title: "Modified!",
-      //     html: `You have <b>modified</b> the user ${ID}`,
-      //   })
-      //   .then(() => {
-      //     return true;
-      //   }
-      //   );
     } catch (error) {
       console.error(error);
       return satisfaction
@@ -380,11 +369,6 @@ export function asyncDisableUser(ID) {
     try {
       const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
       dispatch(getUserDetail(response));
-      // satisfaction.fire({
-      //   icon: "success",
-      //   title: "Success!",
-      //   html: `You have <b>successfully</b> the user ${ID} has been disabled successfully`,
-      // });
     } catch (error) {
       console.error(error);
       satisfaction.fire({

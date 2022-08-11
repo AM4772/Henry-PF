@@ -209,6 +209,9 @@ export default function CreateBook() {
   const [caterogiesOptions, setCaterogiesOptions] = useState(null);
   const { authors, categories } = useSelector((state) => state.books);
   const { stack } = useSelector((state) => state.history);
+  const { userProfile, appLoadingProfile } = useSelector(
+    (state) => state.profile
+  );
   const [info, setInfo] = useState(infoInitialState);
   const [isValid, setIsValid] = useState(isValidInitialState);
   const [isAllowed, setIsAllowed] = useState(false);
@@ -244,7 +247,14 @@ export default function CreateBook() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authors, categories]);
-
+  useEffect(() => {
+    if (!appLoadingProfile) {
+      if (!userProfile.admin) {
+        history.push("/");
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appLoadingProfile, userProfile]);
   useEffect(() => {
     const isValidCopy = { ...isValid };
     // Title

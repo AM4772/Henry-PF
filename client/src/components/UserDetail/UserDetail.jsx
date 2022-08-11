@@ -75,13 +75,13 @@ function UserDetail(props) {
             confirmButtonText: "Yes, disable it!",
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire("Disabled!", "The user has been disabled.", "success");
               dispatch(asyncDisableUser(userDetail.ID));
+              Swal.fire("Disabled!", "The user has been disabled.", "success");
             }
           });
         } else {
           Swal.fire({
-            title: `BAN USER ${userDetail.username}: this action is irreversible. Are you sure?`,
+            title: `BAN USER ${userDetail.username}: Are you sure?`,
             icon: "error",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -89,12 +89,12 @@ function UserDetail(props) {
             confirmButtonText: "Yes, ban this user",
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(asyncDisableUser(userDetail.ID));
               Swal.fire(
-                "Banned permanently",
+                "User banned",
                 `The user ${userDetail.username} has been banned`,
                 "success"
               );
-              dispatch(asyncDisableUser(userDetail.ID));
             }
           });
         }
@@ -108,8 +108,8 @@ function UserDetail(props) {
           confirmButtonText: "Yes, enable!",
         }).then((result) => {
           if (result.isConfirmed) {
-            Swal.fire("Enabled!", "The user has been enabled.", "success");
             dispatch(asyncEnableUser(userDetail.ID));
+            Swal.fire("Enabled!", "The user has been enabled.", "success");
           }
         });
       }
@@ -129,12 +129,12 @@ function UserDetail(props) {
           confirmButtonText: "Yes, disable",
         }).then((result) => {
           if (result.isConfirmed) {
+            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
             Swal.fire(
               "Permissions disabled.",
               "Disabled administrator permissions.",
               "success"
             );
-            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
           }
         });
       } else {
@@ -148,12 +148,12 @@ function UserDetail(props) {
           confirmButtonText: "Yes, enable",
         }).then((result) => {
           if (result.isConfirmed) {
+            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
             Swal.fire(
               "Permissions enabled.",
               "Enable administrator permissions.",
               "success"
             );
-            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
           }
         });
       }

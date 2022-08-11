@@ -5,56 +5,139 @@ import s from "./ProfileEdit.module.sass";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { asyncModifyUser } from "../../redux/actions/usersActions";
+import {
+  asyncModifyUser,
+  asyncSetEmails,
+  asyncSetUsernames,
+} from "../../redux/actions/usersActions";
 import Swal from "sweetalert2";
 // import { useHistory } from "react-router-dom";
-const schema = yup
-  .object()
-  .shape({
-    username: yup
-      .string()
-      .required("Username is required.")
-      .matches(
-        /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
-        "Username cannot contain symbols or whitespaces."
-      )
-      .min(3, "Username must be at least 3 characters.")
-      .max(20, "Username must be at most 20 characters."),
-    name: yup
-      .string()
-      .matches(
-        /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
-        "Name cannot contain symbols."
-      )
-      .required("Name is required.")
-      .min(3, "Name must be at least 3 characters.")
-      .max(20, "Name must be at most 20 characters."),
-    surname: yup
-      .string()
-      .matches(
-        /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
-        "surname cannot contain symbols."
-      )
-      .required("surname is required.")
-      .min(3, "surname must be at least 3 characters.")
-      .max(20, "surname must be at most 20 characters."),
-    email: yup
-      .string()
-      .email("E-mail is invalid.")
-      .matches(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        "E-mail is invalid."
-      )
-      .required("E-mail is required."),
-    password: yup.string().max(20, "Password must be at most 20 characters."),
-    newPassword: yup
-      .string()
-      .max(20, "New password must be at most 20 characters."),
-  })
-  .required();
 
 function ProfileEdit() {
   // const history = useHistory();
+  const { userProfile } = useSelector((state) => state.profile);
+  const { usernames, emails } = useSelector((state) => state.users);
+  const schema = yup
+    .object()
+    .shape(
+      !userProfile.authzero
+        ? {
+            username: yup
+              .string()
+              .required("Username is required.")
+              .matches(
+                /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
+                "Username cannot contain symbols or whitespaces."
+              )
+              .min(3, "Username must be at least 3 characters.")
+              .max(20, "Username must be at most 20 characters.")
+              .test("User invalid", "Username already exists", function (val) {
+                const { path, createError } = this;
+                let find = usernames.find(
+                  (u) => u.toLowerCase().trim() === val.toLowerCase().trim()
+                );
+                if (find) {
+                  if (find !== userProfile.username) {
+                    return createError({
+                      path,
+                      message: "Username already exists",
+                    });
+                  }
+                }
+                return true;
+              }),
+            name: yup
+              .string()
+              .matches(
+                /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
+                "Name cannot contain symbols."
+              )
+              .required("Name is required.")
+              .min(3, "Name must be at least 3 characters.")
+              .max(20, "Name must be at most 20 characters."),
+            surname: yup
+              .string()
+              .matches(
+                /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
+                "surname cannot contain symbols."
+              )
+              .required("surname is required.")
+              .min(3, "surname must be at least 3 characters.")
+              .max(20, "surname must be at most 20 characters."),
+            email: yup
+              .string()
+              .email("E-mail is invalid.")
+              .matches(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                "E-mail is invalid."
+              )
+              .required("E-mail is required.")
+              .test("User invalid", "Username already exists", function (val) {
+                const { path, createError } = this;
+                let find = emails.find(
+                  (e) => e.toLowerCase().trim() === val.toLowerCase().trim()
+                );
+                if (find && find !== userProfile.email) {
+                  return createError({
+                    path,
+                    message: "Username already exists",
+                  });
+                }
+                return true;
+              }),
+            password: yup
+              .string()
+              .max(20, "Password must be at most 20 characters."),
+            newPassword: yup
+              .string()
+              .max(20, "New password must be at most 20 characters."),
+          }
+        : {
+            username: yup
+              .string()
+              .required("Username is required.")
+              .matches(
+                /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
+                "Username cannot contain symbols or whitespaces."
+              )
+              .min(3, "Username must be at least 3 characters.")
+              .max(20, "Username must be at most 20 characters.")
+              .test("User invalid", "Username already exists", function (val) {
+                const { path, createError } = this;
+                let find = usernames.find(
+                  (u) => u.toLowerCase().trim() === val.toLowerCase().trim()
+                );
+                if (find) {
+                  if (find !== userProfile.username) {
+                    return createError({
+                      path,
+                      message: "Username already exists",
+                    });
+                  }
+                }
+                return true;
+              }),
+            name: yup
+              .string()
+              .matches(
+                /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
+                "Name cannot contain symbols."
+              )
+              .required("Name is required.")
+              .min(3, "Name must be at least 3 characters.")
+              .max(20, "Name must be at most 20 characters."),
+            surname: yup
+              .string()
+              .matches(
+                /^([A-Z-a-z]+([ ]?[a-z]?['-]?[A-Z-a-z]+)*)$/,
+                "surname cannot contain symbols."
+              )
+              .required("surname is required.")
+              .min(3, "surname must be at least 3 characters.")
+              .max(20, "surname must be at most 20 characters."),
+          }
+    )
+    .required();
   const {
     register,
     handleSubmit,
@@ -65,8 +148,12 @@ function ProfileEdit() {
   });
   //waiting backend
   const dispatch = useDispatch();
-  const { userProfile } = useSelector((state) => state.profile);
-
+  useEffect(() => {}, [userProfile]);
+  useEffect(() => {
+    dispatch(asyncSetEmails());
+    dispatch(asyncSetUsernames());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   let nameCapitalize = [];
   let surnameCapitalize = [];
   if (userProfile.name) {
@@ -248,17 +335,14 @@ function ProfileEdit() {
             showConfirmButton: false,
             timer: 3000,
           });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1300);
         }
       });
     } else {
       request = {
-        username: input[0].value,
-        name: input[1].value,
-        surname: input[2].value,
-        email: input[3].value,
+        username: inputAuth0[0].value,
+        name: inputAuth0[1].value,
+        surname: inputAuth0[2].value,
+        email: inputAuth0[3].value,
         password: "",
         newPassword: "",
         editPassword: false,
@@ -445,7 +529,9 @@ function ProfileEdit() {
                 ) : null
               )}
         </div>
-        <button className="buttons">Save changes</button>
+        <button type="submit" className="buttons">
+          Save changes
+        </button>
       </form>
     </div>
   );

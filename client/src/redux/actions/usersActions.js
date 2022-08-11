@@ -401,11 +401,11 @@ export function asyncEnableUser(ID) {
     try {
       const response = (await axios.put(`/users/${ID}?enabled=true`)).data;
       dispatch(getUserDetail(response));
-      satisfaction.fire({
-        icon: "error",
-        title: "Success!",
-        html: `You have <b>successfully</b> the user ${ID} has been enabled successfully`,
-      });
+      // satisfaction.fire({
+      //   icon: "error",
+      //   title: "Success!",
+      //   html: `You have <b>successfully</b> the user ${ID} has been enabled successfully`,
+      // });
     } catch (error) {
       console.error(error);
       satisfaction.fire({

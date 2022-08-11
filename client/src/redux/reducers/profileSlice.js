@@ -14,9 +14,7 @@ const initialState = {
 
 const satisfaction = Swal.mixin({
 	background: "#DED7CF",
-	backdrop: false,
 	toast: true,
-	heightAuto: false,
 	position: "bottom-end",
 	showConfirmButton: false,
 	iconColor: "#1E110B",

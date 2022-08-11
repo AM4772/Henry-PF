@@ -307,15 +307,7 @@ export function asyncModifyUser(ID, body) {
       const response = (await axios.put(`/users/${ID}`, body)).data;
       dispatch(loginUser(response.data));
       localStorage.setItem('ALTKN', response.data.token);
-      return satisfaction
-        .fire({
-          icon: 'success',
-          title: 'Modified!',
-          html: `You have <b>modified</b> the user ${ID}`,
-        })
-        .then(() => {
-          return true;
-        });
+      return true
     } catch (error) {
       console.error(error);
       return satisfaction
@@ -407,7 +399,7 @@ export function asyncSetAdmin(ID) {
       await axios.put(`/users/${ID}?admin=true`);
       dispatch(clearUserDetail());
       satisfaction.fire({
-        icon: 'Success',
+        icon: 'success',
         title: 'Success!',
         html: `The user ${ID} is now an admin`,
       });
@@ -428,7 +420,7 @@ export function asyncConfirmEmail(token) {
       await axios.get(`/confirm?token=${token}`);
       dispatch(setConfirmMail(true));
       satisfaction.fire({
-        icon: 'Success',
+        icon: 'success',
         title: 'Success!',
         html: `Your email has been confirmed`,
       });
@@ -449,7 +441,7 @@ export function asyncSetImage(ID, result) {
       const response = (await axios.put(`/users/${ID}`, result)).data;
       dispatch(loginUser(response.data));
       satisfaction.fire({
-        icon: 'Success',
+        icon: 'success',
         title: 'Success!',
         html: `Image has edited set sucessfully`,
       });
@@ -469,7 +461,7 @@ export function asyncResetCode(user) {
     try {
       const response = (await axios.post(`/emails/reset`, { user })).data;
       satisfaction.fire({
-        icon: 'Success',
+        icon: 'success',
         title: 'Success!',
         html: `The code has been reset successfully`,
       });
@@ -491,7 +483,7 @@ export function asyncConfirmCode(ID, resetCode) {
       await axios.post(`/confirm/reset`, { ID, resetCode });
       satisfaction
         .fire({
-          icon: 'Success',
+          icon: 'success',
           title: 'Success!',
           html: `The code has been confirmed`,
         })
@@ -518,7 +510,7 @@ export function asyncNewPassword(ID, password, rPassword) {
         rPassword,
       });
       satisfaction.fire({
-        icon: 'Success',
+        icon: 'success',
         title: 'Success!',
         html: `New password has been set successfully`,
       });

@@ -456,7 +456,7 @@ export default function CreateBook() {
                       onChange={handleImage}
                     />
                   </label>
-                  <img src={info.image} id={s.styleMeNow} alt=""/>
+                  <img src={info.image} alt=""/>
                   <div id={!info.image.length ? s.enterSomething : s.doNotDisplayme}>
                     <p>Enter an image</p>
                   </div>

@@ -68,8 +68,8 @@ function BookDetail(props) {
   const [editEnabled, setEditEnabled] = useState(false);
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
-  let addedBookID = undefined
-  
+  let addedBookID = undefined;
+
   useEffect(() => {
     window.scrollTo(0, 0);
     // if (!counter) window.scrollTo(0, 0);
@@ -95,7 +95,6 @@ function BookDetail(props) {
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
-    console.log("SE REPITE????");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeButtonReview]);
 
@@ -206,8 +205,8 @@ function BookDetail(props) {
     });
   }
   function validateReviewButton() {
-    if (userProfile.ID && userProfile.admin) return true;
     let flag = "none";
+    if (userProfile.ID && userProfile.admin) return (flag = "add");
     if (userProfile.payments?.length) {
       for (let i = 0; i < userProfile.payments.length; i++) {
         if (userProfile.payments[i].items?.length) {
@@ -225,7 +224,7 @@ function BookDetail(props) {
       for (let el of book.reviews) {
         if (el.userID === userProfile.ID) {
           flag = "view";
-          addedBookID = el.ID.toString()
+          addedBookID = el.ID.toString();
         }
       }
     }
@@ -410,6 +409,7 @@ function BookDetail(props) {
                         userProfile.ID !== el.userID &&
                         !el.reports.includes(userProfile.ID) ? (
                           <button
+                            title={"Report this review"}
                             className={s.buttonReport}
                             onClick={() => report(el.ID, userProfile.ID)}
                           >
@@ -419,14 +419,18 @@ function BookDetail(props) {
                           userProfile.ID !== el.userID ? (
                           <span className={s.reported}>Reported</span>
                         ) : userProfile.ID === el.userID ? (
-                        <>
-                          <span className={s.yourReview}>Your Review</span>
-                          <MdDelete
-                            title={`Delete review ${el.ID}`}
-                            className={s.delete}
-                            onClick={() => dispatch(asyncdeleteReview(el.ID))}
-                          />
-                        </>
+                          <>
+                            <span className={s.yourReview}>Your Review</span>
+                            <MdDelete
+                              title={"Delete your review"}
+                              className={s.delete}
+                              onClick={() =>
+                                dispatch(asyncdeleteReview(el.ID)).then((res) =>
+                                  res ? dispatch(asyncGetBookDetail(ID)) : null
+                                )
+                              }
+                            />
+                          </>
                         ) : null}
                       </div>
                     </div>

@@ -240,7 +240,7 @@ function DashboardReviews() {
         </div>
         <div className={s.sort} onClick={() => sort("reports")}>
           Reports
-          {sorting.reports ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
+          {!sorting.reports ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
         </div>
         <span className={s.searchbar}>
           <AiOutlineReload onClick={() => reload()} />

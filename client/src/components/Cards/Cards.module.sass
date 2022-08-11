@@ -1,15 +1,16 @@
 .card_container
   height: auto
-  width: auto
+  width: 100%
 
   display: flex
-  flex-wrap: wrap
+  // flex-wrap: wrap
 
   justify-content: space-around
   align-content: center
     // background-color: var(--color-whiteish)
 
   display: grid
+  gap: 10px
   grid-template-columns: repeat(2, 1fr)
 
 .notFound
@@ -48,5 +49,6 @@
 
 @media ( max-width: 800px  )
   .card_container
+    width: 90%
     grid-template-columns: repeat(1,1fr)
   

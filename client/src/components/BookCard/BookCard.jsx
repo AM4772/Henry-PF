@@ -90,11 +90,11 @@ function BookCard(props) {
                 <div className={s.authorAndReviews}>
                   <p id={s.author}>
                     {book.authors[0] && book.authors[0].length > 27
-                      ? book.authors[0].slice(0, 27) + "..."
+                      ? book.authors[0].slice(0, 15) + "..."
                       : book.authors[0]}
                   </p>
                   <div className={s.starReviews}>
-                    <img src={stars[book.rating]} alt={book.ID} />
+                    <img src={stars[Math.round(book.rating)]} alt={book.ID} />
                   </div>
                 </div>
                 <p id={s.publishDate}>Published Date: {book.publishDate}</p>

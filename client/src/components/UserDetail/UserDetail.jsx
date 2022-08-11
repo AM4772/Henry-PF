@@ -120,12 +120,13 @@ function UserDetail(props) {
     if (userProfile.admin) {
       if (userDetail.admin) {
         Swal.fire({
-          title: "Are you sure?",
+          title:
+            "You are going to <b>disable administrator permissions</b>, are you sure?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, disable administrator permissions",
+          confirmButtonText: "Yes, disable",
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire(
@@ -133,17 +134,18 @@ function UserDetail(props) {
               "Disabled administrator permissions.",
               "success"
             );
-            dispatch(asyncSetAdmin(userDetail.ID));
+            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
           }
         });
       } else {
         Swal.fire({
-          title: "Are you sure?",
+          title:
+            "You are going to <b>enable administrator permissions</b>, are you sure?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, enable administrator permissions.",
+          confirmButtonText: "Yes, enable",
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire(
@@ -151,7 +153,7 @@ function UserDetail(props) {
               "Enable administrator permissions.",
               "success"
             );
-            dispatch(asyncSetAdmin(userDetail.ID));
+            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
           }
         });
       }

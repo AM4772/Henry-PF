@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import s from "./BookDetail.module.sass";
 import Loading from "../Loading/Loading";
+import { MdDelete } from "react-icons/md";
+import { asyncdeleteReview } from "../../redux/actions/reviewActions";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,6 +68,7 @@ function BookDetail(props) {
   const [editEnabled, setEditEnabled] = useState(false);
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
+  let addedBookID = undefined;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -92,7 +95,6 @@ function BookDetail(props) {
 
   useEffect(() => {
     dispatch(asyncGetBookDetail(ID));
-    console.log("SE REPITE????");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeButtonReview]);
 
@@ -203,8 +205,8 @@ function BookDetail(props) {
     });
   }
   function validateReviewButton() {
-    if (userProfile.ID && userProfile.admin) return true;
     let flag = "none";
+    if (userProfile.ID && userProfile.admin) return (flag = "add");
     if (userProfile.payments?.length) {
       for (let i = 0; i < userProfile.payments.length; i++) {
         if (userProfile.payments[i].items?.length) {
@@ -220,7 +222,10 @@ function BookDetail(props) {
     }
     if (book.reviews?.length) {
       for (let el of book.reviews) {
-        if (el.userID === userProfile.ID) flag = "view";
+        if (el.userID === userProfile.ID) {
+          flag = "view";
+          addedBookID = el.ID.toString();
+        }
       }
     }
     return flag;
@@ -323,7 +328,7 @@ function BookDetail(props) {
                           ) : validateReviewButton() === "view" ? (
                             <button
                               className={s.buttonReview}
-                              onClick={() => dispatch(setCloseButtonReview())}
+                              onClick={() => scrollSmoothTo(addedBookID)}
                             >
                               View REVIEW
                             </button>
@@ -393,7 +398,7 @@ function BookDetail(props) {
             <div className={s.container6}>
               <div className={s.textReviews} id="reviewsMark">
                 {reviews.map((el) => (
-                  <div key={el.ID}>
+                  <div key={el.ID} id={el.ID}>
                     <div className={s.containerFirstLine}>
                       <div className={s.starTitle}>
                         <img src={stars[el.rating]} alt={el.ID} />
@@ -404,6 +409,7 @@ function BookDetail(props) {
                         userProfile.ID !== el.userID &&
                         !el.reports.includes(userProfile.ID) ? (
                           <button
+                            title={"Report this review"}
                             className={s.buttonReport}
                             onClick={() => report(el.ID, userProfile.ID)}
                           >
@@ -413,7 +419,18 @@ function BookDetail(props) {
                           userProfile.ID !== el.userID ? (
                           <span className={s.reported}>Reported</span>
                         ) : userProfile.ID === el.userID ? (
-                          <span className={s.yourReview}>Your Review</span>
+                          <>
+                            <span className={s.yourReview}>Your Review</span>
+                            <MdDelete
+                              title={"Delete your review"}
+                              className={s.delete}
+                              onClick={() =>
+                                dispatch(asyncdeleteReview(el.ID)).then((res) =>
+                                  res ? dispatch(asyncGetBookDetail(ID)) : null
+                                )
+                              }
+                            />
+                          </>
                         ) : null}
                       </div>
                     </div>

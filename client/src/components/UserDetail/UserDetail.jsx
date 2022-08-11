@@ -81,21 +81,20 @@ function UserDetail(props) {
           });
         } else {
           Swal.fire({
-            title: "Are you sure? This action is irreversible.",
-            icon: "warning",
+            title: `BAN USER ${userDetail.username}: this action is irreversible. Are you sure?`,
+            icon: "error",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, ban this user permanently.",
+            confirmButtonText: "Yes, ban this user",
           }).then((result) => {
             if (result.isConfirmed) {
               Swal.fire(
                 "Banned permanently",
-                "The user has been banned.",
+                `The user ${userDetail.username} has been banned`,
                 "success"
               );
               dispatch(asyncDisableUser(userDetail.ID));
-              history.goBack();
             }
           });
         }
@@ -121,12 +120,13 @@ function UserDetail(props) {
     if (userProfile.admin) {
       if (userDetail.admin) {
         Swal.fire({
-          title: "Are you sure?",
+          title:
+            "You are going to <b>disable administrator permissions</b>, are you sure?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, disable administrator permissions",
+          confirmButtonText: "Yes, disable",
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire(
@@ -134,17 +134,18 @@ function UserDetail(props) {
               "Disabled administrator permissions.",
               "success"
             );
-            dispatch(asyncSetAdmin(userDetail.ID));
+            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
           }
         });
       } else {
         Swal.fire({
-          title: "Are you sure?",
+          title:
+            "You are going to <b>enable administrator permissions</b>, are you sure?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, enable administrator permissions.",
+          confirmButtonText: "Yes, enable",
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire(
@@ -152,7 +153,7 @@ function UserDetail(props) {
               "Enable administrator permissions.",
               "success"
             );
-            dispatch(asyncSetAdmin(userDetail.ID));
+            dispatch(asyncSetAdmin(userDetail.ID, userDetail.name));
           }
         });
       }
@@ -201,6 +202,28 @@ function UserDetail(props) {
               <div className={s.item}>
                 <p>Email: </p>
                 <p>{userDetail.email}</p>
+              </div>
+              <div className={s.item}>
+                <p>Status: </p>
+                <p
+                  className={`${s.statusUser} ${
+                    userDetail.banned
+                      ? s.userStatusDisabled
+                      : !userDetail.enabled && userDetail.suspendedTimes === 0
+                      ? s.userStatusDisabled
+                      : userDetail.enabled
+                      ? s.userStatusActive
+                      : s.userStatusDisabled
+                  }`}
+                >
+                  {userDetail.banned
+                    ? "banned"
+                    : !userDetail.enabled && userDetail.suspendedTimes === 0
+                    ? "unverified"
+                    : userDetail.enabled
+                    ? "active"
+                    : "suspended"}
+                </p>
               </div>
               {/* <div className={s.item}>
                 <p>Suspended times: </p>

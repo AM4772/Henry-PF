@@ -114,7 +114,7 @@
 
 .buttonBack
   border-radius: 3px
-  padding: 5px
+  padding: 5px 7px 5px 7px
   margin: 1px 20px 0px 10px
   height: 23px
   border: none
@@ -125,6 +125,11 @@
   -webkit-box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
   box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6)
   cursor: pointer
+  transition: 0.7s
+
+.buttonBack:hover
+  color: var(--color-yellowish-d)
+  background-color: var(--color-brownish-d)
   transition: 0.7s
 
 #customInput
@@ -141,7 +146,7 @@
   transition: 0s
   &:focus
     outline: none
-  
+
 #formContainer
   position: absolute
   display: flex
@@ -186,6 +191,17 @@
   input[type="file"]
     display: none
   #camera
-    // visibility: hidden
+    margin-bottom: 20px
     font-size: 25px
     color: #bdbdbd
+
+#enterSomething
+  margin-top: 10px
+  position: absolute
+  p
+    color: #5a0202
+    font-weight: 700
+    font-size: 11px
+
+#doNotDisplayme
+  display: none

@@ -16,7 +16,6 @@ const initialState = {
   filterCard: "books",
   orderBooksBy: "A-Z",
   closeButtonReview: false,
-  closeButtonEdit: false,
 };
 
 const booksSlice = createSlice({
@@ -187,7 +186,6 @@ export const {
   setSortBook,
   applyBookSort,
   setCloseButtonReview,
-  setCloseButtonEdit,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

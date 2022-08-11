@@ -59,7 +59,7 @@ function Dashboard() {
               <div id={s.fixMe}>
                 <Graph />
                 <div id={s.npm}>
-                  <div className={s.box3}>
+                  <div className={s.box3} id={s.line}>
                     <Line />
                   </div>
                   <div className={s.box3}>

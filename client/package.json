@@ -17,6 +17,7 @@
     "axios": "^0.27.2",
     "chroma-js": "^2.4.2",
     "date-fns": "^2.29.1",
+    "react-responsive": "^9.0.0-beta.10",
     "dotenv": "^16.0.1",
     "firebase": "^9.9.1",
     "image-size": "^1.0.2",

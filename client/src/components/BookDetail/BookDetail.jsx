@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import s from "./BookDetail.module.sass";
 import Loading from "../Loading/Loading";
+import { MdDelete } from "react-icons/md";
+import { asyncdeleteReview } from "../../redux/actions/reviewActions";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -417,7 +419,14 @@ function BookDetail(props) {
                           userProfile.ID !== el.userID ? (
                           <span className={s.reported}>Reported</span>
                         ) : userProfile.ID === el.userID ? (
+                        <>
                           <span className={s.yourReview}>Your Review</span>
+                          <MdDelete
+                            title={`Delete review ${el.ID}`}
+                            className={s.delete}
+                            onClick={() => dispatch(asyncdeleteReview(el.ID))}
+                          />
+                        </>
                         ) : null}
                       </div>
                     </div>

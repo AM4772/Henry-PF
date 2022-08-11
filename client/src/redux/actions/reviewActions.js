@@ -71,13 +71,13 @@ export function asyncEditReview(ID, body) {
 export function asyncdeleteReview(ID) {
   return async function (dispatch) {
     return await Swal.fire({
-      title: "Are you sure you want to delet this book?",
+      title: "Are you sure you want to delete this review?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete book!",
+      confirmButtonText: "Yes, delete review!",
     }).then(async (result) => {
       try {
         if (result.isConfirmed) {

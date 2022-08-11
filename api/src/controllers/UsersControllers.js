@@ -312,7 +312,7 @@ let UsersModel = {
           username: user.username,
           password: changes.password,
         });
-        console.log(verifyPasswords);
+
         if (verifyPasswords) {
           await user.update({
             password: await hashPassword(changes.newPassword),

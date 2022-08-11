@@ -7,14 +7,13 @@ const { hashPassword } = require('../utils/hash/hashPasswords');
 require('dotenv').config();
 let emailsModel = {
   registerEmail: async function (username, BASE_URL) {
-    console.log('username', username);
     const emailType = 'register';
     const user = await Users.findOne({
       where: {
         username: username.toLowerCase(),
       },
     });
-    console.log('user', user);
+
     if (user) {
       const userEnabled = user.toJSON().enabled;
       if (!userEnabled) {

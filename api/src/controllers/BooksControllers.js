@@ -281,7 +281,6 @@ let BooksModel = {
         hours = Math.trunc(avgRT);
         minutes = Math.round((avgRT - Math.trunc(avgRT)) * 60);
       }
-      console.log(changes);
       await book.update({
         title: changes.title.toLowerCase(),
         description: changes.description.toLowerCase(),

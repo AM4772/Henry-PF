@@ -70,7 +70,7 @@ const Line = () => {
     ],
     xaxis: {
       type: 'datetime',
-      categories: labelsCopy,
+      categories: ['2022-08-09', '2022-08-10', '2022-08-11'],
     },
     legend: {
       position: 'top',
@@ -86,7 +86,7 @@ const Line = () => {
     <ApexChartsReact
       options={options}
       series={series}
-      width="170%"
+      width="130%"
       height="90%"
     />
   );
@@ -119,6 +119,7 @@ const Donut = () => {
       height: 400,
     },
     legend: {
+      show: false,
       offsetY: 0
     },
     dataLabels: {
@@ -169,7 +170,7 @@ const Donut = () => {
       options={isResponsive ? options2 : options}
       series={series}
       type="donut"
-      width="170%"
+      width="300%"
       height="260vw"
     />
   );

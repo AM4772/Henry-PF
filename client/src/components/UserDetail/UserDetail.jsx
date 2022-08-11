@@ -201,6 +201,28 @@ function UserDetail(props) {
                 <p>Email: </p>
                 <p>{userDetail.email}</p>
               </div>
+              <div className={s.item}>
+                <p>Status: </p>
+                <p
+                  className={`${s.statusUser} ${
+                    userDetail.banned
+                      ? s.userStatusDisabled
+                      : !userDetail.enabled && userDetail.suspendedTimes === 0
+                      ? s.userStatusDisabled
+                      : userDetail.enabled
+                      ? s.userStatusActive
+                      : s.userStatusDisabled
+                  }`}
+                >
+                  {userDetail.banned
+                    ? "banned"
+                    : !userDetail.enabled && userDetail.suspendedTimes === 0
+                    ? "unverified"
+                    : userDetail.enabled
+                    ? "active"
+                    : "suspended"}
+                </p>
+              </div>
               {/* <div className={s.item}>
                 <p>Suspended times: </p>
                 <p>{user.suspendedTimes}</p>

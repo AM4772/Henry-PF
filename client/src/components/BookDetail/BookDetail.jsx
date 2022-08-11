@@ -66,7 +66,6 @@ function BookDetail(props) {
   const [editEnabled, setEditEnabled] = useState(false);
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
-  const [reviewReported, setReviewReported] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);

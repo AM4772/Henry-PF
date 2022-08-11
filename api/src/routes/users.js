@@ -143,7 +143,7 @@ router.delete('/:ID/cart', async (req, res) => {
         ? res
             .status(201)
             .json({ data: newUser, message: 'Successfully registered' })
-        : res.status(400).json({
+        : res.status(200).json({
             message: `Email is already registered in our database, try to log in with your Bookstore's user and password`,
           });
     } catch (err) {

@@ -205,8 +205,8 @@ function BookDetail(props) {
     });
   }
   function validateReviewButton() {
-    if (userProfile.ID && userProfile.admin) return true;
     let flag = "none";
+    if (userProfile.ID && userProfile.admin) return (flag = "add");
     if (userProfile.payments?.length) {
       for (let i = 0; i < userProfile.payments.length; i++) {
         if (userProfile.payments[i].items?.length) {

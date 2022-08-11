@@ -84,7 +84,7 @@ function ReviewCard(props) {
 				</div>
 				<div className={s.icon}>
 					<MdOutlineReport />
-					<span>{review.reports}</span>
+					<span>{review.reports.length}</span>
 				</div>
 			</div>
 		</div>

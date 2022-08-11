@@ -409,6 +409,7 @@ function BookDetail(props) {
                         userProfile.ID !== el.userID &&
                         !el.reports.includes(userProfile.ID) ? (
                           <button
+                            title={"Report this review"}
                             className={s.buttonReport}
                             onClick={() => report(el.ID, userProfile.ID)}
                           >
@@ -421,7 +422,7 @@ function BookDetail(props) {
                           <>
                             <span className={s.yourReview}>Your Review</span>
                             <MdDelete
-                              title={`Delete review ${el.ID}`}
+                              title={"Delete your review"}
                               className={s.delete}
                               onClick={() =>
                                 dispatch(asyncdeleteReview(el.ID)).then((res) =>

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive'
-import axios from 'axios';
-import ApexChartsReact from 'react-apexcharts';
-import s from './Analytics.module.sass';
+import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import axios from "axios";
+import ApexChartsReact from "react-apexcharts";
+import s from "./Analytics.module.sass";
 
 const Line = () => {
-  const [labelsCopy, setLabelsCopy] = useState([]);
+  const [, setLabelsCopy] = useState([]);
   const [seriesPaymentsCopy, setSeriesPaymentsCopy] = useState([]);
   useEffect(() => {
     const asyncGetSeriesPayments = async () => {
       const response = await axios.get(
-        'https://db-proyecto-final.herokuapp.com/stats'
+        "https://db-proyecto-final.herokuapp.com/stats"
       );
       let both = {};
       for (let i = 0; i < response.data.payments.length; i++) {
@@ -27,7 +27,7 @@ const Line = () => {
   }, []);
   const series = [
     {
-      name: 'Earnings 💰',
+      name: "Earnings 💰",
       data: seriesPaymentsCopy,
     },
   ];
@@ -35,14 +35,14 @@ const Line = () => {
     chart: {
       toolbar: {
         show: false,
-        autoSelected: 'pan',
+        autoSelected: "pan",
       },
     },
     dataLabels: {
       enabled: false,
     },
     stroke: {
-      curve: 'smooth',
+      curve: "smooth",
     },
     plotOptions: {
       pie: {
@@ -53,32 +53,32 @@ const Line = () => {
         colors: undefined,
       },
     },
-    colors: ['#F10000', '#00E396'],
+    colors: ["#F10000", "#00E396"],
     yaxis: [
       {
         y: 100,
-        borderColor: '#00E396',
+        borderColor: "#00E396",
         label: {
-          borderColor: '#00E396',
+          borderColor: "#00E396",
           style: {
-            color: '#fff',
-            background: '#00E396',
+            color: "#fff",
+            background: "#00E396",
           },
-          text: 'Y-axis annotation on 100',
+          text: "Y-axis annotation on 100",
         },
       },
     ],
     xaxis: {
-      type: 'datetime',
-      categories: ['2022-08-09', '2022-08-10', '2022-08-11'],
+      type: "datetime",
+      categories: ["2022-08-09", "2022-08-10", "2022-08-11"],
     },
     legend: {
-      position: 'top',
-      horizontalAlign: 'left',
+      position: "top",
+      horizontalAlign: "left",
     },
     tooltip: {
       x: {
-        format: 'dd/MM/yy',
+        format: "dd/MM/yy",
       },
     },
   };
@@ -95,11 +95,11 @@ const Line = () => {
 const Donut = () => {
   const [labelsCopy, setLabelsCopy] = useState([]);
   const [seriesCopy, setSeriesCopy] = useState([]);
-  const isResponsive = useMediaQuery({ query: '(max-width: 1000px)' })
+  const isResponsive = useMediaQuery({ query: "(max-width: 1000px)" });
   useEffect(() => {
     const asyncGetSeries = async () => {
       const response = await axios.get(
-        'https://db-proyecto-final.herokuapp.com/stats'
+        "https://db-proyecto-final.herokuapp.com/stats"
       );
       let arr1 = [],
         arr2 = [];
@@ -115,12 +115,12 @@ const Donut = () => {
   const series = seriesCopy;
   var options = {
     chart: {
-      width: '100%',
+      width: "100%",
       height: 400,
     },
     legend: {
       show: false,
-      offsetY: 0
+      offsetY: 0,
     },
     dataLabels: {
       enabled: true,
@@ -129,24 +129,24 @@ const Donut = () => {
       pie: {
         customScale: 0.8,
         donut: {
-          size: '75%',
+          size: "75%",
         },
         offsetY: 20,
       },
       stroke: {
-        colors: undefined
-      }
+        colors: undefined,
+      },
     },
     labels: labelsCopy,
   };
   var options2 = {
     chart: {
-      width: '100%',
+      width: "100%",
       height: 400,
     },
     legend: {
       show: false,
-      offsetY: 20
+      offsetY: 20,
     },
     dataLabels: {
       enabled: false,
@@ -155,13 +155,13 @@ const Donut = () => {
       pie: {
         customScale: 0.8,
         donut: {
-          size: '75%',
+          size: "75%",
         },
         offsetY: 20,
       },
       stroke: {
-        colors: undefined
-      }
+        colors: undefined,
+      },
     },
     labels: labelsCopy,
   };
@@ -183,7 +183,7 @@ const Graph = () => {
   useEffect(() => {
     const asyncGetSeriesUsers = async () => {
       const response = await axios.get(
-        'https://db-proyecto-final.herokuapp.com/stats'
+        "https://db-proyecto-final.herokuapp.com/stats"
       );
       let both = {};
       for (let i = 0; i < response.data.users.createdDate.length; i++) {
@@ -204,22 +204,22 @@ const Graph = () => {
 
   const series = [
     {
-      name: 'Users',
+      name: "Users",
       data: seriesUsersCopy,
     },
   ];
   const options = {
     chart: {
-      id: 'sparkline1',
-      group: 'sparklines',
-      type: 'area',
+      id: "sparkline1",
+      group: "sparklines",
+      type: "area",
       height: 160,
       sparkline: {
         enabled: true,
       },
     },
     stroke: {
-      curve: 'straight',
+      curve: "straight",
     },
     fill: {
       opacity: 1,
@@ -229,23 +229,23 @@ const Graph = () => {
       show: false,
     },
     xaxis: {
-      type: 'datetime',
+      type: "datetime",
     },
-    colors: ['#00FF00'],
+    colors: ["#00FF00"],
     title: {
       text: totalUsers,
-      align: 'center',
+      align: "center",
       style: {
-        fontSize: '24px',
-        cssClass: 'apexcharts-yaxis-title',
+        fontSize: "24px",
+        cssClass: "apexcharts-yaxis-title",
       },
     },
     subtitle: {
-      text: 'Users',
-      align: 'center',
+      text: "Users",
+      align: "center",
       style: {
-        fontSize: '14px',
-        cssClass: 'apexcharts-yaxis-title',
+        fontSize: "14px",
+        cssClass: "apexcharts-yaxis-title",
       },
     },
   };

@@ -81,21 +81,20 @@ function UserDetail(props) {
           });
         } else {
           Swal.fire({
-            title: "Are you sure? This action is irreversible.",
-            icon: "warning",
+            title: `BAN USER ${userDetail.username}: this action is irreversible. Are you sure?`,
+            icon: "error",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, ban this user permanently.",
+            confirmButtonText: "Yes, ban this user",
           }).then((result) => {
             if (result.isConfirmed) {
               Swal.fire(
                 "Banned permanently",
-                "The user has been banned.",
+                `The user ${userDetail.username} has been banned`,
                 "success"
               );
               dispatch(asyncDisableUser(userDetail.ID));
-              history.goBack();
             }
           });
         }

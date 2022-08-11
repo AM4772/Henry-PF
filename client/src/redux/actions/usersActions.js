@@ -378,11 +378,11 @@ export function asyncDisableUser(ID) {
     try {
       const response = (await axios.put(`/users/${ID}?suspended=true`)).data;
       dispatch(getUserDetail(response));
-      satisfaction.fire({
-        icon: "success",
-        title: "Success!",
-        html: `You have <b>successfully</b> the user ${ID} has been disabled successfully`,
-      });
+      // satisfaction.fire({
+      //   icon: "success",
+      //   title: "Success!",
+      //   html: `You have <b>successfully</b> the user ${ID} has been disabled successfully`,
+      // });
     } catch (error) {
       console.error(error);
       satisfaction.fire({

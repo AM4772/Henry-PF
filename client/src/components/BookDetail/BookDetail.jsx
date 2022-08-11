@@ -66,7 +66,8 @@ function BookDetail(props) {
   const [editEnabled, setEditEnabled] = useState(false);
   const [addedBook, setAddedBook] = useState(false);
   const [addedCart, setAddedCart] = useState(false);
-
+  let addedBookID = undefined
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     // if (!counter) window.scrollTo(0, 0);
@@ -220,7 +221,10 @@ function BookDetail(props) {
     }
     if (book.reviews?.length) {
       for (let el of book.reviews) {
-        if (el.userID === userProfile.ID) flag = "view";
+        if (el.userID === userProfile.ID) {
+          flag = "view";
+          addedBookID = el.ID.toString()
+        }
       }
     }
     return flag;
@@ -323,7 +327,7 @@ function BookDetail(props) {
                           ) : validateReviewButton() === "view" ? (
                             <button
                               className={s.buttonReview}
-                              onClick={() => dispatch(setCloseButtonReview())}
+                              onClick={() => scrollSmoothTo(addedBookID)}
                             >
                               View REVIEW
                             </button>
@@ -393,7 +397,7 @@ function BookDetail(props) {
             <div className={s.container6}>
               <div className={s.textReviews} id="reviewsMark">
                 {reviews.map((el) => (
-                  <div key={el.ID}>
+                  <div key={el.ID} id={el.ID}>
                     <div className={s.containerFirstLine}>
                       <div className={s.starTitle}>
                         <img src={stars[el.rating]} alt={el.ID} />

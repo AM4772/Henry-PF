@@ -13,19 +13,17 @@ const initialState = {
 };
 
 const satisfaction = Swal.mixin({
-  background: "#DED7CF",
-  backdrop: false,
-  toast: true,
-  heightAuto: false,
-  position: "bottom-end",
-  showConfirmButton: false,
-  iconColor: "#1E110B",
-  timer: 2000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener("mouseenter", Swal.stopTimer);
-    toast.addEventListener("mouseleave", Swal.resumeTimer);
-  },
+	background: "#DED7CF",
+	toast: true,
+	position: "bottom-end",
+	showConfirmButton: false,
+	iconColor: "#1E110B",
+	timer: 2000,
+	timerProgressBar: true,
+	didOpen: (toast) => {
+		toast.addEventListener("mouseenter", Swal.stopTimer);
+		toast.addEventListener("mouseleave", Swal.resumeTimer);
+	},
 });
 
 const profileSlice = createSlice({

@@ -421,8 +421,8 @@ export function asyncSetAdmin(ID) {
       await axios.put(`/users/${ID}?admin=true`);
       dispatch(clearUserDetail());
       satisfaction.fire({
-        icon: "Success",
-        title: "Success!",
+        icon: 'success',
+        title: 'Success!',
         html: `The user ${ID} is now an admin`,
       });
     } catch (error) {
@@ -442,8 +442,8 @@ export function asyncConfirmEmail(token) {
       await axios.get(`/confirm?token=${token}`);
       dispatch(setConfirmMail(true));
       satisfaction.fire({
-        icon: "Success",
-        title: "Success!",
+        icon: 'success',
+        title: 'Success!',
         html: `Your email has been confirmed`,
       });
     } catch (error) {
@@ -463,8 +463,8 @@ export function asyncSetImage(ID, result) {
       const response = (await axios.put(`/users/${ID}`, result)).data;
       dispatch(loginUser(response.data));
       satisfaction.fire({
-        icon: "Success",
-        title: "Success!",
+        icon: 'success',
+        title: 'Success!',
         html: `Image has edited set sucessfully`,
       });
     } catch (error) {
@@ -483,8 +483,8 @@ export function asyncResetCode(user) {
     try {
       const response = (await axios.post(`/emails/reset`, { user })).data;
       satisfaction.fire({
-        icon: "Success",
-        title: "Success!",
+        icon: 'success',
+        title: 'Success!',
         html: `The code has been reset successfully`,
       });
       return dispatch(setResetID(response.data.ID));
@@ -505,8 +505,8 @@ export function asyncConfirmCode(ID, resetCode) {
       await axios.post(`/confirm/reset`, { ID, resetCode });
       return satisfaction
         .fire({
-          icon: "Success",
-          title: "Success!",
+          icon: 'success',
+          title: 'Success!',
           html: `The code has been confirmed`,
         })
         .then(() => {
@@ -532,8 +532,8 @@ export function asyncNewPassword(ID, password, rPassword) {
         rPassword,
       });
       satisfaction.fire({
-        icon: "Success",
-        title: "Success!",
+        icon: 'success',
+        title: 'Success!',
         html: `New password has been set successfully`,
       });
       return dispatch(clearResetID());

@@ -437,6 +437,9 @@ export default function CreateBook({ book }) {
                     <input type='file' id={s.formContainer} onChange={handleImage}></input>
                   </label>
                   <img src={info.image} alt=''/>
+                  <div id={!info.image.length ? s.enterSomething : s.doNotDisplayme}>
+                    <p>Enter an image</p>
+                  </div>
                 </div>
               </div>
             <div className={s.inline}>

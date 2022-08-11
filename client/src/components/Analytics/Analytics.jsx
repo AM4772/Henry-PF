@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive'
+import axios from 'axios';
 import ApexChartsReact from 'react-apexcharts';
 import s from './Analytics.module.sass';
 
 const Line = () => {
+  const [labelsCopy, setLabelsCopy] = useState([]);
+  const [seriesPaymentsCopy, setSeriesPaymentsCopy] = useState([]);
+  useEffect(() => {
+    const asyncGetSeriesPayments = async () => {
+      const response = await axios.get(
+        'https://db-proyecto-final.herokuapp.com/stats'
+      );
+      let both = {};
+      for (let i = 0; i < response.data.payments.length; i++) {
+        both[response.data.payments[i].createdAt.substring(0, 10)] =
+          Math.ceil(response.data.payments[i].total) +
+          (both[response.data.payments[i].createdAt.substring(0, 10)]
+            ? both[response.data.payments[i].createdAt.substring(0, 10)]
+            : 0);
+      }
+      setLabelsCopy(Object.keys(both));
+      setSeriesPaymentsCopy(Object.values(both));
+    };
+    asyncGetSeriesPayments();
+  }, []);
   const series = [
     {
-      name: 'Users',
-      data: [31, 40, 50, 55, 80, 109, 120],
-    },
-    {
-      name: 'Payments',
-      data: [11, 32, 45, 32, 34, 52, 41],
+      name: 'Earnings 💰',
+      data: seriesPaymentsCopy,
     },
   ];
   const options = {
@@ -32,8 +50,8 @@ const Line = () => {
         offsetY: 20,
       },
       stroke: {
-        colors: undefined
-      }
+        colors: undefined,
+      },
     },
     colors: ['#F10000', '#00E396'],
     yaxis: [
@@ -52,15 +70,7 @@ const Line = () => {
     ],
     xaxis: {
       type: 'datetime',
-      categories: [
-        '2022-07-30',
-        '2022-07-31',
-        '2022-08-01',
-        '2022-08-02',
-        '2022-08-03',
-        '2022-08-04',
-        '2022-08-05',
-      ],
+      categories: labelsCopy,
     },
     legend: {
       position: 'top',
@@ -72,14 +82,47 @@ const Line = () => {
       },
     },
   };
-  return <ApexChartsReact options={options} series={series} width='170%' height='90%' />;
+  return (
+    <ApexChartsReact
+      options={options}
+      series={series}
+      width="170%"
+      height="90%"
+    />
+  );
 };
 
 const Donut = () => {
+  const [labelsCopy, setLabelsCopy] = useState([]);
+  const [seriesCopy, setSeriesCopy] = useState([]);
+  const isResponsive = useMediaQuery({ query: '(max-width: 1000px)' })
+  useEffect(() => {
+    const asyncGetSeries = async () => {
+      const response = await axios.get(
+        'https://db-proyecto-final.herokuapp.com/stats'
+      );
+      let arr1 = [],
+        arr2 = [];
+      for (let i = 0; i < response.data.categories.length; i++) {
+        arr1.push(response.data.categories[i].category);
+        arr2.push(response.data.categories[i].soldCopies);
+      }
+      setLabelsCopy(arr1);
+      setSeriesCopy(arr2);
+    };
+    asyncGetSeries();
+  }, []);
+  const series = seriesCopy;
   var options = {
     chart: {
       width: '100%',
-      height: 400
+      height: 400,
+    },
+    legend: {
+      offsetY: 0
+    },
+    dataLabels: {
+      enabled: true,
     },
     plotOptions: {
       pie: {
@@ -93,40 +136,75 @@ const Donut = () => {
         colors: undefined
       }
     },
-    labels: ['Fiction', 'Drama', 'Romance', 'Donut', 'Something'],
+    labels: labelsCopy,
   };
-  const series = [44, 55, 41, 17, 15];
-  return <ApexChartsReact options={options} series={series} type="donut" width='170%' height='100%' />
+  var options2 = {
+    chart: {
+      width: '100%',
+      height: 400,
+    },
+    legend: {
+      show: false,
+      offsetY: 20
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    plotOptions: {
+      pie: {
+        customScale: 0.8,
+        donut: {
+          size: '75%',
+        },
+        offsetY: 20,
+      },
+      stroke: {
+        colors: undefined
+      }
+    },
+    labels: labelsCopy,
+  };
+  return (
+    <ApexChartsReact
+      options={isResponsive ? options2 : options}
+      series={series}
+      type="donut"
+      width="170%"
+      height="260vw"
+    />
+  );
 };
 
 const Graph = () => {
-  var randomizeArray = function (arg) {
-    var array = arg.slice();
-    var currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
+  const [labelsUsersCopy, setLabelsUsersCopy] = useState([]);
+  const [seriesUsersCopy, setSeriesUsersCopy] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  useEffect(() => {
+    const asyncGetSeriesUsers = async () => {
+      const response = await axios.get(
+        'https://db-proyecto-final.herokuapp.com/stats'
+      );
+      let both = {};
+      for (let i = 0; i < response.data.users.createdDate.length; i++) {
+        both[response.data.users.createdDate[i].createdAt.substring(0, 10)] =
+          1 +
+          (both[response.data.users.createdDate[i].createdAt.substring(0, 10)]
+            ? both[
+                response.data.users.createdDate[i].createdAt.substring(0, 10)
+              ]
+            : 0);
+      }
+      setLabelsUsersCopy(Object.keys(both));
+      setSeriesUsersCopy(Object.values(both));
+      setTotalUsers(response.data.users.totalUsers);
+    };
+    asyncGetSeriesUsers();
+  }, []);
 
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  };
-
-  // data for the sparklines that appear below header area
-  var sparklineData = [
-    47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61,
-    27, 54, 43, 19, 46,
-  ];
   const series = [
     {
-      name: 'Sales',
-      data: randomizeArray(sparklineData),
+      name: 'Users',
+      data: seriesUsersCopy,
     },
   ];
   const options = {
@@ -145,16 +223,16 @@ const Graph = () => {
     fill: {
       opacity: 1,
     },
-    labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
+    labels: labelsUsersCopy,
     yaxis: {
-      min: 0,
+      show: false,
     },
     xaxis: {
       type: 'datetime',
     },
     colors: ['#00FF00'],
     title: {
-      text: '$424,652',
+      text: totalUsers,
       align: 'center',
       style: {
         fontSize: '24px',
@@ -162,7 +240,7 @@ const Graph = () => {
       },
     },
     subtitle: {
-      text: 'Sales',
+      text: 'Users',
       align: 'center',
       style: {
         fontSize: '14px',
@@ -171,115 +249,115 @@ const Graph = () => {
     },
   };
 
-  const series2 = [
-    {
-      name: 'Expenses',
-      data: randomizeArray(sparklineData),
-    },
-  ];
+  // const series2 = [
+  //   {
+  //     name: 'Expenses',
+  //     data: randomizeArray(sparklineData),
+  //   },
+  // ];
 
-  const options2 = {
-    chart: {
-      id: 'sparkline2',
-      group: 'sparklines',
-      type: 'area',
-      height: 160,
-      sparkline: {
-        enabled: true,
-      },
-    },
-    stroke: {
-      curve: 'straight',
-    },
-    fill: {
-      opacity: 1,
-    },
-    labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
-    yaxis: {
-      min: 0,
-    },
-    xaxis: {
-      type: 'datetime',
-    },
-    colors: ['#FF0000'],
-    title: {
-      text: '$235,312',
-      align: 'center',
-      style: {
-        fontSize: '24px',
-        cssClass: 'apexcharts-yaxis-title',
-      },
-    },
-    subtitle: {
-      text: 'Expenses',
-      align: 'center',
-      style: {
-        fontSize: '14px',
-        cssClass: 'apexcharts-yaxis-title',
-      },
-    },
-  };
+  // const options2 = {
+  //   chart: {
+  //     id: 'sparkline2',
+  //     group: 'sparklines',
+  //     type: 'area',
+  //     height: 160,
+  //     sparkline: {
+  //       enabled: true,
+  //     },
+  //   },
+  //   stroke: {
+  //     curve: 'straight',
+  //   },
+  //   fill: {
+  //     opacity: 1,
+  //   },
+  //   labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
+  //   yaxis: {
+  //     min: 0,
+  //   },
+  //   xaxis: {
+  //     type: 'datetime',
+  //   },
+  //   colors: ['#FF0000'],
+  //   title: {
+  //     text: '$235,312',
+  //     align: 'center',
+  //     style: {
+  //       fontSize: '24px',
+  //       cssClass: 'apexcharts-yaxis-title',
+  //     },
+  //   },
+  //   subtitle: {
+  //     text: 'Expenses',
+  //     align: 'center',
+  //     style: {
+  //       fontSize: '14px',
+  //       cssClass: 'apexcharts-yaxis-title',
+  //     },
+  //   },
+  // };
 
-  const series3 = [
-    {
-      name: 'Profits',
-      data: randomizeArray(sparklineData),
-    },
-  ];
+  // const series3 = [
+  //   {
+  //     name: 'Profits',
+  //     data: randomizeArray(sparklineData),
+  //   },
+  // ];
 
-  const options3 = {
-    chart: {
-      id: 'sparkline3',
-      group: 'sparklines',
-      type: 'area',
-      height: 160,
-      sparkline: {
-        enabled: true,
-      },
-    },
-    stroke: {
-      curve: 'straight',
-    },
-    fill: {
-      opacity: 1,
-    },
-    labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
-    xaxis: {
-      type: 'datetime',
-    },
-    yaxis: {
-      min: 0,
-    },
-    colors: ['#0000AA'],
-    title: {
-      text: '$135,965',
-      align: 'center',
-      style: {
-        fontSize: '24px',
-        cssClass: 'apexcharts-yaxis-title',
-      },
-    },
-    subtitle: {
-      text: 'Profits',
-      align: 'center',
-      style: {
-        fontSize: '14px',
-        cssClass: 'apexcharts-yaxis-title',
-      },
-    },
-  };
+  // const options3 = {
+  //   chart: {
+  //     id: 'sparkline3',
+  //     group: 'sparklines',
+  //     type: 'area',
+  //     height: 160,
+  //     sparkline: {
+  //       enabled: true,
+  //     },
+  //   },
+  //   stroke: {
+  //     curve: 'straight',
+  //   },
+  //   fill: {
+  //     opacity: 1,
+  //   },
+  //   labels: [...Array(24).keys()].map(n => `2018-09-0${n + 1}`),
+  //   xaxis: {
+  //     type: 'datetime',
+  //   },
+  //   yaxis: {
+  //     min: 0,
+  //   },
+  //   colors: ['#0000AA'],
+  //   title: {
+  //     text: '$135,965',
+  //     align: 'center',
+  //     style: {
+  //       fontSize: '24px',
+  //       cssClass: 'apexcharts-yaxis-title',
+  //     },
+  //   },
+  //   subtitle: {
+  //     text: 'Profits',
+  //     align: 'center',
+  //     style: {
+  //       fontSize: '14px',
+  //       cssClass: 'apexcharts-yaxis-title',
+  //     },
+  //   },
+  // };
   return (
     <div className={s.displayMe}>
       <div className={s.box}>
         <ApexChartsReact
           options={options}
           series={series}
-          width="325"
+          width="330"
           height="160"
           type="area"
         />
       </div>
-      <div className={s.box}>
+      {/* <div className={s.box}>
         <ApexChartsReact
           options={options2}
           series={series2}
@@ -296,7 +374,7 @@ const Graph = () => {
           height="160"
           type="area"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

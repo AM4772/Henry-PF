@@ -15,14 +15,25 @@ body
     box-shadow: 0 0 2px 1px rgba(144, 36, 36, 0.2)
   &::-webkit-scrollbar-thumb:active
     background-color: #DDB577
+
   .swal2-modal
-    border-radius: 7px
+    border-radius: 15px
+    border: 1px solid #ddb47786
+    background-image: url("../../assets/BKG_BookStore.png") //OPCION2
+    background-size: 100vh //OPCION 2
   .swal2-popup
-    background: rgb(255, 252, 247)
+    // background: rgba(103, 69, 51, .993)
+    // background: #6b4d3cfd //OPCION 1
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3)
+    width: 55vw
+    height: 80%
+    min-heigth: 250px
   .swal2-title
-    font-size: 22px
-    padding-bottom: 15px
-    // box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21)
+    font-size: 21px
+    // color: var(--color-yellowish-d) // OPCION 1
+    color: var( --color-brownish-dd) // OPCION 2
+    padding: 5px
+    box-shadow: 0px .5px 1px rgba(0, 0, 0, 0.5)
   // .swal2-icon
   //   width: 3.5em
   //   height: 3.5em
@@ -30,11 +41,31 @@ body
   //   font-size: 2.5em
   .swal2-styled.swal2-cancel, .swal2-styled.swal2-confirm, .swal2-styled.swal2-deny
     font-family: var(--font-poppins)
-    font-size: 15px
-    border-radius: 5px
-    padding: 10px
-    min-width: 130px
-    margin: 10px 30px
+    font-size: 16px
+    font-weight: bold
+    border-radius: 7px
+    padding: 6px 10px
+    min-width: 140px
+    margin: 0px 50px
+    // border: none
+  .swal2-styled.swal2-confirm
+    color: var(--color-brownish-dd) !important
+    background: var(--color-yellowish-d) !important
+    box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6) !important
+    color: rgb(246, 243, 239)
+    transition: .7s
+    &:hover
+      color: #ffffff !important
+      background: #3085d6 !important
+      transition: .7s
+  .swal2-styled.swal2-cancel
+    box-shadow: 0px .3px 2px 0px rgba(0, 0, 0, 0.6) !important
+    transition: .7s
+    &:hover
+      // color: #db1c1c !important // OPCION 1
+      background: #f0f0f0 !important // OPCION 1
+      color: #db1c1c !important // OPCION 2
+      transition: .7s
 
 *
   animation: fadein .25s

@@ -16,6 +16,7 @@ function SuccessMP() {
   const { mpID, order } = useSelector((state) => state.checkout);
   const { stack } = useSelector((state) => state.history);
   const history = useHistory();
+  const [change, setChange] = useState(true);
   const [front, setOrder] = useState({
     ID: mpID,
     items: order.items,
@@ -39,6 +40,7 @@ function SuccessMP() {
         status_detail: "",
         total: 0,
       });
+      setChange(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -47,9 +49,10 @@ function SuccessMP() {
     if (!front.ID) {
       setOrder({ ...order });
     }
-    if (order.items.length > 0 && userProfile.ID) {
+
+    if (change && order.items.length > 0 && userProfile.ID) {
       let obj = { ...order };
-      dispatch(clearPayment());
+      setChange(false);
       dispatch(
         asyncConfirmPayment({ ...obj, userID: parseInt(userProfile.ID) })
       ).then((res) => {
@@ -64,7 +67,7 @@ function SuccessMP() {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userProfile]);
+  }, [order, userProfile, change]);
   useEffect(() => {}, [front, cart]);
   function goBack() {
     var lastPath = [];

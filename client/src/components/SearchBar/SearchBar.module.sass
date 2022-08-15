@@ -1,130 +1,132 @@
 .searchButton
-    height: 100%
-    margin: 0px
-    width: 10%
-    padding: 0
-    padding-left: 10px
-    font-size: 40px
-    padding-right: 10px
-    cursor: pointer
-    transition: all ease .2s
-    border-radius: 0px 2px 2px 0px
-    &:hover
-        background-color: #8b8b8b3f
-        background-size: 100%
-        border-radius: 0px 2px 2px 0px
+  height: 60%
+  margin: 0px
+  width: 10%
+  padding: 0
+  padding-left: 10px
+  font-size: 40px
+  padding-right: 10px
+  cursor: pointer
+  transition: all ease .5s
+  border-radius: 0px 2px 2px 0px
+  &:hover
+    height: 80%
+    // background-color: #8b8b8b3f
+    // background-size: 90%
+    // border-radius: 0px 2px 2px 0px
+    transition: all ease .5s
 
 .formSearch .searchDiv
-    background-color: white
-    display: flex
-    margin: 0 10px
-    padding: 0px
-    font-family: var(--font-roboto)
-    justify-content: space-between
-    align-items: center
-    height: 40px
-    background: white
-    width: 500px
-    font-weight: 400
-    font-size: 16px
-    border-radius: 10px
-    border: none
-    overflow: hidden
+  background-color: white
+  display: flex
+  margin: 0 10px
+  padding: 0px
+  font-family: var(--font-roboto)
+  justify-content: space-between
+  align-items: center
+  height: 40px
+  background: white
+  width: 500px
+  font-weight: 400
+  font-size: 16px
+  border-radius: 10px
+  border: none
+  overflow: hidden
 .formSearch .searchDiv input
-    height: 30px
-    padding: 0 10px
-    width: 90%
-    border: none
-    font-size: 16px
-    border-right: solid 1px #2c1909b6 
-    background-color: transparent
+  height: 30px
+  padding: 0 10px
+  width: 90%
+  border: none
+  font-size: 16px
+  border-right: solid 1px #2c1909b6
+  background-color: transparent
 .formSearch div input:focus
-    outline: none
+  outline: none
 
 .usualSearch
-    display: flex
-    flex-direction: column
-    position: absolute
-    width: 505px
-    margin: 0
-    margin-left: 10px
-    height: 400px
-    overflow: hidden
-    transition: all ease .5s
-    border-radius: 0px 0 5px 5px
-    pointer-events: none
-    
+  display: flex
+  flex-direction: column
+  position: absolute
+  width: 505px
+  margin: 0
+  margin-left: 10px
+  height: 400px
+  overflow: hidden
+  transition: all ease .5s
+  border-radius: 0px 0 5px 5px
+  pointer-events: none
+
 .noActive
-    background-color: #fff
-    width: 95%
-    margin: auto
-    height: 90%
-    padding: 10px
-    box-shadow: 0px 2px 10px #00000054
-    transition: all ease .3s
-    margin-top: -150000px
+  background-color: #fff
+  width: 95%
+  margin: auto
+  height: 90%
+  padding: 10px
+  box-shadow: 0px 2px 10px #00000054
+  transition: all ease .3s
+  margin-top: -150000px
 .back
-    display: none
+  display: none
 .usualActive
-    background-color: #fff
-    width: 95%
-    margin: auto
-    padding: 0 10px
-    min-height: 0px
-    box-shadow: 0px 2px 10px #00000054
-    transition: all ease .3s
-    margin-top: 0
-    pointer-events: all
-    overflow-y: auto
+  background-color: #fff
+  width: 95%
+  margin: auto
+  padding: 0 10px
+  min-height: 0px
+  box-shadow: 0px 2px 10px #00000054
+  transition: all ease .3s
+  margin-top: 0
+  pointer-events: all
+  overflow-y: auto
 .usualActive::-webkit-scrollbar
-    display: none
+  display: none
 .usuals
-    cursor: pointer
-    padding: 0
-    margin: 10px 0
-    border-bottom: solid 1px #7c7c7c6b
-    text-overflow: ellipsis
-    white-space: nowrap
-    overflow: hidden
-    width: 100%
+  cursor: pointer
+  padding: 0
+  margin: 10px 0
+  border-bottom: solid 1px #7c7c7c6b
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+  width: 100%
 .allowBack
+  display: flex
+  justify-content: center
+  align-items: center
+  margin-left: 10px
+  cursor: pointer
+@media(max-width: 800px)
+  .allowBack
     display: flex
     justify-content: center
     align-items: center
     margin-left: 10px
     cursor: pointer
-@media(max-width: 800px)
-    .allowBack
-        display: flex
-        justify-content: center
-        align-items: center
-        margin-left: 10px
-        cursor: pointer
     .formSearch
+      width: 100%
+      .searchDiv
         width: 100%
-        .searchDiv
-            width: 100%
-            margin: 0px
-            input
-                width: 100%
+        margin: 0px
+        input
+          width: 100%
     .container
-        width: 70%
+      width: 70%
     .searchButton
-        width: 10%
-        padding: 1% 2%
-        box-sizing: content-box
+      width: 10%
+      padding: 1% 2%
+      box-sizing: content-box
     @media(max-width: 700px)
-        .usualSearch
-            width: 60vw
+      .usualSearch
+        width: 60vw
         @media(max-width: 400px)
-            .usualSearch
-                width: 100vw
-                margin: 0
-                margin-top: 7px 
-                left: 0px
-                max-height: 70vh
-                z-index: 80
+          .usualSearch
+            width: 100vw
+            margin: 0
+            margin-top: 7px
+            left: 0px
+            max-height: 70vh
+            z-index: 80
             .usualActive
-                margin: 0
-                width: 100vw
-                max-height: 70vh
+              margin: 0
+              width: 100vw
+              max-height: 70vh

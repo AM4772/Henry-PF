@@ -1,23 +1,44 @@
 .card__container
-    height: 150px
-    width: 300px
-    padding: 20px 50px 20px 20px
+  height: 180px
+  width: 500px
+  display: flex
+  justify-content: flex-start
+  align-items: center
+  background-color: var(--color-whiteish)
+  border-radius: 25px
+  padding: 1rem 1rem
+  gap: 1rem    
 
-    display: flex
-    justify-content: space-between
-    align-items: center
-    background-color: var(--color-yellowish-l)
-    border-radius: 25px
-    
-    img
-        width: 100px
-        box-sizing: border-box
-        border-radius: 100px
+.esta
+  height: 100%
+  width: 120px
+  display: flex
+  justify-content: center
+  align-items: center
+  img
+    width: 120px
+    box-sizing: border-box
+    border-radius: 100px
 
-.user__date
+.user
+  height: 100%
+  width: 100%
+  display: flex
+  justify-content: space-between
+  align-content: center
+  .info
+    height: 100%
+    width: auto
     display: flex
     flex-direction: column
-    justify-content: space-around
+    justify-content: center
     align-content: center
-    color: var(--color-brownish-dd)
-    
+  .media
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
+    align-items: center
+    svg
+      font-size: 32px
+      color: #000
+          

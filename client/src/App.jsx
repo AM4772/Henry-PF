@@ -33,6 +33,7 @@ import Emails from "./components/Emails/Emails";
 import ConfirmCode from "./components/ForgotPassword/ConfirmCode";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ForgotPassword/ResetPassword";
+import Members from "./components/Members/Members";
 
 function App() {
 	const dispatch = useDispatch();
@@ -69,7 +70,8 @@ function App() {
 			location.pathname === "/contact" ||
 			location.pathname.includes("emails") ||
 			location.pathname.includes("firebase") ||
-			location.pathname.includes("confirm")
+			location.pathname.includes("confirm") ||
+			location.pathname === "/about"
 		) {
 			setTimeout(() => {
 				setLoading(false);
@@ -138,6 +140,7 @@ function App() {
 				<Route exact path={"/createbook"} component={CreateBook} />
 				<Route exact path={"/"} component={Home} />
 				<Route exact path={"/emails"} component={Emails} />
+				<Route exact path={"/about"} component={Members} />
 				<Footer />
 			</div>
 		</div>

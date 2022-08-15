@@ -1,0 +1,68 @@
+const members = [
+	{
+		name: "Bruno Pizarro",
+		rol: "Full-Stack developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/bruno-pizarro-full-stack/",
+		github: "https://github.com/Bruno-Pizarro",
+	},
+	{
+		name: "Ignacio Losa",
+		rol: "Front-End developer",
+		image: "",
+		mail: "ignaciomlosa@gmail.com",
+		linkedin: "https://www.linkedin.com/in/ignacio-losa/",
+		github: "https://github.com/NachoLosa",
+	},
+	{
+		name: "Esteban Manrupe",
+		rol: "Front-End developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/estebanmanrupe/",
+		github: "https://github.com/peurman",
+	},
+	{
+		name: "Clara Arguello",
+		rol: "Front-End developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/claraarguello/",
+		github: "https://github.com/ClaraArguello",
+	},
+	{
+		name: "Tomás Borquez",
+		rol: "Front-End developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/tomasborquez/",
+		github: "https://github.com/TomasBorquez",
+	},
+	{
+		name: "Mariano Ceballos Torres",
+		rol: "Back-End developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/marianoceballos-fullstack/",
+		github: "https://github.com/MarianoCeballos",
+	},
+	{
+		name: "Aldo Moro",
+		rol: "Back-End developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/aldo-moro/",
+		github: "https://github.com/AM4772",
+	},
+	{
+		name: "Enrique Garay",
+		rol: "Back-End developer",
+		image: "",
+		mail: "",
+		linkedin: "https://www.linkedin.com/in/enrique-garay-fullstack/",
+		github: "https://github.com/Quique40",
+	},
+];
+
+export default members;

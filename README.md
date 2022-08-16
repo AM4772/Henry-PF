@@ -18,14 +18,16 @@ So far, we have used these technologies:
 ![CSS](https://img.shields.io/badge/-CSS-696969?style=flat&logo=CSS3&logoColor=1572B6)  
 ![Node.js](https://img.shields.io/badge/-Node.js-696969?style=flat&logo=node.js)  
 ![Express](https://img.shields.io/badge/-Express-696969?style=flat&logo=express)  
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-696969?style=flat&logo=postgreSQL)   
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-696969?style=flat&logo=postgreSQL&logoColor=blue)   
 ![Sequelize](https://img.shields.io/badge/-Sequelize-696969?style=flat&logo=Sequelize)  
 ![Nodemailer](https://img.shields.io/badge/-Nodemailer-696969?style=flat&logo=Nodemailer)  
 ![Auth0](https://img.shields.io/badge/-Auth0-696969?style=flat&logo=Auth0)  
 ![JWT](https://img.shields.io/badge/-Json%20Web%20Tokens-696969?style=flat&logo=json-web-tokens&logoColor=pink)  
 ![Heroku](https://img.shields.io/badge/-Heroku-696969?style=flat&logo=Heroku)  
+![Vercel](https://img.shields.io/badge/-Vercel-696969?style=flat&logo=Vercel)  
   ![Git](https://img.shields.io/badge/-Git-696969?style=flat&logo=git)  
-  ![GitHub](https://img.shields.io/badge/-GitHub-696969?style=flat&logo=github)
+  ![GitHub](https://img.shields.io/badge/-GitHub-696969?style=flat&logo=github)   
+  ![VS](https://img.shields.io/badge/-Visual_Studio_Code-696969?style=flat&logo=visual%20studio&logoColor=blue)  
 
 The functionalities required to move on to the next instance in the bootcamp were: Landing page, Navbar, Search (by country name), Filter (by continent and touristic activity), Sorts (asc and desc), pagination, Create a touristic activity, Validations and a pleasant graphical UI. This link will take you to the web page: **[Countries App](https://pi-countries-app.vercel.app/  "Countries App")**, *let me know your comments and suggestions!*
 
@@ -35,7 +37,7 @@ PS: I will continue improving it and adding more functionalities.
 
 <p align="center">
 <a href="https://www.linkedin.com/in/aldo-moro/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Aldo%20Moro-blue?style=flat-square&logo=linkedin"></a>
-<a href="mailto:moro_bramanti@hotmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-moro_bramanti@hotmail.com-blue?style=flat-square&logo=outlook"></a>
+<a href="mailto:moro_bramanti@hotmail.com"><img alt="Outlook" src="https://img.shields.io/badge/MS-Outlook.com-blue?style=flat-square&logo=microsoft-outlook&logoColor=white"></a>
 </p>
 
 ⭐️ From [AM4772](https://github.com/AM4772)

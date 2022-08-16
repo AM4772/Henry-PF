@@ -86,4 +86,4 @@ This link will take you to the web page: **[BookStore App](https://bookstore-ros
     ```
 - To run the app in your localhost, first run the command `npm start` from the `api` folder and then do the same from the `client` folder. This should open up a browser where you will see the app running.
 
-### 🤝🏻 &nbsp;Contact me if you have any problems with my instructions
+### 🤝🏻 &nbsp;Contact me if you have any problems with the instructions

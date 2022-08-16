@@ -1,11 +1,11 @@
 # **BOOKSTORE APP**
 
-![countries-home](/Countries.PNG)
+![bookstore-home](/Bookstore.PNG)
 
 
 ## About the App
 
-This application was one of the requirements of **Henry's Full Stack Developer Bootcamp**. We were **`only`** allowed to use the technologies taught during the course.
+This application was the last requirement to earn the certification of Full Stack Developer of **Henry's Full Stack Developer Bootcamp**. We were **`only`** allowed to use the technologies taught during the course.
 
 Technologies used:
 

@@ -5,9 +5,11 @@
 
 ## About the App
 
-This application was the last requirement to earn the certification of Full Stack Developer of **Henry's Full Stack Developer Bootcamp**. We were **`only`** allowed to use the technologies taught during the course.
+This application was the last requirement to earn the certification of Full Stack Developer offered by **`Henry's Bootcamp`**. The website had to comply with minimum requirements, which in our case was a fully functional and deployed e-commerce. An important aspect of the project consisted in team work. We were divided in groups of 8. We were allowed to use any technologies at our disposal.
 
-Technologies used:
+We decided to build a user-friendly, scalable e-commerce to sell books, though initially we were going to offer ebooks. We named it **[BookStore](https://bookstore-rose.vercel.app "BookStore")**. These are the main functionalities we developed: auto-complete search, filter by author or category, pagination, register/log in as user, log in with Google, 2-step user validation, book details, add/remove favorites, add/remove cart items, add/remove book reviews, pay with MercadoPago or credit cards, several mailing features, review purchase history, complete administration module which includes analytics. We are currently working on adding more functionalities.
+
+So far, we have used these technologies:
 
 ![JavaScript](https://img.shields.io/badge/-JavaScript-696969?style=flat&logo=javascript)   
 ![React](https://img.shields.io/badge/-React-696969?style=flat&logo=react)  
@@ -18,6 +20,8 @@ Technologies used:
 ![Express](https://img.shields.io/badge/-Express-696969?style=flat&logo=express)  
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-696969?style=flat&logo=postgreSQL)   
 ![Sequelize](https://img.shields.io/badge/-Sequelize-696969?style=flat&logo=Sequelize)  
+![Nodemailer](https://img.shields.io/badge/-Nodemailer-696969?style=flat&logo=Nodemailer)  
+![Auth0](https://img.shields.io/badge/-Auth0-696969?style=flat&logo=Auth0)  
   ![Git](https://img.shields.io/badge/-Git-696969?style=flat&logo=git)  
   ![GitHub](https://img.shields.io/badge/-GitHub-696969?style=flat&logo=github)
 
@@ -25,7 +29,7 @@ The functionalities required to move on to the next instance in the bootcamp wer
 
 PS: I will continue improving it and adding more functionalities.
 
-<h3> 🤝🏻 &nbsp;Connect with Me </h3>
+<h3> 🤝🏻 &nbsp;Connect with me through: </h3>
 
 <p align="center">
 <a href="https://www.linkedin.com/in/aldo-moro/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Aldo%20Moro-blue?style=flat-square&logo=linkedin"></a>

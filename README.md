@@ -37,7 +37,7 @@ PS: I will continue improving it and adding more functionalities.
 
 <p align="center">
 <a href="https://www.linkedin.com/in/aldo-moro/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Aldo%20Moro-blue?style=flat-square&logo=linkedin"></a>
-<a href="mailto:moro_bramanti@hotmail.com"><img alt="Outlook" src="https://img.shields.io/badge/MS-Outlook.com-blue?style=flat-square&logo=microsoft-outlook&logoColor=white"></a>
+<a href="mailto:moro_bramanti@hotmail.com"><img alt="Outlook" src="https://img.shields.io/badge/MS-Outlook-blue?style=flat-square&logo=microsoft-outlook&logoColor=white"></a>
 </p>
 
 ⭐️ From [AM4772](https://github.com/AM4772)

@@ -22,6 +22,7 @@ So far, we have used these technologies:
 ![Sequelize](https://img.shields.io/badge/-Sequelize-696969?style=flat&logo=Sequelize)  
 ![Nodemailer](https://img.shields.io/badge/-Nodemailer-696969?style=flat&logo=Nodemailer)  
 ![Auth0](https://img.shields.io/badge/-Auth0-696969?style=flat&logo=Auth0)  
+![JWT](https://img.shields.io/badge/-Json%20Web%20Tokens-696969?style=flat&logo=json-web-tokens&logoColor=pink)  
 ![Heroku](https://img.shields.io/badge/-Heroku-696969?style=flat&logo=Heroku)  
   ![Git](https://img.shields.io/badge/-Git-696969?style=flat&logo=git)  
   ![GitHub](https://img.shields.io/badge/-GitHub-696969?style=flat&logo=github)

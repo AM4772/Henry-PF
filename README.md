@@ -48,7 +48,7 @@ This link will take you to the web page: **[BookStore App](https://bookstore-ros
 <a href="mailto:moro_bramanti@hotmail.com"><img alt="Outlook" src="https://img.shields.io/badge/MS-Outlook-blue?style=flat-square&logo=microsoft-outlook&logoColor=white"></a>
 </p>
 
-⭐️ From [AM4772](https://github.com/AM4772)
+⭐️ Link to my GitHub profile: [AM4772](https://github.com/AM4772)
 
 ## How to use it locally
 

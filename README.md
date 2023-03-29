@@ -11,7 +11,7 @@ We decided to build a user-friendly, scalable e-commerce to sell books, though i
 
 We are currently working on adding more functionalities.
 
-Team members: [Esteban Manrupe](https://github.com/peurman "Esteban Manrupe"), [Ignacio Losa](https://github.com/NachoLosa "Ignacio Losa"), [Tomas Borquez](https://github.com/TomasBorquez "Tomas Borquez"), [Enrique Garay](https://github.com/Quique40 "Enrique Garay"), [Mariano Ceballos Torres](https://github.com/MarianoCeballos "Mariano Ceballos Torres"), [Clara Argüello](https://github.com/ClaraArguello "Clara Argüello") y [Bruno Pizarro](https://github.com/Bruno-Pizarro "Bruno Pizarro").
+Team members: [Esteban Manrupe](https://github.com/peurman "Esteban Manrupe"), [Ignacio Losa](https://github.com/NachoLosa "Ignacio Losa"), [Tomas Borquez](https://github.com/TomasBorquez "Tomas Borquez"), [Enrique Garay](https://github.com/Quique40 "Enrique Garay"), [Mariano Ceballos Torres](https://github.com/MarianoCeballos "Mariano Ceballos Torres"), [Clara Argüello](https://github.com/ClaraArguello "Clara Argüello"), [Bruno Pizarro](https://github.com/Bruno-Pizarro "Bruno Pizarro"), and [Aldo Moro](https://github.com/AM4772 "Aldo Moro").
 
 So far, we have used these technologies:
 

@@ -56,7 +56,7 @@ This link will take you to the web page: **[BookStore App](https://bookstore-ros
     - A text editor like ![VS](https://img.shields.io/badge/-Visual_Studio_Code-696969?style=flat&logo=visual%20studio&logoColor=blue) or ![Sublime](https://img.shields.io/badge/-Sublime_Text-696969?style=flat&logo=sublime-text), etc.
     - ![Git](https://img.shields.io/badge/-Git-696969?style=flat&logo=git), link to instructions: [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git "Instructions Git")
     - ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-696969?style=flat&logo=postgreSQL), link to instructions: [PostgreSQL](https://www.postgresql.org/download/ "Instructions PostgreSQL")
-    - ![Node.js](https://img.shields.io/badge/-Node.js-696969?style=flat&logo=node.js), version 16.20.0 is recommended.
+    - ![Node.js](https://img.shields.io/badge/-Node.js-696969?style=flat&logo=node.js), version 16.20.0 is recommended (locally or in the project).
 - Up to the right of this page, you will see a green button named "Code". Click on it and copy the HTTPS address to this repository.
 - In your text editor, place the cursor in the desired folder, paste the HTTPS address and hit Enter. This will download the repository to your computer. You will see the same folder structure and files as you see at the top of this page. Next, run the following commands inside the folder `npm install` and then `npm init`.
 - Now you must install all the required dependencies for the front-end and back-end:

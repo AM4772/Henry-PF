@@ -2,36 +2,29 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, NODE_ENV = '' } = process.env;
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_NAME,
+  DATABASE_URL = undefined,
+} = process.env;
 
-let sequelize =
-  NODE_ENV === 'production'
-    ? new Sequelize({
-        database: 'd2qoblbukidquf',
-        dialect: 'postgres',
-        host: 'ec2-52-206-182-219.compute-1.amazonaws.com',
-        port: 5432,
-        username: 'ualijjydbrwnjx',
-        password:
-          '1ee05d86be2f20b4b5e00a15caa749eb75a27b28a9215129d4f4bb5c43a77366',
-        pool: {
-          max: 3,
-          min: 1,
-          idle: 10000,
+let sequelize = DATABASE_URL
+  ? new Sequelize(DATABASE_URL, {
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
         },
-        dialectOptions: {
-          ssl: {
-            require: true,
-            rejectUnauthorized: false,
-          },
-          keepAlive: true,
-        },
-        ssl: true,
-      })
-    : new Sequelize(
-        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-        { logging: false, native: false }
-      );
+      },
+      logging: false,
+      native: false,
+    })
+  : new Sequelize(
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+      { logging: false, native: false }
+    );
 
 const basename = path.basename(__filename);
 
@@ -84,15 +77,7 @@ Users.hasMany(Payments);
 Payments.belongsTo(Users);
 Users.hasMany(Userpurchasedetail);
 Userpurchasedetail.belongsTo(Users);
-// para ver los MIXINS generados de cada modelo Country o Activity
-// const model = Users; // yourSequelizeModel
-// for (let assoc of Object.keys(model.associations)) {
-//   for (let accessor of Object.keys(model.associations[assoc].accessors)) {
-//     console.log(
-//       model.name + '.' + model.associations[assoc].accessors[accessor] + '()'
-//     );
-//   }
-// }
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');

@@ -70,7 +70,6 @@ let emailsModel = {
     const email = 'bookstore.online.arg@gmail.com';
     try {
       await sendMail((data = { emailType, title, message, sender, email }));
-
       return true;
     } catch (error) {
       console.log(error);

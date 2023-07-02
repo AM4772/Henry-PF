@@ -54,7 +54,6 @@ let BooksModel = {
                 term[i]
               }&printType=books&maxResults=${maxResults}&startIndex=${j * 40}
             `
-              //&startIndex=${i * 40}
             )
           ).data;
 

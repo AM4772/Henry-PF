@@ -2,7 +2,7 @@
 
 ![bookstore-home](/Bookstore.PNG)
 
-This link will take you to the web page: **[BookStore App](https://bookstore-rose.vercel.app/ 'BookStore App')**, _let us know your comments and suggestions!_
+This link will take you to the web page: **[BookStore App](https://bookstore-pf.vercel.app/ 'BookStore App')**, _let us know your comments and suggestions!_
 
 <h3> 🤝🏻 &nbsp;Connect with me through: </h3>
 
@@ -15,7 +15,7 @@ This link will take you to the web page: **[BookStore App](https://bookstore-ros
 
 This application was the last requirement to earn the certification of Full Stack Developer offered by **`Henry's Bootcamp`**. The website had to comply with minimum requirements, which in our case was a fully functional and deployed e-commerce. An important aspect of the project consisted in team work. We were divided in groups of 8. We were allowed to use any technologies at our disposal.
 
-We decided to build a user-friendly, scalable e-commerce to sell books, though initially we are offering ebooks. We named it **[BookStore](https://bookstore-rose.vercel.app 'BookStore')**. These are the main functionalities we developed: auto-complete search, filter by author or category, pagination, register/log in as user, log in with Google, 2-step user validation, book details, add/remove favorites, add/remove cart items, add/remove book reviews, pay with MercadoPago or credit cards, several mailing features, review purchase history, complete administration module which includes analytics.
+We decided to build a user-friendly, scalable e-commerce to sell books, though initially we are offering ebooks. We named it **[BookStore](https://bookstore-pf.vercel.app/ 'BookStore')**. These are the main functionalities we developed: auto-complete search, filter by author or category, pagination, register/log in as user, log in with Google, 2-step user validation, book details, add/remove favorites, add/remove cart items, add/remove book reviews, pay with MercadoPago or credit cards, several mailing features, review purchase history, complete administration module which includes analytics.
 
 We are currently working on adding more functionalities.
 
